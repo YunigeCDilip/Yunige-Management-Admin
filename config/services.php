@@ -30,4 +30,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'airtable' => [
+        'app_id'    => env('AIRTABLE_APP_ID'),
+        'api_key'   => env('AIRTABLE_API_KEY'),
+        'base_url'  => env('AIRTABLE_BASE_URL'),
+        'typecast'  => env('AIRTABLE_TYPECAST'),
+    ],
+
 ];
