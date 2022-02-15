@@ -26,13 +26,16 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return View
      */
     public function index()
     {
-        $data = $this->service->index();
+        // $data = $this->service->index();
+        $data['title'] = 'Role Management';
+        $data['menu'] = 'User Management';
+        $data['subMenu'] = 'Roles';
 
-        return $data;
+        return view('admin.users.roles.index', $data);
     }
 
     /**

@@ -12,8 +12,7 @@ class CreateRoleRequest extends ValidationRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:roles,name',
-            'permissions' => 'required|array'
+            'name' => 'required|unique:roles,name'
         ];
     }
 }

@@ -99,7 +99,7 @@ class RoleService extends Service
             $data = Role::create([
                 'name'       => $request->name,
                 'guard_name' => 'web'
-            ])->syncPermissions($request->permissions);
+            ]);
 
             $this->db->commit();
 
@@ -174,7 +174,6 @@ class RoleService extends Service
 
             $data->name = $request->name;
             $data->save();
-            $data->syncPermissions($request->permissions);
 
             $this->db->commit();
 
