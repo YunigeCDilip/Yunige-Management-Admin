@@ -14,8 +14,7 @@ class UpdateRoleRequest extends ValidationRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('roles', 'name')->ignore(request('role'))],
-            'permissions' => 'required|array'
+            'name' => ['required', Rule::unique('roles', 'name')->ignore(request('role'))]
         ];
     }
 }
