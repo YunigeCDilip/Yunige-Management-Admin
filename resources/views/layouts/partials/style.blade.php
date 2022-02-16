@@ -10,7 +10,9 @@
 
 <!-- Jquery Toast css -->
 <link href="{{asset('admin/libs/jquery-toast/jquery.toast.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('admin/custom/css/custom.css')}}" rel="stylesheet" type="text/css" />
 
 <script>
     var baseUrl = "{{ url('/') }}" + '/';
+    var csrfToken = "{{csrf_token()}}";
 </script>

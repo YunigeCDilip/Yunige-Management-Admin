@@ -1,5 +1,6 @@
 @extends('layouts.layout')
 @section('additional-css')
+    <link rel="stylesheet" href="{{asset('admin/libs/sweetalert/sweetalert.css')}}">
 @endsection
 @section('content')    
 <div class="row">
@@ -13,7 +14,7 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-centered table-striped" id="products-datatable">
+                    <table class="table table-centered table-striped" id="role-table">
                         <thead>
                             <tr>
                                 <th>Role Name</th>
@@ -22,30 +23,35 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    New York
-                                </td>
-                                <td>
-                                    07/07/2018
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                </td>
-                            </tr>
+                            @forelse($roles as $role)
+                                <tr data-id="{{$role->id}}">
+                                    <td>
+                                        {{$role->name}}
+                                    </td>
+                                    <td>
+                                        {{$role->created_at->format('M d, Y')}}
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0);" class="action-icon edit-role"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                        <a href="javascript:void(0);" class="action-icon delete-role"> <i class="mdi mdi-delete"></i></a>
+                                    </td>
+                                </tr>
+                                @empty
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
-
+                {{ $roles->links('admin.common.paginator') }}
             </div> <!-- end card-body-->
         </div> <!-- end card-->
     </div> <!-- end col -->
 </div> 
     @section('additional-content')
         @include('admin.users.roles.add')
+        @include('admin.users.roles.edit')
     @endsection
     @section('additional-js')
+    <script src="{{asset('admin')}}/libs/sweetalert/sweetalert.min.js"></script>
     <script src="{{asset('admin/custom/js/role.js')}}"></script>
     @endsection
 @endsection

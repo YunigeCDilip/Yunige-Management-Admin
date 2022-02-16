@@ -58,7 +58,7 @@ class LoginController extends Controller
             	$user = User::where('email', $email)->first();
             	if($user->active_status){
             		if(Auth::attempt(['email' => $email, 'password' => $password], $rememberMe)) {
-	                    $data['url'] = route('dashboard');
+	                    $data['url'] = route('admin.dashboard');
 	                    $data['status'] = 'true';
 	                    $data['title'] = 'Sujal Dashboard';
 	                    $data['message'] = 'Welcome To Admin Dashboard.';
