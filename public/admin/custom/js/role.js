@@ -27,7 +27,10 @@ $(function(){
 });
 
 $('.save-role').on('click', function(e){
-    e.preventDefault();
+    e.preventDefault(); 
+    $('form#addRole').find('.invalid-feedback').each(function(){
+        $(this).empty().hide();
+    });
     $('form#addRole').removeClass('was-validated');
     var form_data = $('form#addRole').serializeArray();
     $.ajax({
@@ -35,9 +38,6 @@ $('.save-role').on('click', function(e){
         url: baseUrl + "roles",
         data: form_data,
         success: function (data) {
-            $('form#addRole').find('.invalid-feedback').each(function(){
-                $(this).empty().hide();
-            });
             if (data.status) {
                 Custombox.modal.close();
             }

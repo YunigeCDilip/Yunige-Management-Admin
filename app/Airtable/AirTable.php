@@ -2,12 +2,10 @@
 
 namespace App\Airtable;
 
-
-use AirTable\Client;
+use App\Airtable\ApiClient;
 
 class AirTable
 {
-
     /**
      * @var Client
      */
@@ -17,27 +15,20 @@ class AirTable
      * AirTable constructor.
      * @param Client $client
      */
-    public function __construct(Client $client)
-    {
-        $this->setClient($client);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
-    }
-
-    /**
-     * @param Client $client
-     */
-    public function setClient(Client $client): void
+    public function __construct(ApiClient $client)
     {
         $this->client = $client;
     }
 
+    /**
+     * @param mixed $table
+     * 
+     * @return [type]
+     */
+    public function table($table)
+    {
+        $this->client->setTable($table);
+    }
 
     /**
      * @param array $data
@@ -45,7 +36,7 @@ class AirTable
      */
     public function create(array $data)
     {
-        return $this->getClient()->create($data);
+        return $this->client->create($data);
     }
 
     /**
@@ -55,7 +46,7 @@ class AirTable
      */
     public function update(string $id, array $data)
     {
-        return $this->getClient()->update($id, $data);
+        return $this->client->update($id, $data);
     }
 
     /**
@@ -64,7 +55,7 @@ class AirTable
      */
     public function find(string $id)
     {
-        return $this->getClient()->retrieve($id);
+        return $this->client->get($id);
     }
 
     /**
@@ -73,7 +64,7 @@ class AirTable
      */
     public function delete(string $id)
     {
-        return $this->getClient()->delete($id);
+        return $this->client->delete($id);
     }
 
     /**
@@ -81,7 +72,7 @@ class AirTable
      */
     public function get()
     {
-        return $this->getClient()->list();
+        return $this->client->get();
     }
 
     /**
@@ -97,7 +88,7 @@ class AirTable
         $records = $this->get();
 
         if($records->count()) {
-            return array_first($records);
+            return $records[0];
         } else {
             return $this->create($data);
         }
@@ -116,7 +107,7 @@ class AirTable
         $records = $this->get();
 
         if ($records->count()) {
-            $item = array_first($records);
+            $item = $records[0];
 
             return $this->update($item->getId(), $data);
         } else {
@@ -161,7 +152,7 @@ class AirTable
      */
     public function fields(array $fields)
     {
-        $this->getClient()->fields($fields);
+        $this->client->fields($fields);
 
         return $this;
     }
@@ -174,7 +165,7 @@ class AirTable
      */
     public function where(string $column, string $operator, string $value)
     {
-        $this->getClient()->filterByFormula($column, $operator, $value);
+        $this->client->filterByFormula($column, $operator, $value);
 
         return $this;
     }
@@ -186,7 +177,7 @@ class AirTable
      */
     public function orderBy(string $column, string $direction)
     {
-        $this->getClient()->sort($column, $direction);
+        $this->client->sort($column, $direction);
 
         return $this;
     }
@@ -197,7 +188,7 @@ class AirTable
      */
     public function limit(int $limit)
     {
-        $this->getClient()->maxRecords($limit);
+        $this->client->maxRecords($limit);
 
         return $this;
     }

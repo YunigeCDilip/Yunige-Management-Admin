@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\API\WarehouseDataController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +27,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('permissions', [RoleController::class, 'permissions']);
     Route::get('roles/all', [RoleController::class, 'all']);
     Route::resource('roles', RoleController::class);
+    Route::get('wdata', [WarehouseDataController::class, 'index']);
+    Route::get('wdata/{id}', [WarehouseDataController::class, 'show']);
 });

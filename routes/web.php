@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\LoginController;
+use App\Http\Controllers\Backend\WarehouseDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,9 @@ use App\Http\Controllers\Backend\Auth\LoginController;
 |
 */
 Auth::routes(['register' => false]);
+Route::get('/comming-soon', function () {
+    return view('comming-soon');
+})->name('comming.soon');
 Route::get('/', function () {
     return redirect('/login');
 });
@@ -27,4 +31,6 @@ Route::post('login', [LoginController::class, 'authenticate'])->name('login.subm
 Route::group(['middleware' => 'auth', 'as' => 'admin.'], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('roles', RoleController::class);
+    Route::get('wdata', [WarehouseDataController::class, 'index'])->name('wdata.index');
+    Route::get('wdata/create', [WarehouseDataController::class, 'create'])->name('wdata.create');
 });
