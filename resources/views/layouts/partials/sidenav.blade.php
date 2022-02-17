@@ -28,12 +28,18 @@
                         <a href="{{route('admin.roles.index')}}">Role Management</a>
                     </li>
                     <li>
-                        <a href="apps-calendar.html">User Management</a>
+                        <a href="{{route('comming.soon')}}">User Management</a>
                     </li>
                 </ul>
             </li>
 
             <li class="menu-title mt-2">Modules</li>
+            <li>
+                <a href="{{route('admin.wdata.index')}}" class="@if(@$menu == 'Warehouse Data') active @endif">
+                    <i class="fe-pocket"></i>
+                    <span>Warehouse Data</span>
+                </a>
+            </li>
         </ul>
 
     </div>

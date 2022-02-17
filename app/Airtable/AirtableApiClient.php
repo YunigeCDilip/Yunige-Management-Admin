@@ -27,23 +27,20 @@ class AirtableApiClient implements ApiClient
     private $fields = [];
     private $sorts = [];
     private $offset = false;
+    private $apiKey;
 
     /**
-     * @param mixed $base
-     * @param mixed $table
-     * @param mixed $access_token
-     * @param Http|null $client
-     * @param bool $typecast
-     * @param int $delayBetweenRequests
+     * @param string $table
      */
-    public function __construct($base, $table, $access_token, Http $client = null, $typecast = false, $delayBetweenRequests = 200000)
+    public function __construct(string $table)
     {
-        $this->base = $base;
+        $this->base = config('services.airtable.app_id');
+        $this->apiKey = config('services.airtable.api_key');
+        $this->typecast = config('services.airtable.typecast');
+        $this->delay = 200000;
         $this->table = $table;
-        $this->typecast = $typecast;
-        $this->delay = $delayBetweenRequests;
 
-        $this->client = $client ?? $this->buildClient($access_token);
+        $this->client = $client ?? $this->buildClient($this->apiKey);
     }
 
     /**
@@ -65,17 +62,15 @@ class AirtableApiClient implements ApiClient
     }
 
     /**
-     * Set tables from airtable
+     * @param string|null $id
      * 
-     * @param mixed $table
-     * 
-     * @return AirtableApiClient
+     * @return [type]
      */
-    public function setTable($table): AirtableApiClient
+    public function get(?string $id = null)
     {
-        $this->table = $table;
+        $url = $this->getEndpointUrl($id);
 
-        return $this;
+        return $this->decodeResponse($this->client->get($url));
     }
 
     /**

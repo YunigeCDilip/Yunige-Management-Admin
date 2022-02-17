@@ -17,6 +17,14 @@
         <script>
             var baseUrl = "{{ url('/') }}" + '/';
         </script>
+        <style>
+            body.authentication-bg-pattern {
+                background-color: #f4f2f7 !important;
+            }
+            .container {
+                margin-top: 230px;
+            }
+        </style>
 
     </head>
 
@@ -34,35 +42,35 @@
                                     <a href="index.html">
                                         <span><img src="{{asset('admin/images/logo/logo-color.png')}}" alt="" height="22"></span>
                                     </a>
-                                    <p class="text-muted mb-4 mt-3">Enter your email address and password to access admin panel.</p>
+                                    <p class="text-muted mb-4 mt-3"></p>
                                 </div>
 
-                                <form id="loginForm" method="post">
+                                <form id="loginForm" method="post" class="needs-validation" novalidate>
                                     @csrf
                                     <div class="form-group mb-3">
-                                        <label for="emailaddress">Email address</label>
+                                        <label for="emailaddress">Email</label>
                                         <input class="form-control" type="email" id="emailaddress" required="" placeholder="Enter your email" name="email">
-
-                                        <div class="lg-error lg-error-btm" id="email_error" style="display: none">
-                                        </div>
+                                        <div class="invalid-feedback" id="email_error" style="display:none;"></div>
                                     </div>
 
                                     <div class="form-group mb-3">
                                         <label for="password">Password</label>
                                         <input class="form-control" type="password" required="" id="password" placeholder="Enter your password" name="password">
-                                        <div class="lg-error lg-error-btm" id="password_error" style="display: none">
-                                        </div>
+                                        <div class="invalid-feedback" id="password_error" style="display:none;"></div>
                                     </div>
 
                                     <div class="form-group mb-3">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox-signin" checked>
+                                            <input type="checkbox" class="custom-control-input" id="checkbox-signin" checked name="remember_me">
                                             <label class="custom-control-label" for="checkbox-signin">Remember me</label>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-0 text-center">
-                                        <button class="btn btn-primary btn-block btn-login" type="submit"> Log In </button>
+                                        <button class="btn btn-primary btn-block btn-login">
+                                            <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>
+                                            Log In 
+                                        </button>
                                     </div>
 
                                 </form>
