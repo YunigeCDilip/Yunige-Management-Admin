@@ -1,3 +1,50 @@
+function messages(message, type)
+{
+    !function(p){
+        "use strict";
+        var t=function(){};
+        t.prototype.send=function(t,i,o,e,n,a,s,r){
+            a||(a=3e3),s||(s=1);
+            var c={heading:t,text:i,position:o,loaderBg:e,icon:n,hideAfter:a,stack:s};
+            r&&(c.showHideTransition=r),p.toast().reset("all"),p.toast(c)},
+            p.NotificationApp=new t,p.NotificationApp.Constructor=t
+        }(window.jQuery),
+        function(i){
+            if(type){
+                i.NotificationApp.send("Well Done!",message,"top-right","#5ba035","success");
+            }else{
+                i.NotificationApp.send("Oh snap!",message,"top-right","#bf441d","error")
+            }
+            
+        }(window.jQuery);
+}
+
+jQuery(document).ready(function(){
+    $(".select2").select2();
+    $(".permit").dropify({
+        messages:{
+            default:"Drag and drop a permit here",
+            replace:"Drag and drop or click to replace",
+            remove:"Remove",
+            error:"Ooops, something wrong appended."
+        },
+        error:{
+            fileSize:"The file size is too big (1M max)."
+        }
+    });
+    $(".invoice").dropify({
+        messages:{
+            default:"Drag and drop a invoice here",
+            replace:"Drag and drop or click to replace",
+            remove:"Remove",
+            error:"Ooops, something wrong appended."
+        },
+        error:{
+            fileSize:"The file size is too big (1M max)."
+        }
+    });
+});
+
 $(document).ready(function() {
     var a = $("#table").DataTable({
         dom: 'lfrtip',
@@ -60,5 +107,69 @@ $(document).ready(function() {
         drawCallback: function() {
             $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
         }
+    });
+});
+var addForm = $('form#addForm');
+$('.saveWdata').on('click', function(e){
+    e.preventDefault();
+    $('form#addForm').find('.invalid-feedback').each(function(){
+        $(this).empty().hide();
+    });
+    $(this).prop('disabled', true);
+    $(this).parents('.form-group').find('.spinner-border').show();
+    var thisReference = $(this);
+    var form_data = new FormData();
+    var invoice;
+    var permit;
+    addForm.find('.invoice-file').each(function(key, value){
+        invoice = $(this).find('input[name="invoice[]"]')[0].files[0];
+        (typeof invoice == 'undefined') ? '' : form_data.append('invoice['+key+']', invoice);
+    });
+    addForm.find('.permit-file').each(function(key, value){
+        permit = $(this).find('input[name="permit[]"]')[0].files[0];
+        (typeof permit == 'undefined') ? '' : form_data.append('permit['+key+']', permit);
+    });
+    var add_Form = $('form#addForm').serializeArray();
+    $.each(add_Form, function(key, val){
+        form_data.append(val.name, val.value);
+    });
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: baseUrl + "wdata",
+        data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            messages(data.message, data.status);
+            if(data.status){
+                window.location = data.url;
+            }else{
+                thisReference.parents('.form-group').find('.spinner-border').hide();
+                thisReference.prop('disabled', false);
+                $('form#addForm').find('.lg-error').each(function(){
+                    $(this).empty().hide();
+                });
+                $('form#addForm').find('.lg-error-top').empty().append('<span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span> '+ data.message).show();
+            }
+        },
+        error: function(error){
+            if( error.status === 422 && error.readyState == 4) {
+                $('form#addForm').find('.invalid-feedback').each(function(){
+                    $(this).empty().hide();
+                });
+                var errors = $.parseJSON(error.responseText);
+                $.each(errors.message, function (key, val) {
+                    $('form#addForm').find('input[name="'+key+'"]').attr('required', 'required');
+                    $('form#addForm').find('#' + key + '_error').empty().append(val);
+                    $('form#addForm').find('#' + key + '_error').show();
+                });
+                thisReference.parents('.form-group').find('.spinner-border').hide();
+                thisReference.prop('disabled', false);
+            }
+
+            $('form#addForm').addClass('was-validated');
+        },
     });
 });

@@ -4,23 +4,33 @@ namespace App\Application\Services;
 
 use Throwable;
 use App\Airtable\AirTable;
+use App\Domains\WarehouseDomain;
 use App\Constants\MessageResponse;
 use App\Airtable\AirtableApiClient;
 use App\Constants\AirtableDatabase;
-use App\Http\Resources\WarehouseDataResource;
 use Illuminate\Support\Facades\Log;
+use App\Http\Resources\WarehouseDataResource;
 
 class WarehouseDataService extends Service
 {
     /**
      *
      * @var Airtable $contract
+     * @var ClientMasterService $clientService
+     * @var DeliveryService $deliveryService
     */
     protected $airtable;
+    protected $clientService;
+    protected $deliveryService;
 
-    public function __construct(){
+    public function __construct(
+        ClientMasterService $clientService,
+        DeliveryService $deliveryService
+    ){
         $this->apiClient = new AirtableApiClient(AirtableDatabase::WDATA);
-        $this->airtable = new Airtable($this->apiClient);
+        $this->airtable = new AirTable($this->apiClient);
+        $this->clientService = $clientService;
+        $this->deliveryService = $deliveryService;
     }
 
     /**
@@ -31,7 +41,12 @@ class WarehouseDataService extends Service
     public function index()
     {
         try {
-            $data = $this->airtable->get();
+            if($this->getCache(AirtableDatabase::WDATA)){
+                $data = $this->getCache(AirtableDatabase::WDATA);
+            }else{
+                $data = $this->airtable->get();
+                $this->setCache(AirtableDatabase::WDATA, $data);
+            }
 
             return $this->responseOk(WarehouseDataResource::collection($data['records']), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
@@ -52,7 +67,12 @@ class WarehouseDataService extends Service
         try {
             $limit = $request->input('length');
             $start = $request->input('start');
-            $data = $this->airtable->get();
+            if($this->getCache(AirtableDatabase::WDATA)){
+                $data = $this->getCache(AirtableDatabase::WDATA);
+            }else{
+                $data = $this->airtable->get();
+                $this->setCache(AirtableDatabase::WDATA, $data);
+            }
             $wDatas = WarehouseDataResource::collection($data['records']);
             
             $tableContent = array();
@@ -72,11 +92,34 @@ class WarehouseDataService extends Service
     }
 
     /**
+     * Return all active data for to create.
+     *
+     * @return array
+     */
+    public function create()
+    {
+        try {
+            $clients = json_decode($this->clientService->index()->getContent());
+            $delivery = json_decode($this->deliveryService->index()->getContent());
+            $data['pic'] = WarehouseDomain::pic();
+            $data['cat'] = WarehouseDomain::cat();
+            $data['status'] = WarehouseDomain::status();
+            $data['clients'] = $clients->payload;
+            $data['carrier'] = $delivery->payload;
+
+            return $data;
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+        }
+    }
+
+    /**
      * Return all active data for view.
      *
      * @return  Response
      */
-    public function all(){
+    public function all()
+    {
         try {
             
         } catch (Throwable $e) {
@@ -90,11 +133,16 @@ class WarehouseDataService extends Service
      * @param Request $request
      * @return Response
      */
-    public function store($request){
+    public function store($request)
+    {
         try {
-            
+            $data = $this->airtable->create(WarehouseDomain::format($request));
+
+            return $this->responseOk($data, MessageResponse::DATA_CREATED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
         }
     }
 
