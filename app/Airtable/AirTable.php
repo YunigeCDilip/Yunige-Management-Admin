@@ -31,20 +31,20 @@ class AirTable
     }
 
     /**
-     * @param array $data
+     * @param $data
      * @return \AirTable\Models\Interfaces\RecordInterface
      */
-    public function create(array $data)
+    public function create($data)
     {
-        return $this->client->create($data);
+        return $this->client->post($data);
     }
 
     /**
      * @param string $id
-     * @param array $data
+     * @param $data
      * @return \AirTable\Models\Interfaces\RecordInterface
      */
-    public function update(string $id, array $data)
+    public function update(string $id, $data)
     {
         return $this->client->update($id, $data);
     }

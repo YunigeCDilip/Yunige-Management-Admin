@@ -9,20 +9,16 @@ class AirtableApiClient implements ApiClient
 {
     /**
      * @var $client
-     * @var $typecast
      * @var $base
      * @var $table
-     * @var $delay
      * @var $filters
      * @var $fields
      * @var $sorts
      * @var $offset
      */
     private $client;
-    private $typecast;
     private $base;
     private $table;
-    private $delay;
     private $filters = [];
     private $fields = [];
     private $sorts = [];
@@ -36,8 +32,6 @@ class AirtableApiClient implements ApiClient
     {
         $this->base = config('services.airtable.app_id');
         $this->apiKey = config('services.airtable.api_key');
-        $this->typecast = config('services.airtable.typecast');
-        $this->delay = 200000;
         $this->table = $table;
 
         $this->client = $client ?? $this->buildClient($this->apiKey);
@@ -83,10 +77,9 @@ class AirtableApiClient implements ApiClient
     public function post($contents = null)
     {
         $url = $this->getEndpointUrl();
+        $parameters = ['fields' => (object)$contents['data'], 'typecast' => $contents['typecast']];
 
-        $params = ['fields' => (object) $contents, 'typecast' => $this->typecast];
-
-        return $this->decodeResponse($this->client->post($url, $params));
+        return $this->decodeResponse($this->client->post($url, $parameters));
     }
 
     /**
@@ -101,9 +94,9 @@ class AirtableApiClient implements ApiClient
     {
         $url = $this->getEndpointUrl($id);
 
-        $params = ['fields' => (object) $contents, 'typecast' => $this->typecast];
+        $parameters = ['fields' => (object)$contents['data'], 'typecast' => $contents['typecast']];
 
-        return $this->decodeResponse($this->client->put($url, $params));
+        return $this->decodeResponse($this->client->put($url, $parameters));
     }
 
     /**
@@ -118,9 +111,9 @@ class AirtableApiClient implements ApiClient
     {
         $url = $this->getEndpointUrl($id);
 
-        $params = ['fields' => (object) $contents, 'typecast' => $this->typecast];
+        $parameters = ['fields' => (object)$contents['data'], 'typecast' => $contents['typecast']];
 
-        return $this->decodeResponse($this->client->patch($url, $params));
+        return $this->decodeResponse($this->client->patch($url, $parameters));
     }
 
     /**

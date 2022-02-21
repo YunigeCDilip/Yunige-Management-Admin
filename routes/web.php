@@ -18,6 +18,14 @@ use App\Http\Controllers\Backend\WarehouseDataController;
 |
 */
 Auth::routes(['register' => false]);
+
+Route::get('clear', function () {
+    \Illuminate\Support\Facades\Artisan::call('config:cache');
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    \Illuminate\Support\Facades\Artisan::call('route:clear');
+    return 'all clear';
+});
+
 Route::get('/comming-soon', function () {
     return view('comming-soon');
 })->name('comming.soon');
@@ -30,7 +38,10 @@ Route::get('logout', [LoginController::class, 'logout'])->name('user.logout');
 Route::post('login', [LoginController::class, 'authenticate'])->name('login.submit');
 Route::group(['middleware' => 'auth', 'as' => 'admin.'], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
     Route::resource('roles', RoleController::class);
+
     Route::get('wdata', [WarehouseDataController::class, 'index'])->name('wdata.index');
     Route::get('wdata/create', [WarehouseDataController::class, 'create'])->name('wdata.create');
+    Route::post('wdata', [WarehouseDataController::class, 'store'])->name('wdata.store');
 });

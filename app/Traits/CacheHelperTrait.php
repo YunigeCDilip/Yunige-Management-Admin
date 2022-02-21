@@ -34,6 +34,19 @@ trait CacheHelperTrait
     }
 
     /**
+     * Set cache collection data by key
+     *
+     * @param string $key
+     * @param $models
+     *
+     * @return mixed
+     */
+    public function setCollectionCache(string $key, $items)
+    {
+        return Cache::put($key, $items);
+    }
+
+    /**
      * Add item to cached data
      *
      * @param $key
@@ -106,6 +119,19 @@ trait CacheHelperTrait
      * @return mixed
      */
     public function forgetCache(string $key)
+    {
+        return Cache::forget($key);
+    }
+
+    /**
+     * Push cache data by key
+     *
+     * @param string $key
+     * @param $models
+     *
+     * @return mixed
+     */
+    public function pushItem(string $key, $item)
     {
         return Cache::forget($key);
     }

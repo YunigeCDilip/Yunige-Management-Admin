@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class CreateWarehouseData extends ValidationRequest
+class UpdateDelivery extends ValidationRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,16 +12,7 @@ class CreateWarehouseData extends ValidationRequest
     public function rules()
     {
         return [
-            'invoice'   => 'required',
-            'status'    => 'required',
-            'client'    => 'required',
-            'trkNo'     => 'required',
-            'pic'       => 'required',
-            'permit'    => 'required',
-            'carrier'   => 'required',
-            'permitNo'  => 'required',
-            'memoK'     => 'required',
-            'cat'       => 'required'
+            //  Define rules
         ];
     }
 

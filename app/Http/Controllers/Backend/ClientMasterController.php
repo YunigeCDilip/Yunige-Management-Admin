@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Application\Services\WarehouseDataService;
-use App\Http\Requests\CreateWarehouseData;
-use App\Http\Requests\UpdateWarehouseData;
+use Illuminate\Support\Facades\Log;
+use App\Application\Services\ClientMasterService;
+use App\Http\Requests\CreateClientMaster;
+use App\Http\Requests\UpdateClientMaster;
+use Throwable;
 
-class WarehouseDataController extends Controller 
+class ClientMasterController extends Controller 
 {
     /**
      * @var  $service
@@ -16,7 +18,7 @@ class WarehouseDataController extends Controller
     protected $service;
 
     public function __construct( 
-        WarehouseDataService $service
+        ClientMasterService $service
     )
     {
         $this->service = $service;
@@ -25,19 +27,11 @@ class WarehouseDataController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return View|Response
+     * @return  Response
      */
     public function index(Request $request)
     {
-        if(!$request->ajax()){
-            $data['title'] = 'Warehouse Data';
-            $data['menu'] = 'Warehouse Data';
-            $data['subMenu'] = 'lists';
-
-            return view('admin.warehouse.data.index', $data);
-        }
-
-        $data = $this->service->datatable($request);
+        $data = $this->service->index();
 
         return $data;
     }
@@ -45,34 +39,26 @@ class WarehouseDataController extends Controller
     /**
      * Return all active data for view.
      *
-     * @return View
+     * @return  Response
      */
-    public function create()
+    public function all()
     {
-        $data = $this->service->create();
-        $data['title'] = 'Warehouse Data';
-        $data['menu'] = 'Warehouse Data';
-        $data['subMenu'] = 'add';
+        $data = $this->service->all();
 
-        return view('admin.warehouse.data.add', $data);
+        return $data;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  CreateWarehouseData $request
+     * @param  CreateClientMaster $request
      * @return  Response
      */
-    public function store(CreateWarehouseData $request)
+    public function store(CreateClientMaster $request)
     {
-        $data = json_decode($this->service->store($request)->getContent());
-        $responseData['status'] = $data->status;
-        $responseData['message'] = $data->message;
-        if($data->status){
-            $responseData['url'] = route('admin.wdata.index');
-        }
+        $data = $this->service->store($request);
 
-        return $responseData;
+        return $data;
     }
 
     /**
@@ -104,11 +90,11 @@ class WarehouseDataController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  UpdateWarehouseData $request
+     * @param  UpdateClientMaster $request
      * @param  int $id
      * @return  Response
      */
-    public function update(UpdateWarehouseData $request, $id)
+    public function update(UpdateClientMaster $request, $id)
     {
         $data = $this->service->update($request, $id);
 
