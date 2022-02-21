@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\PicController;
+use App\Http\Controllers\API\StatusController;
+use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\DeliveryController;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\RoleController;
@@ -29,6 +32,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('permissions', [RoleController::class, 'permissions']);
     Route::get('roles/all', [RoleController::class, 'all']);
     Route::resource('roles', RoleController::class);
+
+    Route::get('status', [StatusController::class, 'index']);
+    Route::get('pics', [PicController::class, 'index']);
+    Route::get('categories', [CategoryController::class, 'index']);
 
     Route::get('clients', [ClientMasterController::class, 'index']);
     Route::get('carriers', [DeliveryController::class, 'index']);
