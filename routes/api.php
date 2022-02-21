@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\DeliveryController;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\API\ClientMasterController;
 use App\Http\Controllers\API\WarehouseDataController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +29,13 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('permissions', [RoleController::class, 'permissions']);
     Route::get('roles/all', [RoleController::class, 'all']);
     Route::resource('roles', RoleController::class);
+
+    Route::get('clients', [ClientMasterController::class, 'index']);
+    Route::get('carriers', [DeliveryController::class, 'index']);
+
     Route::get('wdata', [WarehouseDataController::class, 'index']);
     Route::get('wdata/{id}', [WarehouseDataController::class, 'show']);
+    Route::post('wdata', [WarehouseDataController::class, 'store']);
+    Route::put('wdata/{id}', [WarehouseDataController::class, 'update']);
+    Route::delete('wdata/{id}', [WarehouseDataController::class, 'destroy']);
 });
