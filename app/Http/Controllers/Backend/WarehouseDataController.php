@@ -96,9 +96,14 @@ class WarehouseDataController extends Controller
      */
     public function edit($id)
     {
-        $data = $this->service->edit($id);
+        $data = $this->service->create();
+        $wdata = json_decode($this->service->show($id)->getContent());
+        $data['title'] = 'Warehouse Data';
+        $data['menu'] = 'Warehouse Data';
+        $data['subMenu'] = 'edit';
+        $data['wdata'] = $wdata->payload;
 
-        return $data;
+        return view('admin.warehouse.data.edit', $data);
     }
 
     /**
@@ -110,9 +115,14 @@ class WarehouseDataController extends Controller
      */
     public function update(UpdateWarehouseData $request, $id)
     {
-        $data = $this->service->update($request, $id);
+        $data = json_decode($this->service->update($request, $id)->getContent());
+        $responseData['status'] = $data->status;
+        $responseData['message'] = $data->message;
+        if($data->status){
+            $responseData['url'] = route('admin.wdata.index');
+        }
 
-        return $data;
+        return $responseData;
     }
 
     /**

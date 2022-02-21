@@ -22,14 +22,12 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Country</th>
                                 <th>Client Name</th>
-                                <th>Job Type</th>
-                                <th>Job</th>
-                                <th>Category</th>
                                 <th>Permit Number</th>
                                 <th>Track Number</th>
-                                <th>Deliver</th>
+                                <th>Country</th>
+                                <th>Carrier</th>
+                                <th>Category</th>
                                 <th>Status</th>
                                 <th>Create Date</th>
                                 <th style="width: 85px;">Action</th>

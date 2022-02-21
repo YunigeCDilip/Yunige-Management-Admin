@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class WarehouseDataResource extends JsonResource
@@ -41,7 +42,7 @@ class WarehouseDataResource extends JsonResource
             'trkNo'                 => @$this['fields']['trkNo'],
             'deliver'               => @$this['fields']['deliver'],
             'status'                => @$this['fields']['status'],
-            'createdTime'           => @$this['createdTime']
+            'createdTime'           => Carbon::parse($this['createdTime'])->format('F d, Y')
         ];
     }
 }

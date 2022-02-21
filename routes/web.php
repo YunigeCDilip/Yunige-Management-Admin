@@ -44,4 +44,8 @@ Route::group(['middleware' => 'auth', 'as' => 'admin.'], function () {
     Route::get('wdata', [WarehouseDataController::class, 'index'])->name('wdata.index');
     Route::get('wdata/create', [WarehouseDataController::class, 'create'])->name('wdata.create');
     Route::post('wdata', [WarehouseDataController::class, 'store'])->name('wdata.store');
+    Route::delete('wdata/{wdata}', [WarehouseDataController::class, 'destroy'])->name('wdata.destroy');
+    Route::get('wdata/{wdata}', [WarehouseDataController::class, 'show'])->name('wdata.show');
+    Route::get('wdata/{wdata}/edit', [WarehouseDataController::class, 'edit'])->name('wdata.edit');
+    Route::post('wdata/{wdata}', [WarehouseDataController::class, 'update'])->name('wdata.update');
 });

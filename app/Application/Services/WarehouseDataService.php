@@ -155,28 +155,18 @@ class WarehouseDataService extends Service
     public function show($id)
     {
         try {
-            $data = $this->airtable->find($id);
+            if($this->getCache(AirtableDatabase::WDATA.'_'.$id)){
+                $data = $this->getCache(AirtableDatabase::WDATA.'_'.$id);
+            }else{
+                $data = $this->airtable->find($id);
+                $this->setCache(AirtableDatabase::WDATA.'_'.$id, $data);
+            }
 
             return $this->responseOk($data, MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 
             return $this->responseError();
-        }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return  Response
-     */
-    public function edit($id)
-    {
-        try {
-            
-        } catch (Throwable $e) {
-            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
         }
     }
 
@@ -190,22 +180,28 @@ class WarehouseDataService extends Service
     public function update($request, $id)
     {
         try {
-            
+            $data = $this->airtable->update($id, WarehouseDomain::format($request));
+
+            return $this->responseOk($data, MessageResponse::DATA_UPDATED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return  Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($request, $id)
     {
         try {
-            
+            $data = $this->airtable->delete($id);
+
+            return $this->responseOk($data, MessageResponse::DATA_DELETED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
         }
