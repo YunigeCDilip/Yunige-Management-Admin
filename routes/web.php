@@ -17,21 +17,16 @@ use App\Http\Controllers\Backend\WarehouseDataController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes(['register' => false]);
 
-Route::get('clear', function () {
-    \Illuminate\Support\Facades\Artisan::call('config:cache');
-    \Illuminate\Support\Facades\Artisan::call('view:clear');
-    \Illuminate\Support\Facades\Artisan::call('route:clear');
-    return 'all clear';
+Route::get('/', function () {
+    return redirect('/login');
 });
+
+Auth::routes(['register' => false]);
 
 Route::get('/comming-soon', function () {
     return view('comming-soon');
 })->name('comming.soon');
-Route::get('/', function () {
-    return redirect('/login');
-});
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::get('logout', [LoginController::class, 'logout'])->name('user.logout');

@@ -35,10 +35,10 @@ class DeliveryService extends Service
                 $data = $this->getCache(AirtableDatabase::DELIVERY);
             }else{
                 $data = $this->airtable->get();
-                $this->setCache(AirtableDatabase::DELIVERY, $data);
+                $this->setCache(AirtableDatabase::DELIVERY, $data['records']);
             }
 
-            return $this->responseOk(DeliveryResource::collection($data['records']), MessageResponse::DATA_LOADED);
+            return $this->responseOk(DeliveryResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 

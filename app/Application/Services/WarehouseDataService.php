@@ -45,10 +45,12 @@ class WarehouseDataService extends Service
                 $data = $this->getCache(AirtableDatabase::WDATA);
             }else{
                 $data = $this->airtable->get();
-                $this->setCache(AirtableDatabase::WDATA, $data);
+                $this->setCache(AirtableDatabase::WDATA, $data['records']);
             }
+            $options['path'] = url('/').'/api/wdata';
+            $response = $this->paginate(WarehouseDataResource::collection($data), request('per_page'), request('page'), $options);
 
-            return $this->responseOk(WarehouseDataResource::collection($data['records']), MessageResponse::DATA_LOADED);
+            return $this->responsePaginate($response, MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 
@@ -67,23 +69,43 @@ class WarehouseDataService extends Service
         try {
             $limit = $request->input('length');
             $start = $request->input('start');
+            $search = $request->input('search')['value'];
+
+            // $data = $this->getCache(AirtableDatabase::WDATA);
+            // dd($data[0]);
+            
             if($this->getCache(AirtableDatabase::WDATA)){
                 $data = $this->getCache(AirtableDatabase::WDATA);
+                if($search != ''){
+                    $data = $data->filter(function($value) use($search){
+                        // return $value = $search;
+                    });
+                }
             }else{
                 $data = $this->airtable->get();
-                $this->setCache(AirtableDatabase::WDATA, $data);
+                $this->setCache(AirtableDatabase::WDATA, $data['records']);
             }
-            $wDatas = WarehouseDataResource::collection($data['records']);
-            
-            $tableContent = array();
-            if (!empty($data)) {
-                $tableContent = array(
+            $wDatas = [];
+            $tableContent = [];
+            if(isset($data) && $data){
+                $wDatas = WarehouseDataResource::collection($data);
+                if (!empty($data)) {
+                    $tableContent = [
+                        "draw" => intval($request->input('draw')),
+                        "recordsTotal" => count($wDatas),
+                        "recordsFiltered" => count($wDatas),
+                        "data" => array_slice(json_decode($wDatas->toJson(), true), $start, $limit)
+                    ];
+                }
+            }else{
+                $tableContent = [
                     "draw" => intval($request->input('draw')),
                     "recordsTotal" => count($wDatas),
                     "recordsFiltered" => count($wDatas),
-                    "data" => array_slice(json_decode($wDatas->toJson(), true), $start, $limit)
-                );
+                    "data" => []
+                ];
             }
+
             return $tableContent;
             
         } catch (\Exception $e) {
@@ -114,20 +136,6 @@ class WarehouseDataService extends Service
     }
 
     /**
-     * Return all active data for view.
-     *
-     * @return  Response
-     */
-    public function all()
-    {
-        try {
-            
-        } catch (Throwable $e) {
-            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
-        }
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
@@ -137,6 +145,15 @@ class WarehouseDataService extends Service
     {
         try {
             $data = $this->airtable->create(WarehouseDomain::format($request));
+            if($this->getCache(AirtableDatabase::WDATA)){
+                $wdatas = $this->getCache(AirtableDatabase::WDATA);
+                array_merge($data, $wdatas);
+                $this->setCache(AirtableDatabase::WDATA, $wdatas);
+            }else{
+                $wdatas = $this->airtable->get();
+                array_merge($data, $wdatas['records']);
+                $this->setCache(AirtableDatabase::WDATA, $wdatas['records']);
+            }
 
             return $this->responseOk($data, MessageResponse::DATA_CREATED);
         } catch (Throwable $e) {
@@ -181,6 +198,16 @@ class WarehouseDataService extends Service
     {
         try {
             $data = $this->airtable->update($id, WarehouseDomain::format($request));
+            if($this->getCache(AirtableDatabase::WDATA)){
+                $this->deleteItem(AirtableDatabase::WDATA, $data, $id);
+                $wdatas = $this->getCache(AirtableDatabase::WDATA);
+                array_merge($data, $wdatas);
+                $this->setCache(AirtableDatabase::WDATA, $wdatas);
+            }else{
+                $wdatas = $this->airtable->get();
+                array_merge($data, $wdatas['records']);
+                $this->setCache(AirtableDatabase::WDATA, $wdatas['records']);
+            }
 
             return $this->responseOk($data, MessageResponse::DATA_UPDATED);
         } catch (Throwable $e) {
@@ -200,7 +227,9 @@ class WarehouseDataService extends Service
     {
         try {
             $data = $this->airtable->delete($id);
-
+            if($this->getCache(AirtableDatabase::WDATA)){
+                $this->deleteItem(AirtableDatabase::WDATA, $data, $id);
+            }
             return $this->responseOk($data, MessageResponse::DATA_DELETED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);

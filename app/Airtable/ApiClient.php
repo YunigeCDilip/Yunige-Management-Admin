@@ -6,6 +6,10 @@ interface ApiClient
 {
     public function __construct(string $table);
 
+    public function get();
+
+    public function all();
+
     public function post($contents = null);
 
     public function put(string $id, $contents = null);

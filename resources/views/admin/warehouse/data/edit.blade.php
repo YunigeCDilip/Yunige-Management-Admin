@@ -16,7 +16,6 @@
                 <div class="form-group mb-3">
                     <label for="client">Client <span class="text-danger">*</span></label>
                     <select class="form-control select2" name="client[]" multiple>
-                        <option value="">Select</option>
                         @forelse(@$clients as $client)
                             <option value="{{$client->id}}" @if(in_array($client->id, $wdata->fields->client)) selected @endif>{{$client->name}}</option>
                             @empty
@@ -39,7 +38,6 @@
                 <div class="form-group mb-3">
                     <label for="carrier">Carrier <span class="text-danger">*</span></label>
                     <select class="form-control select2" name="carrier[]" multiple>
-                        <option value="">Select</option>
                         @forelse($carrier as $c)
                             <option value="{{$c->id}}" @if(@$wdata->fields->carrier) @if(in_array($c->id, @$wdata->fields->carrier)) selected @endif @endif>{{$c->name}}</option>
                             @empty
