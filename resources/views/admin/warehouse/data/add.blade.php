@@ -14,8 +14,7 @@
             <div class="card-box">
                 <div class="form-group mb-3">
                     <label for="client">Client <span class="text-danger">*</span></label>
-                    <select class="form-control select2" name="client[]" multiple>
-                        <option value="">Select</option>
+                    <select class="form-control select2" name="client[]">
                         @forelse(@$clients as $client)
                             <option value="{{$client->id}}">{{$client->name}}</option>
                             @empty
@@ -37,8 +36,7 @@
 
                 <div class="form-group mb-3">
                     <label for="carrier">Carrier <span class="text-danger">*</span></label>
-                    <select class="form-control select2" name="carrier[]" multiple>
-                        <option value="">Select</option>
+                    <select class="form-control select2" name="carrier[]">
                         @forelse($carrier as $c)
                             <option value="{{$c->id}}">{{$c->name}}</option>
                             @empty
@@ -63,7 +61,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="cat">Cat <span class="text-danger">*</span></label>
-                    <select class="form-control select2" name="cat[]" multiple>
+                    <select class="form-control select2" name="cat[]">
                         <option value="">Select</option>
                         @foreach($cat as $value)
                             <option value="{{$value}}">{{$value}}</option>

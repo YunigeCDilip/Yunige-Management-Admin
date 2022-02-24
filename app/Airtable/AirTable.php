@@ -116,34 +116,11 @@ class AirTable
     }
 
     /**
-     * @param array $columns
      * @return array
      */
-    public function all(array $columns = [])
+    public function all()
     {
-        $all = [];
-        $offset = false;
-
-        if(!empty($columns)) {
-            $this->client->fields($columns);
-        }
-        
-        do {
-            if ($offset) {
-                $this->client->offset($offset);
-            }
-
-            $records = $this->client->list();
-
-            if ($records->count()) {
-                $all = array_merge($records->getRecords(), $all);
-            }
-
-            $offset = $records->getOffset();
-
-        } while ($offset);
-
-        return $all;
+        return $this->client->all();
     }
 
     /**

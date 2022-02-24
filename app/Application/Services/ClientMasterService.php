@@ -35,10 +35,10 @@ class ClientMasterService extends Service
                 $data = $this->getCache(AirtableDatabase::CLIENT_MASTER);
             }else{
                 $data = $this->airtable->get();
-                $this->setCache(AirtableDatabase::CLIENT_MASTER, $data);
+                $this->setCache(AirtableDatabase::CLIENT_MASTER, $data['records']);
             }
 
-            return $this->responseOk(ClientMasterResource::collection($data['records']), MessageResponse::DATA_LOADED);
+            return $this->responseOk(ClientMasterResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 

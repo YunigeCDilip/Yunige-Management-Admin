@@ -75,7 +75,7 @@ trait CacheHelperTrait
      */
     public function getItemsByAttribute(string $key, string $attribute, $value)
     {
-        return Cache::get($key)->where($attribute, $value);
+        return Cache::get($key)->where($attribute, 'LIKE', '%' . $value . '%');
     }
 
     /**

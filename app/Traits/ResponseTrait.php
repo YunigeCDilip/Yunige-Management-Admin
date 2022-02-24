@@ -275,7 +275,7 @@ trait ResponseTrait
                     'last_page' => $models->lastPage(),
                     'last_page_url' => $models->url($models->lastPage()),
                     'next_page_url' => $models->nextPageUrl(),
-                    'path' => $models->getOptions()['path'],
+                    'path' => @$models->getOptions()['path'],
                     'per_page' => $models->perPage(),
                     'prev_page_url' => $models->previousPageUrl(),
                     'to' => $models->lastItem(),

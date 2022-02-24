@@ -24,6 +24,7 @@ class AirtableApiClient implements ApiClient
     private $sorts = [];
     private $offset = false;
     private $apiKey;
+    private $delayBetweenRequestsInMicroseconds;
 
     /**
      * @param string $table
@@ -33,6 +34,7 @@ class AirtableApiClient implements ApiClient
         $this->base = config('services.airtable.app_id');
         $this->apiKey = config('services.airtable.api_key');
         $this->table = $table;
+        $this->delayBetweenRequestsInMicroseconds = 200000;
 
         $this->client = $client ?? $this->buildClient($this->apiKey);
     }
@@ -53,6 +55,33 @@ class AirtableApiClient implements ApiClient
                 'content-type' => 'application/json',
             ],
         ]);
+    }
+
+    /**
+     * Get all data
+     * 
+     * @return [type]
+     */
+    public function all()
+    {
+        $records = [];
+
+        do {
+            $response = $this->get();
+
+            if (isset($response['records'])) {
+                $records = array_merge($response['records'], $records);
+            }
+
+            if (isset($response['offset'])) {
+                $this->offset = $response['offset'];
+                usleep($this->delayBetweenRequestsInMicroseconds);
+            } else {
+                $this->offset = false;
+            }
+        } while ($this->offset);
+
+        return $records;
     }
 
     /**
@@ -146,6 +175,37 @@ class AirtableApiClient implements ApiClient
         }
 
         return collect(json_decode($body, true));
+    }
+
+    /**
+     * @param mixed $column
+     * @param mixed $operation
+     * @param mixed $value
+     * 
+     * @return AirtableApiClient
+     */
+    public function addFilter($column, $operation, $value): AirtableApiClient
+    {
+        $this->filters[] = "{{$column}}{$operation}\"{$value}\"";
+
+        return $this;
+    }
+
+    /**
+     * @param string $column
+     * @param string $direction
+     * 
+     * @return AirtableApiClient
+     */
+    public function addSort(string $column, string $direction = 'asc'): AirtableApiClient
+    {
+        if ($direction === 'desc') {
+            $this->sorts[] = ['field' => $column, 'direction' => $direction];
+        } else {
+            $this->sorts[] = ['field' => $column];
+        }
+
+        return $this;
     }
 
     /**
