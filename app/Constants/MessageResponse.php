@@ -10,6 +10,7 @@ namespace App\Constants;
 class MessageResponse
 {
     const NOT_FOUND     = 'Data not found.';
+    const DATA_FOUND    = 'Data found.';
     const DATA_LOADED   = 'Data loaded successfully.';
     const DATA_CREATED  = 'Data created successfully.';
     const DATA_UPDATED  = 'Data updated successfully.';

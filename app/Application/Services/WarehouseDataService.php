@@ -47,7 +47,8 @@ class WarehouseDataService extends Service
                 $data = $this->airtable->get();
                 $this->setCache(AirtableDatabase::WDATA, $data['records']);
             }
-            $options['path'] = url('/').'/api/wdata';
+            $perPage = request('per_page') ?? 20;
+            $options['path'] = url('/').'/api/wdata?per_page='.$perPage;
             $response = $this->paginate(WarehouseDataResource::collection($data), request('per_page'), request('page'), $options);
 
             return $this->responsePaginate($response, MessageResponse::DATA_LOADED);

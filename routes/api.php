@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\BarcodeItemController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\PicController;
 use App\Http\Controllers\API\StatusController;
@@ -45,4 +46,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('wdata', [WarehouseDataController::class, 'store']);
     Route::put('wdata/{id}', [WarehouseDataController::class, 'update']);
     Route::delete('wdata/{id}', [WarehouseDataController::class, 'destroy']);
+
+    Route::get('barcode-items', [BarcodeItemController::class, 'index']);
 });
