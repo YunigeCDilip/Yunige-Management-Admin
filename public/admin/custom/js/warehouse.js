@@ -105,6 +105,15 @@ $(document).ready(function() {
     });
 });
 
+
+$('.custom-select').on('change', function () {
+    $('body').find('#table_length select').val($(this).val()).trigger('change');
+});
+
+$('#searchForm').keyup(function(){
+    $('body').find('#table_filter input').val($(this).val()).trigger('keyup');
+});
+
 var addForm = $('form#addForm');
 $('.saveWdata').on('click', function(e){
     e.preventDefault();
