@@ -70,15 +70,23 @@ class WarehouseDataService extends Service
             $limit = $request->input('length');
             $start = $request->input('start');
             $search = $request->input('search')['value'];
-
-            // $data = $this->getCache(AirtableDatabase::WDATA);
-            // dd($data[0]);
-            
             if($this->getCache(AirtableDatabase::WDATA)){
                 $data = $this->getCache(AirtableDatabase::WDATA);
                 if($search != ''){
-                    $data = $data->filter(function($value) use($search){
-                        // return $value = $search;
+                    $data = $data->filter(function($item) use ($search) {
+                        foreach($item['fields'] as $key => $value){
+                            if(!is_array($item['fields'][$key])){
+                                if(stripos($item['fields'][$key],$search)){
+                                    return $item;
+                                }
+                            }else{
+                                foreach($item['fields'][$key] as $index => $v){
+                                    if(!is_array($item['fields'][$key][$index]) && stripos($v,$search)){
+                                        return $item;
+                                    }
+                                }
+                            }
+                        }
                     });
                 }
             }else{
@@ -147,12 +155,12 @@ class WarehouseDataService extends Service
             $data = $this->airtable->create(WarehouseDomain::format($request));
             if($this->getCache(AirtableDatabase::WDATA)){
                 $wdatas = $this->getCache(AirtableDatabase::WDATA);
-                array_merge($data, $wdatas);
+                $wdatas = array_merge([(count($wdatas) + 1) => $data->toArray()], $wdatas);
                 $this->setCache(AirtableDatabase::WDATA, $wdatas);
             }else{
                 $wdatas = $this->airtable->get();
-                array_merge($data, $wdatas['records']);
-                $this->setCache(AirtableDatabase::WDATA, $wdatas['records']);
+                $data = array_merge([(($wdatas['records'])->count() + 1) => $data->toArray()], $wdatas['records']->toArray());
+                $this->setCache(AirtableDatabase::WDATA, $data);
             }
 
             return $this->responseOk($data, MessageResponse::DATA_CREATED);
@@ -201,12 +209,12 @@ class WarehouseDataService extends Service
             if($this->getCache(AirtableDatabase::WDATA)){
                 $this->deleteItem(AirtableDatabase::WDATA, $data, $id);
                 $wdatas = $this->getCache(AirtableDatabase::WDATA);
-                array_merge($data, $wdatas);
+                $wdatas = array_merge([(count($wdatas) + 1) => $data->toArray()], $wdatas);
                 $this->setCache(AirtableDatabase::WDATA, $wdatas);
             }else{
                 $wdatas = $this->airtable->get();
-                array_merge($data, $wdatas['records']);
-                $this->setCache(AirtableDatabase::WDATA, $wdatas['records']);
+                $data = array_merge([(($wdatas['records'])->count() + 1) => $data->toArray()], $wdatas['records']->toArray());
+                $this->setCache(AirtableDatabase::WDATA, $data);
             }
 
             return $this->responseOk($data, MessageResponse::DATA_UPDATED);
