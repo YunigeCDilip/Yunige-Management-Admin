@@ -74,7 +74,7 @@ class WarehouseDataService extends Service
             if($this->getCache(AirtableDatabase::WDATA)){
                 $data = $this->getCache(AirtableDatabase::WDATA);
                 if($search != ''){
-                    $data = $data->filter(function($item) use ($search) {
+                    $data = collect($data)->filter(function($item) use ($search) {
                         foreach($item['fields'] as $key => $value){
                             if(!is_array($item['fields'][$key])){
                                 if(stripos($item['fields'][$key],$search)){
