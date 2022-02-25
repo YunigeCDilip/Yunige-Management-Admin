@@ -30,6 +30,10 @@ trait CacheHelperTrait
      */
     public function setCache(string $key, $items)
     {
+        if (Cache::has($key)) {
+            $this->forgetCache($key);
+        }
+
         return Cache::put($key, $items);
     }
 
@@ -57,7 +61,7 @@ trait CacheHelperTrait
     public function addItem($key, $item)
     {
         if (Cache::has($key)) {
-            Cache::forget($key);
+            $this->forgetCache($key);
         }
         $this->setCache($key, $item);
         
