@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckBarcodeRequest;
 use App\Http\Resources\BarcodeItemResource;
+use Illuminate\Http\Response;
 
 class BarcodeItemController extends Controller
 {
@@ -26,7 +27,7 @@ class BarcodeItemController extends Controller
         try {
             $data = BarcodeItem::WhereBarcode($request->barcode)->first();
             if(!$data){
-                return $this->responseOk(null, MessageResponse::NOT_FOUND);
+                return $this->responseError(Response::HTTP_NOT_FOUND, MessageResponse::NOT_FOUND);
             }
 
             return $this->responseOk(new BarcodeItemResource($data), MessageResponse::DATA_FOUND);

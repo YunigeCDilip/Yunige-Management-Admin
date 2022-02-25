@@ -17,22 +17,6 @@
                 </a>
             </li>
 
-            <li>
-                <a href="javascript: void(0);">
-                    <i class="fe-pocket"></i>
-                    <span> User Management </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul class="nav-second-level" aria-expanded="false">
-                    <li>
-                        <a href="{{route('admin.roles.index')}}">Role Management</a>
-                    </li>
-                    <li>
-                        <a href="{{route('comming.soon')}}">User Management</a>
-                    </li>
-                </ul>
-            </li>
-
             <li class="menu-title mt-2">Modules</li>
             <li>
                 <a href="{{route('admin.wdata.index')}}" class="@if(@$menu == 'Warehouse Data') active @endif">
