@@ -42,7 +42,7 @@ class WarehouseDataResource extends JsonResource
             'trkNo'                 => @$this['fields']['trkNo'],
             'deliver'               => @$this['fields']['deliver'],
             'status'                => @$this['fields']['status'],
-            'createdTime'           => Carbon::parse($this['createdTime'])->format('F d, Y')
+            'createdTime'           => isset($this['createdTime']) ? Carbon::parse($this['createdTime'])->format('F d, Y') : ''
         ];
     }
 }
