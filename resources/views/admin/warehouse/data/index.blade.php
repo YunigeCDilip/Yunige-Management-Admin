@@ -83,7 +83,7 @@
         <script src="{{asset('admin')}}/libs/datatables/dataTables.select.min.js"></script>
         <script src="{{asset('admin')}}/libs/pdfmake/pdfmake.min.js"></script>
         <script src="{{asset('admin')}}/libs/pdfmake/vfs_fonts.js"></script>
-    <script src="{{asset('admin')}}/libs/sweetalert/sweetalert.min.js"></script>
-    <script src="{{asset('admin/custom/js/warehouse.js')}}"></script>
+        <script src="{{asset('admin')}}/libs/sweetalert/sweetalert.min.js"></script>
+        <script src="{{asset('admin/custom/js/warehouse.js')}}"></script>
     @endsection
 @endsection

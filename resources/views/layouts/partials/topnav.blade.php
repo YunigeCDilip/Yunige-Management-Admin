@@ -153,7 +153,7 @@
                 </a>
 
                 <!-- item-->
-                <a href="{{route('comming.soon')}}" class="dropdown-item">
+                <a href="{{route('admin.users.index')}}" class="dropdown-item">
                     <i class="fe-user mr-1"></i>
                     <span>Users</span>
                 </a>

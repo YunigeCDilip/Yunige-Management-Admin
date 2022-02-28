@@ -12,6 +12,7 @@ class RepositoryServiceProvider extends ServiceProvider
         *   Backend Repositories and Contracts
         */
         \App::bind('App\\Application\\Contracts\\WarehouseDataContract', 'App\\Application\\Repositories\\WarehouseDataRepository');
+        \App::bind('App\\Application\\Contracts\\UserContract', 'App\\Application\\Repositories\\UserRepository');
         \App::bind('App\\Airtable\\ApiClient', 'App\\Airtable\\AirtableApiClient');
     }
 }
