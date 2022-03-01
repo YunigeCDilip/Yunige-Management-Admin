@@ -86,6 +86,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Master Password
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'master_password' => env('MASTER_PASSWORD', null),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Fallback Locale
     |--------------------------------------------------------------------------
     |
@@ -177,6 +186,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Application\Providers\RepositoryServiceProvider::class,
 
     ],
 
