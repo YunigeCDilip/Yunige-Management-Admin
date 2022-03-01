@@ -51,7 +51,6 @@ $(document).ready(function() {
         serverSide: true,
         responsive: true,
         processing: true,
-        buttons: ["copy", "print", "pdf"],
         language: {
             paginate: {
                 previous: "<i class='mdi mdi-chevron-left'>",

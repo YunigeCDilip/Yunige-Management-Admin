@@ -17,4 +17,23 @@ trait AuthTrait
 
         return $user;
     }
+    
+
+    /**
+     * @param mixed $permission
+     * 
+     * @return bool
+     */
+    public function checkPermission($permission){
+        $user = Auth::user();
+        if($user->is_super_admin){
+            return true;
+        }else{
+            if($user->hasPermissionTo($permission)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
 }

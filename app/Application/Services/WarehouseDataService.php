@@ -119,6 +119,8 @@ class WarehouseDataService extends Service
             
         } catch (\Exception $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
         }
     }
 
@@ -242,6 +244,8 @@ class WarehouseDataService extends Service
             return $this->responseOk($data, MessageResponse::DATA_DELETED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
         }
     }
 }
