@@ -1,7 +1,5 @@
 @extends('layouts.layout')
 @section('additional-css')
-    <link href="{{asset('admin')}}/libs/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
-    <link href="{{asset('admin')}}/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin')}}/libs/dropzone/dropzone.min.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin')}}/libs/dropify/dropify.min.css" rel="stylesheet" type="text/css" />
 @endsection
@@ -16,6 +14,7 @@
                 <div class="form-group mb-3">
                     <label for="client">Client <span class="text-danger">*</span></label>
                     <select class="form-control select2" name="client[]">
+                        <option value="">Select Client</option>
                         @forelse(@$clients as $client)
                             <option value="{{$client->id}}" @if(in_array($client->id, $wdata->fields->client)) selected @endif>{{$client->name}}</option>
                             @empty
@@ -38,6 +37,7 @@
                 <div class="form-group mb-3">
                     <label for="carrier">Carrier <span class="text-danger">*</span></label>
                     <select class="form-control select2" name="carrier[]">
+                        <option value="">Select Carrier</option>
                         @forelse($carrier as $c)
                             <option value="{{$c->id}}" @if(@$wdata->fields->carrier) @if(in_array($c->id, @$wdata->fields->carrier)) selected @endif @endif>{{$c->name}}</option>
                             @empty
@@ -53,7 +53,7 @@
                 <div class="form-group mb-3">
                     <label for="pic">Pic <span class="text-danger">*</span></label>
                     <select class="form-control select2" name="pic">
-                        <option value="">Select</option>
+                        <option value="">Select Pic</option>
                         @foreach($pic as $value)
                             <option value="{{$value}}" @if($value = @$wdata->fields->pic) selected @endif>{{$value}}</option>
                         @endforeach
@@ -61,9 +61,9 @@
                     <div class="invalid-feedback" id="pic_error" style="display:none;"></div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="cat">Cat <span class="text-danger">*</span></label>
+                    <label for="cat">Category <span class="text-danger">*</span></label>
                     <select class="form-control select2" name="cat[]">
-                        <option value="">Select</option>
+                        <option value="">Select Categories</option>
                         @foreach($cat as $value)
                             <option value="{{$value}}" @if(@$wdata->fields->cat) @if(in_array($value, @$wdata->fields->cat)) selected @endif @endif>{{$value}}</option>
                         @endforeach

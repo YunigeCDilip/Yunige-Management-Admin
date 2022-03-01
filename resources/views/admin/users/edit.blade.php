@@ -1,7 +1,5 @@
 @extends('layouts.layout')
 @section('additional-css')
-    <link href="{{asset('admin')}}/libs/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
-    <link href="{{asset('admin')}}/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 <form id="editForm" autocomplete="off" class="needs-validation" novalidate>

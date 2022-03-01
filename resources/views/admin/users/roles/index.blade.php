@@ -14,8 +14,8 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-centered table-striped" id="role-table">
-                        <thead>
+                    <table class="table table-centered table-hover mb-0" id="role-table">
+                        <thead class="thead-light">
                             <tr>
                                 <th>Role Name</th>
                                 <th>Create Date</th>
@@ -32,8 +32,8 @@
                                         {{$role->created_at->format('M d, Y')}}
                                     </td>
                                     <td>
-                                        <a href="javascript:void(0);" class="action-icon edit-role"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                        <a href="javascript:void(0);" class="action-icon delete-role"> <i class="mdi mdi-delete"></i></a>
+                                        <a href="javascript:void(0);" class="action-icon edit-role"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>
+                                        <a href="javascript:void(0);" class="action-icon delete-role"> <i class="mdi mdi-delete text-danger"></i></a>
                                     </td>
                                 </tr>
                                 @empty
