@@ -9,6 +9,9 @@
         .dataTables_filter, .dataTables_length{
             display: none;
         }
+        table.dataTable {
+            width: 100% !important;
+        }
     </style>
 @endsection
 @section('content')    
@@ -43,8 +46,8 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-centered table-striped" id="table">
-                        <thead>
+                    <table class="table table-centered table-hover mb-0" id="table">
+                        <thead class="thead-light">
                             <tr>
                                 <th>Name</th>
                                 <th>Client Name</th>

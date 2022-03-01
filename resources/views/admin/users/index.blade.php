@@ -7,6 +7,9 @@
         .dataTables_filter, .dataTables_length{
             display: none;
         }
+        table.dataTable {
+            width: 100% !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -43,7 +46,7 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-centered mb-0" id="table">
+                    <table class="table table-centered table-hover mb-0" id="table">
                         <thead class="thead-light">
                             <tr>
                                 <th>SN</th>
@@ -52,7 +55,7 @@
                                 <th>Role</th>
                                 <th>Status</th>
                                 <th>Created Date</th>
-                                <th style="width: 125px;">Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>

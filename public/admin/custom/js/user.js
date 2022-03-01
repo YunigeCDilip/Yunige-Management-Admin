@@ -181,12 +181,12 @@ var userTable = $('#table').DataTable({
             render: function(data, type, dataObject, meta) {
                 var action = '';
                 if(dataObject.manage_permission){
-                    action += '<a href="'+baseUrl+'users/'+dataObject.userId+'/edit" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>';
+                    action += '<a href="'+baseUrl+'users/'+dataObject.userId+'/edit" class="action-icon"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
                 }
 
                 if(!dataObject.is_auth_user){
                     if(dataObject.manage_permission){
-                        action += '<a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete" data-id="'+dataObject.userId+'"></i></a>';
+                        action += '<a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete text-danger" data-id="'+dataObject.userId+'"></i></a>';
                     }
                 }
                 return action;

@@ -1,7 +1,5 @@
 @extends('layouts.layout')
 @section('additional-css')
-    <link href="{{asset('admin')}}/libs/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
-    <link href="{{asset('admin')}}/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin')}}/libs/dropzone/dropzone.min.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin')}}/libs/dropify/dropify.min.css" rel="stylesheet" type="text/css" />
 @endsection
@@ -15,6 +13,7 @@
                 <div class="form-group mb-3">
                     <label for="client">Client <span class="text-danger">*</span></label>
                     <select class="form-control select2" name="client[]">
+                        <option value="">Select Client</option>
                         @forelse(@$clients as $client)
                             <option value="{{$client->id}}">{{$client->name}}</option>
                             @empty
@@ -37,6 +36,7 @@
                 <div class="form-group mb-3">
                     <label for="carrier">Carrier <span class="text-danger">*</span></label>
                     <select class="form-control select2" name="carrier[]">
+                        <option value="">Select Carrier</option>
                         @forelse($carrier as $c)
                             <option value="{{$c->id}}">{{$c->name}}</option>
                             @empty
@@ -52,7 +52,7 @@
                 <div class="form-group mb-3">
                     <label for="pic">Pic <span class="text-danger">*</span></label>
                     <select class="form-control select2" name="pic">
-                        <option value="">Select</option>
+                        <option value="">Select Pic</option>
                         @foreach($pic as $value)
                             <option value="{{$value}}">{{$value}}</option>
                         @endforeach
@@ -60,9 +60,9 @@
                     <div class="invalid-feedback" id="pic_error" style="display:none;"></div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="cat">Cat <span class="text-danger">*</span></label>
+                    <label for="cat">Category<span class="text-danger">*</span></label>
                     <select class="form-control select2" name="cat[]">
-                        <option value="">Select</option>
+                        <option value="">Select Categories</option>
                         @foreach($cat as $value)
                             <option value="{{$value}}">{{$value}}</option>
                         @endforeach
@@ -73,7 +73,7 @@
                 <div class="form-group mb-3">
                     <label for="status">Status <span class="text-danger">*</span></label>
                     <select class="form-control select2" name="status">
-                        <option value="">Select</option>
+                        <option value="">Select Status</option>
                         @foreach($status as $value)
                             <option value="{{$value}}">{{$value}}</option>
                         @endforeach
