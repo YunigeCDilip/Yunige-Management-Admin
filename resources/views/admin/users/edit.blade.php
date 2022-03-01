@@ -4,13 +4,13 @@
     <link href="{{asset('admin')}}/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
-
-<form id="editForm" method="post" autocomplete="off" class="needs-validation" novalidate>
+<form id="editForm" autocomplete="off" class="needs-validation" novalidate>
     @csrf
     <div class="row">
         <div class="col-lg-6">
             <div class="card-box">
             <input id="real-password" type="password" autocomplete="new-password" style="display: none;">
+            <input type="hidden" name="user_id" value="{{$user->id}}">
                 <div class="form-group mb-3">
                     <label for="name">Name <span class="text-danger">*</span></label>
                     <input type="text" name="name" class="form-control" value="{{$user->name}}">
@@ -46,16 +46,19 @@
         </div> <!-- end col -->
         <div class="col-lg-6">
             <div class="card-box">
-                <div class="col-lg-6 form-input-area collapse" id="change-pass">
+                <a class="change-password" data-toggle="collapse"
+                                               href="#change-pass" role="button" aria-expanded="false"
+                                               aria-controls="collapseExample" style="float: right;">Change Password</a>
+                <div class="form-group mb-3 collapse" id="change-pass">
                     <div class="form-group mb-3">
                         <label for="password">Password <span class="text-danger">*</span></label>
-                        <input type="password" name="password" class="form-control" placeholder="">
+                        <input type="password" name="password" class="form-control" placeholder="" disabled>
                         <div class="invalid-feedback" id="password_error" style="display:none;"></div>
                     </div>
                     
                     <div class="form-group mb-3">
                         <label for="confirm_password">Confirm Password <span class="text-danger">*</span></label>
-                        <input type="password" name="confirm_password" class="form-control" placeholder="">
+                        <input type="password" name="confirm_password" class="form-control" placeholder="" disabled>
                         <div class="invalid-feedback" id="confirm_password_error" style="display:none;"></div>
                     </div>   
                 </div>
@@ -94,10 +97,10 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="form-group mb-3">
-                <button class="btn w-sm btn-success waves-effect waves-light save-user">
+                <a href="javascript:void(0)" class="btn w-sm btn-success waves-effect waves-light update-user">
                     <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>
                     Save
-                </button>
+                </a>
                 <a href="{{route('admin.users.index')}}" class="btn w-sm btn-danger waves-effect">Cancel</a>
             </div>
         </div>

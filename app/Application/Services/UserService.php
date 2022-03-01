@@ -250,8 +250,13 @@ class UserService extends Service
     {
         try {
             $data = User::find($id);
-            $data->syncRoles([]);
-            $data->syncPermissions([]);
+            if($data->roles()){
+                $data->syncRoles([]);
+            }
+            
+            if($data->permissions()){
+                $data->syncPermissions([]);
+            }
 
             $data->delete();
 

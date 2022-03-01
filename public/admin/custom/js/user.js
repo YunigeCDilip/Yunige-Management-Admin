@@ -21,6 +21,114 @@ function messages(message, type)
 
 jQuery(document).ready(function(){
     $(".select2").select2();
+
+
+    $('form#editForm').find('.change-password').on('click', function(e){
+        e.preventDefault();
+        $('#change-pass').find('.form-control').each(function(){
+            if($('#change-pass').hasClass('collapse show')){
+                $(this).prop("disabled", true);
+                $('#change-pass').removeClass("change-pass");
+            }else{
+                $(this).prop("disabled", false);
+                $('#change-pass').addClass("change-pass");
+            }
+        });
+    });
+
+    $('.save-user').on('click', function(e){
+        e.preventDefault();
+        $('form#addForm').find('.invalid-feedback').each(function(){
+            $(this).empty().hide();
+        });
+        $(this).prop('disabled', true);
+        $(this).parents('.form-group').find('.spinner-border').show();
+        var thisReference = $(this);
+        var form_data = $('form#addForm').serializeArray();
+        $.ajax({
+            type: "POST",
+            url: baseUrl + "users",
+            data: form_data,
+            success: function(data){
+                messages(data.message, data.status);
+                if(data.status){
+                    window.location = data.url;
+                }else{
+                    thisReference.parents('.form-group').find('.spinner-border').hide();
+                    thisReference.prop('disabled', false);
+                    $('form#addForm').find('.lg-error').each(function(){
+                        $(this).empty().hide();
+                    });
+                    $('form#addForm').find('.lg-error-top').empty().append('<span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span> '+ data.message).show();
+                }
+            },
+            error: function(error){
+                if( error.status === 422 && error.readyState == 4) {
+                    $('form#addForm').find('.invalid-feedback').each(function(){
+                        $(this).empty().hide();
+                    });
+                    var errors = $.parseJSON(error.responseText);
+                    $.each(errors.message, function (key, val) {
+                        $('form#addForm').find('input[name="'+key+'"]').attr('required', 'required');
+                        $('form#addForm').find('#' + key + '_error').empty().append(val);
+                        $('form#addForm').find('#' + key + '_error').show();
+                    });
+                    thisReference.parents('.form-group').find('.spinner-border').hide();
+                    thisReference.prop('disabled', false);
+                }
+
+                $('form#addForm').addClass('was-validated');
+            },
+        });
+    });
+
+    var editForm = $('form#editForm');
+    $('.update-user').on('click', function(e){
+        e.preventDefault();
+        editForm.find('.invalid-feedback').each(function(){
+            $(this).empty().hide();
+        });
+        var Id = editForm.find('input[name="user_id"]').val();
+        $(this).prop('disabled', true);
+        $(this).parents('.form-group').find('.spinner-border').show();
+        var thisReference = $(this);
+        var form_data = editForm.serializeArray();
+        $.ajax({
+            type: "POST",
+            url: baseUrl + "users/"+Id,
+            data: form_data,
+            success: function(data){
+                messages(data.message, data.status);
+                if(data.status){
+                    window.location = data.url;
+                }else{
+                    thisReference.parents('.form-group').find('.spinner-border').hide();
+                    thisReference.prop('disabled', false);
+                    editForm.find('.lg-error').each(function(){
+                        $(this).empty().hide();
+                    });
+                    editForm.find('.lg-error-top').empty().append('<span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span> '+ data.message).show();
+                }
+            },
+            error: function(error){
+                if( error.status === 422 && error.readyState == 4) {
+                    editForm.find('.invalid-feedback').each(function(){
+                        $(this).empty().hide();
+                    });
+                    var errors = $.parseJSON(error.responseText);
+                    $.each(errors.message, function (key, val) {
+                        editForm.find('input[name="'+key+'"]').attr('required', 'required');
+                        editForm.find('#' + key + '_error').empty().append(val);
+                        editForm.find('#' + key + '_error').show();
+                    });
+                    thisReference.parents('.form-group').find('.spinner-border').hide();
+                    thisReference.prop('disabled', false);
+                }
+
+                editForm.addClass('was-validated');
+            },
+        });
+    });
 });
 
 var userTable = $('#table').DataTable({
@@ -73,12 +181,12 @@ var userTable = $('#table').DataTable({
             render: function(data, type, dataObject, meta) {
                 var action = '';
                 if(dataObject.manage_permission){
-                    action += '<a href="'+baseUrl+'users/'+dataObject.id+'/edit" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>';
+                    action += '<a href="'+baseUrl+'users/'+dataObject.userId+'/edit" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>';
                 }
 
                 if(!dataObject.is_auth_user){
                     if(dataObject.manage_permission){
-                        action += '<a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete" data-id="'+dataObject.id+'"></i></a>';
+                        action += '<a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete" data-id="'+dataObject.userId+'"></i></a>';
                     }
                 }
                 return action;
@@ -95,57 +203,9 @@ $('#searchForm').keyup(function(){
     $('body').find('#table_filter input').val($(this).val()).trigger('keyup');
 });
 
-var addForm = $('form#addForm');
-$('.save-user').on('click', function(e){
-    e.preventDefault();
-    $('form#addForm').find('.invalid-feedback').each(function(){
-        $(this).empty().hide();
-    });
-    $(this).prop('disabled', true);
-    $(this).parents('.form-group').find('.spinner-border').show();
-    var thisReference = $(this);
-    var form_data = $('form#addForm').serializeArray();
-    $.ajax({
-        type: "POST",
-        url: baseUrl + "users",
-        data: form_data,
-        success: function(data){
-            messages(data.message, data.status);
-            if(data.status){
-                window.location = data.url;
-            }else{
-                thisReference.parents('.form-group').find('.spinner-border').hide();
-                thisReference.prop('disabled', false);
-                $('form#addForm').find('.lg-error').each(function(){
-                    $(this).empty().hide();
-                });
-                $('form#addForm').find('.lg-error-top').empty().append('<span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span> '+ data.message).show();
-            }
-        },
-        error: function(error){
-            if( error.status === 422 && error.readyState == 4) {
-                $('form#addForm').find('.invalid-feedback').each(function(){
-                    $(this).empty().hide();
-                });
-                var errors = $.parseJSON(error.responseText);
-                $.each(errors.message, function (key, val) {
-                    $('form#addForm').find('input[name="'+key+'"]').attr('required', 'required');
-                    $('form#addForm').find('#' + key + '_error').empty().append(val);
-                    $('form#addForm').find('#' + key + '_error').show();
-                });
-                thisReference.parents('.form-group').find('.spinner-border').hide();
-                thisReference.prop('disabled', false);
-            }
-
-            $('form#addForm').addClass('was-validated');
-        },
-    });
-});
-
 $('table#table').delegate('.mdi-delete', 'click', function(e){
     e.preventDefault();
     var userId = $(this).attr('data-id');
-    var thisReference = $(this);
     swal({
         title: "Are you sure want to delete this data?",
         type: "warning",
@@ -172,7 +232,7 @@ $('table#table').delegate('.mdi-delete', 'click', function(e){
                             closeOnConfirm: true,
                         }, function(isConfirm){
                             if(isConfirm){
-                                thisReference.parents('tr').remove();
+                                userTable.draw();
                             }
                         });
                     }else{

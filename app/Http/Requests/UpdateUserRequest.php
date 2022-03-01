@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
+
 class UpdateUserRequest extends ValidationRequest
 {
     /**
@@ -11,9 +13,23 @@ class UpdateUserRequest extends ValidationRequest
      */
     public function rules()
     {
-        return [
-            //  Define rules
+        $rule = [
+            'name' => 'required',
+            'email' => [
+                'required',
+                Rule::unique('users')->ignore(request('user')),
+            ],
+            'role' => 'required',
+            'permissions' => 'required',
+            'status' => 'required',
         ];
+
+        if(request()->has('password')){
+            $rule['password'] = 'required';
+            $rule['confirm_password'] = 'required|same:password';
+        }
+
+        return $rule;
     }
 
     /**
@@ -24,7 +40,7 @@ class UpdateUserRequest extends ValidationRequest
     public function messages()
     {
         return [
-            //  Define custom messages for rules
+            'permissions.required' => 'At least one permission is required'
         ];
     }
 }

@@ -141,19 +141,19 @@
         </li>
 
         <li class="dropdown d-none d-lg-block">
-            <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+            <!-- <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 Users
                 <i class="mdi mdi-chevron-down"></i> 
-            </a>
+            </a> -->
             <div class="dropdown-menu">
                 <!-- item-->
-                <a href="{{route('admin.roles.index')}}" class="dropdown-item">
+                <a href="" class="dropdown-item">
                     <i class="fe-briefcase mr-1"></i>
                     <span>Roles</span>
                 </a>
 
                 <!-- item-->
-                <a href="{{route('admin.users.index')}}" class="dropdown-item">
+                <a href="" class="dropdown-item">
                     <i class="fe-user mr-1"></i>
                     <span>Users</span>
                 </a>
