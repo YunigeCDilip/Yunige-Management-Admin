@@ -156,9 +156,12 @@ class WarehouseDataService extends Service
     {
         try {
             $data = $this->airtable->create(WarehouseDomain::format($request));
+            if(!$data){
+                return $this->responseError('Unable to save data');
+            }
             if($this->getCache(AirtableDatabase::WDATA)){
                 $wdatas = $this->getCache(AirtableDatabase::WDATA);
-                $wdatas = array_merge([(count($wdatas) + 1) => $data->toArray()], $wdatas);
+                $wdatas = array_merge([(count($wdatas) + 1) => $data->toArray()], array_filter($wdatas));
                 $this->setCache(AirtableDatabase::WDATA, $wdatas);
             }else{
                 $wdatas = $this->airtable->get();
@@ -209,10 +212,13 @@ class WarehouseDataService extends Service
     {
         try {
             $data = $this->airtable->update($id, WarehouseDomain::format($request));
+            if(!$data){
+                return $this->responseError('Unable to save data');
+            }
             if($this->getCache(AirtableDatabase::WDATA)){
                 $this->deleteItem(AirtableDatabase::WDATA, $data, $id);
                 $wdatas = $this->getCache(AirtableDatabase::WDATA);
-                $wdatas = array_merge([(count($wdatas) + 1) => $data->toArray()], $wdatas);
+                $wdatas = array_merge([(count($wdatas) + 1) => $data->toArray()], array_filter($wdatas));
                 $this->setCache(AirtableDatabase::WDATA, $wdatas);
             }else{
                 $wdatas = $this->airtable->get();

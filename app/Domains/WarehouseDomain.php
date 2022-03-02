@@ -2,6 +2,10 @@
 
 namespace App\Domains;
 
+use Throwable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
 /**
  * Class WarehouseDomain
  *
@@ -279,8 +283,12 @@ class WarehouseDomain
             foreach($request->invoice as $index => $file){
                 if ($request->isMethod('post')) {
                     $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'invoice-'.$file->getClientOriginalName());  
-                    $file->storeAs('public/wdata', $fileName);
-                    $invoices[$index]['url'] = url('storage/wdata').'/'.$fileName;
+                    try{
+                        $file->storeAs('invoices', $fileName, 's3');
+                        $invoices[$index]['url'] = Storage::disk('s3')->url('invoices/'.$fileName);
+                    }catch(Throwable $e){
+                        Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                    }   
                 }else{
                     $invoices[$index]['id'] = $file;
                 }
@@ -291,8 +299,12 @@ class WarehouseDomain
             foreach($request->permit as $index => $file){
                 if ($request->isMethod('post')) {
                     $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'permit-'.$file->getClientOriginalName());  
-                    $file->storeAs('public/wdata', $fileName);
-                    $permits[$index]['url'] = url('storage/wdata').'/'.$fileName;
+                    try{
+                        $file->storeAs('permits', $fileName, 's3');
+                        $permits[$index]['url'] = Storage::disk('s3')->url('permits/'.$fileName);
+                    }catch(Throwable $e){
+                        Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                    }   
                 }else{
                     $permits[$index]['id'] = $file;
                 }

@@ -83,9 +83,14 @@ class WarehouseDataController extends Controller
      */
     public function show($id)
     {
-        $data = $this->service->show($id);
+        $data['title'] = 'Warehouse Data';
+        $data['menu'] = 'Warehouse Data';
+        $data['subMenu'] = 'view';
+        $wdata = json_decode($this->service->show($id)->getContent());
+        $data['wdata'] = $wdata->payload;
+        // dd($wdata->payload);
 
-        return $data;
+        return view('admin.warehouse.data.view', $data);
     }
 
     /**
