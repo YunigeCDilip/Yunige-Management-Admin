@@ -86,13 +86,13 @@
             <div class="card-box">  
                 <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">Import Permit</h5>   
                 <div class="form-group mb-3 permit-file">
-                    <input type="file" name="permit[]" class="dropify permit" data-max-file-size="1M" multiple />
+                    <input type="file" name="permit[]" class="dropify permit" data-max-file-size="1M" multiple/>
                     <div class="invalid-feedback" id="permit_error" style="display:none;"></div>
                     <p class="text-muted text-center mt-2 mb-0">Import Permit</p>
                 </div>
                 <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">Upload Invoice</h5>
                 <div class="form-group mb-3 invoice-file">
-                    <input type="file" name="invoice[]" class="dropify invoice" data-max-file-size="1M" multiple />
+                    <input type="file" name="invoice[]" class="dropify invoice" data-max-file-size="1M" multiple/>
                     <div class="invalid-feedback" id="invoice_error" style="display:none;"></div>
                     <p class="text-muted text-center mt-2 mb-0">Import Invoice</p>
                 </div>

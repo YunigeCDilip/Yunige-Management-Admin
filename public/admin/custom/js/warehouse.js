@@ -91,6 +91,10 @@ $(document).ready(function() {
             {data: 'actions', searchable: false, orderable: false, sortable: false,
                 render: function(data, type, dataObject, meta) {
                     var action = '';
+<<<<<<< HEAD
+                    action += '<a href="'+baseUrl+'wdata/'+dataObject.id+'" class="action-icon"> <i class="mdi mdi-eye text-success"></i></a>';
+=======
+>>>>>>> 039729b6aaf20014440cb8b1634d846a7b5ce46b
                     action += '<a href="'+baseUrl+'wdata/'+dataObject.id+'/edit" class="action-icon"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
                     action += '<a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete text-danger" data-id="'+dataObject.id+'"></i></a>';
                     
@@ -123,15 +127,19 @@ $('.saveWdata').on('click', function(e){
     $(this).parents('.form-group').find('.spinner-border').show();
     var thisReference = $(this);
     var form_data = new FormData();
-    var invoice;
-    var permit;
+    var invoices;
+    var permits;
     addForm.find('.invoice-file').each(function(key, value){
-        invoice = $(this).find('input[name="invoice[]"]')[0].files[0];
-        (typeof invoice == 'undefined') ? '' : form_data.append('invoice['+key+']', invoice);
+        invoices = $(this).find('input[name="invoice[]"]')[0].files;
+        for (var i = 0; i < invoices.length; ++i) {
+            (typeof invoices[i] == 'undefined') ? '' : form_data.append('invoice['+i+']', invoices[i]);
+        }
     });
     addForm.find('.permit-file').each(function(key, value){
-        permit = $(this).find('input[name="permit[]"]')[0].files[0];
-        (typeof permit == 'undefined') ? '' : form_data.append('permit['+key+']', permit);
+        permits = $(this).find('input[name="permit[]"]')[0].files;
+        for (var i = 0; i < permits.length; ++i) {
+            (typeof permits[i] == 'undefined') ? '' : form_data.append('permit['+i+']', permits[i]);
+        }
     });
     var add_Form = $('form#addForm').serializeArray();
     $.each(add_Form, function(key, val){
@@ -234,15 +242,19 @@ $('.updateWdata').on('click', function(e){
     $(this).parents('.form-group').find('.spinner-border').show();
     var thisReference = $(this);
     var form_data = new FormData();
-    var invoice;
-    var permit;
-    editForm.find('.invoice-file').each(function(key, value){
-        invoice = $(this).find('input[name="invoice[]"]')[0].files[0];
-        (typeof invoice == 'undefined') ? '' : form_data.append('invoice['+key+']', invoice);
+    var invoices;
+    var permits;
+    addForm.find('.invoice-file').each(function(key, value){
+        invoices = $(this).find('input[name="invoice[]"]')[0].files;
+        for (var i = 0; i < invoices.length; ++i) {
+            (typeof invoices[i] == 'undefined') ? '' : form_data.append('invoice['+i+']', invoices[i]);
+        }
     });
-    editForm.find('.permit-file').each(function(key, value){
-        permit = $(this).find('input[name="permit[]"]')[0].files[0];
-        (typeof permit == 'undefined') ? '' : form_data.append('permit['+key+']', permit);
+    addForm.find('.permit-file').each(function(key, value){
+        permits = $(this).find('input[name="permit[]"]')[0].files;
+        for (var i = 0; i < permits.length; ++i) {
+            (typeof permits[i] == 'undefined') ? '' : form_data.append('permit['+i+']', permits[i]);
+        }
     });
     var edit_form = $('form#editForm').serializeArray();
     $.each(edit_form, function(key, val){
