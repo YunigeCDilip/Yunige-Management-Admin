@@ -44,7 +44,7 @@
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <div class="notify-icon">
-                            <img src="admin/images/users/user-4.jpg" class="img-fluid rounded-circle" alt="" /> </div>
+                            <img src="" class="img-fluid rounded-circle" alt="" /> </div>
                         <p class="notify-details">Karen Robinson</p>
                         <p class="text-muted mb-0 user-msg">
                             <small>Wow ! this admin looks good and awesome design</small>

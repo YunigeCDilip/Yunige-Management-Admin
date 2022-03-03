@@ -9,7 +9,7 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-sm-4">
-                        <a href="#custom-modal" class="btn btn-danger waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlaycolor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Add Role</a>
+                        <a href="#custom-modal" class="btn btn-danger waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlaycolor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> {{__('role.add_role')}}</a>
                     </div>
                 </div>
 
@@ -17,9 +17,9 @@
                     <table class="table table-centered table-hover mb-0" id="role-table">
                         <thead class="thead-light">
                             <tr>
-                                <th>Role Name</th>
-                                <th>Create Date</th>
-                                <th style="width: 85px;">Action</th>
+                                <th>{{__('role.role_name')}}</th>
+                                <th>{{__('role.created_date')}}</th>
+                                <th style="width: 150px;">{{__('actions.action')}}</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -88,7 +88,6 @@ class WarehouseDataController extends Controller
         $data['subMenu'] = 'view';
         $wdata = json_decode($this->service->show($id)->getContent());
         $data['wdata'] = $wdata->payload;
-        // dd($wdata->payload);
 
         return view('admin.warehouse.data.view', $data);
     }

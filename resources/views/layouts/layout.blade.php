@@ -45,7 +45,7 @@
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Yunige Service</a></li>
+                                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{trans('menu.yunige_service')}}</a></li>
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">{{@$menu}}</a></li>
                                         @if(isset($subMenu) && $subMenu != '')
                                             <li class="breadcrumb-item active">{{$subMenu}}</li>
