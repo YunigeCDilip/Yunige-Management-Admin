@@ -30,9 +30,9 @@ class WarehouseDataController extends Controller
     public function index(Request $request)
     {
         if(!$request->ajax()){
-            $data['title'] = 'Warehouse Data';
-            $data['menu'] = 'Warehouse Data';
-            $data['subMenu'] = 'lists';
+            $data['title'] = trans('messages.warehouse_data');
+            $data['menu'] = trans('messages.warehouse_data');
+            $data['subMenu'] = trans('actions.lists');
 
             return view('admin.warehouse.data.index', $data);
         }
@@ -50,9 +50,9 @@ class WarehouseDataController extends Controller
     public function create()
     {
         $data = $this->service->create();
-        $data['title'] = 'Warehouse Data';
-        $data['menu'] = 'Warehouse Data';
-        $data['subMenu'] = 'add';
+        $data['title'] = trans('messages.warehouse_data');
+        $data['menu'] = trans('messages.warehouse_data');
+        $data['subMenu'] = trans('actions.add');
 
         return view('admin.warehouse.data.add', $data);
     }
@@ -83,12 +83,11 @@ class WarehouseDataController extends Controller
      */
     public function show($id)
     {
-        $data['title'] = 'Warehouse Data';
-        $data['menu'] = 'Warehouse Data';
-        $data['subMenu'] = 'view';
+        $data['title'] = trans('messages.warehouse_data');
+        $data['menu'] = trans('messages.warehouse_data');
+        $data['subMenu'] = trans('actions.view');
         $wdata = json_decode($this->service->show($id)->getContent());
         $data['wdata'] = $wdata->payload;
-        // dd($wdata->payload);
 
         return view('admin.warehouse.data.view', $data);
     }
@@ -103,9 +102,9 @@ class WarehouseDataController extends Controller
     {
         $data = $this->service->create();
         $wdata = json_decode($this->service->show($id)->getContent());
-        $data['title'] = 'Warehouse Data';
-        $data['menu'] = 'Warehouse Data';
-        $data['subMenu'] = 'edit';
+        $data['title'] = trans('messages.warehouse_data');
+        $data['menu'] = trans('messages.warehouse_data');
+        $data['subMenu'] = trans('actions.edit');
         $data['wdata'] = $wdata->payload;
 
         return view('admin.warehouse.data.edit', $data);

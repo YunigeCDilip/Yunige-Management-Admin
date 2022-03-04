@@ -30,9 +30,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Role Management';
-        $data['menu'] = 'User Management';
-        $data['subMenu'] = 'Roles';
+        $data['title'] = trans('role.role_management');
+        $data['menu'] = trans('menu.users');
+        $data['subMenu'] = trans('menu.roles');
         $data['roles'] = Role::orderBy('id', 'desc')->paginate(6);
 
         return view('admin.users.roles.index', $data);

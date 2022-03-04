@@ -17,8 +17,8 @@ class DashboardController extends Controller
 
     public function index()
     {
-    	$data['menu'] = 'dashboard';
-        $data['title'] = 'Yunige Service | Dashboard';
+    	$data['menu'] = trans('menu.dashboard');
+        $data['title'] = trans('menu.yunige_service');
 
     	return view('admin.dashboard', $data);
     }

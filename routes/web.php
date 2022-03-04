@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\LoginController;
+use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\WarehouseDataController;
 
 /*
@@ -52,4 +53,7 @@ Route::group(['middleware' => 'auth', 'as' => 'admin.'], function () {
     Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::post('users/{user}', [UserController::class, 'update'])->name('users.update');
+
+    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
 });

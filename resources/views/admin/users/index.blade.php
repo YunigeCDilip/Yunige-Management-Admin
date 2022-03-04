@@ -21,8 +21,8 @@
                     <div class="col-lg-8">
                         <form class="form-inline">
                             <div class="form-group mb-2">
-                                <label for="inputPassword2" class="sr-only">Search</label>
-                                <input type="search" class="form-control" id="searchForm" placeholder="Search...">
+                                <label for="inputPassword2" class="sr-only">{{__('messages.search')}}</label>
+                                <input type="search" class="form-control" id="searchForm" placeholder="{{__('messages.search')}}...">
                             </div>
                             <div class="form-group mx-sm-3 mb-2">
                                 <select class="custom-select" id="page-select">
@@ -39,7 +39,7 @@
                     @if(auth()->user()->can('manage.user'))
                         <div class="col-lg-4">
                             <div class="text-lg-right">
-                                <a href="{{route('admin.users.create')}}" class="btn btn-danger waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> Add New User</a>
+                                <a href="{{route('admin.users.create')}}" class="btn btn-danger waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> {{__('messages.add_new_user')}}</a>
                             </div>
                         </div><!-- end col-->
                     @endif
@@ -50,12 +50,12 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>SN</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Status</th>
-                                <th>Created Date</th>
-                                <th>Action</th>
+                                <th>{{__('messages.name')}}</th>
+                                <th>{{__('messages.email')}}</th>
+                                <th>{{__('messages.role')}}</th>
+                                <th>{{__('messages.status')}}</th>
+                                <th>{{__('messages.created_date')}}</th>
+                                <th>{{__('messages.action')}}</th>
                             </tr>
                         </thead>
                         <tbody>

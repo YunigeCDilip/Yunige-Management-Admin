@@ -10,33 +10,33 @@
             <div class="card-box">
             <input id="real-password" type="password" autocomplete="new-password" style="display: none;">
                 <div class="form-group mb-3">
-                    <label for="name">Name <span class="text-danger">*</span></label>
-                    <input type="text" name="name" class="form-control" placeholder="e.g : John Doe">
+                    <label for="name">{{__('messages.name')}} <span class="text-danger">*</span></label>
+                    <input type="text" name="name" class="form-control" placeholder="John Doe">
                     <div class="invalid-feedback" id="name_error" style="display:none;"></div>
                 </div>
         
                 <div class="form-group mb-3">
-                    <label for="email">Email <span class="text-danger">*</span></label>
-                    <input type="text" name="email" class="form-control" placeholder="e.g : john.yunige@gmail.com">
+                    <label for="email">{{__('messages.email')}} <span class="text-danger">*</span></label>
+                    <input type="text" name="email" class="form-control" placeholder="john.yunige@gmail.com">
                     <div class="invalid-feedback" id="email_error" style="display:none;"></div>
                 </div>
         
                 <div class="form-group mb-3">
-                    <label for="phone">Phone</label>
+                    <label for="phone">{{__('messages.phone')}}</label>
                     <input type="text" name="phone" class="form-control">
                 </div>
                 
                 <div class="form-group mb-3">
-                    <label for="address">Address</label>
+                    <label for="address">{{__('messages.address')}}</label>
                     <input type="text" name="address" class="form-control">
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="status">Status <span class="text-danger">*</span></label>
+                    <label for="status">{{__('messages.status')}} <span class="text-danger">*</span></label>
                     <select class="form-control select2" name="status">
-                        <option value="">Select Status</option>
-                        <option value="1">Active</option>
-                        <option value="0">In Active</option>
+                        <option value="">{{__('messages.select_status')}}</option>
+                        <option value="1">{{__('messages.active')}}</option>
+                        <option value="0">{{__('messages.inactive')}}</option>
                     </select>
                     <div class="invalid-feedback" id="status_error" style="display:none;"></div>
                 </div>
@@ -46,21 +46,21 @@
             <div class="card-box">
                         
                 <div class="form-group mb-3">
-                    <label for="password">Password <span class="text-danger">*</span></label>
+                    <label for="password">{{__('messages.password')}} <span class="text-danger">*</span></label>
                     <input type="password" name="password" class="form-control" placeholder="">
                     <div class="invalid-feedback" id="password_error" style="display:none;"></div>
                 </div>
                 
                 <div class="form-group mb-3">
-                    <label for="confirm_password">Confirm Password <span class="text-danger">*</span></label>
+                    <label for="confirm_password">{{__('messages.confirm_password')}} <span class="text-danger">*</span></label>
                     <input type="password" name="confirm_password" class="form-control" placeholder="">
                     <div class="invalid-feedback" id="confirm_password_error" style="display:none;"></div>
                 </div>   
 
                 <div class="form-group mb-3">
-                    <label for="role">Role <span class="text-danger">*</span></label>
+                    <label for="role">{{__('messages.role')}} <span class="text-danger">*</span></label>
                     <select class="form-control select2" name="role">
-                        <option value="">Select Role</option>
+                        <option value="">{{__('messages.select_role')}}</option>
                         @forelse(@$roles as $role)
                             <option value="{{$role->id}}">{{$role->name}}</option>
                             @empty
@@ -68,7 +68,7 @@
                     </select>
                     <div class="invalid-feedback" id="role_error" style="display:none;"></div>
                 </div>
-                <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">Permissions</h5>
+                <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">{{__('messages.permissions')}}</h5>
                 <div class="invalid-feedback" id="permissions_error" style="display:none;"></div>
                 @forelse($permissions as $index => $permission)
                     <div class="form-group mb-3 invoice-file">
@@ -93,9 +93,9 @@
             <div class="form-group mb-3">
                 <button class="btn w-sm btn-success waves-effect waves-light save-user">
                     <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>
-                    Save
+                    {{__('actions.save')}}
                 </button>
-                <a href="{{route('admin.users.index')}}" class="btn w-sm btn-danger waves-effect">Cancel</a>
+                <a href="{{route('admin.users.index')}}" class="btn w-sm btn-danger waves-effect">{{__('actions.cancel')}}</a>
             </div>
         </div>
     </div>

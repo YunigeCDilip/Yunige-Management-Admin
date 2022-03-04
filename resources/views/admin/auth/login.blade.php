@@ -48,13 +48,13 @@
                                 <form id="loginForm" method="post" class="needs-validation" novalidate>
                                     @csrf
                                     <div class="form-group mb-3">
-                                        <label for="emailaddress">Email</label>
+                                        <label for="emailaddress">{{__('login.email')}}</label>
                                         <input class="form-control" type="email" id="emailaddress" required="" placeholder="Enter your email" name="email">
                                         <div class="invalid-feedback" id="email_error" style="display:none;"></div>
                                     </div>
 
                                     <div class="form-group mb-3">
-                                        <label for="password">Password</label>
+                                        <label for="password">{{__('login.password')}}</label>
                                         <input class="form-control" type="password" required="" id="password" placeholder="Enter your password" name="password">
                                         <div class="invalid-feedback" id="password_error" style="display:none;"></div>
                                     </div>
@@ -62,14 +62,14 @@
                                     <div class="form-group mb-3">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="checkbox-signin" checked name="remember_me">
-                                            <label class="custom-control-label" for="checkbox-signin">Remember me</label>
+                                            <label class="custom-control-label" for="checkbox-signin">{{__('login.remember_me')}}</label>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-0 text-center">
                                         <button class="btn btn-primary btn-block btn-login">
                                             <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>
-                                            Log In 
+                                            {{__('login.log_in')}}
                                         </button>
                                     </div>
 

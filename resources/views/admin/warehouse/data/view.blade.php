@@ -8,41 +8,45 @@
     <div class="col-lg-8">
         <div class="card-box">
             <div class="row">
-                <div class="form-group mb-3">
-                    <h5>Warehouse Data Name</h5>
-                    <small class="text-muted">
-                        {{@$wdata->fields->Name}}
-                    </small>
+                <div class="col-sm-6">
+                    <div class="form-group mb-3">
+                        <h5>{{__('messages.warehouse_data')}}{{__('messages.name')}}</h5>
+                        <small class="text-muted">
+                            {{@$wdata->fields->Name}}
+                        </small>
+                    </div>
                 </div>
-                <div class="form-group mb-3">
-                    <h5>Client Name</h5>
-                    <small class="text-muted">
-                        {{@$wdata->fields->Name}}
-                    </small>
+                <div class="col-sm-6">
+                    <div class="form-group mb-3">
+                        <h5>{{__('messages.client')}}{{__('messages.name')}}</h5>
+                        <small class="text-muted">
+                            {{@$wdata->fields->Name}}
+                        </small>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group mb-3">
-                        <h5>Pic</h5>
+                        <h5>{{__('messages.pic')}}</h5>
                         <small class="text-muted">
                             <span class="badge badge-primary badge-pill">{{@$wdata->fields->pic}}</span>
                         </small>
                     </div>
                     <div class="form-group mb-3">
-                        <h5>Country</h5>
+                        <h5>{{__('messages.country')}}</h5>
                         <small class="text-muted">
                             <span class="badge badge-secondary badge-pill">{{@$wdata->fields->country[0]}}</span>
                         </small>
                     </div>
                     <div class="form-group mb-3">
-                        <h5>Category</h5>
+                        <h5>{{__('messages.category')}}</h5>
                         <small class="text-muted">
                             <span class="badge badge-pink badge-pill">{{@$wdata->fields->category}}</span>
                         </small>
                     </div>
                     <div class="form-group mb-3">
-                        <h5>Carrier</h5>
+                        <h5>{{__('messages.carrier')}}</h5>
                         <small class="text-muted">
                             {{@$wdata->fields->deliver}}
                         </small>
@@ -50,25 +54,25 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group mb-3">
-                        <h5>Status</h5>
+                        <h5>{{__('messages.status')}}</h5>
                         <small class="text-muted">
                             <span class="badge badge-success badge-pill">{{@$wdata->fields->status}}</span>
                         </small>
                     </div>
                     <div class="form-group mb-3">
-                        <h5>Etd</h5>
+                        <h5>{{__('messages.etd')}}</h5>
                         <small class="text-muted">
                             {{@$wdata->fields->etd}}
                         </small>
                     </div>
                     <div class="form-group mb-3">
-                        <h5>Inbound Status</h5>
+                        <h5>{{__('messages.inbound_status')}}</h5>
                         <small class="text-muted">
                             {{@$wdata->fields->inboundStatus}}
                         </small>
                     </div>
                     <div class="form-group mb-3">
-                        <h5>Memok</h5>
+                        <h5>{{__('messages.memok')}}</h5>
                         <small class="text-muted">
                             {{@$wdata->fields->memoK}}
                         </small>
@@ -80,37 +84,37 @@
     <div class="col-lg-4">
         <div class="card-box">
             <div class="form-group mb-3">
-                <h5>Track Number</h5>
+                <h5>{{__('messages.track_no')}}</h5>
                 <small class="text-muted">
                     {{@$wdata->fields->trkNo}}
                 </small>
             </div>
             <div class="form-group mb-3">
-                <h5>Permit Number</h5>
+                <h5>{{__('messages.permit_no')}}</h5>
                 <small class="text-muted">
                     {{@$wdata->fields->permitNo}}
                 </small>
             </div>
             <div class="form-group mb-3">
-                <h5>Pickup</h5>
+                <h5>{{__('messages.pickup')}}</h5>
                 <small class="text-muted">
                     {{@$wdata->fields->pickup}}
                 </small>
             </div>
             <div class="form-group mb-3">
-                <h5>Pickup Date</h5>
+                <h5>{{__('messages.pickup_date')}}</h5>
                 <small class="text-muted">
                     {{@$wdata->fields->pickupDate}}
                 </small>
             </div>            
             <div class="form-group mb-3">
-                <h5>Total Warehouse</h5>
+                <h5>{{__('messages.total_warehouse')}}</h5>
                 <small class="text-muted">
                     {{@$wdata->fields->totalWarehouse}}
                 </small>
             </div>
             <div class="form-group mb-3">
-                <h5>Created Time</h5>
+                <h5>{{__('messages.created_time')}}</h5>
                 <small class="text-muted">
                     {{@$wdata->createdTime}}
                 </small>
@@ -122,24 +126,24 @@
     <div class="col-lg-12">
         <div class="card-box">
             <div class="form-group mb-3">
-                <h5>URL</h5>
+                <h5>{{__('messages.url')}}</h5>
                 <small class="text-muted">
                     <a href="{{@$wdata->fields->URL}}">{{@$wdata->fields->URL}}</a>
                 </small>
             </div>
-            <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">Files & Attachments</h5>
+            <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">{{__('messages.files_attachments')}}</h5>
             <div class="table-responsive mt-4">
                 <table class="table table-bordered table-centered mb-0">
                     <thead class="thead-light">
                         <tr>
-                            <th style="width: 250px;">Attachments Name</th>
-                            <th>Files</th>
-                            <th style="width: 100px;">Additional URL</th>
+                            <th style="width: 250px;">{{__('messages.attachment_name')}}</th>
+                            <th>{{__('messages.files')}}</th>
+                            <th style="width: 100px;">{{__('messages.additional_url')}}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Invoices</td>
+                            <td>{{__('messages.invoices')}}</td>
                             <td>
                                 @if(isset($wdata->fields->invoice))
                                     @forelse($wdata->fields->invoice as $invoice)
@@ -157,7 +161,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>Import Permits</td>
+                            <td>{{__('messages.import_permit')}}</td>
                             <td>
                                 @if(isset($wdata->fields->importPermit))
                                     @forelse($wdata->fields->importPermit as $permit)
@@ -175,7 +179,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>Packing Lists</td>
+                            <td>{{__('messages.packing_list')}}</td>
                             <td>
                                 @if(isset($wdata->fields->packingList))
                                     @forelse($wdata->fields->packingList as $permit)
@@ -193,7 +197,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>BL</td>
+                            <td>{{__('messages.bl')}}</td>
                             <td>
                                 @if(isset($wdata->fields->BL))
                                     @forelse($wdata->fields->BL as $permit)
@@ -211,7 +215,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>AN</td>
+                            <td>{{__('messages.an')}}</td>
                             <td>
                                 @if(isset($wdata->fields->AN))
                                     @forelse($wdata->fields->AN as $permit)
@@ -229,7 +233,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>DO</td>
+                            <td>{{__('messages.do')}}</td>
                             <td>
                                 @if(isset($wdata->fields->DO))
                                     @forelse($wdata->fields->DO as $permit)
@@ -247,7 +251,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>Warehouse Invoice</td>
+                            <td>{{__('messages.warehouse_invoice')}}</td>
                             <td>
                                 @if(isset($wdata->fields->wInvoice))
                                     @forelse($wdata->fields->wInvoice as $permit)
@@ -265,7 +269,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>Arrival Pic</td>
+                            <td>{{__('messages.arrival_pic')}}</td>
                             <td>
                                 @if(isset($wdata->fields->arrivalPic))
                                     @forelse($wdata->fields->arrivalPic as $permit)
