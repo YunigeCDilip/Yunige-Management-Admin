@@ -17,5 +17,7 @@ return [
     'password' => 'Password',
     'remember_me' => 'Remember Me',
     'log_in' => 'Log In',
+    'welcome' => 'Welcome',
+    'log_out' => 'Logout',
 
 ];

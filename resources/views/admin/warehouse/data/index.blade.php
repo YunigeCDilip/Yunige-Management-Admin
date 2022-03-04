@@ -23,8 +23,8 @@
                     <div class="col-lg-8">
                         <form class="form-inline">
                             <div class="form-group mb-2">
-                                <label for="inputPassword2" class="sr-only">Search</label>
-                                <input type="search" class="form-control" id="searchForm" placeholder="Search...">
+                                <label for="inputPassword2" class="sr-only">{{__('messages.search')}}</label>
+                                <input type="search" class="form-control" id="searchForm" placeholder="{{__('messages.search')}}...">
                             </div>
                             <div class="form-group mx-sm-3 mb-2">
                                 <select class="custom-select" id="page-select">
@@ -40,7 +40,7 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="text-lg-right">
-                        <a href="{{route('admin.wdata.create')}}" class="btn btn-danger waves-effect waves-light" ><i class="mdi mdi-plus-circle mr-1"></i> Add Warehouse Data</a>
+                        <a href="{{route('admin.wdata.create')}}" class="btn btn-danger waves-effect waves-light" ><i class="mdi mdi-plus-circle mr-1"></i> {{__('messages.add_new_wdata')}}</a>
                         </div>
                     </div><!-- end col-->
                 </div>
@@ -49,16 +49,16 @@
                     <table class="table table-centered table-hover mb-0" id="table">
                         <thead class="thead-light">
                             <tr>
-                                <th>Name</th>
-                                <th>Client Name</th>
-                                <th>Permit Number</th>
-                                <th>Track Number</th>
-                                <th>Country</th>
-                                <th>Carrier</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th>Create Date</th>
-                                <th style="width: 85px;">Action</th>
+                                <th>{{__('messages.name')}}</th>
+                                <th>{{__('messages.client_name')}}</th>
+                                <th>{{__('messages.permit_no')}}</th>
+                                <th>{{__('messages.track_no')}}</th>
+                                <th>{{__('messages.country')}}</th>
+                                <th>{{__('messages.carrier')}}</th>
+                                <th>{{__('messages.category')}}</th>
+                                <th>{{__('messages.status')}}</th>
+                                <th>{{__('messages.created_date')}}</th>
+                                <th style="width: 85px;">{{__('messages.action')}}</th>
                             </tr>
                         </thead>
                         <tbody>

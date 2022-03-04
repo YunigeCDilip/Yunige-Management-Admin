@@ -17,5 +17,6 @@ return [
     'password' => 'パスワード',
     'remember_me' => 'パスワードを覚える',
     'log_in' => 'ログイン',
-
+    'welcome' => 'ようこそ',
+    'log_out' => 'ログアウト',
 ];

@@ -16,8 +16,8 @@ class LocalizationSeeder extends Seeder
     {
         $array = [
             ['locale' => 'en', 'country' => 'English', 'status' => true],
-            ['locale' => 'ja', 'country' => 'Japanese', 'status' => true],
-            ['locale' => 'ko', 'country' => 'Korean', 'status' => true],
+            ['locale' => 'ja', 'country' => 'Japanese', 'status' => false],
+            // ['locale' => 'ko', 'country' => 'Korean', 'status' => false],
         ];
         foreach($array as $key => $value){
             Localization::create([

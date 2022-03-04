@@ -31,9 +31,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if(!$request->ajax()){
-            $data['title'] = 'Users';
-            $data['menu'] = 'Users';
-            $data['subMenu'] = 'lists';
+            $data['title'] = trans('messages.users');
+            $data['menu'] = trans('messages.users');
+            $data['subMenu'] = trans('actions.lists');
 
             return view('admin.users.index', $data);
         }
@@ -51,9 +51,9 @@ class UserController extends Controller
     public function create()
     {
         $data = $this->service->create();
-        $data['title'] = 'Users';
-        $data['menu'] = 'Users';
-        $data['subMenu'] = 'add';
+        $data['title'] = trans('messages.users');
+        $data['menu'] = trans('messages.users');
+        $data['subMenu'] = trans('actions.add');
 
         return view('admin.users.add', $data);
     }
@@ -100,9 +100,9 @@ class UserController extends Controller
         $data = $this->service->create();
         $data['user'] = User::find($id);
         $data['permissionSelected'] = $data['user']->permissions()->pluck('id')->toArray();
-        $data['title'] = 'Users';
-        $data['menu'] = 'Users';
-        $data['subMenu'] = 'edit';
+        $data['title'] = trans('messages.users');
+        $data['menu'] = trans('messages.users');
+        $data['subMenu'] = trans('actions.edit');
 
         return view('admin.users.edit', $data);
     }

@@ -16,5 +16,9 @@ return [
     'save'              => 'Save',
     'cancel'            => 'Cancel',
     'update'            => 'Update',
+    'edit'              => 'Edit',
+    'add'               => 'Add',
+    'lists'             => 'Lists',
+    'view'              => 'View',
 
 ];

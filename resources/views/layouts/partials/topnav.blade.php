@@ -102,7 +102,7 @@
             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                 <!-- item-->
                 <div class="dropdown-header noti-title">
-                    <h6 class="text-overflow m-0">Welcome !</h6>
+                    <h6 class="text-overflow m-0">{{__('login.welcome')}} !</h6>
                 </div>
 
                 <div class="dropdown-divider"></div>
@@ -110,7 +110,7 @@
                 <!-- item-->
                 <a href="{{route('user.logout')}}" class="dropdown-item notify-item">
                     <i class="fe-log-out"></i>
-                    <span>Logout</span>
+                    <span>{{__('login.log_out')}}</span>
                 </a>
 
             </div>
