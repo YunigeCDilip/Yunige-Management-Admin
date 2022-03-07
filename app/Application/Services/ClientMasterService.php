@@ -32,10 +32,10 @@ class ClientMasterService extends Service
     {
         try {
             if($this->getCache(AirtableDatabase::CLIENT_MASTER)){
-                $data = $this->getCache(AirtableDatabase::CLIENT_MASTER);
+                $data = json_decode($this->getCache(AirtableDatabase::CLIENT_MASTER), true);
             }else{
                 $data = $this->airtable->get();
-                $this->setCache(AirtableDatabase::CLIENT_MASTER, $data['records']);
+                $this->setCache(AirtableDatabase::CLIENT_MASTER, json_encode($data['records']));
             }
 
             return $this->responseOk(ClientMasterResource::collection($data), MessageResponse::DATA_LOADED);

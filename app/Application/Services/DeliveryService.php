@@ -32,10 +32,10 @@ class DeliveryService extends Service
     {
         try {
             if($this->getCache(AirtableDatabase::DELIVERY)){
-                $data = $this->getCache(AirtableDatabase::DELIVERY);
+                $data = json_decode($this->getCache(AirtableDatabase::DELIVERY), true);
             }else{
                 $data = $this->airtable->get();
-                $this->setCache(AirtableDatabase::DELIVERY, $data['records']);
+                $this->setCache(AirtableDatabase::DELIVERY, json_encode($data['records']));
             }
 
             return $this->responseOk(DeliveryResource::collection($data), MessageResponse::DATA_LOADED);

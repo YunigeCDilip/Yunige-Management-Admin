@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\LoginController;
-use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\WarehouseDataController;
 
 /*
@@ -19,6 +20,9 @@ use App\Http\Controllers\Backend\WarehouseDataController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('test', function(){
+    dd(Redis::get('wdata'));
+});
 
 Route::get('/', function () {
     return redirect('/login');

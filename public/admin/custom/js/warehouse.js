@@ -204,7 +204,7 @@ $('table#table').delegate('.mdi-delete', 'click', function(e){
                 data:{ id:wDataId, _method: 'DELETE', _token: csrfToken
                 },
                 success: function(data){
-                    if(data.payload.deleted){
+                    if(data.status){
                         swal({
                             title: data.message,
                             type: "success",
@@ -213,7 +213,7 @@ $('table#table').delegate('.mdi-delete', 'click', function(e){
                             closeOnConfirm: true,
                         }, function(isConfirm){
                             if(isConfirm){
-                                thisReference.parents('tr').remove();
+                                location.reload();
                             }
                         });
                     }else{

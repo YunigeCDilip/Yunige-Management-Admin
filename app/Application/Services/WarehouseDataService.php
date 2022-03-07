@@ -4,6 +4,7 @@ namespace App\Application\Services;
 
 use Throwable;
 use App\Airtable\AirTable;
+use Illuminate\Http\Response;
 use App\Domains\WarehouseDomain;
 use App\Constants\MessageResponse;
 use App\Airtable\AirtableApiClient;
@@ -42,10 +43,10 @@ class WarehouseDataService extends Service
     {
         try {
             if($this->getCache(AirtableDatabase::WDATA)){
-                $data = $this->getCache(AirtableDatabase::WDATA);
+                $data = json_decode($this->getCache(AirtableDatabase::WDATA));
             }else{
                 $data = $this->airtable->get();
-                $this->setCache(AirtableDatabase::WDATA, $data['records']);
+                $this->setCache(AirtableDatabase::WDATA, json_encode($data['records']));
             }
             $perPage = request('per_page') ?? 20;
             $options['path'] = url('/').'/api/wdata?per_page='.$perPage;
@@ -72,7 +73,7 @@ class WarehouseDataService extends Service
             $start = $request->input('start');
             $search = $request->input('search')['value'];
             if($this->getCache(AirtableDatabase::WDATA)){
-                $data = $this->getCache(AirtableDatabase::WDATA);
+                $data = json_decode($this->getCache(AirtableDatabase::WDATA), true);
                 if($search != ''){
                     $data = collect($data)->filter(function($item) use ($search) {
                         foreach($item['fields'] as $key => $value){
@@ -92,7 +93,7 @@ class WarehouseDataService extends Service
                 }
             }else{
                 $data = $this->airtable->get();
-                $this->setCache(AirtableDatabase::WDATA, $data['records']);
+                $this->setCache(AirtableDatabase::WDATA, json_encode($data['records']));
             }
             $wDatas = [];
             $tableContent = [];
@@ -156,17 +157,17 @@ class WarehouseDataService extends Service
     {
         try {
             $data = $this->airtable->create(WarehouseDomain::format($request));
-            if(!$data){
-                return $this->responseError('Unable to save data');
+            if(isset($data['error'])){
+                return $this->responseError(Response::HTTP_UNPROCESSABLE_ENTITY, $data['error']['message']);
             }
             if($this->getCache(AirtableDatabase::WDATA)){
-                $wdatas = $this->getCache(AirtableDatabase::WDATA);
+                $wdatas = json_decode($this->getCache(AirtableDatabase::WDATA), true);
                 $wdatas = array_merge([(count($wdatas) + 1) => $data->toArray()], array_filter($wdatas));
-                $this->setCache(AirtableDatabase::WDATA, $wdatas);
+                $this->setCache(AirtableDatabase::WDATA, json_encode($wdatas));
             }else{
                 $wdatas = $this->airtable->get();
                 $data = array_merge([(($wdatas['records'])->count() + 1) => $data->toArray()], $wdatas['records']->toArray());
-                $this->setCache(AirtableDatabase::WDATA, $data);
+                $this->setCache(AirtableDatabase::WDATA, json_encode($data));
             }
 
             return $this->responseOk($data, MessageResponse::DATA_CREATED);
@@ -187,10 +188,10 @@ class WarehouseDataService extends Service
     {
         try {
             if($this->getCache(AirtableDatabase::WDATA.'_'.$id)){
-                $data = $this->getCache(AirtableDatabase::WDATA.'_'.$id);
+                $data = json_decode($this->getCache(AirtableDatabase::WDATA.'_'.$id), true);
             }else{
                 $data = $this->airtable->find($id);
-                $this->setCache(AirtableDatabase::WDATA.'_'.$id, $data);
+                $this->setCache(AirtableDatabase::WDATA.'_'.$id, json_encode($data));
             }
 
             return $this->responseOk($data, MessageResponse::DATA_LOADED);
@@ -212,18 +213,19 @@ class WarehouseDataService extends Service
     {
         try {
             $data = $this->airtable->update($id, WarehouseDomain::format($request));
-            if(!$data){
-                return $this->responseError('Unable to save data');
+            if(isset($data['error'])){
+                return $this->responseError(Response::HTTP_UNPROCESSABLE_ENTITY, $data['error']['message']);
             }
+            
             if($this->getCache(AirtableDatabase::WDATA)){
-                $this->deleteItem(AirtableDatabase::WDATA, $data, $id);
-                $wdatas = $this->getCache(AirtableDatabase::WDATA);
+                $this->deleteItem(AirtableDatabase::WDATA, json_encode($data), $id);
+                $wdatas = json_decode($this->getCache(AirtableDatabase::WDATA), true);
                 $wdatas = array_merge([(count($wdatas) + 1) => $data->toArray()], array_filter($wdatas));
-                $this->setCache(AirtableDatabase::WDATA, $wdatas);
+                $this->setCache(AirtableDatabase::WDATA, json_encode($wdatas));
             }else{
                 $wdatas = $this->airtable->get();
                 $data = array_merge([(($wdatas['records'])->count() + 1) => $data->toArray()], $wdatas['records']->toArray());
-                $this->setCache(AirtableDatabase::WDATA, $data);
+                $this->setCache(AirtableDatabase::WDATA, json_encode($data));
             }
 
             return $this->responseOk($data, MessageResponse::DATA_UPDATED);
@@ -243,11 +245,21 @@ class WarehouseDataService extends Service
     public function destroy($request, $id)
     {
         try {
-            $data = $this->airtable->delete($id);
-            if($this->getCache(AirtableDatabase::WDATA)){
-                $this->deleteItem(AirtableDatabase::WDATA, $data, $id);
+            $wdata = $this->airtable->find($id);
+            if(isset($wdata['error'])){
+                if($this->getCache(AirtableDatabase::WDATA)){
+                    $this->deleteItem(AirtableDatabase::WDATA, json_encode($wdata), $id);
+                }
+            }else{
+                $data = $this->airtable->delete($id);
+                if(isset($data['error'])){
+                    return $this->responseError(Response::HTTP_UNPROCESSABLE_ENTITY, $data['error']['message']);
+                }
+                if($this->getCache(AirtableDatabase::WDATA)){
+                    $this->deleteItem(AirtableDatabase::WDATA, json_encode($wdata), $id);
+                }
             }
-            return $this->responseOk($data, MessageResponse::DATA_DELETED);
+            return $this->responseOk([], MessageResponse::DATA_DELETED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 

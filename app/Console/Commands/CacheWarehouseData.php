@@ -48,7 +48,7 @@ class CacheWarehouseData extends Command
         $this->forgetCache(AirtableDatabase::WDATA);
         if(!$this->getCache(AirtableDatabase::WDATA)){
             $data = $airtable->all();
-            $this->setCache(AirtableDatabase::WDATA, $data);
+            $this->setCache(AirtableDatabase::WDATA, json_encode($data));
         }
 
         $this->info('Action complete');

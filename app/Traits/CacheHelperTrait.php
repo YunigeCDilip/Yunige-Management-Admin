@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 trait CacheHelperTrait
 {
@@ -17,7 +17,7 @@ trait CacheHelperTrait
      */
     public function getCache(string $key)
     {
-        return Cache::get($key);
+        return Redis::get($key);
     }
 
     /**
@@ -30,11 +30,11 @@ trait CacheHelperTrait
      */
     public function setCache(string $key, $items)
     {
-        if (Cache::has($key)) {
+        if (Redis::exists($key)) {
             $this->forgetCache($key);
         }
 
-        return Cache::put($key, $items);
+        return Redis::set($key, $items);
     }
 
     /**
@@ -47,7 +47,7 @@ trait CacheHelperTrait
      */
     public function setCollectionCache(string $key, $items)
     {
-        return Cache::put($key, $items);
+        return Redis::set($key, $items);
     }
 
     /**
@@ -60,7 +60,7 @@ trait CacheHelperTrait
      */
     public function addItem($key, $item)
     {
-        if (Cache::has($key)) {
+        if (Redis::exists($key)) {
             $this->forgetCache($key);
         }
         $this->setCache($key, $item);
@@ -79,7 +79,7 @@ trait CacheHelperTrait
      */
     public function getItemsByAttribute(string $key, string $attribute, $value)
     {
-        return Cache::get($key)->where($attribute, 'LIKE', '%' . $value . '%');
+        return Redis::get($key)->where($attribute, 'LIKE', '%' . $value . '%');
     }
 
     /**
@@ -93,7 +93,7 @@ trait CacheHelperTrait
      */
     public function getItem($key, $value, $primaryKey = null)
     {
-        return Cache::get($key)->where($primaryKey ?? $this->primaryKey, $value);
+        return Redis::get($key)->where($primaryKey ?? $this->primaryKey, $value);
     }
 
     /**
@@ -107,9 +107,11 @@ trait CacheHelperTrait
      */
     public function deleteItem($key, $value, $primaryKey = null)
     {
-        $collections = Cache::get($key);
-        $collections = $collections->where(($primaryKey) ?? $this->primaryKey, '!=', $value);
-        Cache::put($key, $collections);
+        $collections = json_decode(Redis::get($key), true);
+        $collections = collect($collections)->filter(function($item) use ($primaryKey) {
+            return $item['id'] != $primaryKey;
+        });
+        Redis::set($key, json_encode($collections->toArray()));
 
         return true;
     }
@@ -124,7 +126,7 @@ trait CacheHelperTrait
      */
     public function forgetCache(string $key)
     {
-        return Cache::forget($key);
+        return Redis::del($key);
     }
 
     /**
@@ -137,6 +139,6 @@ trait CacheHelperTrait
      */
     public function pushItem(string $key, $item)
     {
-        return Cache::forget($key);
+        return Redis::del($key);
     }
 }
