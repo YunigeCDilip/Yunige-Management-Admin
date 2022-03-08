@@ -68,7 +68,7 @@ class CacheMasterItems extends Command
         $airtable = new AirTable($apiClient);
         if(!$this->getCache($table)){
             $data = $airtable->all();
-            $this->setCache($table, $data);
+            $this->setCache($table, json_encode($data));
         }
     }
 }
