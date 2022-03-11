@@ -11,6 +11,7 @@ use App\Airtable\AirtableApiClient;
 use App\Constants\AirtableDatabase;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\WarehouseDataResource;
+use Illuminate\Database\DatabaseManager;
 
 class WarehouseDataService extends Service
 {
@@ -19,19 +20,23 @@ class WarehouseDataService extends Service
      * @var Airtable $contract
      * @var ClientMasterService $clientService
      * @var DeliveryService $deliveryService
+     * @var DatabaseManager $db
     */
     protected $airtable;
     protected $clientService;
     protected $deliveryService;
+    protected $db;
 
     public function __construct(
         ClientMasterService $clientService,
-        DeliveryService $deliveryService
+        DeliveryService $deliveryService,
+        DatabaseManager $db
     ){
         $this->apiClient = new AirtableApiClient(AirtableDatabase::WDATA);
         $this->airtable = new AirTable($this->apiClient);
         $this->clientService = $clientService;
         $this->deliveryService = $deliveryService;
+        $this->db = $db;
     }
 
     /**
@@ -42,14 +47,34 @@ class WarehouseDataService extends Service
     public function index()
     {
         try {
+            $search = request('search');
+            $perPage = request('per_page') ?? 20;
             if($this->getCache(AirtableDatabase::WDATA)){
-                $data = json_decode($this->getCache(AirtableDatabase::WDATA));
+                $data = json_decode($this->getCache(AirtableDatabase::WDATA), true);
             }else{
                 $data = $this->airtable->get();
                 $this->setCache(AirtableDatabase::WDATA, json_encode($data['records']));
             }
-            $perPage = request('per_page') ?? 20;
-            $options['path'] = url('/').'/api/wdata?per_page='.$perPage;
+            if($search != ''){
+                $data = collect($data)->filter(function($item) use ($search) {
+                    foreach($item['fields'] as $key => $value){
+                        if(!is_array($item['fields'][$key])){
+                            if(stripos($item['fields'][$key],$search)){
+                                return $item;
+                            }
+                        }else{
+                            foreach($item['fields'][$key] as $index => $v){
+                                if(!is_array($item['fields'][$key][$index]) && stripos($v,$search)){
+                                    return $item;
+                                }
+                            }
+                        }
+                    }
+                });
+                $options['path'] = url('/').'/api/wdata?per_page='.$perPage.'&search='.$search;
+            }else{
+                $options['path'] = url('/').'/api/wdata?per_page='.$perPage;
+            }
             $response = $this->paginate(WarehouseDataResource::collection($data), request('per_page'), request('page'), $options);
 
             return $this->responsePaginate($response, MessageResponse::DATA_LOADED);
@@ -138,6 +163,8 @@ class WarehouseDataService extends Service
             $data['pic'] = WarehouseDomain::pic();
             $data['cat'] = WarehouseDomain::cat();
             $data['status'] = WarehouseDomain::status();
+            $data['jobs'] = WarehouseDomain::job();
+            $data['inboundStatus'] = WarehouseDomain::inboundStatus();
             $data['clients'] = $clients->payload;
             $data['carrier'] = $delivery->payload;
 
@@ -156,6 +183,8 @@ class WarehouseDataService extends Service
     public function store($request)
     {
         try {
+            $this->db->beginTransaction();
+            
             $data = $this->airtable->create(WarehouseDomain::format($request));
             if(isset($data['error'])){
                 return $this->responseError(Response::HTTP_UNPROCESSABLE_ENTITY, $data['error']['message']);
@@ -169,9 +198,11 @@ class WarehouseDataService extends Service
                 $data = array_merge([(($wdatas['records'])->count() + 1) => $data->toArray()], $wdatas['records']->toArray());
                 $this->setCache(AirtableDatabase::WDATA, json_encode($data));
             }
+            $this->db->commit();
 
             return $this->responseOk($data, MessageResponse::DATA_CREATED);
         } catch (Throwable $e) {
+            $this->db->rollback();
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 
             return $this->responseError();
@@ -212,7 +243,7 @@ class WarehouseDataService extends Service
     public function update($request, $id)
     {
         try {
-            $data = $this->airtable->update($id, WarehouseDomain::format($request));
+            $data = $this->airtable->update($id, WarehouseDomain::formatUpdateRequest($request));
             if(isset($data['error'])){
                 return $this->responseError(Response::HTTP_UNPROCESSABLE_ENTITY, $data['error']['message']);
             }

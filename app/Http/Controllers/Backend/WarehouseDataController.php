@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Application\Services\WarehouseDataService;
+use App\Domains\WarehouseDomain;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateWarehouseData;
 use App\Http\Requests\UpdateWarehouseData;
+use App\Application\Services\WarehouseDataService;
 
 class WarehouseDataController extends Controller 
 {

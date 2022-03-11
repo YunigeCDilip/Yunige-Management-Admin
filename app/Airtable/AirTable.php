@@ -46,7 +46,7 @@ class AirTable
      */
     public function update(string $id, $data)
     {
-        return $this->client->update($id, $data);
+        return $this->client->put($id, $data);
     }
 
     /**

@@ -147,10 +147,14 @@
                             <td>
                                 @if(isset($wdata->fields->invoice))
                                     @forelse($wdata->fields->invoice as $invoice)
-                                        @if($invoice->type == 'application/pdf')
+                                        @if(isset($invoice->type) && $invoice->type == 'application/pdf')
                                             <a href="{{$invoice->url}}" target="_blank"><img src="{{asset('admin')}}/images/pdf.png" alt="{{$invoice->filename}}" height="32"></a>
-                                        @elseif($invoice->type == 'application/zip')
+                                        @elseif(isset($invoice->type) && $invoice->type == 'application/zip')
                                             <a href="{{$invoice->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$invoice->filename}}" height="32"></a>
+                                        @elseif(isset($invoice->type) && $invoice->type == 'application/xlsx')
+                                            <a href="{{$invoice->url}}" target="_blank"><img src="{{asset('admin')}}/images/XLSX.png" alt="{{$invoice->filename}}" height="32"></a>
+                                        @elseif(isset($invoice->type) && $invoice->type == 'application/csv')
+                                            <a href="{{$invoice->url}}" target="_blank"><img src="{{asset('admin')}}/images/csv.png" alt="{{$invoice->filename}}" height="32"></a>
                                         @else
                                             <a href="{{$invoice->url}}" target="_blank"><img src="{{$invoice->url}}" alt="{{$invoice->filename}}" height="32"></a>
                                         @endif
@@ -165,10 +169,10 @@
                             <td>
                                 @if(isset($wdata->fields->importPermit))
                                     @forelse($wdata->fields->importPermit as $permit)
-                                        @if($permit->type == 'application/pdf')
+                                        @if(isset($permit->type) && $permit->type == 'application/pdf')
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/pdf.png" alt="{{$permit->filename}}" height="32"></a>
-                                        @elseif($invoice->type == 'application/zip')
-                                            <a href="{{$invoice->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$invoice->filename}}" height="32"></a>
+                                        @elseif(isset($permit->type) && $permit->type == 'application/zip')
+                                            <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$permit->filename}}" height="32"></a>
                                         @else
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{$permit->url}}" alt="{{$permit->filename}}" height="32"></a>
                                         @endif
@@ -183,10 +187,10 @@
                             <td>
                                 @if(isset($wdata->fields->packingList))
                                     @forelse($wdata->fields->packingList as $permit)
-                                        @if($permit->type == 'application/pdf')
+                                        @if(isset($permit->type) && $permit->type == 'application/pdf')
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/pdf.png" alt="{{$permit->filename}}" height="32"></a>
-                                        @elseif($invoice->type == 'application/zip')
-                                            <a href="{{$invoice->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$invoice->filename}}" height="32"></a>
+                                        @elseif(isset($permit->type) && $permit->type == 'application/zip')
+                                            <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$permit->filename}}" height="32"></a>
                                         @else
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{$permit->url}}" alt="{{$permit->filename}}" height="32"></a>
                                         @endif
@@ -201,10 +205,10 @@
                             <td>
                                 @if(isset($wdata->fields->BL))
                                     @forelse($wdata->fields->BL as $permit)
-                                        @if($permit->type == 'application/pdf')
+                                        @if(isset($permit->type) && $permit->type == 'application/pdf')
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/pdf.png" alt="{{$permit->filename}}" height="32"></a>
-                                        @elseif($invoice->type == 'application/zip')
-                                            <a href="{{$invoice->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$invoice->filename}}" height="32"></a>
+                                        @elseif(isset($permit->type) && $permit->type == 'application/zip')
+                                            <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$permit->filename}}" height="32"></a>
                                         @else
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{$permit->url}}" alt="{{$permit->filename}}" height="32"></a>
                                         @endif
@@ -219,10 +223,10 @@
                             <td>
                                 @if(isset($wdata->fields->AN))
                                     @forelse($wdata->fields->AN as $permit)
-                                        @if($permit->type == 'application/pdf')
+                                        @if(isset($permit->type) && $permit->type == 'application/pdf')
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/pdf.png" alt="{{$permit->filename}}" height="32"></a>
-                                        @elseif($invoice->type == 'application/zip')
-                                            <a href="{{$invoice->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$invoice->filename}}" height="32"></a>
+                                        @elseif(isset($permit->type) && $permit->type == 'application/zip')
+                                            <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$permit->filename}}" height="32"></a>
                                         @else
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{$permit->url}}" alt="{{$permit->filename}}" height="32"></a>
                                         @endif
@@ -237,10 +241,10 @@
                             <td>
                                 @if(isset($wdata->fields->DO))
                                     @forelse($wdata->fields->DO as $permit)
-                                        @if($permit->type == 'application/pdf')
+                                        @if(isset($permit->type) && $permit->type == 'application/pdf')
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/pdf.png" alt="{{$permit->filename}}" height="32"></a>
-                                        @elseif($invoice->type == 'application/zip')
-                                            <a href="{{$invoice->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$invoice->filename}}" height="32"></a>
+                                        @elseif(isset($permit->type) && $invoice->type == 'application/zip')
+                                            <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$permit->filename}}" height="32"></a>
                                         @else
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{$permit->url}}" alt="{{$permit->filename}}" height="32"></a>
                                         @endif
@@ -255,10 +259,10 @@
                             <td>
                                 @if(isset($wdata->fields->wInvoice))
                                     @forelse($wdata->fields->wInvoice as $permit)
-                                        @if($permit->type == 'application/pdf')
+                                        @if(isset($permit->type) && $permit->type == 'application/pdf')
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/pdf.png" alt="{{$permit->filename}}" height="32"></a>
-                                        @elseif($invoice->type == 'application/zip')
-                                            <a href="{{$invoice->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$invoice->filename}}" height="32"></a>
+                                        @elseif(isset($permit->type) && $invoice->type == 'application/zip')
+                                            <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$permit->filename}}" height="32"></a>
                                         @else
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{$permit->url}}" alt="{{$permit->filename}}" height="32"></a>
                                         @endif
@@ -273,10 +277,10 @@
                             <td>
                                 @if(isset($wdata->fields->arrivalPic))
                                     @forelse($wdata->fields->arrivalPic as $permit)
-                                        @if($permit->type == 'application/pdf')
+                                        @if(isset($permit->type) && $permit->type == 'application/pdf')
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/pdf.png" alt="{{$permit->filename}}" height="32"></a>
-                                        @elseif($invoice->type == 'application/zip')
-                                            <a href="{{$invoice->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$invoice->filename}}" height="32"></a>
+                                        @elseif(isset($permit->type) && $permit->type == 'application/zip')
+                                            <a href="{{$permit->url}}" target="_blank"><img src="{{asset('admin')}}/images/zip.png" alt="{{$permit->filename}}" height="32"></a>
                                         @else
                                             <a href="{{$permit->url}}" target="_blank"><img src="{{$permit->url}}" alt="{{$permit->filename}}" height="32"></a>
                                         @endif
