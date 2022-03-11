@@ -83,5 +83,14 @@ return [
     'do'                        => 'DO',
     'warehouse_invoice'         => 'Warehouse Invoice',
     'arrival_pic'               => 'Arrival Pic',
+    'select_inbound_status'     => 'Select status',
+    'panel_check'               => 'Panel check',
+    'select_panel_check'        => 'Select panel check',
+    'select_job'                => 'Select job',
+    'job'                       => 'Job',
+    'arrival_ctn'               => 'ArrivalCTN',
+    'outerdamage'               => 'Outer Damaged',
+    'arrival_pic_url'           => 'Arrival Pic URL',
+    'plateNumber'               => 'Plate Number',
 
 ];

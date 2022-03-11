@@ -12,4 +12,5 @@ class AirtableDatabase
     const WDATA  = 'wData';
     const CLIENT_MASTER  = 'ClientMaster';
     const DELIVERY  = 'delivery';
+    const JOB  = 'job';
 }

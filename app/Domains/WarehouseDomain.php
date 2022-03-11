@@ -270,7 +270,7 @@ class WarehouseDomain
     }
 
     /**
-     * Format data for wdata post/put api
+     * Format data for wdata post api
      * 
      * @param Request $request
      * 
@@ -281,33 +281,25 @@ class WarehouseDomain
         $invoices = [];
         if(count($request['invoice']) > 0){
             foreach($request->invoice as $index => $file){
-                if ($request->isMethod('post')) {
-                    $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'invoice-'.$file->getClientOriginalName());  
-                    try{
-                        $file->storeAs('invoices', $fileName, 's3');
-                        $invoices[$index]['url'] = Storage::disk('s3')->url('invoices/'.$fileName);
-                    }catch(Throwable $e){
-                        Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
-                    }   
-                }else{
-                    $invoices[$index]['id'] = $file;
-                }
+                $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'invoice-'.$file->getClientOriginalName());  
+                try{
+                    $file->storeAs('invoices', $fileName, 's3');
+                    $invoices[$index]['url'] = Storage::disk('s3')->url('invoices/'.$fileName);
+                }catch(Throwable $e){
+                    Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                }   
             }
         }
         $permits = [];
         if(count($request['permit']) > 0){
             foreach($request->permit as $index => $file){
-                if ($request->isMethod('post')) {
-                    $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'permit-'.$file->getClientOriginalName());  
-                    try{
-                        $file->storeAs('permits', $fileName, 's3');
-                        $permits[$index]['url'] = Storage::disk('s3')->url('permits/'.$fileName);
-                    }catch(Throwable $e){
-                        Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
-                    }   
-                }else{
-                    $permits[$index]['id'] = $file;
-                }
+                $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'permit-'.$file->getClientOriginalName());  
+                try{
+                    $file->storeAs('permits', $fileName, 's3');
+                    $permits[$index]['url'] = Storage::disk('s3')->url('permits/'.$fileName);
+                }catch(Throwable $e){
+                    Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                }   
             }
         }
         return [
@@ -324,6 +316,181 @@ class WarehouseDomain
                 'memoK'         => $request->memoK
             ],
             'typecast'          => (bool)($request->has('typecast')) ? $request->typecast : config('services.airtable.typecast')
+        ];
+    }
+
+
+
+    /**
+     * Format data for wdata put api
+     * 
+     * @param Request $request
+     * 
+     * @return array
+     */
+    public static function formatUpdateRequest($request)
+    {
+        $invoices = [];
+        if($request->has('invoice') && count($request['invoice']) > 0){
+            foreach($request->invoice as $index => $file){
+                $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'invoice-'.$file->getClientOriginalName());  
+                try{
+                    $file->storeAs('invoices', $fileName, 's3');
+                    $invoices[$index]['url'] = Storage::disk('s3')->url('invoices/'.$fileName);
+                }catch(Throwable $e){
+                    Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                } 
+            }
+        }
+        if($request->has('invoice_ids')){
+            $ids = [];
+            foreach($request->invoice_ids as $index => $id){
+                $ids[$index]['id'] = $id;
+            }
+            $invoices = array_merge($ids, $invoices);
+        }
+        $permits = [];
+        if($request->has('permit') && count($request['permit']) > 0){
+            foreach($request->permit as $index => $file){
+                $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'permit-'.$file->getClientOriginalName());  
+                try{
+                    $file->storeAs('permits', $fileName, 's3');
+                    $permits[$index]['url'] = Storage::disk('s3')->url('permits/'.$fileName);
+                }catch(Throwable $e){
+                    Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                }   
+            }
+        }
+        if($request->has('permit_ids')){
+            $ids = [];
+            foreach($request->permit_ids as $index => $id){
+                $ids[$index]['id'] = $id;
+            }
+            $permits = array_merge($ids, $permits);
+        }
+        $packings = [];
+        if($request->has('packing') && count($request['packing']) > 0){
+            foreach($request->packing as $index => $file){
+                $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'packing-'.$file->getClientOriginalName());  
+                try{
+                    $file->storeAs('packings', $fileName, 's3');
+                    $packings[$index]['url'] = Storage::disk('s3')->url('packings/'.$fileName);
+                }catch(Throwable $e){
+                    Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                }   
+            }
+        }
+        if($request->has('packing_ids')){
+            $ids = [];
+            foreach($request->packing_ids as $index => $id){
+                $ids[$index]['id'] = $id;
+            }
+            $packings = array_merge($ids, $packings);
+        }
+        $AN = [];
+        if($request->has('AN') && count($request['AN']) > 0){
+            foreach($request->AN as $index => $file){
+                $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'AN-'.$file->getClientOriginalName());  
+                try{
+                    $file->storeAs('AN', $fileName, 's3');
+                    $AN[$index]['url'] = Storage::disk('s3')->url('AN/'.$fileName);
+                }catch(Throwable $e){
+                    Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                }   
+            }
+        }
+        if($request->has('an_ids')){
+            $ids = [];
+            foreach($request->an_ids as $index => $id){
+                $ids[$index]['id'] = $id;
+            }
+            $AN = array_merge($ids, $AN);
+        }
+        $BL = [];
+        if($request->has('BL') && count($request['BL']) > 0){
+            foreach($request->BL as $index => $file){
+                $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'BL-'.$file->getClientOriginalName());  
+                try{
+                    $file->storeAs('BL', $fileName, 's3');
+                    $BL[$index]['url'] = Storage::disk('s3')->url('BL/'.$fileName);
+                }catch(Throwable $e){
+                    Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                }   
+            }
+        }
+        if($request->has('bl_ids')){
+            $ids = [];
+            foreach($request->bl_ids as $index => $id){
+                $ids[$index]['id'] = $id;
+            }
+            $BL = array_merge($ids, $BL);
+        }
+
+        $devlivery = [];
+        if($request->has('DO') && count($request['DO']) > 0){
+            foreach($request->DO as $index => $file){
+                $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'DO-'.$file->getClientOriginalName());  
+                try{
+                    $file->storeAs('DO', $fileName, 's3');
+                    $devlivery[$index]['url'] = Storage::disk('s3')->url('DO/'.$fileName);
+                }catch(Throwable $e){
+                    Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                }   
+            }
+        }
+        if($request->has('do_ids')){
+            $ids = [];
+            foreach($request->do_ids as $index => $id){
+                $ids[$index]['id'] = $id;
+            }
+            $devlivery = array_merge($ids, $devlivery);
+        }
+
+        $arrivals = [];
+        if($request->has('arrival_pic') && count($request['arrival_pic']) > 0){
+            foreach($request->arrival_pic as $index => $file){
+                $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'pic-'.$file->getClientOriginalName());  
+                try{
+                    $file->storeAs('arrivals', $fileName, 's3');
+                    $arrivals[$index]['url'] = Storage::disk('s3')->url('arrivals/'.$fileName);
+                }catch(Throwable $e){
+                    Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                }   
+            }
+        }
+        if($request->has('arrival_pic_ids')){
+            $ids = [];
+            foreach($request->arrival_pic_ids as $index => $id){
+                $ids[$index]['id'] = $id;
+            }
+            $arrivals = array_merge($ids, $arrivals);
+        }
+        return [
+            'data'            => [
+                'invoice'           => $invoices,
+                'status'            => $request->status,
+                'client'            => $request->client,
+                'trkNo'             => $request->trkNo,
+                'pic'               => $request->pic,
+                'cat'               => $request->cat,
+                'importPermit'      => $permits,
+                'carrier'           => $request->carrier,
+                'permitNo'          => $request->permitNo,
+                'memoK'             => $request->memoK,
+                'packingList'       => $packings,
+                'AN'                => $AN,
+                'job'               => $request->job,
+                'plateNumber'       => $request->plateNumber,
+                'inboundStatus'     => $request->inboundStatus,
+                'panelCheck'        => ($request->panelCheck) ? true : false,
+                // 'arrivalCTN'        => $request->arrivalCTN,
+                // 'outerdamage'       => $request->outerdamage,
+                'arrivalPic'        => $arrivals,
+                'arrivalPicURL'     => $request->arrivalPicURL,
+                'BL'                => $BL,
+                'DO'                => $devlivery,
+            ], 
+            'typecast'              => (bool)($request->has('typecast')) ? $request->typecast : config('services.airtable.typecast')
         ];
     }
 }
