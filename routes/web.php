@@ -20,9 +20,6 @@ use App\Http\Controllers\Backend\WarehouseDataController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('test', function(){
-    dd(Redis::get('wdata'));
-});
 
 Route::get('/', function () {
     return redirect('/login');
