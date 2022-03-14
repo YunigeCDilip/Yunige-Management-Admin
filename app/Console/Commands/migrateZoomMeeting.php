@@ -37,7 +37,7 @@ class migrateZoomMeeting extends Command
      */
     public function handle()
     {
-        info('hello');
+        info('hello ');
 
         return 0;
     }
