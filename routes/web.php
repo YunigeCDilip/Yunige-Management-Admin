@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\WarehouseDataController;
+use App\Http\Controllers\Backend\MeetingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,4 +57,17 @@ Route::group(['middleware' => 'auth', 'as' => 'admin.'], function () {
 
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
+
+    Route::get('meetings', [MeetingController::class, 'list'])->name('meetings.list');
+    Route::get('meetings/create', [MeetingController::class, 'createMeet'])->name('meetings.create');
+    Route::post('meetings/create', [MeetingController::class, 'store'])->name('meetings.index');
+    Route::get('meetings/{meetingId}/participants', [MeetingController::class, 'participantList'])->name('meetings.participants');
+    Route::get('meetings/{id}/update', [MeetingController::class, 'updateMeeting'])->name('meetings.update');
+    Route::get('meetings/{id}/destroy', [MeetingController::class, 'destroy'])->name('meetings.destroy');
+
+
+    Route::get('rooms', [MeetingController::class, 'listRooms'])->name('meetings.roomList');
+    Route::get('meetings/create-room', [MeetingController::class, 'createRoom'])->name('meetings.createRoom');
+    Route::post('meetings/create-room', [MeetingController::class, 'saveRoom'])->name('meetings.createRoom');
+    
 });
