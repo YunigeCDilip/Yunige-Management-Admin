@@ -135,7 +135,8 @@ trait ZoomMeetingTrait
     public function lists()
     {
         //$path = 'users/me/meetings';
-        $path = 'users/me/meetings?type=upcoming';
+        $path = 'users/me/meetings?type=scheduled';
+        //$path = 'users/me/meetings?type=upcoming';
         $url = $this->retrieveZoomUrl();
         $this->jwt = $this->generateZoomToken();
         $body = [
@@ -145,10 +146,9 @@ trait ZoomMeetingTrait
         ];
 
         $response =  $this->client->get($url.$path, $body);
-        //dd(json_decode($response->getBody(), true));
 
         return [
-            'success' => $response->getStatusCode() === 204,
+            'success' => $response->getStatusCode() === 200,
             'data'    => json_decode($response->getBody(), true),
         ];
     }

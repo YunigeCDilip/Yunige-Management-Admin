@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 use App\Models\ZoomMeeting;
 use GuzzleHttp\Client;
+use Log;
 
 use Illuminate\Console\Command;
 

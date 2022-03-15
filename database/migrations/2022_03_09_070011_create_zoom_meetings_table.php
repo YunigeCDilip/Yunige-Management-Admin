@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('duration');
             $table->string('timezone');
             $table->string('agenda')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->text('start_url')->nullable();
 
             $table->string('join_url');
