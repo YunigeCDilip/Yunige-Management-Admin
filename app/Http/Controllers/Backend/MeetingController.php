@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ZoomMeeting;
+use App\Models\ZoomRoom;
 use App\Traits\ZoomMeetingTrait;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,17 @@ class MeetingController extends Controller
 
     public function list(Request $request)
     {
+        //$meeting1 = ZoomMeeting::latest()->paginate(20);
+        //dd($meeting1);
         $meetings = $this->lists();
+
+        return view('admin.meetings.list', compact('meetings'));
+    }
+    public function meetingList(Request $request)
+    {
+        //$meeting1 = ZoomMeeting::latest()->paginate(20);
+        //dd($meeting1);
+        $meetings = $this->meetingLists();
 
         return view('admin.meetings.list', compact('meetings'));
     }
@@ -96,7 +107,19 @@ class MeetingController extends Controller
 
     public function saveRoom(Request $request) {
         $data = $this->createZoomRoom($request->all());
-        dd($data);
+        
+        if (isset($data['data']) && $data['success']) {
+            $roomData = isset($data['data']) ? $data['data'] : '';
+            $zoomRoom = new ZoomRoom();
+            $zoomRoom->room_id = isset($roomData['id']) ? $roomData['id'] : '';
+            $zoomRoom->name = isset($roomData['name']) ? $roomData['name'] : '';
+            $zoomRoom->location_id = isset($roomData['location_id']) ? $roomData['location_id'] : '';
+            $zoomRoom->activation_code = isset($roomData['activation_code']) ? $roomData['activation_code'] : '';
+            $zoomRoom->status = isset($roomData['status']) ? $roomData['status'] : '';
+            
+            $zoomRoom->save();
+            return redirect()->route('admin.meetings.roomList');
+        }
         return redirect()->url('/meeting');
     }
 }

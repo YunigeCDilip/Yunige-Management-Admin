@@ -13,6 +13,7 @@ return [
     |
     */
     'add_new_meeting'           => 'Add New Meeting',
+    'all_meeting'               => 'All Meetings',
     'add_new_room'              => 'Add New Room',
     'start'                     => 'Start',
     'join'                      => 'Join',
@@ -27,5 +28,7 @@ return [
     'room_name'                 => 'Room name',
     'room_type'                 => 'Room Type',
     'activation_code'           => 'Activation Code',
-    'name'                      => 'Name'
+    'name'                      => 'Name',
+    'meeting_id'                => 'Meeting Id'
+
 ];

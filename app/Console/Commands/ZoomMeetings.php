@@ -51,8 +51,8 @@ class ZoomMeetings extends Command
     public function handle()
     {
         
-        info($this->createNewZoomMeeting());
         $record = $this->createNewZoomMeeting();
+        info($record);
         if (isset($record['data']) && $record['success']) {
             $meetingData = isset($record['data']) ? $record['data'] : '';
             $meeting = new ZoomMeeting();
@@ -78,8 +78,9 @@ class ZoomMeetings extends Command
         $path = 'users/me/meetings';
         $url = config('services.zoom.base_url','');
 
-        $date = date('Y-m-d');
-        $dateTime = date('Y-m-d', strtotime('+1 day', strtotime($date))) .' 08:30:30';
+        $date = date('Y-m-d') .' 08:30:30';
+        $dateTime = date('Y-m-d\TH:i:s', strtotime('+1 day', strtotime($date)));
+        info($dateTime);
 
 
         $body = [
@@ -87,7 +88,7 @@ class ZoomMeetings extends Command
             'body'    => json_encode([
                 'topic'      => $data['topic'],
                 'type'       => '2',
-                'start_time' => $this->toZoomTimeFormat($dateTime),
+                'start_time' => $dateTime,
                 'duration'   => $data['duration'],
                 'agenda'     => (! empty($data['agenda'])) ? $data['agenda'] : null,
                 'timezone'     => 'Asia/Tokyo',

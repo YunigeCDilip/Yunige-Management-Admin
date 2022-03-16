@@ -38,6 +38,7 @@
                     </div>
                         <div class="col-lg-4">
                             <div class="text-lg-right">
+                                <a href="{{url('meetings/all')}}" class="btn btn-info waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> {{__('zoom.all_meeting')}}</a>
                                 <a href="{{route('admin.meetings.create')}}" class="btn btn-danger waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> {{__('zoom.add_new_meeting')}}</a>
                             </div>
                         </div><!-- end col-->
@@ -48,12 +49,14 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>{{__('zoom.topic')}}</th>
+                                <th>{{__('zoom.meeting_id')}}</th>
                                 <th>{{__('zoom.start_time')}}</th>
                                 <th>{{__('zoom.action')}}</th>
                             </tr>
                             @foreach ($meetings['data']['meetings'] as $meetingData)
                             <tr>
                             <td>{{ $meetingData['topic'] }}</td>
+                            <td>{{ $meetingData['id'] }}</td>
                             <td>{{ $meetingData['start_time'] }}</td>
                             
                             

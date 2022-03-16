@@ -20,7 +20,7 @@
                 <div class="row mb-2">
                     <div class="col-lg-4">
                         <div class="text-lg-right">
-                            <a href="{{route('admin.meetings.createRoom')}}" class="btn btn-danger waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> {{__('zoom.add_new_room')}}</a>
+                            <a href="{{route('admin.rooms.create')}}" class="btn btn-danger waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> {{__('zoom.add_new_room')}}</a>
                         </div>
                     </div><!-- end col-->
                 </div>

@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('room_id');
             $table->string('name');
-            $table->string('location_id');
-            $table->string('activation_code');
-            $table->string('status');
+            $table->string('location_id')->nullable();
+            $table->string('activation_code')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
 
         });

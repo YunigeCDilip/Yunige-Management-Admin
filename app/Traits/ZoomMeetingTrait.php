@@ -134,8 +134,26 @@ trait ZoomMeetingTrait
 
     public function lists()
     {
-        //$path = 'users/me/meetings';
-        $path = 'users/me/meetings?type=scheduled';
+        $path = 'users/me/meetings?type=upcoming';
+        $url = $this->retrieveZoomUrl();
+        $this->jwt = $this->generateZoomToken();
+        $body = [
+            'headers' => $this->headers,
+            'body'    => json_encode([]),
+            'verify' => false
+        ];
+
+        $response =  $this->client->get($url.$path, $body);
+
+        return [
+            'success' => $response->getStatusCode() === 200,
+            'data'    => json_decode($response->getBody(), true),
+        ];
+    }
+    public function meetingLists()
+    {
+        $path = 'users/me/meetings?page_size=300';
+        //$path = 'users/me/meetings?type=scheduled';
         //$path = 'users/me/meetings?type=upcoming';
         $url = $this->retrieveZoomUrl();
         $this->jwt = $this->generateZoomToken();
@@ -192,6 +210,7 @@ trait ZoomMeetingTrait
 
     }
 
+    /*
     public function listZoomRooms() {
         $path = 'rooms';
         $url = $this->retrieveZoomUrl();
@@ -205,7 +224,7 @@ trait ZoomMeetingTrait
         $response =  $this->client->get($url.$path, $body);
 
         return [
-            'success' => $response->getStatusCode() === 204,
+            'success' => $response->getStatusCode() === 200,
             'data'    => json_decode($response->getBody(), true),
         ];
     }
@@ -231,4 +250,5 @@ trait ZoomMeetingTrait
             'data'    => json_decode($response->getBody(), true),
         ];
     }
+    */
 }

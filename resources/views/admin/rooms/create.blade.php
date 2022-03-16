@@ -2,7 +2,7 @@
 @section('additional-css')
 @endsection
 @section('content')
-<form action="{{url('meetings/create-room')}}" method="POST"> 
+<form action="{{url('rooms/create')}}" method="POST"> 
 <form id="addForm" method="post" autocomplete="off" class="needs-validation" novalidate>
 	@csrf
 	<div class="row">
@@ -30,7 +30,7 @@
                     <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>
                     {{__('actions.save')}}
                 </button>
-                <a href="{{route('admin.meetings.roomList')}}" class="btn w-sm btn-danger waves-effect">{{__('actions.cancel')}}</a>
+                <a href="{{route('admin.rooms.list')}}" class="btn w-sm btn-danger waves-effect">{{__('actions.cancel')}}</a>
             </div>
         </div>
     </div>

@@ -43,7 +43,7 @@
                         <a href="{{route('admin.meetings.list')}}">{{__('menu.meeting')}}</a>
                     </li>
                     <li>
-                        <a href="{{route('admin.meetings.roomList')}}">{{__('menu.room')}}</a>
+                        <a href="{{route('admin.rooms.list')}}">{{__('menu.room')}}</a>
                     </li>
                 </ul>
             </li>
