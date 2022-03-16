@@ -247,7 +247,7 @@ class WarehouseDataService extends Service
             if(isset($data['error'])){
                 return $this->responseError(Response::HTTP_UNPROCESSABLE_ENTITY, $data['error']['message']);
             }
-            
+            $this->forgetCache(AirtableDatabase::WDATA.'_'.$id);
             if($this->getCache(AirtableDatabase::WDATA)){
                 $this->deleteItem(AirtableDatabase::WDATA, json_encode($data), $id);
                 $wdatas = json_decode($this->getCache(AirtableDatabase::WDATA), true);
@@ -277,6 +277,7 @@ class WarehouseDataService extends Service
     {
         try {
             $wdata = $this->airtable->find($id);
+            $this->forgetCache(AirtableDatabase::WDATA.'_'.$id);
             if(isset($wdata['error'])){
                 if($this->getCache(AirtableDatabase::WDATA)){
                     $this->deleteItem(AirtableDatabase::WDATA, json_encode($wdata), $id);

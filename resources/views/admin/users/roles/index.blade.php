@@ -19,7 +19,7 @@
                             <tr>
                                 <th>{{__('role.role_name')}}</th>
                                 <th>{{__('role.created_date')}}</th>
-                                <th style="width: 150px;">{{__('actions.action')}}</th>
+                                <th style="width: 250px;">{{__('actions.action')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,8 +32,12 @@
                                         {{$role->created_at->format('M d, Y')}}
                                     </td>
                                     <td>
-                                        <a href="javascript:void(0);" class="action-icon edit-role"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>
-                                        <a href="javascript:void(0);" class="action-icon delete-role"> <i class="mdi mdi-delete text-danger"></i></a>
+                                        @if($role->editable)
+                                            <a href="javascript:void(0);" class="action-icon edit-role"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>
+                                            <a href="javascript:void(0);" class="action-icon delete-role"> <i class="mdi mdi-delete text-danger"></i></a>
+                                        @else
+                                            <p>No Action Available</p>
+                                        @endif
                                     </td>
                                 </tr>
                                 @empty

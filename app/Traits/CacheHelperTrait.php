@@ -125,8 +125,11 @@ trait CacheHelperTrait
      * @return mixed
      */
     public function forgetCache(string $key)
-    {
-        return Redis::del($key);
+    {   
+        if (Redis::exists($key)) {
+            return Redis::del($key);
+        }
+        return true;
     }
 
     /**
