@@ -267,4 +267,25 @@ class UserService extends Service
             return $this->responseError();
         }
     }
+
+    /**
+     * activate/deactivate users
+     *
+     * @param  int $id
+     * @return  Response
+     */
+    public function activate($request)
+    {
+        try {
+            $user = User::find($request->id);
+            $user->active_status = $request->status;
+            $user->save();
+
+            return $this->responseOk([], MessageResponse::DATA_UPDATED);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+    }
 }

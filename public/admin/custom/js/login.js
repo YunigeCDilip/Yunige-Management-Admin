@@ -19,10 +19,12 @@ $('.btn-login').on('click', function(e){
             if(data.status == 'true'){
                 window.location = data.url;
             }else{
+                thisReference.parents('.form-group').find('.spinner-border').hide();
+                thisReference.prop('disabled', false);
                 $('form#loginForm').find('.lg-error').each(function(){
                     $(this).empty().hide();
                 });
-                $('form#loginForm').find('.lg-error-top').empty().append('<span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span> '+ data.message).show();
+                $('.message').empty().append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>'+ data.message).show();
             }
         },
         error: function(error){
