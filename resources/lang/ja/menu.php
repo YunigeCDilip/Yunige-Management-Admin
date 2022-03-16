@@ -21,5 +21,9 @@ return [
     'warehouse_data'    => 'ウェアハウスデータ',
     'settings'          => '設定',
     'yunige_service'    => 'ユニゲサービス',
+    'zoom'              => 'Zoom',
+    'meeting'           => 'Meeting',
+    'room'              => 'room',
+
 
 ];
