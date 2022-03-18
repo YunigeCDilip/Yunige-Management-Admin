@@ -188,7 +188,7 @@
                             <div class="col-lg-6">
                                 <div class="card-box">
                                     <div class="form-group mb-3">
-                                        @if($wdata->fields->invoice)
+                                        @if(isset($wdata->fields->invoice))
                                             <div class="row">
                                                 @foreach($wdata->fields->invoice as $permit)
                                                     <div class="col-sm-2 edit-invoice">
