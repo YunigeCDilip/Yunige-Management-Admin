@@ -16,7 +16,7 @@ class ClientMasterResource extends JsonResource
     {
         return [
             'id'        => $this['id'],
-            'name'      => $this['fields']['顧客名']
+            'name'      => $this['fields']['ClientName']
         ];
     }
 }
