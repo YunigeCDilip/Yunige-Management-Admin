@@ -26,6 +26,11 @@ class ZoomRoomController extends Controller
         return view('admin.rooms.create');
     }
 
+    /**
+     * @param Request $request
+     * 
+     * @return [type]
+     */
     public function saveRoom(Request $request) {
         $data = $this->createZoomRoom($request->all());
         
