@@ -105,6 +105,12 @@
                     <h6 class="text-overflow m-0">{{__('login.welcome')}} !</h6>
                 </div>
 
+                <!-- item-->
+                <a href="{{route('front.index')}}" class="dropdown-item notify-item">
+                    <i class="fe-globe"></i>
+                    <span>Home</span>
+                </a>
+
                 <div class="dropdown-divider"></div>
 
                 <!-- item-->

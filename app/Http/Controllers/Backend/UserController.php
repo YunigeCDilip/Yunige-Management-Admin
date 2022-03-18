@@ -138,4 +138,17 @@ class UserController extends Controller
 
         return $data;
     }
+
+    /**
+     * activate/deactivate users
+     *
+     * @param  int $id
+     * @return  Response
+     */
+    public function activate(Request $request)
+    {
+        $data = $this->service->activate($request);
+
+        return $data;
+    }
 }

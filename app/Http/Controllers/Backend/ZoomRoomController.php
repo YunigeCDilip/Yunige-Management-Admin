@@ -14,11 +14,25 @@ class ZoomRoomController extends Controller
 {
     use ZoomRoomTrait;
 
+    /**
+     * Lists all rooms
+     * @param Request $request
+     * 
+     * @return View|Mixed
+     */
     public function listRooms(Request $request)
     {
-        $rooms = $this->listZoomRooms();
-        return view('admin.rooms.list', compact('rooms'));
+        if(!$request->ajax()){
+            $data['title'] = trans('zoom.all_rooms');
+            $data['menu'] = trans('zoom.all_rooms');
+            $data['subMenu'] = trans('actions.lists');
 
+            return view('admin.rooms.list', $data);
+        }
+
+        $data = $this->datatable($request);
+
+        return $data;
     }
 
     public function createRoom(Request $request)

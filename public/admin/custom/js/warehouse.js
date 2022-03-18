@@ -43,6 +43,61 @@ jQuery(document).ready(function(){
             fileSize:"The file size is too big (1M max)."
         }
     });
+    $(".packing").dropify({
+        messages:{
+            default:"Drag and drop a packing lists here",
+            replace:"Drag and drop or click to replace",
+            remove:"Remove",
+            error:"Ooops, something wrong appended."
+        },
+        error:{
+            fileSize:"The file size is too big (1M max)."
+        }
+    });
+    $(".an").dropify({
+        messages:{
+            default:"Drag and drop a AN here",
+            replace:"Drag and drop or click to replace",
+            remove:"Remove",
+            error:"Ooops, something wrong appended."
+        },
+        error:{
+            fileSize:"The file size is too big (1M max)."
+        }
+    });
+    $(".bl").dropify({
+        messages:{
+            default:"Drag and drop a BL here",
+            replace:"Drag and drop or click to replace",
+            remove:"Remove",
+            error:"Ooops, something wrong appended."
+        },
+        error:{
+            fileSize:"The file size is too big (1M max)."
+        }
+    });
+    $(".do").dropify({
+        messages:{
+            default:"Drag and drop a DO here",
+            replace:"Drag and drop or click to replace",
+            remove:"Remove",
+            error:"Ooops, something wrong appended."
+        },
+        error:{
+            fileSize:"The file size is too big (1M max)."
+        }
+    });
+    $(".arrival_pic").dropify({
+        messages:{
+            default:"Drag and drop a Arrival Pic here",
+            replace:"Drag and drop or click to replace",
+            remove:"Remove",
+            error:"Ooops, something wrong appended."
+        },
+        error:{
+            fileSize:"The file size is too big (1M max)."
+        }
+    });
 });
 
 $(document).ready(function() {
@@ -204,7 +259,7 @@ $('table#table').delegate('.mdi-delete', 'click', function(e){
                 data:{ id:wDataId, _method: 'DELETE', _token: csrfToken
                 },
                 success: function(data){
-                    if(data.payload.deleted){
+                    if(data.status){
                         swal({
                             title: data.message,
                             type: "success",
@@ -213,7 +268,7 @@ $('table#table').delegate('.mdi-delete', 'click', function(e){
                             closeOnConfirm: true,
                         }, function(isConfirm){
                             if(isConfirm){
-                                thisReference.parents('tr').remove();
+                                location.reload();
                             }
                         });
                     }else{
@@ -241,16 +296,51 @@ $('.updateWdata').on('click', function(e){
     var form_data = new FormData();
     var invoices;
     var permits;
-    addForm.find('.invoice-file').each(function(key, value){
+    var packings;
+    var an;
+    var bl;
+    var delivery;
+    var arrivals;
+    editForm.find('.invoice-file').each(function(key, value){
         invoices = $(this).find('input[name="invoice[]"]')[0].files;
         for (var i = 0; i < invoices.length; ++i) {
             (typeof invoices[i] == 'undefined') ? '' : form_data.append('invoice['+i+']', invoices[i]);
         }
     });
-    addForm.find('.permit-file').each(function(key, value){
+    editForm.find('.permit-file').each(function(key, value){
         permits = $(this).find('input[name="permit[]"]')[0].files;
         for (var i = 0; i < permits.length; ++i) {
             (typeof permits[i] == 'undefined') ? '' : form_data.append('permit['+i+']', permits[i]);
+        }
+    });
+    editForm.find('.packing-file').each(function(key, value){
+        packings = $(this).find('input[name="packing[]"]')[0].files;
+        for (var i = 0; i < packings.length; ++i) {
+            (typeof packings[i] == 'undefined') ? '' : form_data.append('packing['+i+']', packings[i]);
+        }
+    });
+    editForm.find('.an-file').each(function(key, value){
+        an = $(this).find('input[name="an[]"]')[0].files;
+        for (var i = 0; i < an.length; ++i) {
+            (typeof an[i] == 'undefined') ? '' : form_data.append('AN['+i+']', an[i]);
+        }
+    });
+    editForm.find('.bl-file').each(function(key, value){
+        bl = $(this).find('input[name="bl[]"]')[0].files;
+        for (var i = 0; i < bl.length; ++i) {
+            (typeof bl[i] == 'undefined') ? '' : form_data.append('BL['+i+']', bl[i]);
+        }
+    });
+    editForm.find('.do-file').each(function(key, value){
+        delivery = $(this).find('input[name="do[]"]')[0].files;
+        for (var i = 0; i < delivery.length; ++i) {
+            (typeof delivery[i] == 'undefined') ? '' : form_data.append('DO['+i+']', delivery[i]);
+        }
+    });
+    editForm.find('.arrival_pic-file').each(function(key, value){
+        arrivals = $(this).find('input[name="arrival_pic[]"]')[0].files;
+        for (var i = 0; i < arrivals.length; ++i) {
+            (typeof arrivals[i] == 'undefined') ? '' : form_data.append('arrival_pic['+i+']', arrivals[i]);
         }
     });
     var edit_form = $('form#editForm').serializeArray();

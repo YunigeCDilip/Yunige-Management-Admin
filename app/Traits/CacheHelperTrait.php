@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Cache;
 
 trait CacheHelperTrait
@@ -107,9 +108,11 @@ trait CacheHelperTrait
      */
     public function deleteItem($key, $value, $primaryKey = null)
     {
-        $collections = Cache::get($key);
-        $collections = $collections->where(($primaryKey) ?? $this->primaryKey, '!=', $value);
-        Cache::put($key, $collections);
+        $collections = json_decode(Cache::get($key), true);
+        $collections = collect($collections)->filter(function($item) use ($primaryKey) {
+            return $item['id'] != $primaryKey;
+        });
+        Cache::put($key, json_encode($collections->toArray()));
 
         return true;
     }
@@ -123,8 +126,11 @@ trait CacheHelperTrait
      * @return mixed
      */
     public function forgetCache(string $key)
-    {
-        return Cache::forget($key);
+    {   
+        if (Redis::exists($key)) {
+            return Redis::del($key);
+        }
+        return true;
     }
 
     /**

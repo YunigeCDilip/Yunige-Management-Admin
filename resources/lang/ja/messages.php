@@ -83,5 +83,14 @@ return [
     'do'                        => '納品書',
     'warehouse_invoice'         => '倉庫インボイス',
     'arrival_pic'               => '到着写真',
+    'select_inbound_status'     => 'Select status',
+    'panel_check'               => 'Panel check',
+    'select_panel_check'        => 'Select panel check',
+    'select_job'                => 'Select job',
+    'job'                       => 'Job',
+    'arrival_ctn'               => 'ArrivalCTN',
+    'outerdamage'               => 'Outer Damaged',
+    'arrival_pic_url'           => 'Arrival Pic URL',
+    'plateNumber'               => 'Plate Number',
 
 ];

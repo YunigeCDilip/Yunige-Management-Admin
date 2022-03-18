@@ -17,14 +17,26 @@ class MeetingController extends Controller
     const MEETING_TYPE_RECURRING = 3;
     const MEETING_TYPE_FIXED_RECURRING_FIXED = 8;
 
+    /**
+     * @param Request $request
+     * 
+     * @return view
+     */
     public function list(Request $request)
     {
-        //$meeting1 = ZoomMeeting::latest()->paginate(20);
-        //dd($meeting1);
-        $meetings = $this->lists();
+        if(!$request->ajax()){
+            $data['title'] = trans('zoom.all_meeting');
+            $data['menu'] = trans('zoom.all_meeting');
+            $data['subMenu'] = trans('actions.lists');
 
-        return view('admin.meetings.list', compact('meetings'));
+            return view('admin.meetings.list', $data);
+        }
+
+        $data = $this->datatable($request);
+
+        return $data;
     }
+
     public function meetingList(Request $request)
     {
         //$meeting1 = ZoomMeeting::latest()->paginate(20);
@@ -49,7 +61,7 @@ class MeetingController extends Controller
     public function store(Request $request)
     {
         $data = $this->create($request->all());
-        
+
         if (isset($data['data']) && $data['success']) {
             $meetingData = isset($data['data']) ? $data['data'] : '';
             $meeting = new ZoomMeeting();
@@ -97,7 +109,6 @@ class MeetingController extends Controller
     {
         $rooms = $this->listZoomRooms();
         return view('admin.meetings.roomList', compact('rooms'));
-
     }
 
     public function createRoom(Request $request)
@@ -105,9 +116,10 @@ class MeetingController extends Controller
         return view('admin.meetings.createRoom');
     }
 
-    public function saveRoom(Request $request) {
+    public function saveRoom(Request $request)
+    {
         $data = $this->createZoomRoom($request->all());
-        
+
         if (isset($data['data']) && $data['success']) {
             $roomData = isset($data['data']) ? $data['data'] : '';
             $zoomRoom = new ZoomRoom();
@@ -116,7 +128,7 @@ class MeetingController extends Controller
             $zoomRoom->location_id = isset($roomData['location_id']) ? $roomData['location_id'] : '';
             $zoomRoom->activation_code = isset($roomData['activation_code']) ? $roomData['activation_code'] : '';
             $zoomRoom->status = isset($roomData['status']) ? $roomData['status'] : '';
-            
+
             $zoomRoom->save();
             return redirect()->route('admin.meetings.roomList');
         }

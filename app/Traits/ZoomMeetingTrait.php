@@ -1,8 +1,10 @@
 <?php
 namespace App\Traits;
 
+use Throwable;
 use GuzzleHttp\Client;
-use Log;
+use App\Models\ZoomMeeting;
+use Illuminate\Support\Facades\Log;
 
 /**
  * trait ZoomMeetingTrait
@@ -251,4 +253,61 @@ trait ZoomMeetingTrait
         ];
     }
     */
+
+    /**
+     * Return data to render datatable
+     * 
+     * @param mixed $request
+     * 
+     * @return mixed
+     */
+    public function datatable($request)
+    {
+        try {
+            $columns = array(
+                0 => 'topic',
+                1 => 'meeting_id',
+                2 => 'start_time',
+                3 => 'upcoming'
+            );
+            $limit = $request->input('length');
+            $start = $request->input('start');
+            $order = $columns[$request->input('order.0.column')];
+            $dir = $request->input('order.0.dir');
+            $meetingLists = ZoomMeeting::Search($request->search);
+            $totalMeetingCount = $meetingLists->count();
+            $meetings = $meetingLists->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+            $totalFiltered = $totalMeetingCount;
+            $tableContent = array();
+            if (!empty($meetings)) {
+                $meetingData = array();
+                foreach ($meetings as $index => $meeting) {
+                    $nestedData = array();
+                    $nestedData['id'] = $meeting->id;
+                    $nestedData['topic'] = $meeting->topic;
+                    $nestedData['start_time'] = date('Y-m-d H:i A', strtotime($meeting->start_time));
+                    $nestedData['upcoming'] = $meeting->upcoming;
+                    $nestedData['meeting_id'] = $meeting->meeting_id;
+                    $nestedData['join_url'] = $meeting->join_url;
+                    $meetingData[] = $nestedData;
+                }
+
+                $tableContent = array(
+                    "draw" => intval($request->input('draw')),
+                    "recordsTotal" => $totalMeetingCount,
+                    "recordsFiltered" => $totalFiltered,
+                    "data" => $meetingData,
+                );
+            }
+            return $tableContent;
+            
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return [];
+        }
+    }
 }

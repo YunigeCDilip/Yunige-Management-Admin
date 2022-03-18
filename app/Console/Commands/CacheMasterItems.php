@@ -54,6 +54,12 @@ class CacheMasterItems extends Command
         $this->cacheMaster($carriers, AirtableDatabase::DELIVERY);
         $this->info('Action complete for: tablename= '.AirtableDatabase::DELIVERY);
 
+        // $this->info('Going to cache jobs: tablename= '.AirtableDatabase::JOB);
+        // $this->forgetCache(AirtableDatabase::JOB);
+        // $jobs = new AirtableApiClient(AirtableDatabase::JOB);
+        // $this->cacheMaster($jobs, AirtableDatabase::JOB);
+        // $this->info('Action complete for: tablename= '.AirtableDatabase::JOB);
+
         $this->info('Action complete');
     }
 
@@ -68,7 +74,7 @@ class CacheMasterItems extends Command
         $airtable = new AirTable($apiClient);
         if(!$this->getCache($table)){
             $data = $airtable->all();
-            $this->setCache($table, $data);
+            $this->setCache($table, json_encode($data));
         }
     }
 }

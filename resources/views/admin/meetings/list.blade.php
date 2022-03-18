@@ -18,7 +18,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row mb-2">
-                    <div class="col-lg-8">
+                    <div class="col-lg-6">
                         <form class="form-inline">
                             <div class="form-group mb-2">
                                 <label for="inputPassword2" class="sr-only">{{__('messages.search')}}</label>
@@ -36,12 +36,12 @@
                             </div>
                         </form>                            
                     </div>
-                        <div class="col-lg-4">
-                            <div class="text-lg-right">
-                                <a href="{{url('meetings/all')}}" class="btn btn-info waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> {{__('zoom.all_meeting')}}</a>
-                                <a href="{{route('admin.meetings.create')}}" class="btn btn-danger waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> {{__('zoom.add_new_meeting')}}</a>
-                            </div>
-                        </div><!-- end col-->
+                    <div class="col-lg-6">
+                        <div class="text-lg-right">
+                            <a href="{{url('meetings/all')}}" class="btn btn-info waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> {{__('zoom.all_meeting')}}</a>
+                            <a href="{{route('admin.meetings.create')}}" class="btn btn-danger waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> {{__('zoom.add_new_meeting')}}</a>
+                        </div>
+                    </div><!-- end col-->
                 </div>
 
                 <div class="table-responsive">
@@ -51,27 +51,9 @@
                                 <th>{{__('zoom.topic')}}</th>
                                 <th>{{__('zoom.meeting_id')}}</th>
                                 <th>{{__('zoom.start_time')}}</th>
+                                <th>{{__('messages.status')}}</th>
                                 <th>{{__('zoom.action')}}</th>
                             </tr>
-                            @foreach ($meetings['data']['meetings'] as $meetingData)
-                            <tr>
-                            <td>{{ $meetingData['topic'] }}</td>
-                            <td>{{ $meetingData['id'] }}</td>
-                            <td>{{ $meetingData['start_time'] }}</td>
-                            
-                            
-                            
-                            <td>
-                                <form >
-                                    <a class="btn btn-info" href="{{ $meetingData['join_url'] }}" target="_blank">{{__('zoom.join')}}</a>
-                                    <a href="{{ route('admin.meetings.update',$meetingData['id']) }}" class="action-icon edit-role"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>
-                                    <a href="#" class="action-icon delete-role"> <i class="mdi mdi-delete text-danger"></i></a>
-                
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-
                         </thead>
                         <tbody>
                             
@@ -89,5 +71,5 @@
     <script src="{{asset('admin')}}/libs/datatables/dataTables.responsive.min.js"></script>
     <script src="{{asset('admin')}}/libs/datatables/responsive.bootstrap4.min.js"></script>
     <script src="{{asset('admin')}}/libs/sweetalert/sweetalert.min.js"></script>
-    <script src="{{asset('admin/custom/js/user.js')}}"></script>
+    <script src="{{asset('admin/custom/js/meetings.js')}}"></script>
 @endsection

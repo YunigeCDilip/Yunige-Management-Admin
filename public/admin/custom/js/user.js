@@ -181,12 +181,17 @@ var userTable = $('#table').DataTable({
             render: function(data, type, dataObject, meta) {
                 var action = '';
                 if(dataObject.manage_permission){
-                    action += '<a href="'+baseUrl+'users/'+dataObject.userId+'/edit" class="action-icon"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
+                    action += '<a href="'+baseUrl+'users/'+dataObject.userId+'/edit" class="action-icon" title="EDIT"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
+                    if(dataObject.active_status){
+                        action += '<a href="javascript:void(0)" class="action-icon activate" title="DEACTIVATE" data-status="0" data-id="'+dataObject.userId+'"> <i class="fe-power text-success"></i></a>';
+                    }else{
+                        action += '<a href="javascript:void(0)" class="action-icon activate" title="ACTIVATE" data-status="1" data-id="'+dataObject.userId+'"> <i class="fe-check-circle text-success"></i></a>';
+                    }
                 }
 
                 if(!dataObject.is_auth_user){
                     if(dataObject.manage_permission){
-                        action += '<a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete text-danger" data-id="'+dataObject.userId+'"></i></a>';
+                        action += '<a href="javascript:void(0);" class="action-icon" title="DELETE"> <i class="mdi mdi-delete text-danger" data-id="'+dataObject.userId+'"></i></a>';
                     }
                 }
                 return action;
@@ -243,6 +248,51 @@ $('table#table').delegate('.mdi-delete', 'click', function(e){
             });
         }else{
             swal("Not Deleted", "Data not Deleted. it is save.", "error");
+        }
+    });
+});
+
+$('table#table').delegate('.activate', 'click', function(e){
+    e.preventDefault();
+    var userId = $(this).attr('data-id');
+    var status = $(this).attr('data-status');
+    swal({
+        title: "Are you sure want to update this data?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#136ba7",
+        confirmButtonText: "Yes",
+        cancelButtonText: "Cancel",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    }, function (isConfirm){
+        if(isConfirm){
+            $.ajax({
+                url: baseUrl + 'users/activate',
+                type: 'post',
+                data:{ id:userId, _token: csrfToken, status:status
+                },
+                success: function(data){
+                    if(data.status){
+                        swal({
+                            title: data.message,
+                            type: "success",
+                            confirmButtonColor: "#136ba7",
+                            confirmButtonText: "Ok",
+                            closeOnConfirm: true,
+                        }, function(isConfirm){
+                            if(isConfirm){
+                                userTable.draw();
+                            }
+                        });
+                    }else{
+                        swal("Not Updated", data.message, "error");
+                    }
+                },
+                error: function(){},
+            });
+        }else{
+            swal("Not Updated", "Data not Updated. it is save.", "error");
         }
     });
 });
