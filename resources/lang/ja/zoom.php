@@ -14,6 +14,7 @@ return [
     */
     'add_new_meeting'           => 'Add New Meeting',
     'all_meeting'               => 'All Meetings',
+    'all_rooms'                 => 'All Rooms',
     'add_new_room'              => 'Add New Room',
     'start'                     => 'Start',
     'join'                      => 'Join',
