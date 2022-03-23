@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\LoginController;
+use App\Http\Controllers\Backend\ClientMasterController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
 use App\Http\Controllers\Backend\WarehouseDataController;
 
@@ -39,7 +40,9 @@ Route::post('login', [LoginController::class, 'authenticate'])->name('login.subm
 Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    Route::resource('roles', RoleController::class);
+    Route::resource('roles', RoleController::class);    
+    
+    Route::get('clients', [ClientMasterController::class, 'index'])->name('clients.index');
 
     Route::get('wdata', [WarehouseDataController::class, 'index'])->name('wdata.index');
     Route::get('wdata/create', [WarehouseDataController::class, 'create'])->name('wdata.create');

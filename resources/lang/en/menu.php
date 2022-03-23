@@ -21,5 +21,11 @@ return [
     'warehouse_data'    => 'Warehouse Data',
     'settings'          => 'Settings',
     'yunige_service'    => 'Yunige Service',
+    'master_client'     => 'Client Master',
+    'client'            => 'Clients',
+    'master_data'       => 'Master Data',
+    'client_master_data'       => 'Client Master Data',
+    'movement_confirmation'       => 'Movement Confirmation',
+    'foreign_classification'       => 'Foreign Delivery Classification',
 
 ];
