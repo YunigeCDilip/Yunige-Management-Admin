@@ -118,12 +118,15 @@ trait ZoomMeetingTrait
 
     public function get($id)
     {
+        //dd($id);
         $path = 'meetings/'.$id;
         $url = $this->retrieveZoomUrl();
         $this->jwt = $this->generateZoomToken();
         $body = [
             'headers' => $this->headers,
             'body'    => json_encode([]),
+            'verify' => false
+
         ];
 
         $response =  $this->client->get($url.$path, $body);
@@ -185,6 +188,8 @@ trait ZoomMeetingTrait
         $body = [
             'headers' => $this->headers,
             'body'    => json_encode([]),
+            'verify' => false
+
         ];
 
         $response =  $this->client->delete($url.$path, $body);

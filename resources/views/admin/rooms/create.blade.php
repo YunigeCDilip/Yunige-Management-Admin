@@ -2,7 +2,7 @@
 @section('additional-css')
 @endsection
 @section('content')
-<form action="{{url('rooms/create')}}" method="POST"> 
+<form action="{{route('admin.rooms.store')}}" method="POST"> 
 <form id="addForm" method="post" autocomplete="off" class="needs-validation" novalidate>
 	@csrf
 	<div class="row">
@@ -13,9 +13,14 @@
                     <input type="text" name="name" class="form-control" placeholder="Room Name">
                     <div class="invalid-feedback" id="name_error" style="display:none;"></div>
                 </div>
-				<div class="form-group mb-3">
+
+                <div class="form-group mb-4">
                     <label for="type">{{__('zoom.room_type')}} <span class="text-danger">*</span></label>
-                    <input type="text" name="type" class="form-control" placeholder="Room Type">
+                    <select name="type" id="type" class="form-control">
+                        <option value="ZoomRoom">ZoomRoom</option>
+                        <option value="SchedulingDisplayOnly">SchedulingDisplayOnly</option>
+                        <option value="DigitalSignageOnly">DigitalSignageOnly</option>
+                    </select>
                     <div class="invalid-feedback" id="type_error" style="display:none;"></div>
                 </div>
                 

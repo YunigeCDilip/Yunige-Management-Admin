@@ -43,8 +43,8 @@ var table = $('#table').DataTable({
             render: function(data, type, dataObject, meta) {
                 var action = '';
                 action += '<a href="'+dataObject.join_url+'" target="_blank" class="action-icon" title="JOIN"><i class="mdi mdi-message-video text-success"></i></a>';
-                action += '<a href="'+baseUrl+'meetings/'+dataObject.id+'/edit" class="action-icon edit-meeting" title="EDIT"> <i class="mdi mdi-square-edit-outline text-primary"></i></a';
-                action += '<a href="'+baseUrl+'meetings/'+dataObject.id+'/destroy" class="action-icon delete-meeting" title="DELETE"> <i class="mdi mdi-delete text-danger"></i></a';
+                action += '<a href="'+baseUrl+'meetings/'+dataObject.id+'/edit" class="action-icon edit-meeting" title="EDIT"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
+                action += '<a href="'+baseUrl+'meetings/'+dataObject.id+'/destroy" class="action-icon delete-meeting" title="DELETE"> <i class="mdi mdi-delete text-danger"></i></a>';
 
                 return action;
             }

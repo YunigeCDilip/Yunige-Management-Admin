@@ -95,8 +95,8 @@ class migrateZoomMeeting extends Command
 
     private function getZoomMeetingList()
     {
-        //$path = 'users/me/meetings';
-        $path = 'users/me/meetings?type=upcoming';
+        $path = 'users/me/meetings?page_size=300';
+        //$path = 'users/me/meetings?type=upcoming';
         $url = config('services.zoom.base_url','');
         $this->jwt = $this->generateZoomToken();
         $body = [

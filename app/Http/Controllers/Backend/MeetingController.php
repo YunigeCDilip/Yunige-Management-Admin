@@ -53,8 +53,7 @@ class MeetingController extends Controller
 
     public function show($id)
     {
-        $meeting = $this->get($id);
-
+        //$meeting = $this->get($id);
         return view('admin.meetings.index', compact('meeting'));
     }
 
@@ -81,20 +80,53 @@ class MeetingController extends Controller
         }
     }
 
-    public function updateMeeting($id, Request $request)
-    {
-        //dd($id);
-        // $this->update($id, $request->all());
 
-        return redirect()->route('admin.meetings.update');
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id
+     * 
+     * @return Response
+     */
+    public function edit(ZoomMeeting $id)
+    {
+        $data = ZoomMeeting::find($id);
+        $meetingData = $data[0];
+        return view('admin.meetings.edit',compact('meetingData'));
+
+
     }
 
-    public function destroy(ZoomMeeting $meeting)
+    public function updateMeeting($id, Request $request)
     {
-        //dd($meeting);
-        $this->delete($meeting->id);
+        $data = ZoomMeeting::find($id);
+       //dd($request->all());
 
-        return $this->sendSuccess('Meeting deleted successfully.');
+        $data->update($request->all());
+        $meetingId = $data->meeting_id;
+
+
+        $updateMeeting = $this->update($meetingId, $request->all());
+
+
+        return redirect()->route('admin.meetings.list');
+    }
+
+    /**
+     * @param mixed $id
+     * 
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $meeting = ZoomMeeting::find($id);
+        $response = $this->delete($meeting->meeting_id);
+        if($response['success']){
+            ZoomMeeting::find($id)->delete();
+           // return $this->sendSuccess('Meeting deleted successfully.');
+            return redirect()->route('admin.meetings.list');
+
+        }
+
     }
     public function participantList($id)
     {
@@ -103,35 +135,5 @@ class MeetingController extends Controller
         return view('meetings.participants', [
             'participants' => !empty($data) ? $data->participants : '',
         ]);
-    }
-
-    public function listRooms(Request $request)
-    {
-        $rooms = $this->listZoomRooms();
-        return view('admin.meetings.roomList', compact('rooms'));
-    }
-
-    public function createRoom(Request $request)
-    {
-        return view('admin.meetings.createRoom');
-    }
-
-    public function saveRoom(Request $request)
-    {
-        $data = $this->createZoomRoom($request->all());
-
-        if (isset($data['data']) && $data['success']) {
-            $roomData = isset($data['data']) ? $data['data'] : '';
-            $zoomRoom = new ZoomRoom();
-            $zoomRoom->room_id = isset($roomData['id']) ? $roomData['id'] : '';
-            $zoomRoom->name = isset($roomData['name']) ? $roomData['name'] : '';
-            $zoomRoom->location_id = isset($roomData['location_id']) ? $roomData['location_id'] : '';
-            $zoomRoom->activation_code = isset($roomData['activation_code']) ? $roomData['activation_code'] : '';
-            $zoomRoom->status = isset($roomData['status']) ? $roomData['status'] : '';
-
-            $zoomRoom->save();
-            return redirect()->route('admin.meetings.roomList');
-        }
-        return redirect()->url('/meeting');
     }
 }
