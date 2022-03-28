@@ -11,6 +11,8 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
 use App\Http\Controllers\Backend\WarehouseDataController;
+use App\Http\Controllers\Backend\MeetingController;
+use App\Http\Controllers\Backend\ZoomRoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,4 +62,22 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
 
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
+
+    Route::get('meetings', [MeetingController::class, 'list'])->name('meetings.list');
+    Route::get('meetings/all', [MeetingController::class, 'meetingList'])->name('meetings.meetingList');
+    Route::get('meetings/create', [MeetingController::class, 'createMeet'])->name('meetings.create');
+    Route::post('meetings/create', [MeetingController::class, 'store'])->name('meetings.index');
+    Route::get('meetings/{meetingId}/participants', [MeetingController::class, 'participantList'])->name('meetings.participants');
+    Route::get('meetings/{id}/edit', [MeetingController::class, 'edit'])->name('meetings.edit');
+    Route::post('meetings/{id}', [MeetingController::class, 'updateMeeting'])->name('meetings.update');
+    Route::get('meetings/{id}/destroy', [MeetingController::class, 'destroy'])->name('meetings.destroy');
+
+
+    Route::get('rooms', [ZoomRoomController::class, 'listRooms'])->name('rooms.list');
+    Route::get('rooms/create', [ZoomRoomController::class, 'createRoom'])->name('rooms.create');
+    Route::post('rooms', [ZoomRoomController::class, 'saveRoom'])->name('rooms.store');
+    Route::get('rooms/{id}/edit', [ZoomRoomController::class, 'edit'])->name('rooms.edit');
+    Route::post('rooms/{id}', [ZoomRoomController::class, 'updateRoom'])->name('rooms.update');
+    Route::get('rooms/{id}/destroy', [ZoomRoomController::class, 'destroy'])->name('rooms.destroy');
+    
 });

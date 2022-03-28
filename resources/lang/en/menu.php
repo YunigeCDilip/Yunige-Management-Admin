@@ -21,5 +21,8 @@ return [
     'warehouse_data'    => 'Warehouse Data',
     'settings'          => 'Settings',
     'yunige_service'    => 'Yunige Service',
+    'zoom'              => 'Zoom',
+    'meeting'           => 'Meeting',
+    'room'              => 'room',
 
 ];

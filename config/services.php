@@ -36,5 +36,10 @@ return [
         'base_url'  => env('AIRTABLE_BASE_URL'),
         'typecast'  => env('AIRTABLE_TYPECAST'),
     ],
+    'zoom' => [
+        'app_secret'    => env('ZOOM_API_SECRET'),
+        'api_key'   => env('ZOOM_API_KEY'),
+        'base_url'  => env('ZOOM_API_URL'),
+    ],
 
 ];
