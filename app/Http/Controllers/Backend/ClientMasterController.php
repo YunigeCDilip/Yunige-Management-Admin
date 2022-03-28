@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Application\Services\ClientMasterService;
 use App\Http\Requests\CreateClientMaster;
 use App\Http\Requests\UpdateClientMaster;
@@ -31,7 +30,15 @@ class ClientMasterController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $this->service->index();
+        if(!$request->ajax()){
+            $data['title'] = trans('messages.client');
+            $data['menu'] = trans('messages.client');
+            $data['subMenu'] = trans('actions.lists');
+
+            return view('admin.client.index', $data);
+        }
+
+        $data = $this->service->datatable($request);
 
         return $data;
     }

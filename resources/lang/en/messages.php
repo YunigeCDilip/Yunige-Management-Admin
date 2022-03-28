@@ -93,4 +93,20 @@ return [
     'arrival_pic_url'           => 'Arrival Pic URL',
     'plateNumber'               => 'Plate Number',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Client modules
+    |--------------------------------------------------------------------------
+    |
+    */
+    'client'                => 'Clients',
+    'client_no'             => 'Client No',
+    'client_name_ja'        => 'Client Name JP',
+    'client_name_en'        => 'Client Name EN',
+    'shipper'               => 'Shipper/Forwarder',
+    'resp_per'              => 'Person Name',
+    'docs'                  => 'Docs',
+    'contact_no'            => 'Contact No',
+    'email'                 => 'E-mail',
+
 ];
