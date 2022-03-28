@@ -62,4 +62,38 @@ class ZoomRoomController extends Controller
         }
         return redirect()->url('/meeting');
     }
+
+    /**
+     * @param mixed $id
+     * 
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $roomData = ZoomRoom::find($id);
+        //$roomData = $data[0];
+        return view('admin.rooms.edit',compact('roomData'));
+
+    }
+    public function updateRoom($id, Request $request)
+    {
+        $data = ZoomRoom::find($id);
+        $roomId = $data->room_id;
+        $updateRoom = $this->update($roomId, $request->all());
+        dd($updateRoom);
+        $data->update($request->all());
+        return redirect()->route('admin.rooms.list');
+    }
+    public function destroy($id)
+    {
+        $room = ZoomRoom::find($id);
+        $response = $this->delete($room->room_id);
+        if($response['success']){
+            ZoomRoom::find($id)->delete();
+           // return $this->sendSuccess('Meeting deleted successfully.');
+            return redirect()->route('admin.rooms.list');
+
+        }
+
+    }
 }

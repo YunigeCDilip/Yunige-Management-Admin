@@ -42,8 +42,8 @@ var table = $('#table').DataTable({
         {data: 'actions', searchable: false, orderable: false, sortable: false,
             render: function(data, type, dataObject, meta) {
                 var action = '';
-                action += '<a href="'+baseUrl+'rooms/'+dataObject.id+'/edit" class="action-icon edit-meeting" title="EDIT"> <i class="mdi mdi-square-edit-outline text-primary"></i></a';
-                action += '<a href="'+baseUrl+'rooms/'+dataObject.id+'/destroy" class="action-icon delete-meeting" title="DELETE"> <i class="mdi mdi-delete text-danger"></i></a';
+                action += '<a href="'+baseUrl+'rooms/'+dataObject.id+'/edit" class="action-icon edit-meeting" title="EDIT"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
+                action += '<a href="'+baseUrl+'rooms/'+dataObject.id+'/destroy" class="action-icon delete-meeting" title="DELETE"> <i class="mdi mdi-delete text-danger"></i></a>';
 
                 return action;
             }

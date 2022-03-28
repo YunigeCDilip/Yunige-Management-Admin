@@ -94,6 +94,60 @@ trait ZoomRoomTrait
             'data'    => json_decode($response->getBody(), true),
         ];
     }
+
+    public function update($id,$data)
+    {
+        $path = 'rooms/'.$id;
+        //$path = 'accounts/7000953037/rooms/'.$id;
+        $url = $this->retrieveZoomUrl();
+
+        $body = [
+            'headers' => $this->headers,
+            'body'    => json_encode([
+                'name' =>  $data['name'],
+            ]),
+            'verify' => false
+        ];
+
+        $response =  $this->client->patch($url.$path, $body);
+
+        return [
+            'success' => $response->getStatusCode() === 204,
+            'data'    => json_decode($response->getBody(), true),
+
+        ];
+    }
+    /**
+     * @param mixed $id
+     * 
+     * @return response
+     */
+    public function delete($id)
+    {
+        $path = 'rooms/'.$id;
+        $url = $this->retrieveZoomUrl();
+        $body = [
+            'headers' => $this->headers,
+            'body'    => json_encode([]),
+            'verify' => false
+
+        ];
+
+        $response =  $this->client->delete($url.$path, $body);
+
+        return [
+            'success' => $response->getStatusCode() === 204,
+        ];
+    }
+    /**
+     * @param mixed $id
+     * 
+     * @return response
+     */
+    public function start($id)
+    {
+
+    }
     
     /**
      * Return data to render datatable

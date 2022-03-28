@@ -76,5 +76,8 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('rooms', [ZoomRoomController::class, 'listRooms'])->name('rooms.list');
     Route::get('rooms/create', [ZoomRoomController::class, 'createRoom'])->name('rooms.create');
     Route::post('rooms', [ZoomRoomController::class, 'saveRoom'])->name('rooms.store');
+    Route::get('rooms/{id}/edit', [ZoomRoomController::class, 'edit'])->name('rooms.edit');
+    Route::post('rooms/{id}', [ZoomRoomController::class, 'updateRoom'])->name('rooms.update');
+    Route::get('rooms/{id}/destroy', [ZoomRoomController::class, 'destroy'])->name('rooms.destroy');
     
 });

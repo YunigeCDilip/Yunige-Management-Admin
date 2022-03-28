@@ -76,7 +76,7 @@ class MeetingController extends Controller
             $meeting->join_url = isset($meetingData['join_url']) ? $meetingData['join_url'] : '';
             $meeting->password = isset($meetingData['password']) ? $meetingData['password'] : '';
             $meeting->save();
-            return redirect()->route('admin.meetings.index');
+            return redirect()->route('admin.meetings.list');
         }
     }
 
@@ -122,9 +122,7 @@ class MeetingController extends Controller
         $response = $this->delete($meeting->meeting_id);
         if($response['success']){
             ZoomMeeting::find($id)->delete();
-           // return $this->sendSuccess('Meeting deleted successfully.');
             return redirect()->route('admin.meetings.list');
-
         }
 
     }
