@@ -10,6 +10,8 @@ use App\Constants\AirtableDatabase;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\ClientMasterResource;
 use App\Models\Client;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class ClientMasterService extends Service
 {
@@ -32,14 +34,13 @@ class ClientMasterService extends Service
     public function index()
     {
         try {
-            if($this->getCache(AirtableDatabase::CLIENT_MASTER)){
-                $data = json_decode($this->getCache(AirtableDatabase::CLIENT_MASTER), true);
-            }else{
-                $data = $this->airtable->get();
-                $this->setCache(AirtableDatabase::CLIENT_MASTER, json_encode($data['records']));
-            }
-
-            return $this->responseOk(ClientMasterResource::collection($data), MessageResponse::DATA_LOADED);
+            // $clients = Client::WithQuery();
+            $data = QueryBuilder::for(Client::WithQuery()->Search(request('search')))
+                ->defaultSort('client_name')
+                ->allowedSorts('id', 'client_name')
+               ->paginate((request('per_page')) ?? 20);
+            // return $data;
+            return $this->responsePaginate(ClientMasterResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 

@@ -26,7 +26,7 @@ use App\Http\Controllers\Backend\WarehouseDataController;
 
 Route::get('/', [HomeController::class, 'index'])->name('front.index');
 
-Auth::routes(['register' => false]);
+// Auth::routes(['register' => false]);
 
 Route::get('/comming-soon', function () {
     return view('comming-soon');
