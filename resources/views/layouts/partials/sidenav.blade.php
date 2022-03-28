@@ -31,12 +31,6 @@
                     </li>
                 </ul>
             </li>
-
-            <li class="menu-title mt-2">{{__('menu.master_data')}}</li>
-            <li class="">
-                <a href="javascript: void(0);" aria-expanded="false">
-                    <i class="fe-users"></i>
-                    <span> {{__('menu.client_master_data')}} </span>
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false">
                     <i class="fe-airplay"></i>
@@ -45,10 +39,6 @@
                 </a>
                 <ul class="nav-second-level" aria-expanded="false">
                     <li>
-                        <a href="{{route('admin.roles.index')}}">{{__('menu.movement_confirmation')}}</a>
-                    </li>
-                    <li>
-                        <a href="{{route('admin.users.index')}}">{{__('menu.foreign_classification')}}</a>
                         <a href="{{route('admin.meetings.list')}}">{{__('menu.meeting')}}</a>
                     </li>
                     <li>
@@ -57,7 +47,22 @@
                 </ul>
             </li>
 
+            <li class="menu-title mt-2">{{__('menu.master_data')}}</li>
+            <li class="">
+                <a href="javascript: void(0);" aria-expanded="false">
+                    <i class="fe-users"></i>
+                    <span> {{__('menu.client_master_data')}} </span>
+                </a>
+            </li>
+           
+
             <li class="menu-title mt-2">{{__('menu.modules')}}</li>
+            <li>
+                <a href="{{route('admin.clients.index')}}" class="@if(@$menu == 'Client Data') active @endif">
+                    <i class="fe-pocket"></i>
+                    <span>{{__('menu.client')}}</span>
+                </a>
+            </li>
             <li>
                 <a href="{{route('admin.wdata.index')}}" class="@if(@$menu == 'Warehouse Data') active @endif">
                     <i class="fe-pocket"></i>
