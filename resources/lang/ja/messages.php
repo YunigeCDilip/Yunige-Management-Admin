@@ -108,5 +108,7 @@ return [
     'docs'                  => 'Docs',
     'contact_no'            => 'Contact No',
     'email'                 => 'E-mail',
+    'add_new_client'        => 'Add New client',
+    'contact_detail'        => 'Contact Details',
 
 ];

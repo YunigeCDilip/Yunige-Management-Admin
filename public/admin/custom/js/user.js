@@ -130,74 +130,77 @@ jQuery(document).ready(function(){
         });
     });
 });
-
-var userTable = $('#table').DataTable({
-    order: [0, 'desc'],
-    dom: 'lfrtip',
-    serverSide: true,
-    responsive: true,
-    processing: true,
-    language: {
-        paginate: {
-            previous: "<i class='mdi mdi-chevron-left'>",
-            next: "<i class='mdi mdi-chevron-right'>"
-        }
-    },
-    "ajax": {
-        url: baseUrl + 'users',
-        type: "GET",
-        dataType: 'json',
-
-        'data': function (data) {
-            data._token = csrfToken;
-        },
-        error: function (error) {
-            console.log(error);
-        }
-    },
-    'createdRow': function( row, data, dataIndex ) {
-        $(row).attr('data-id', data.userId);
-    },
-    columns: [
-        {data: 'id'},
-        {data: 'name'},
-        {data: 'email'},
-        {data: 'role',
-            render: function(data, type, dataObject, meta) {
-                return '<span class="badge badge-success">'+dataObject.role+'</span>';
+var userTable;
+$(function(){
+    userTable = $('#table').DataTable({
+        order: [0, 'desc'],
+        dom: 'lfrtip',
+        lengthMenu: [ 10, 25, 50, 100, 200, 500],
+        serverSide: true,
+        responsive: true,
+        processing: true,
+        language: {
+            paginate: {
+                previous: "<i class='mdi mdi-chevron-left'>",
+                next: "<i class='mdi mdi-chevron-right'>"
             }
         },
-        {data: 'active_status',
-            render: function(data, type, dataObject, meta) {
-                if(data){
-                    return '<span class="badge badge-success">Active</span>';
-                }else{
-                    return '<span class="badge badge-danger">InActive</span>';
+        "ajax": {
+            url: baseUrl + 'users',
+            type: "GET",
+            dataType: 'json',
+
+            'data': function (data) {
+                data._token = csrfToken;
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        },
+        'createdRow': function( row, data, dataIndex ) {
+            $(row).attr('data-id', data.userId);
+        },
+        columns: [
+            {data: 'id'},
+            {data: 'name'},
+            {data: 'email'},
+            {data: 'role',
+                render: function(data, type, dataObject, meta) {
+                    return '<span class="badge badge-success">'+dataObject.role+'</span>';
                 }
-            }
-        },
-        {data: 'created_at'},
-        {data: 'actions', searchable: false, orderable: false, sortable: false,
-            render: function(data, type, dataObject, meta) {
-                var action = '';
-                if(dataObject.manage_permission){
-                    action += '<a href="'+baseUrl+'users/'+dataObject.userId+'/edit" class="action-icon" title="EDIT"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
-                    if(dataObject.active_status){
-                        action += '<a href="javascript:void(0)" class="action-icon activate" title="DEACTIVATE" data-status="0" data-id="'+dataObject.userId+'"> <i class="fe-power text-success"></i></a>';
+            },
+            {data: 'active_status',
+                render: function(data, type, dataObject, meta) {
+                    if(data){
+                        return '<span class="badge badge-success">Active</span>';
                     }else{
-                        action += '<a href="javascript:void(0)" class="action-icon activate" title="ACTIVATE" data-status="1" data-id="'+dataObject.userId+'"> <i class="fe-check-circle text-success"></i></a>';
+                        return '<span class="badge badge-danger">InActive</span>';
                     }
                 }
-
-                if(!dataObject.is_auth_user){
+            },
+            {data: 'created_at'},
+            {data: 'actions', searchable: false, orderable: false, sortable: false,
+                render: function(data, type, dataObject, meta) {
+                    var action = '';
                     if(dataObject.manage_permission){
-                        action += '<a href="javascript:void(0);" class="action-icon" title="DELETE"> <i class="mdi mdi-delete text-danger" data-id="'+dataObject.userId+'"></i></a>';
+                        action += '<a href="'+baseUrl+'users/'+dataObject.userId+'/edit" class="action-icon" title="EDIT"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
+                        if(dataObject.active_status){
+                            action += '<a href="javascript:void(0)" class="action-icon activate" title="DEACTIVATE" data-status="0" data-id="'+dataObject.userId+'"> <i class="fe-power text-success"></i></a>';
+                        }else{
+                            action += '<a href="javascript:void(0)" class="action-icon activate" title="ACTIVATE" data-status="1" data-id="'+dataObject.userId+'"> <i class="fe-check-circle text-success"></i></a>';
+                        }
                     }
+
+                    if(!dataObject.is_auth_user){
+                        if(dataObject.manage_permission){
+                            action += '<a href="javascript:void(0);" class="action-icon" title="DELETE"> <i class="mdi mdi-delete text-danger" data-id="'+dataObject.userId+'"></i></a>';
+                        }
+                    }
+                    return action;
                 }
-                return action;
             }
-        }
-    ],
+        ],
+    });
 });
 
 $('.custom-select').on('change', function () {

@@ -3,13 +3,21 @@
 namespace App\Application\Services;
 
 use Throwable;
+use App\Models\Sdata;
+use App\Models\Wdata;
+use App\Models\Client;
+use App\Models\Shipper;
 use App\Airtable\AirTable;
+use App\Models\ItemMaster;
+use App\Models\ClientCategory;
 use App\Constants\MessageResponse;
 use App\Airtable\AirtableApiClient;
 use App\Constants\AirtableDatabase;
 use Illuminate\Support\Facades\Log;
+use App\Models\MovementConfirmation;
 use App\Http\Resources\ClientMasterResource;
-use App\Models\Client;
+use App\Models\AmazonProgress;
+use App\Models\ForeignDeliveryClassification;
 
 class ClientMasterService extends Service
 {
@@ -139,6 +147,31 @@ class ClientMasterService extends Service
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 
             return $this->responseError();
+        }
+    }
+
+
+    /**
+     * Return all active data for to create.
+     *
+     * @return array
+     */
+    public function create()
+    {
+        try {
+            $data['items'] = ItemMaster::select('id', 'product_name')->get();
+            $data['movements'] = MovementConfirmation::select('id', 'name')->get();
+            $data['shippers'] = Shipper::select('id', 'shipper_name')->get();
+            $data['classifications'] = ForeignDeliveryClassification::select('id', 'name')->get();
+            $data['categories'] = ClientCategory::select('id', 'name')->get();
+            $data['clients'] = Client::select('id', 'client_name')->get();
+            $data['sdatas'] = Sdata::select('id', 'name')->get();
+            $data['wdatas'] = Wdata::select('id', 'name')->get();
+            $data['amazons'] = AmazonProgress::select('id', 'name')->get();
+
+            return $data;
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
         }
     }
 }

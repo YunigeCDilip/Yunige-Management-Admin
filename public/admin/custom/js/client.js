@@ -1,6 +1,11 @@
+$(function(){
+    $(".select2").select2();
+});
 
+$(function(){
     var a = $("#table").DataTable({
         dom: 'lfrtip',
+        lengthMenu: [ 10, 25, 50, 100, 200, 500],
         serverSide: true,
         responsive: true,
         processing: true,
@@ -22,7 +27,11 @@
             }
         },
         columns: [
-            {data: 'serial_number'},
+            {data: 'serial_number',
+                render: function(data, type, dataObject, meta) {
+                    return 'c'+dataObject.serial_number;
+                }
+            },
             {data: 'client_name'},
             {data: 'category_name'},
             {data: 'shipper_name'},
@@ -43,7 +52,7 @@
             $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
         }
     });
-
+});
 
 $('.custom-select').on('change', function () {
     $('body').find('#table_length select').val($(this).val()).trigger('change');

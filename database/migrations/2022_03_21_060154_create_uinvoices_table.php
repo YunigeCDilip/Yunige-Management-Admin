@@ -23,7 +23,7 @@ return new class extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->longText('name');
+            $table->longText('name', 255);
             $table->string('airtable_id')->nullable();
             $table->softDeletes();
             $table->timestamps();

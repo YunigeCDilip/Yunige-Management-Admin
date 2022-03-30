@@ -40,7 +40,7 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="text-lg-right">
-                        <a href="{{route('admin.wdata.create')}}" class="btn btn-danger waves-effect waves-light" ><i class="mdi mdi-plus-circle mr-1"></i> {{__('messages.add_new_wdata')}}</a>
+                        <a href="{{route('admin.clients.create')}}" class="btn btn-danger waves-effect waves-light" ><i class="mdi mdi-plus-circle mr-1"></i> {{__('messages.add_new_client')}}</a>
                         </div>
                     </div><!-- end col-->
                 </div>

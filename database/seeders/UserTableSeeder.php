@@ -23,6 +23,7 @@ class UserTableSeeder extends Seeder
             'password'          => bcrypt('admin'),
             'remember_token'    => Str::random(10),
             'is_super_admin'    => true,
+            'active_status'            => true,
         ]);
 
         User::factory(50)->create();

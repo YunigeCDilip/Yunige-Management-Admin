@@ -23,7 +23,7 @@ return new class extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->string('shipper_name');
+            $table->string('shipper_name', 255);
             $table->softDeletes();
             $table->timestamps();
         });
