@@ -30,4 +30,14 @@ class ClientMasterController extends Controller
 
         return $data;
     }
+
+    /**
+     * @param mixed $id
+     * 
+     * @return [type]
+     */
+    public function destory($id){
+        $data = $this->service->destroy($id);
+        return $data;
+    }
 }

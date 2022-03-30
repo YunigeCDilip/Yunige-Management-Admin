@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('categories', [CategoryController::class, 'index']);
 
     Route::get('clients', [ClientMasterController::class, 'index']);
+    Route::delete('clients/{id}', [ClientMasterController::class, 'destory']);
     Route::get('carriers', [DeliveryController::class, 'index']);
 
     Route::get('wdata', [WarehouseDataController::class, 'index']);
