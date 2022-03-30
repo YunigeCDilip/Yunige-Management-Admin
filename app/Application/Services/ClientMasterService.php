@@ -18,6 +18,8 @@ use App\Models\MovementConfirmation;
 use App\Http\Resources\ClientMasterResource;
 use App\Models\AmazonProgress;
 use App\Models\ForeignDeliveryClassification;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class ClientMasterService extends Service
 {
@@ -40,14 +42,11 @@ class ClientMasterService extends Service
     public function index()
     {
         try {
-            if($this->getCache(AirtableDatabase::CLIENT_MASTER)){
-                $data = json_decode($this->getCache(AirtableDatabase::CLIENT_MASTER), true);
-            }else{
-                $data = $this->airtable->get();
-                $this->setCache(AirtableDatabase::CLIENT_MASTER, json_encode($data['records']));
-            }
-
-            return $this->responseOk(ClientMasterResource::collection($data), MessageResponse::DATA_LOADED);
+            $data = QueryBuilder::for(Client::WithQuery()->Search(request('search')))
+                ->defaultSort('client_name')
+                ->allowedSorts('id', 'client_name')
+               ->paginate((request('per_page')) ?? 20);
+            return $this->responsePaginate(ClientMasterResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 
@@ -109,7 +108,7 @@ class ClientMasterService extends Service
             } else {
                 $searchKey = $request->input('search.value');
                 $clientLists = Client::WithQuery()
-                    ->FilterByGlobalSearch($searchKey);
+                    ->Search($searchKey);
                 $totalClientCount = $clientLists->count();
                 $clients = $clientLists->offset($start)
                     ->limit($limit)
@@ -149,7 +148,6 @@ class ClientMasterService extends Service
             return $this->responseError();
         }
     }
-
 
     /**
      * Return all active data for to create.

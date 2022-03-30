@@ -27,5 +27,8 @@ return [
     'client_master_data'       => 'Client Master Data',
     'movement_confirmation'       => 'Movement Confirmation',
     'foreign_classification'       => 'Foreign Delivery Classification',
+    'zoom'              => 'Zoom',
+    'meeting'           => 'Meeting',
+    'room'              => 'room',
 
 ];
