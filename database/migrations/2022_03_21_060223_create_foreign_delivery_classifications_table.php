@@ -23,7 +23,7 @@ return new class extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id')->comment('');
-            $table->string('name')->nullable();
+            $table->string('name', 255)->nullable();
             $table->string('color', 45)->nullable();
             $table->tinyInteger('active_status')->default('1');
             $table->softDeletes();

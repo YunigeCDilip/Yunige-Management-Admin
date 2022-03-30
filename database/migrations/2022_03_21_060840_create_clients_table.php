@@ -23,28 +23,28 @@ return new class extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->string('serial_number');
+            $table->bigInteger('serial_number');
             $table->string('airtable_id')->nullable();
             $table->text('client_name');
-            $table->string('ja_name')->nullable();
-            $table->string('en_name')->nullable();
+            $table->string('ja_name', 255)->nullable();
+            $table->string('en_name', 255)->nullable();
             $table->unsignedBigInteger('shipper_id')->nullable();
             $table->unsignedBigInteger('client_category_id')->nullable();
             $table->longText('hp')->nullable();
-            $table->string('request')->nullable();
+            $table->string('request', 255)->nullable();
             $table->longText('dropbox_link')->nullable();
             $table->longText('foreign_dropbox_link')->nullable();
             $table->longText('foreign_noti')->nullable();
-            $table->string('warehouse_remarks')->nullable();
-            $table->string('customer_classification')->nullable();
-            $table->string('invoice')->nullable();
-            $table->string('company_tel', 45)->nullable();
-            $table->string('fax', 45)->nullable();
-            $table->string('warehouse_mgnt_copy')->nullable();
+            $table->string('warehouse_remarks', 255)->nullable();
+            $table->string('customer_classification', 255)->nullable();
+            $table->string('invoice', 255)->nullable();
+            $table->longText('company_tel')->nullable();
+            $table->string('fax', 155)->nullable();
+            $table->string('warehouse_mgnt_copy', 255)->nullable();
             $table->unsignedBigInteger('movement_confirmation_id')->nullable();
             $table->string('work_management', 100)->nullable();
-            $table->string('table_30', 45)->nullable();
-            $table->string('email_2', 45)->nullable();
+            $table->longText('table_30')->nullable();
+            $table->string('email_2', 155)->nullable();
             $table->tinyInteger('sugio_book_print')->default('0');
             $table->tinyInteger('yamazaki_book_print')->default('0');
             $table->tinyInteger('on_dropbox')->default('0');
@@ -53,7 +53,7 @@ return new class extends Migration
             $table->unsignedBigInteger('request_client_id')->nullable();
             $table->dateTime('takatsu_working_date')->nullable();
             $table->longText('product_master')->nullable();
-            $table->string('field_61', 45)->nullable();
+            $table->longText('field_61')->nullable();
 
             $table->index(["shipper_id"], 'fk_clients_shippers_idx');
 

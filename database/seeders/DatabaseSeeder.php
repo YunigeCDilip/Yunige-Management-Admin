@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,5 +20,17 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionTableSeeder::class);
         $this->call(BarcodeItems::class);
         $this->call(LocalizationSeeder::class);
+        $this->call(WdataStatusSeeder::class);
+        $this->call(WdataPicSeeder::class);
+        $this->call(ShipperSeeder::class);
+        $this->call(MovementConfirmationSeeder::class);
+        $this->call(InboundStatusSeeder::class);
+        $this->call(ForeignDeliveryClassification::class);
+        // $this->call(Artisan::call('amazon:migrate'));
+        // $this->call(Artisan::call('clientCat:migrate'));
+        // $this->call(Artisan::call('itemMaster:migrate'));
+        // $this->call(Artisan::call('sdata:migrate'));
+        // $this->call(Artisan::call('wdata:migrate'));
+        // $this->call(Artisan::call('clientMaster:migrate'));
     }
 }

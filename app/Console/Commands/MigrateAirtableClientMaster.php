@@ -50,7 +50,8 @@ class MigrateAirtableClientMaster extends Command
             $clientMaster = new Client();
             $clientMaster->airtable_id = $item['id'];
             $clientMaster->client_name = (isset($item['fields']['ClientName'])) ? $item['fields']['ClientName'] : null;
-            $clientMaster->serial_number = (isset($item['fields']['ClientNo'])) ? $item['fields']['ClientNo'] : null;
+            $clientNumber = explode('c', $item['fields']['ClientNo']);
+            $clientMaster->serial_number = $clientNumber[1];
             $clientMaster->ja_name = (isset($item['fields']['ClientJP'])) ? $item['fields']['ClientJP'] : null;
             $clientMaster->en_name = (isset($item['fields']['ClientEng'])) ? $item['fields']['ClientEng'] : null;
             if(isset($item['fields']['Shipper/Forwarder']) && $item['fields']['Shipper/Forwarder']){

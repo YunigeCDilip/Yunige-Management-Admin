@@ -24,11 +24,11 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('client_id');
-            $table->string('name')->nullable();
-            $table->string('email')->nullable();
-            $table->string('contact_number')->nullable();
-            $table->string('seller_name')->nullable();
-            $table->longText('office_add')->nullable();
+            $table->string('name', 255)->nullable();
+            $table->string('email', 255)->nullable();
+            $table->string('contact_number', 255)->nullable();
+            $table->string('seller_name', 255)->nullable();
+            $table->longText('office_add', 255)->nullable();
             $table->longText('pic_add')->nullable();
 
             $table->index(["client_id"], 'fk_client_contacts_clients1_idx');

@@ -46,6 +46,21 @@ class ClientMasterController extends Controller
     /**
      * Return all active data for view.
      *
+     * @return View
+     */
+    public function create()
+    {
+        $data = $this->service->create();
+        $data['title'] = trans('messages.client');
+        $data['menu'] = trans('messages.client');
+        $data['subMenu'] = trans('actions.add');
+
+        return view('admin.client.add', $data);
+    }
+
+    /**
+     * Return all active data for view.
+     *
      * @return  Response
      */
     public function all()
