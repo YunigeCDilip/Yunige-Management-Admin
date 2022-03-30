@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::resource('roles', RoleController::class);    
     
     Route::get('clients', [ClientMasterController::class, 'index'])->name('clients.index');
+    Route::get('clients/create', [ClientMasterController::class, 'create'])->name('clients.create');
 
     Route::get('wdata', [WarehouseDataController::class, 'index'])->name('wdata.index');
     Route::get('wdata/create', [WarehouseDataController::class, 'create'])->name('wdata.create');

@@ -59,7 +59,6 @@ class Client extends Model
      */
     public function scopeSearch(Builder $query, $search)
     {
-        // \Log::info($search);
         if($search != ''){
             return $query->where('serial_number', 'LIKE', '%'.$search.'%')
                     ->orWhere('client_name', 'LIKE', '%'.$search.'%')
