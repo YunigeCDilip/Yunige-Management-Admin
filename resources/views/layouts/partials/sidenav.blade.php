@@ -52,9 +52,17 @@
                 <a href="javascript: void(0);" aria-expanded="false">
                     <i class="fe-users"></i>
                     <span> {{__('menu.client_master_data')}} </span>
+                    <span class="menu-arrow"></span>
                 </a>
+                <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a href="{{route('admin.roles.index')}}">{{__('menu.movement_confirmation')}}</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.users.index')}}">{{__('menu.foreign_classification')}}</a>
+                    </li>
+                </ul>
             </li>
-           
 
             <li class="menu-title mt-2">{{__('menu.master_data')}}</li>
             <li class="">
