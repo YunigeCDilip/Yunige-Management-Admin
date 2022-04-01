@@ -137,8 +137,8 @@ $('table#role-table').delegate('.delete-role', 'click', function(e){
         confirmButtonColor: "#136ba7",
         confirmButtonText: "Yes",
         cancelButtonText: "Cancel",
-        closeOnConfirm: false,
-        closeOnCancel: false
+        closeOnConfirm: true,
+        closeOnCancel: true
     }, function (isConfirm){
         if(isConfirm){
             $.ajax({
@@ -148,25 +148,12 @@ $('table#role-table').delegate('.delete-role', 'click', function(e){
                 },
                 success: function(data){
                     if(data.status){
-                        swal({
-                            title: data.message,
-                            type: "success",
-                            confirmButtonColor: "#136ba7",
-                            confirmButtonText: "Ok",
-                            closeOnConfirm: true,
-                        }, function(isConfirm){
-                            if(isConfirm){
-                                thisReference.parents('tr').remove();
-                            }
-                        });
-                    }else{
-                        swal("Not Deleted", data.message, "error");
+                        thisReference.parents('tr').remove();
                     }
+                    messages(data.message, data.status);
                 },
                 error: function(){},
             });
-        }else{
-            swal("Not Deleted", "Role is not Deleted. it is save.", "error");
         }
     });
 });

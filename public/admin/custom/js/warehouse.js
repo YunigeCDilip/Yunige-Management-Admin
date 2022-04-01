@@ -249,8 +249,8 @@ $('table#table').delegate('.mdi-delete', 'click', function(e){
         confirmButtonColor: "#136ba7",
         confirmButtonText: "Yes",
         cancelButtonText: "Cancel",
-        closeOnConfirm: false,
-        closeOnCancel: false
+        closeOnConfirm: true,
+        closeOnCancel: true
     }, function (isConfirm){
         if(isConfirm){
             $.ajax({
@@ -259,26 +259,11 @@ $('table#table').delegate('.mdi-delete', 'click', function(e){
                 data:{ id:wDataId, _method: 'DELETE', _token: csrfToken
                 },
                 success: function(data){
-                    if(data.status){
-                        swal({
-                            title: data.message,
-                            type: "success",
-                            confirmButtonColor: "#136ba7",
-                            confirmButtonText: "Ok",
-                            closeOnConfirm: true,
-                        }, function(isConfirm){
-                            if(isConfirm){
-                                location.reload();
-                            }
-                        });
-                    }else{
-                        swal("Not Deleted", data.message, "error");
-                    }
+                    userTable.draw();
+                    messages(data.message, data.status);
                 },
                 error: function(){},
             });
-        }else{
-            swal("Not Deleted", "Data not Deleted. it is save.", "error");
         }
     });
 });
