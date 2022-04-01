@@ -40,6 +40,8 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::get('clients', [ClientMasterController::class, 'index']);
     Route::delete('clients/{id}', [ClientMasterController::class, 'destory']);
+    Route::post('clients', [ClientMasterController::class, 'store']);
+
     Route::get('carriers', [DeliveryController::class, 'index']);
 
     Route::get('wdata', [WarehouseDataController::class, 'index']);
