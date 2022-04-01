@@ -21,7 +21,7 @@
 }
 
 .sweet-alert h2 {
-    font-size: 20px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
     line-height:normal !important;
 }
@@ -30,10 +30,15 @@
     background-color: #ee4646 !important;
 }
 
+.sweet-alert button.confirm {
+    background-color: rgb(16, 92, 144) !important;
+}
+
 .sweet-alert button {
     border-radius: 0px !important;
     padding: 4px 32px !important;
     margin: 15px 6px 0 6px !important;
+    font-size: 14px !important;
 }
 
 .sweet-alert .sa-icon.sa-success .sa-line.sa-long {
@@ -74,5 +79,15 @@
     right: -2px !important;
     top: 20px !important;
 }
+.sweet-alert .sa-icon{
+    display: none !important;
+}
 
 /*=========== Notification Styles ==============*/
+.jq-icon-success{
+    background-color: #238137;
+}
+
+.jq-icon-danger{
+    background-color: #9b2323;
+}

@@ -95,6 +95,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Client Master modules
+    |--------------------------------------------------------------------------
+    |
+    */
+    'shippers'                  => 'Shippers',
+    'categories'                => 'Client Categories',
+    'shipper_name'              => 'Shipper Name',
+    'category_name'             => 'Category Name',
+    'add_new_shipper'           => 'Add New Shipper',
+    'add_new_category'          => 'Add New Category',
+    'edit_shipper'              => 'Edit Shipper',
+    'edit_category'             => 'Edit Category',
+
+    /*
+    |--------------------------------------------------------------------------
     | Client modules
     |--------------------------------------------------------------------------
     |

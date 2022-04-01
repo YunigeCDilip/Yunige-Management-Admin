@@ -19,51 +19,35 @@ function messages(message, type)
         }(window.jQuery);
 }
 
+$(function(){
+    $('.cancel-cat').on('click', function(e){
+        e.preventDefault();
+        Custombox.modal.close();
+    })
+});
+
 jQuery(document).ready(function(){
-    $(".select2").select2();
 
-
-    $('form#editForm').find('.change-password').on('click', function(e){
-        e.preventDefault();
-        $('#change-pass').find('.form-control').each(function(){
-            if($('#change-pass').hasClass('collapse show')){
-                $(this).prop("disabled", true);
-                $('#change-pass').removeClass("change-pass");
-            }else{
-                $(this).prop("disabled", false);
-                $('#change-pass').addClass("change-pass");
-            }
-        });
-    });
-
-    $('.save-user').on('click', function(e){
-        e.preventDefault();
+    $('.save-cat').on('click', function(e){
+        e.preventDefault(); 
         $('form#addForm').find('.invalid-feedback').each(function(){
             $(this).empty().hide();
         });
-        $(this).prop('disabled', true);
-        $(this).parents('.form-group').find('.spinner-border').show();
-        var thisReference = $(this);
+        $('form#addForm').removeClass('was-validated');
         var form_data = $('form#addForm').serializeArray();
         $.ajax({
             type: "POST",
-            url: baseUrl + "users",
+            url: baseUrl + "categories",
             data: form_data,
-            success: function(data){
-                messages(data.message, data.status);
-                if(data.status){
-                    window.location = data.url;
-                }else{
-                    thisReference.parents('.form-group').find('.spinner-border').hide();
-                    thisReference.prop('disabled', false);
-                    $('form#addForm').find('.lg-error').each(function(){
-                        $(this).empty().hide();
-                    });
-                    $('form#addForm').find('.lg-error-top').empty().append('<span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span> '+ data.message).show();
+            success: function (data) {
+                if (data.status) {
+                    Custombox.modal.close();
                 }
+                messages(data.message, data.status);
+                userTable.draw();
             },
-            error: function(error){
-                if( error.status === 422 && error.readyState == 4) {
+            error: function (error) {
+                if (error.status === 422 && error.readyState == 4) {
                     $('form#addForm').find('.invalid-feedback').each(function(){
                         $(this).empty().hide();
                     });
@@ -73,67 +57,81 @@ jQuery(document).ready(function(){
                         $('form#addForm').find('#' + key + '_error').empty().append(val);
                         $('form#addForm').find('#' + key + '_error').show();
                     });
-                    thisReference.parents('.form-group').find('.spinner-border').hide();
-                    thisReference.prop('disabled', false);
                 }
-
+    
                 $('form#addForm').addClass('was-validated');
             },
+            complete: function(){
+            }
         });
     });
 
-    var editForm = $('form#editForm');
-    $('.update-user').on('click', function(e){
-        e.preventDefault();
-        editForm.find('.invalid-feedback').each(function(){
-            $(this).empty().hide();
-        });
-        var Id = editForm.find('input[name="user_id"]').val();
-        $(this).prop('disabled', true);
-        $(this).parents('.form-group').find('.spinner-border').show();
-        var thisReference = $(this);
-        var form_data = editForm.serializeArray();
-        $.ajax({
-            type: "POST",
-            url: baseUrl + "users/"+Id,
-            data: form_data,
-            success: function(data){
+    $('table#table').delegate('.mdi-square-edit-outline', 'click', function(e){
+        var catId = $(this).attr('data-id');
+        $.get(baseUrl+"categories/"+catId, function(data){
+            var form = $('form#editForm');
+            if(data.status){
+                form.find('input[name="category_id"]').val(catId);
+                form.find('input[name="name"]').val(data.payload.name);
+                form.find('select[name="status"] option[value="'+data.payload.active_status+'"]').prop('selected', true);
+                var modal = new Custombox.modal({
+                    content: {
+                        effect: 'fadein',
+                        target: '#edit-custom-modal'
+                    },
+                    overlay: {
+                        close: false,
+                    }
+                });
+                modal.open();
+            }else{
                 messages(data.message, data.status);
-                if(data.status){
-                    window.location = data.url;
-                }else{
-                    thisReference.parents('.form-group').find('.spinner-border').hide();
-                    thisReference.prop('disabled', false);
-                    editForm.find('.lg-error').each(function(){
-                        $(this).empty().hide();
-                    });
-                    editForm.find('.lg-error-top').empty().append('<span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span> '+ data.message).show();
+            }
+        });
+    });
+
+    $('.update-cat').on('click', function(e){
+        e.preventDefault();
+        $('form#editForm').removeClass('was-validated');
+        var form_data = $('form#editForm').serializeArray();
+        $.ajax({
+            type: "PUT",
+            url: baseUrl + "categories/"+$('form#editForm').find('input[name="category_id"]').val(),
+            data: form_data,
+            success: function (data) {
+                $('form#editForm').find('.invalid-feedback').each(function(){
+                    $(this).empty().hide();
+                });
+                if (data.status) {
+                    Custombox.modal.close();
                 }
+                messages(data.message, data.status);
+                userTable.draw();
             },
-            error: function(error){
-                if( error.status === 422 && error.readyState == 4) {
-                    editForm.find('.invalid-feedback').each(function(){
+            error: function (error) {
+                if (error.status === 422 && error.readyState == 4) {
+                    $('form#editForm').find('.invalid-feedback').each(function(){
                         $(this).empty().hide();
                     });
                     var errors = $.parseJSON(error.responseText);
                     $.each(errors.message, function (key, val) {
-                        editForm.find('input[name="'+key+'"]').attr('required', 'required');
-                        editForm.find('#' + key + '_error').empty().append(val);
-                        editForm.find('#' + key + '_error').show();
+                        $('form#editForm').find('input[name="'+key+'"]').attr('required', 'required');
+                        $('form#editForm').find('#' + key + '_error').empty().append(val);
+                        $('form#editForm').find('#' + key + '_error').show();
                     });
-                    thisReference.parents('.form-group').find('.spinner-border').hide();
-                    thisReference.prop('disabled', false);
                 }
 
-                editForm.addClass('was-validated');
+                $('form#editForm').addClass('was-validated');
             },
+            complete: function(){
+            }
         });
     });
 });
 var userTable;
 $(function(){
     userTable = $('#table').DataTable({
-        order: [0, 'desc'],
+        order: [2, 'desc'],
         dom: 'lfrtip',
         lengthMenu: [ 10, 25, 50, 100, 200, 500],
         serverSide: true,
@@ -146,7 +144,7 @@ $(function(){
             }
         },
         "ajax": {
-            url: baseUrl + 'users',
+            url: baseUrl + 'categories',
             type: "GET",
             dataType: 'json',
 
@@ -161,14 +159,7 @@ $(function(){
             $(row).attr('data-id', data.userId);
         },
         columns: [
-            {data: 'id'},
             {data: 'name'},
-            {data: 'email'},
-            {data: 'role',
-                render: function(data, type, dataObject, meta) {
-                    return '<span class="badge badge-success">'+dataObject.role+'</span>';
-                }
-            },
             {data: 'active_status',
                 render: function(data, type, dataObject, meta) {
                     if(data){
@@ -182,20 +173,13 @@ $(function(){
             {data: 'actions', searchable: false, orderable: false, sortable: false,
                 render: function(data, type, dataObject, meta) {
                     var action = '';
-                    if(dataObject.manage_permission){
-                        action += '<a href="'+baseUrl+'users/'+dataObject.userId+'/edit" class="action-icon" title="EDIT"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
-                        if(dataObject.active_status){
-                            action += '<a href="javascript:void(0)" class="action-icon activate" title="DEACTIVATE" data-status="0" data-id="'+dataObject.userId+'"> <i class="fe-power text-success"></i></a>';
-                        }else{
-                            action += '<a href="javascript:void(0)" class="action-icon activate" title="ACTIVATE" data-status="1" data-id="'+dataObject.userId+'"> <i class="fe-check-circle text-success"></i></a>';
-                        }
+                    action += '<a href="javascript:void(0);" class="action-icon" title="EDIT"> <i class="mdi mdi-square-edit-outline text-primary" data-id="'+dataObject.id+'"></i></a>';
+                    if(dataObject.active_status){
+                        action += '<a href="javascript:void(0)" class="action-icon activate" title="DEACTIVATE" data-status="0" data-id="'+dataObject.id+'"> <i class="fe-power text-success"></i></a>';
+                    }else{
+                        action += '<a href="javascript:void(0)" class="action-icon activate" title="ACTIVATE" data-status="1" data-id="'+dataObject.id+'"> <i class="fe-check-circle text-success"></i></a>';
                     }
-
-                    if(!dataObject.is_auth_user){
-                        if(dataObject.manage_permission){
-                            action += '<a href="javascript:void(0);" class="action-icon" title="DELETE"> <i class="mdi mdi-delete text-danger" data-id="'+dataObject.userId+'"></i></a>';
-                        }
-                    }
+                    action += '<a href="javascript:void(0);" class="action-icon" title="DELETE"> <i class="mdi mdi-delete text-danger" data-id="'+dataObject.id+'"></i></a>';
                     return action;
                 }
             }
@@ -226,7 +210,7 @@ $('table#table').delegate('.mdi-delete', 'click', function(e){
     }, function (isConfirm){
         if(isConfirm){
             $.ajax({
-                url: baseUrl + 'users/' + userId,
+                url: baseUrl + 'categories/' + userId,
                 type: 'post',
                 data:{ id:userId, _method: 'DELETE', _token: csrfToken
                 },
@@ -256,7 +240,7 @@ $('table#table').delegate('.activate', 'click', function(e){
     }, function (isConfirm){
         if(isConfirm){
             $.ajax({
-                url: baseUrl + 'users/activate',
+                url: baseUrl + 'categories/activate',
                 type: 'post',
                 data:{ id:userId, _token: csrfToken, status:status
                 },

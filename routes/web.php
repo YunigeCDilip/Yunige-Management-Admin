@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Backend\RoleController;
@@ -11,8 +9,10 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\ClientMasterController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
+use App\Http\Controllers\Backend\ClientCategoryController;
 use App\Http\Controllers\Backend\WarehouseDataController;
 use App\Http\Controllers\Backend\MeetingController;
+use App\Http\Controllers\Backend\ShipperController;
 use App\Http\Controllers\Backend\ZoomRoomController;
 
 /*
@@ -42,7 +42,20 @@ Route::post('login', [LoginController::class, 'authenticate'])->name('login.subm
 Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    Route::resource('roles', RoleController::class);    
+    Route::resource('roles', RoleController::class);
+
+    Route::get('shippers', [ShipperController::class, 'index'])->name('shippers.index');
+    Route::post('shippers', [ShipperController::class, 'store'])->name('shippers.store');
+    Route::delete('shippers/{shipper}', [ShipperController::class, 'destroy'])->name('shippers.destroy');
+    Route::get('shippers/{shipper}', [ShipperController::class, 'show'])->name('shippers.show');
+    Route::put('shippers/{shipper}', [ShipperController::class, 'update'])->name('shippers.update');
+    
+    Route::post('categories/activate', [ClientCategoryController::class, 'activate'])->name('categories.activate');
+    Route::get('categories', [ClientCategoryController::class, 'index'])->name('categories.index');
+    Route::get('categories/{category}', [ClientCategoryController::class, 'show'])->name('categories.show');
+    Route::post('categories', [ClientCategoryController::class, 'store'])->name('categories.store');
+    Route::delete('categories/{category}', [ClientCategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::put('categories/{category}', [ClientCategoryController::class, 'update'])->name('categories.update');
     
     Route::get('clients', [ClientMasterController::class, 'index'])->name('clients.index');
     Route::get('clients/create', [ClientMasterController::class, 'create'])->name('clients.create');
