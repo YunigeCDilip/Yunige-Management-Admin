@@ -2,13 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use phpDocumentor\Reflection\Types\Self_;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $dates = ['deleted_at'];
 
     public function category(){
         return $this->belongsTo(ClientCategory::class, 'client_category_id');
@@ -20,6 +26,42 @@ class Client extends Model
 
     public function contact(){
         return $this->hasOne(ClientContact::class);
+    }
+
+    /**
+     * Get the user's first name.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function serialNumber(): Attribute
+    {
+        
+        // Log::info($latestData);
+        return Attribute::make(
+            get: fn ($value) => 'c'.sprintf("%04s", $value),
+            set: fn ($latestData) => $latestData+1,
+        );
+    }
+
+    /**
+     * Get the user's first name.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function clientName(): Attribute
+    {
+        $latestData = Self::withTrashed()->max('serial_number');
+        // IF({ClientJP}="",{ClientEng},IF({ClientEng}="",{ClientJP},CONCATENATE(UPPER({ClientEng}),"-",{ClientJP})))
+        // {ClientNameDisp}&"_"&{ClientNo}
+        $clientDisplay = "";
+        if($this->ja_name == "" && $this->en_name == "") $clientDisplay = "_".'c'.sprintf("%04s", $latestData+1);
+        else if($this->ja_name == "") $clientDisplay = $this->en_name;
+        else if($this->en_name == "") $clientDisplay = $this->ja_name;
+        else $clientDisplay = $this->en_name."-".$this->ja_name."_".'c'.sprintf("%04s", $latestData+1);
+
+        return Attribute::make(
+            set: fn ($value) => $clientDisplay,
+        );
     }
 
     /**
