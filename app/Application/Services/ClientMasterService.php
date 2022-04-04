@@ -150,6 +150,25 @@ class ClientMasterService extends Service
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        try {
+            $client = Client::find($id);
+            $client->delete();
+            return $this->responseOk([], MessageResponse::DATA_DELETED);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+    }
+
+    /*
      * Return all active data for to create.
      *
      * @return array
