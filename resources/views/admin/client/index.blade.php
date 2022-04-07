@@ -51,7 +51,7 @@
                             <tr>
                                 <th>{{__('messages.client_no')}}</th>
                                 <th>{{__('messages.client_name')}}</th>
-                                <th style="width: 85px;">{{__('messages.category')}}</th>
+                                <th>{{__('messages.category')}}</th>
                                 <th>{{__('messages.shipper')}}</th>
                                 <th>{{__('messages.resp_per')}}</th>
                                 <th>{{__('messages.contact_no')}}</th>

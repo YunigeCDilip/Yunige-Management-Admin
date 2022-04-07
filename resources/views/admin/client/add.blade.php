@@ -2,162 +2,255 @@
 @section('additional-css')
     <link href="{{asset('admin')}}/libs/dropzone/dropzone.min.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin')}}/libs/dropify/dropify.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{asset('admin')}}/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        .select2.select2-container {
+            width: 100% !important;
+        }
+    </style>
 @endsection
 @section('content')
 
-<form id="addForm" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+<form id="addForm" method="post" class="needs-validation" novalidate>
     @csrf
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-xl-12">
             <div class="card-box">
-                <div class="form-group mb-3">
-                    <label for="ja_name">{{__('messages.clientjp')}}</label>
-                    <input type="text" name="ja_name" class="form-control">
-                    <div class="invalid-feedback" id="ja_name_error" style="display:none;"></div>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="#general" data-toggle="tab" aria-expanded="false" class="nav-link active">
+                            General Informations
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#contact" data-toggle="tab" aria-expanded="false" class="nav-link">
+                            Contact Details
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#related" data-toggle="tab" aria-expanded="false" class="nav-link">
+                            Related Data
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#others" data-toggle="tab" aria-expanded="false" class="nav-link">
+                            Others
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="general">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card-box">
+                                    <div class="form-group mb-3">
+                                        <label for="ja_name">{{__('messages.clientjp')}}</label>
+                                        <input type="text" name="ja_name" class="form-control">
+                                        <div class="invalid-feedback" id="ja_name_error" style="display:none;"></div>
+                                    </div>
+                            
+                                    <div class="form-group mb-3">
+                                        <label for="en_name">{{__('messages.clienteng')}}</label>
+                                        <input type="text" name="en_name" class="form-control">
+                                        <div class="invalid-feedback" id="en_name_error" style="display:none;"></div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="company_tel">{{__('messages.company_tel')}}</label>
+                                        <input type="text" name="company_tel" class="form-control" placeholder="">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="fax">{{__('messages.fax')}}</label>
+                                        <input type="text" name="fax" class="form-control" placeholder="">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="hp">{{__('messages.hp')}}</label>
+                                        <textarea name="hp" class="form-control"></textarea>
+                                    </div>
+                                </div> <!-- end card-box -->
+                            </div> <!-- end col -->
+                            <div class="col-lg-6">
+                                <div class="card-box">
+                                    <div class="form-group mb-3">
+                                        <label for="movement">{{__('messages.movement_confirmation')}}</label>
+                                        <select class="form-control select2" name="movement">
+                                            <option value="">{{__('messages.select_movement_confirmation')}}</option>
+                                            @forelse(@$movements as $movement)
+                                                <option value="{{$movement->id}}">{{$movement->name}}</option>
+                                                @empty
+                                            @endforelse
+                                        </select>
+                                        <div class="invalid-feedback" id="client_error" style="display:none;"></div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="client">{{__('messages.request_customer_association')}}</label>
+                                        <select class="form-control select2" name="client">
+                                            <option value="">{{__('messages.select_client')}}</option>
+                                            @forelse(@$clients as $client)
+                                                <option value="{{$client->id}}">{{$client->client_name}}</option>
+                                                @empty
+                                            @endforelse
+                                        </select>
+                                        <div class="invalid-feedback" id="client_error" style="display:none;"></div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="shipper">{{__('messages.shipper')}}</label>
+                                        <select class="form-control select2" name="shipper">
+                                            <option value="">{{__('messages.select_shipper')}}</option>
+                                            @forelse($shippers as $shipper)
+                                                <option value="{{$shipper->id}}">{{$shipper->shipper_name}}</option>
+                                                @empty
+                                            @endforelse
+                                        </select>
+                                        <div class="invalid-feedback" id="shipper_error" style="display:none;"></div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="request_data">{{__('messages.request')}}</label>
+                                        <input type="text" name="request_data" class="form-control">
+                                    </div>
+                                </div> <!-- end col-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="contact">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card-box">  
+                                    <div class="form-group mb-3">
+                                        <label for="person_name">{{__('messages.resp_per')}}</label>
+                                        <input type="text" name="person_name" class="form-control" placeholder="e.g : John Doe">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="contact_number">{{__('messages.contact_no')}}</label>
+                                        <input type="text" name="contact_number" class="form-control" placeholder="">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="seller_add">{{__('messages.seller_add')}}</label>
+                                        <input type="text" name="seller_add" class="form-control" placeholder="">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="office_add">{{__('messages.office_add')}}</label>
+                                        <input type="text" name="office_add" class="form-control" placeholder="">
+                                    </div>
+                                </div> <!-- end card-box -->
+                            </div> <!-- end col -->
+                            <div class="col-lg-6">
+                                <div class="card-box">
+                                    <div class="form-group mb-3">
+                                        <label for="email">{{__('messages.email')}}</label>
+                                        <input type="text" name="email" class="form-control" placeholder="e.g : john.doe@example.com">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="seller_name">{{__('messages.seller_name')}}</label>
+                                        <input type="text" name="seller_name" class="form-control" placeholder="">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="pic_add">{{__('messages.pick_add')}}</label>
+                                        <input type="text" name="pic_add" class="form-control" placeholder="">
+                                    </div>
+                                </div> <!-- end col-->
+                            </div> <!-- end col-->
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="related">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card-box">
+                                    <div class="form-group mb-3">
+                                        <label for="category">{{__('messages.docs')}}</label>
+                                        <select class="form-control select2" name="category">
+                                            <option value="">{{__('messages.select_docs')}}</option>
+                                            @foreach($categories as $value)
+                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback" id="category_error" style="display:none;"></div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="item">{{__('messages.master_data')}}</label>
+                                        <select class="form-control select2" name="item[]" multiple>
+                                            @forelse($items as $item)
+                                                <option value="{{$item->id}}">{{$item->product_name}}</option>
+                                                @empty
+                                            @endforelse
+                                        </select>
+                                        <div class="invalid-feedback" id="item_error" style="display:none;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card-box">
+                                    <div class="form-group mb-3">
+                                        <label for="amazon">{{__('messages.amazon_progress')}}</label>
+                                        <select class="form-control select2" name="amazon[]" multiple>
+                                            @forelse($amazons as $amazon)
+                                                <option value="{{$amazon->id}}">{{$amazon->name}}</option>
+                                                @empty
+                                            @endforelse
+                                        </select>
+                                        <div class="invalid-feedback" id="amazon_error" style="display:none;"></div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="delivery_classification">{{__('messages.delivery_classification')}}</label>
+                                        <select class="form-control select2" name="delivery_classification">
+                                            <option value="">{{__('messages.select_delivery_classification')}}</option>
+                                            @forelse($classifications as $c)
+                                                <option value="{{$c->id}}">{{$c->name}}</option>
+                                                @empty
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="others">
+                    <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card-box">
+                                    <div class="form-group mb-3">
+                                        <label for="customer_classification">{{__('messages.customer_classification')}}</label>
+                                        <input type="text" name="customer_classification" class="form-control" placeholder="">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="takatsu_working_date">{{__('messages.takatsu_working_date')}}</label>
+                                        <input type="text" name="takatsu_working_date" class="form-control" placeholder="" id="datetimepicker">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch" name="sugio_book_print" value="1">
+                                            <label class="custom-control-label" for="customSwitch">{{__('messages.sugio_book_print')}}</label>
+                                        </div>
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch1" name="yamazaki_book_print" value="1">
+                                            <label class="custom-control-label" for="customSwitch1">{{__('messages.yamazaki_book_print')}}</label>
+                                        </div>
+                                    </div>
+                                </div> <!-- end card-box -->
+                            </div> <!-- end col -->
+                            <div class="col-lg-6">
+                                <div class="card-box">
+                                    <div class="form-group mb-3">
+                                        <label for="warehouse_remarks">{{__('messages.warehouse_remarks')}}</label>
+                                        <textarea name="warehouse_remarks" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="invoice_momo">{{__('messages.invoice_momo')}}</label>
+                                        <textarea name="invoice_momo" class="form-control"></textarea>
+                                    </div>
+                                </div> <!-- end col-->
+                            </div> <!-- end col-->
+                        </div>
+                    </div>
                 </div>
-        
-                <div class="form-group mb-3">
-                    <label for="en_name">{{__('messages.clienteng')}}</label>
-                    <input type="text" name="en_name" class="form-control">
-                    <div class="invalid-feedback" id="en_name_error" style="display:none;"></div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="shipper">{{__('messages.shipper')}}</label>
-                    <select class="form-control select2" name="shipper">
-                        <option value="">{{__('messages.select_shipper')}}</option>
-                        @forelse($shippers as $shipper)
-                            <option value="{{$shipper->id}}">{{$shipper->shipper_name}}</option>
-                            @empty
-                        @endforelse
-                    </select>
-                    <div class="invalid-feedback" id="shipper_error" style="display:none;"></div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="sdata">{{__('messages.client_data')}}</label>
-                    <select class="form-control select2" name="sdata[]" multiple>
-                        <option value="">{{__('messages.select_client_data')}}</option>
-                        @forelse($sdatas as $sdata)
-                            <option value="{{$sdata->id}}">{{$sdata->name}}</option>
-                            @empty
-                        @endforelse
-                    </select>
-                    <div class="invalid-feedback" id="sdata_error" style="display:none;"></div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="category">{{__('messages.docs')}}</label>
-                    <select class="form-control select2" name="category[]" multiple>
-                        <option value="">{{__('messages.select_category')}}</option>
-                        @foreach($categories as $value)
-                            <option value="{{$value->id}}">{{$value->name}}</option>
-                        @endforeach
-                    </select>
-                    <div class="invalid-feedback" id="category_error" style="display:none;"></div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="item">{{__('messages.master_data')}}</label>
-                    <select class="form-control select2" name="item[]" multiple>
-                        <option value="">{{__('messages.select_master_data')}}</option>
-                        @forelse($items as $item)
-                            <option value="{{$item->id}}">{{$item->product_name}}</option>
-                            @empty
-                        @endforelse
-                    </select>
-                    <div class="invalid-feedback" id="item_error" style="display:none;"></div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="wdata">{{__('messages.warehouse_data')}}</label>
-                    <select class="form-control select2" name="wdata[]" multiple>
-                        <option value="">{{__('messages.select_warehouse_data')}}</option>
-                        @forelse($wdatas as $wdata)
-                            <option value="{{$wdata->id}}">{{$wdata->name}}</option>
-                            @empty
-                        @endforelse
-                    </select>
-                    <div class="invalid-feedback" id="wdata_error" style="display:none;"></div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="amazon">{{__('messages.amazon_progress')}}</label>
-                    <select class="form-control select2" name="amazon[]" multiple>
-                        <option value="">{{__('messages.select_warehouse_data')}}</option>
-                        @forelse($amazons as $amazon)
-                            <option value="{{$amazon->id}}">{{$amazon->name}}</option>
-                            @empty
-                        @endforelse
-                    </select>
-                    <div class="invalid-feedback" id="amazon_error" style="display:none;"></div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="hp">{{__('messages.hp')}}</label>
-                    <textarea name="hp" class="form-control"></textarea>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="request">{{__('messages.request')}}</label>
-                    <input type="text" name="request" class="form-control">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="movement">{{__('messages.movement_confirmation')}}</label>
-                    <select class="form-control select2" name="movement">
-                        <option value="">{{__('messages.select_movement_confirmation')}}</option>
-                        @forelse(@$movements as $movement)
-                            <option value="{{$movement->id}}">{{$movement->name}}</option>
-                            @empty
-                        @endforelse
-                    </select>
-                    <div class="invalid-feedback" id="client_error" style="display:none;"></div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="client">{{__('messages.request_customer_association')}}</label>
-                    <select class="form-control select2" name="client">
-                        <option value="">{{__('messages.select_client')}}</option>
-                        @forelse(@$clients as $client)
-                            <option value="{{$client->id}}">{{$client->client_name}}</option>
-                            @empty
-                        @endforelse
-                    </select>
-                    <div class="invalid-feedback" id="client_error" style="display:none;"></div>
-                </div>
-            </div> <!-- end card-box -->
-        </div> <!-- end col -->
-        <div class="col-lg-6">
-            <div class="card-box">  
-                <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">{{__('messages.contact_detail')}}</h5>   
-                <div class="form-group mb-3">
-                    <label for="person_name">{{__('messages.resp_per')}}</label>
-                    <input type="text" name="person_name" class="form-control" placeholder="e.g : John Doe">
-                </div>
-        
-                <div class="form-group mb-3">
-                    <label for="email">{{__('messages.email')}}</label>
-                    <input type="text" name="email" class="form-control" placeholder="e.g : john.doe@example.com">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="contact_number">{{__('messages.contact_no')}}</label>
-                    <input type="text" name="contact_number" class="form-control" placeholder="">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="seller_name">{{__('messages.seller_name')}}</label>
-                    <input type="text" name="seller_name" class="form-control" placeholder="">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="seller_add">{{__('messages.seller_add')}}</label>
-                    <input type="text" name="seller_add" class="form-control" placeholder="">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="office_add">{{__('messages.office_add')}}</label>
-                    <input type="text" name="office_add" class="form-control" placeholder="">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="pic_add">{{__('messages.pick_add')}}</label>
-                    <input type="text" name="pic_add" class="form-control" placeholder="">
-                </div>
-            </div> <!-- end col-->
-        </div> <!-- end col-->
+            </div>
+        </div>
     </div>
     <!-- end row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="form-group mb-3">
-                <button class="btn w-sm btn-success waves-effect waves-light saveWdata">
+                <button class="btn w-sm btn-success waves-effect waves-light save-client">
                     <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>
                     {{__('actions.save')}}
                 </button>
@@ -172,6 +265,8 @@
     @section('additional-js')
        <!-- Select2 js-->
         <script src="{{asset('admin')}}/libs/select2/select2.min.js"></script>
+        <script src="{{asset('admin')}}/libs/datetimepicker/moment.min.js" type="text/javascript"></script>
+        <script src="{{asset('admin')}}/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
         <script src="{{asset('admin/custom/js/client.js')}}"></script>
     @endsection
 @endsection

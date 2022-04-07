@@ -10,8 +10,10 @@ use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\ClientMasterController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
 use App\Http\Controllers\Backend\ClientCategoryController;
+use App\Http\Controllers\Backend\DeliveryClassificationController;
 use App\Http\Controllers\Backend\WarehouseDataController;
 use App\Http\Controllers\Backend\MeetingController;
+use App\Http\Controllers\Backend\MovementConfirmationController;
 use App\Http\Controllers\Backend\ShipperController;
 use App\Http\Controllers\Backend\ZoomRoomController;
 
@@ -57,8 +59,27 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::delete('categories/{category}', [ClientCategoryController::class, 'destroy'])->name('categories.destroy');
     Route::put('categories/{category}', [ClientCategoryController::class, 'update'])->name('categories.update');
     
+    Route::post('classifications/activate', [DeliveryClassificationController::class, 'activate'])->name('classifications.activate');
+    Route::get('classifications', [DeliveryClassificationController::class, 'index'])->name('classifications.index');
+    Route::get('classifications/{classification}', [DeliveryClassificationController::class, 'show'])->name('classifications.show');
+    Route::post('classifications', [DeliveryClassificationController::class, 'store'])->name('classifications.store');
+    Route::delete('classifications/{classification}', [DeliveryClassificationController::class, 'destroy'])->name('classifications.destroy');
+    Route::put('classifications/{classification}', [DeliveryClassificationController::class, 'update'])->name('classifications.update');
+
+    Route::post('movements/activate', [MovementConfirmationController::class, 'activate'])->name('movements.activate');
+    Route::get('movements', [MovementConfirmationController::class, 'index'])->name('movements.index');
+    Route::get('movements/{movement}', [MovementConfirmationController::class, 'show'])->name('movements.show');
+    Route::post('movements', [MovementConfirmationController::class, 'store'])->name('movements.store');
+    Route::delete('movements/{movement}', [MovementConfirmationController::class, 'destroy'])->name('movements.destroy');
+    Route::put('movements/{movement}', [MovementConfirmationController::class, 'update'])->name('movements.update');
+    
     Route::get('clients', [ClientMasterController::class, 'index'])->name('clients.index');
     Route::get('clients/create', [ClientMasterController::class, 'create'])->name('clients.create');
+    Route::post('clients', [ClientMasterController::class, 'store'])->name('clients.store');
+    Route::get('clients/{client}', [ClientMasterController::class, 'show'])->name('clients.show');
+    Route::get('clients/{client}/edit', [ClientMasterController::class, 'edit'])->name('clients.edit');
+    Route::put('clients/{client}', [ClientMasterController::class, 'update'])->name('clients.update');
+    Route::delete('clients/{client}', [ClientMasterController::class, 'destroy'])->name('clients.destroy');
 
     Route::get('wdata', [WarehouseDataController::class, 'index'])->name('wdata.index');
     Route::get('wdata/create', [WarehouseDataController::class, 'create'])->name('wdata.create');

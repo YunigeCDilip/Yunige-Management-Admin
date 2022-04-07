@@ -61,6 +61,12 @@
                     <li>
                         <a href="{{route('admin.categories.index')}}">{{__('menu.category')}}</a>
                     </li>
+                    <li>
+                        <a href="{{route('admin.classifications.index')}}">{{__('menu.delivery_classification')}}</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.movements.index')}}">{{__('menu.movement_confirmation')}}</a>
+                    </li>
                 </ul>
             </li>
 

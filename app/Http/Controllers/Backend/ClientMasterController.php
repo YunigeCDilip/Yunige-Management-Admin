@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
+use App\Models\Client;
 use Illuminate\Http\Request;
-use App\Application\Services\ClientMasterService;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateClientMaster;
 use App\Http\Requests\UpdateClientMaster;
-use Throwable;
+use App\Application\Services\ClientMasterService;
 
 class ClientMasterController extends Controller 
 {
@@ -73,12 +73,19 @@ class ClientMasterController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  CreateClientMaster $request
-     * @return  Response
+     * @param CreateClientMaster $request
+     * @return Response
      */
     public function store(CreateClientMaster $request)
     {
-        $data = $this->service->store($request);
+        $data = json_decode($this->service->store($request)->getContent());
+        $responseData['status'] = $data->status;
+        $responseData['message'] = $data->message;
+        if($data->status){
+            $responseData['url'] = route('admin.clients.index');
+        }
+
+        return $responseData;
 
         return $data;
     }
@@ -91,22 +98,31 @@ class ClientMasterController extends Controller
      */
     public function show($id)
     {
-        $data = $this->service->show($id);
+        $data['title'] = trans('messages.client');
+        $data['menu'] = trans('messages.client');
+        $data['subMenu'] = trans('actions.view');
+        $data['client'] = Client::find($id);
+        $data['client']->load('contact', 'amazonProgress.progress', 'items', 'sdatas.sdata', 'wdatas', 'shipper', 'category', 'requestedClient', 'movement', 'classification');
 
-        return $data;
+        return view('admin.client.show', $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return  Response
+     * @param int $id
+     * @return View
      */
     public function edit($id)
     {
-        $data = $this->service->edit($id);
+        $data = $this->service->create();
+        $data['title'] = trans('messages.client');
+        $data['menu'] = trans('messages.client');
+        $data['subMenu'] = trans('actions.edit');
+        $data['client'] = Client::find($id);
+        $data['client']->load('contact', 'amazonProgress', 'items', 'sdatas', 'wdatas');
 
-        return $data;
+        return view('admin.client.edit', $data);
     }
 
     /**
@@ -118,16 +134,21 @@ class ClientMasterController extends Controller
      */
     public function update(UpdateClientMaster $request, $id)
     {
-        $data = $this->service->update($request, $id);
+        $data = json_decode($this->service->update($request, $id)->getContent());
+        $responseData['status'] = $data->status;
+        $responseData['message'] = $data->message;
+        if($data->status){
+            $responseData['url'] = route('admin.clients.index');
+        }
 
-        return $data;
+        return $responseData;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return  Response
+     * @param int $id
+     * @return Response
      */
     public function destroy(Request $request, $id)
     {

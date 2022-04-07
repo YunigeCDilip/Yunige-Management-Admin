@@ -32,5 +32,7 @@ return [
     'room'                      => 'Room',
     'shipper'                   => 'Shipper',
     'category'                  => 'Category',
+    'movement_confirmation'     => 'Movement Confirmation',
+    'delivery_classification'   => 'Delivery Classification',
 
 ];
