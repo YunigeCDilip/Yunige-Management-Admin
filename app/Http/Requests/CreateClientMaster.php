@@ -12,7 +12,9 @@ class CreateClientMaster extends ValidationRequest
     public function rules()
     {
         return [
-            //  Define rules
+            'ja_name' => 'required_if:en_name,null',
+            'en_name' => 'required_if:ja_name,null',
+            'shipper' => 'required|exists:shippers,id'
         ];
     }
 

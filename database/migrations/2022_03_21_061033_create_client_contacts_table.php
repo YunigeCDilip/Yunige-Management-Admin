@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('email', 255)->nullable();
             $table->string('contact_number', 255)->nullable();
             $table->string('seller_name', 255)->nullable();
+            $table->longText('seller_add', 255)->nullable();
             $table->longText('office_add', 255)->nullable();
             $table->longText('pic_add')->nullable();
 

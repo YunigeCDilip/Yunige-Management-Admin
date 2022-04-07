@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Client;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateClientMaster;
+use App\Http\Requests\UpdateClientMaster;
 use App\Application\Services\ClientMasterService;
 
 class ClientMasterController extends Controller
@@ -35,33 +34,59 @@ class ClientMasterController extends Controller
     }
 
     /**
-     * @param mixed $id
+     * Add new item to storage
      * 
-     * @return [type]
+     * @param CreateClientMaster $request
+     * 
+     * @return Response
      */
-    public function destory($id){
-        $data = $this->service->destroy($id);
+    public function store(CreateClientMaster $request)
+    {
+        $data = $this->service->store($request);
+        
         return $data;
     }
 
-    public function store(Request $request){
-        $latestData = Client::withTrashed()->max('serial_number');
-        // IF({ClientJP}="",{ClientEng},IF({ClientEng}="",{ClientJP},CONCATENATE(UPPER({ClientEng}),"-",{ClientJP})))
-        // {ClientNameDisp}&"_"&{ClientNo}
-        $clientDisplay = "";
-        if($request->ja_name == "" && $request->en_name == "") $clientDisplay = "_".'c'.sprintf("%04s", $latestData+1);
-        else if($request->ja_name == "") $clientDisplay = $request->en_name;
-        else if($request->en_name == "") $clientDisplay = $request->ja_name;
-        else $clientDisplay = $request->en_name."-".$request->ja_name."_".'c'.sprintf("%04s", $latestData+1);
-        Log::info("Hello");
-        $data = new Client();
-        $data->ja_name = $request->ja_name;
-        $data->en_name = $request->en_name;
-        $data->serial_number = $latestData+1;
-        $data->client_name = $clientDisplay;
-        Log::info($data);
-        $data->save();
-        
+    /**
+     * Show item from storage
+     * 
+     * @param mixed $id
+     * 
+     * @return Response
+     */
+    public function show($id)
+    {
+        $data = $this->service->show($id);
 
+        return $data;
+    }
+
+    /**
+     * Update item from storage
+     * 
+     * @param UpdateClientMaster $request
+     * @param int $id
+     * 
+     * @return Response
+     */
+    public function update(UpdateClientMaster $request, $id)
+    {
+        $data = $this->service->update($request, $id);
+
+        return $data;
+    }
+
+    /**
+     * Delete item from storage
+     * 
+     * @param mixed $id
+     * 
+     * @return Response
+     */
+    public function destory($id)
+    {
+        $data = $this->service->destroy($id);
+
+        return $data;
     }
 }

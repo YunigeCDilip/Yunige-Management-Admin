@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use phpDocumentor\Reflection\Types\Self_;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,8 +14,21 @@ class Client extends Model
 
     protected $dates = ['deleted_at'];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'takatsu_working_date' => 'datetime',
+    ];
+
     public function category(){
         return $this->belongsTo(ClientCategory::class, 'client_category_id');
+    }
+
+    public function requestedClient(){
+        return $this->belongsTo(Client::class, 'request_client_id');
     }
 
     public function shipper(){
@@ -28,39 +39,39 @@ class Client extends Model
         return $this->hasOne(ClientContact::class);
     }
 
-    /**
-     * Get the user's first name.
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
-     */
-    protected function serialNumber(): Attribute
-    {
-        
-        // Log::info($latestData);
-        return Attribute::make(
-            get: fn ($value) => 'c'.sprintf("%04s", $value),
-            set: fn ($latestData) => $latestData+1,
-        );
+    public function amazonProgress(){
+        return $this->hasMany(ClientAmazonProgress::class);
+    }
+
+    public function sdatas(){
+        return $this->hasMany(ClientSdata::class);
+    }
+
+    public function items(){
+        return $this->hasMany(ClientItem::class);
+    }
+
+    public function wdatas(){
+        return $this->hasMany(ClientWdata::class);
+    }
+
+    public function movement(){
+        return $this->belongsTo(MovementConfirmation::class, 'movement_confirmation_id');
+    }
+
+    public function classification(){
+        return $this->belongsTo(ForeignDeliveryClassification::class, 'foreign_delivery_classifications_id');
     }
 
     /**
      * Get the user's first name.
      *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     * @return Attribute
      */
-    protected function clientName(): Attribute
+    protected function serialNumber(): Attribute
     {
-        $latestData = Self::withTrashed()->max('serial_number');
-        // IF({ClientJP}="",{ClientEng},IF({ClientEng}="",{ClientJP},CONCATENATE(UPPER({ClientEng}),"-",{ClientJP})))
-        // {ClientNameDisp}&"_"&{ClientNo}
-        $clientDisplay = "";
-        if($this->ja_name == "" && $this->en_name == "") $clientDisplay = "_".'c'.sprintf("%04s", $latestData+1);
-        else if($this->ja_name == "") $clientDisplay = $this->en_name;
-        else if($this->en_name == "") $clientDisplay = $this->ja_name;
-        else $clientDisplay = $this->en_name."-".$this->ja_name."_".'c'.sprintf("%04s", $latestData+1);
-
         return Attribute::make(
-            set: fn ($value) => $clientDisplay,
+            get: fn ($value) => 'c'.sprintf("%04s", $value)
         );
     }
 
@@ -113,6 +124,61 @@ class Client extends Model
                         $q->where('name', 'LIKE', '%'.$search.'%')
                         ->orWhere('contact_number', 'LIKE', '%'.$search.'%');
                     });
+        }
+    }
+
+    /**
+     * Save client related data
+     * @param Request $request
+     * 
+     * @return void
+     */
+    public function saveClientsDatas($request)
+    {
+        $sdatas = $request->sdata;
+        if($request->has('sdata') && count($sdatas) > 0){
+            ClientSdata::where('client_id', $this->id)->delete();
+            foreach($sdatas as $d)
+            {
+                $cd = new ClientSdata();
+                $cd->client_id = $this->id;
+                $cd->sdata_id = $d;
+                $cd->save();
+            }
+        }
+        $wdatas = $request->wdata;
+        if($request->has('wdata') && $wdatas){
+            ClientWdata::where('client_id', $this->id)->delete();
+            foreach($wdatas as $d)
+            {
+                $cd = new ClientWdata();
+                $cd->client_id = $this->id;
+                $cd->wdata_id = $d;
+                $cd->save();
+            }
+        }
+        $clients = $request->item;
+        if($request->has('item') && $clients){
+            ClientItem::where('client_id', $this->id)->delete();
+            foreach($clients as $d)
+            {
+                $cd = new ClientItem();
+                $cd->client_id = $this->id;
+                $cd->item_master_id = $d;
+                $cd->save();
+            }
+        }
+
+        $progress = $request->amazon;
+        if($request->has('amazon') && $progress){
+            ClientAmazonProgress::where('client_id', $this->id)->delete();
+            foreach($progress as $d)
+            {
+                $cd = new ClientAmazonProgress();
+                $cd->client_id = $this->id;
+                $cd->amazon_progress_id = $d;
+                $cd->save();
+            }
         }
     }
 }

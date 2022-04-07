@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ClientItem extends Model
 {
     use HasFactory;
+
+    public function item(){
+        return $this->belongsTo(ItemMaster::class, 'item_master_id');
+    }
 }
