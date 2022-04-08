@@ -63,6 +63,10 @@ class Client extends Model
         return $this->belongsTo(ForeignDeliveryClassification::class, 'foreign_delivery_classifications_id');
     }
 
+    public function brands(){
+        return $this->hasMany(ClientBrand::class);
+    }
+
     /**
      * Get the user's first name.
      *
@@ -147,7 +151,7 @@ class Client extends Model
             }
         }
         $wdatas = $request->wdata;
-        if($request->has('wdata') && $wdatas){
+        if($request->has('wdata') && count($wdatas) > 0){
             ClientWdata::where('client_id', $this->id)->delete();
             foreach($wdatas as $d)
             {
@@ -158,7 +162,7 @@ class Client extends Model
             }
         }
         $clients = $request->item;
-        if($request->has('item') && $clients){
+        if($request->has('item') && count($clients) > 0){
             ClientItem::where('client_id', $this->id)->delete();
             foreach($clients as $d)
             {
@@ -170,13 +174,25 @@ class Client extends Model
         }
 
         $progress = $request->amazon;
-        if($request->has('amazon') && $progress){
+        if($request->has('amazon') && count($progress) > 0){
             ClientAmazonProgress::where('client_id', $this->id)->delete();
             foreach($progress as $d)
             {
                 $cd = new ClientAmazonProgress();
                 $cd->client_id = $this->id;
                 $cd->amazon_progress_id = $d;
+                $cd->save();
+            }
+        }
+
+        $brands = $request->brand;
+        if($request->has('brand') && count($brands) > 0){
+            ClientBrand::where('client_id', $this->id)->delete();
+            foreach($brands as $d)
+            {
+                $cd = new ClientBrand();
+                $cd->client_id = $this->id;
+                $cd->name = $d;
                 $cd->save();
             }
         }

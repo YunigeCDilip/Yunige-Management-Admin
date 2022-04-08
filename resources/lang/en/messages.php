@@ -153,5 +153,7 @@ return [
     'select_delivery_classification'        => 'Select Classification',
     'warehouse_remarks'                     => 'Warehouse Remarks',
     'select_docs'                           => 'Select Doc',
+    'brand'                                 => 'Brand Name',
+    'brands'                                => 'Brands',
 
 ];

@@ -102,7 +102,7 @@ class ClientMasterController extends Controller
         $data['menu'] = trans('messages.client');
         $data['subMenu'] = trans('actions.view');
         $data['client'] = Client::find($id);
-        $data['client']->load('contact', 'amazonProgress.progress', 'items', 'sdatas.sdata', 'wdatas', 'shipper', 'category', 'requestedClient', 'movement', 'classification');
+        $data['client']->load('contact', 'amazonProgress.progress', 'items', 'sdatas.sdata', 'wdatas', 'shipper', 'category', 'requestedClient', 'movement', 'classification', 'brands');
 
         return view('admin.client.show', $data);
     }
@@ -120,7 +120,7 @@ class ClientMasterController extends Controller
         $data['menu'] = trans('messages.client');
         $data['subMenu'] = trans('actions.edit');
         $data['client'] = Client::find($id);
-        $data['client']->load('contact', 'amazonProgress', 'items', 'sdatas', 'wdatas');
+        $data['client']->load('contact', 'amazonProgress', 'items', 'sdatas', 'wdatas', 'brands');
 
         return view('admin.client.edit', $data);
     }
@@ -153,6 +153,18 @@ class ClientMasterController extends Controller
     public function destroy(Request $request, $id)
     {
         $data = $this->service->destroy($request, $id);
+
+        return $data;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @return Response
+     */
+    public function deleteBrand(Request $request)
+    {
+        $data = $this->service->deleteBrand($request);
 
         return $data;
     }

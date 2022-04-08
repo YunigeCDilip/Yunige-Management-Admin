@@ -85,6 +85,17 @@
                         {{ $client->invoice }}
                         </small>
                     </div>
+                    <div class="form-group mb-3">
+                        <h5>{{__('messages.brands')}}</h5>
+                        <small class="text-muted">
+                            @forelse($client->brands as $d)
+                                <span class="badge badge-info badge-pill">
+                                    {{$d->name}}
+                                </span>
+                                @empty
+                            @endforelse
+                        </small>
+                    </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group mb-3">

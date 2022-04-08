@@ -80,6 +80,7 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('clients/{client}/edit', [ClientMasterController::class, 'edit'])->name('clients.edit');
     Route::put('clients/{client}', [ClientMasterController::class, 'update'])->name('clients.update');
     Route::delete('clients/{client}', [ClientMasterController::class, 'destroy'])->name('clients.destroy');
+    Route::post('delete-client-brands', [ClientMasterController::class, 'deleteBrand']);
 
     Route::get('wdata', [WarehouseDataController::class, 'index'])->name('wdata.index');
     Route::get('wdata/create', [WarehouseDataController::class, 'create'])->name('wdata.create');

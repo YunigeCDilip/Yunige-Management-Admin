@@ -1,7 +1,6 @@
 @extends('layouts.layout')
-@section('additional-css')
-    <link href="{{asset('admin')}}/libs/dropzone/dropzone.min.css" rel="stylesheet" type="text/css" />
-    <link href="{{asset('admin')}}/libs/dropify/dropify.min.css" rel="stylesheet" type="text/css" /> 
+@section('additional-css')    
+    <link rel="stylesheet" href="{{asset('admin/libs/sweetalert/sweetalert.css')}}">
     <link href="{{asset('admin')}}/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" /> 
     <style>
         .select2.select2-container {
@@ -223,6 +222,76 @@
                                 </div>
                             </div>
                         </div>
+                        @if($client->brands)
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card-box">
+                                        <div class="col-lg-8 form-input-area">
+                                            <label class="col-form-label">{{__('messages.brand')}}</label>
+                                            <div class="row">
+                                                <div class="col-sm-9 pl-lg-0">
+                                                    @foreach($client->brands as $index => $brand)
+                                                        @if($index == 0)
+                                                        <div id="dis-clone">
+                                                            <div class="row content-box dis-clone" id="clone-{{$index}}">
+                                                                <div class="col-md-8">
+                                                                    <input type="text" class="form-control form-group " placeholder="{{__('messages.brand')}}" name="brand[]" value="{{$brand->name}}">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <a href="#" class="btn btn-success form-button mt-0 add-more-dis">+</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @else
+                                                            <div class="row content-box dis-clone" id="clone-{{$index}}">
+                                                                <div class="col-md-8">
+                                                                    <input type="text" class="form-control form-group " placeholder="{{__('messages.brand')}}" name="brand[]" value="{{$brand->name}}">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <a href="#" class="btn btn-danger form-button mt-0 delete-brand" data-id="{{$brand->id}}">-</a>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                    <div class="dis-clone-here">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card-box">
+                                        <div class="col-lg-8 form-input-area">
+                                            <label class="col-form-label">{{__('messages.brand')}}</label>
+                                            <div class="row">
+                                                <div class="col-sm-9 pl-lg-0">
+                                                    <div id="dis-clone">
+                                                        <div class="row content-box dis-clone" id="clone-0">
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control form-group " placeholder="{{__('messages.brand')}}" name="brand[]">
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <a href="#" class="btn btn-success form-button mt-0 add-more-dis">+</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="dis-clone-here">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <div class="tab-pane" id="others">
                     <div class="row">
@@ -287,6 +356,77 @@
         <script src="{{asset('admin')}}/libs/select2/select2.min.js"></script>
         <script src="{{asset('admin')}}/libs/datetimepicker/moment.min.js" type="text/javascript"></script>
         <script src="{{asset('admin')}}/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+        <script src="{{asset('admin')}}/libs/sweetalert/sweetalert.min.js"></script>
         <script src="{{asset('admin/custom/js/client.js')}}"></script>
+
+        <script>
+            $(".add-more-dis").click(function (e) {
+                e.preventDefault();
+                var $dis = $("#dis-clone").html();
+                $('.dis-clone-here').append($dis);
+                $(".dis-clone-here .btn").removeClass("btn-success add-more-dis").addClass("btn-danger remove-clone");
+                $(".dis-clone-here .btn").text("-");
+                $('.dis-clone-here').find('input:last').val("");
+                $('.dis-clone-here').find('.dis-clone').each(function(index, val){
+                    index++;
+                $(this).attr('id', 'clone-'+index);
+                    $(this).find('.error-message').empty().hide();
+                });
+            });
+
+            $('form#editForm').delegate(".remove-clone","click", function (e) {
+                e.preventDefault();
+                var thisRef = $(this);
+                swal({
+                    title: "Are you sure you want to remove this field ?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#136ba7",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "Cancel",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                }, function (isConfirm){
+                    if(isConfirm){
+                        thisRef.parent().parent().remove();
+                        $('.dis-clone-here').find('.dis-clone').each(function(index, val){
+                            index++;
+                            $(this).attr('id', 'clone-'+index);
+                            $(this).find('.error-message').empty().hide();
+                        });
+                    }
+                });
+            });
+
+            $('form#editForm').delegate(".delete-brand","click", function (e) {
+                e.preventDefault();
+                var thisRef = $(this);
+                var id = thisRef.attr('data-id');
+                swal({
+                    title: "Are you sure you want to remove this field ?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#136ba7",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "Cancel",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                }, function (isConfirm){
+                    if(isConfirm){
+                        $.post(baseUrl + "delete-client-brands",{id:id, _token: csrfToken}, function(data){
+                            if(data.status){
+                                thisRef.parent().parent().remove();
+                                $('.dis-clone-here').find('.dis-clone').each(function(index, val){
+                                    index++;
+                                    $(this).attr('id', 'clone-'+index);
+                                    $(this).find('.error-message').empty().hide();
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
+        </script>
     @endsection
 @endsection

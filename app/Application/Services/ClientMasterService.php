@@ -19,6 +19,7 @@ use App\Models\MovementConfirmation;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\DatabaseManager;
 use App\Http\Resources\ClientMasterResource;
+use App\Models\ClientBrand;
 use App\Models\ForeignDeliveryClassification;
 
 class ClientMasterService extends Service
@@ -316,6 +317,7 @@ class ClientMasterService extends Service
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param $id
      * @return Response
      */
@@ -324,6 +326,29 @@ class ClientMasterService extends Service
         try {
             $this->db->beginTransaction();
             $client = Client::find($id);
+            $client->delete();
+            $this->db->commit();
+
+            return $this->responseOk(null, MessageResponse::DATA_DELETED);
+        } catch (Throwable $e) {
+            $this->db->rollback();
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function deleteBrand($request)
+    {
+        try {
+            $this->db->beginTransaction();
+            $client = ClientBrand::find($request->id);
             $client->delete();
             $this->db->commit();
 
