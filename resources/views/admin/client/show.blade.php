@@ -49,7 +49,7 @@
                         <h5>{{__('messages.shipper')}}</h5>
                         <small class="text-muted">
                             <span class="badge badge-pink badge-pill">
-                            {{$client->shipper->shipper_name}}
+                            {{($client->shipper) ? $client->shipper->shipper_name : ''}}
                             </span>
                         </small>
                     </div>
@@ -57,7 +57,7 @@
                         <h5>{{__('messages.category')}}</h5>
                         <small class="text-muted">
                             <span class="badge badge-primary badge-pill">
-                            {{$client->category->name}}
+                            {{($client->category) ? $client->category->name : ''}}
                             </span>
                         </small>
                     </div>
