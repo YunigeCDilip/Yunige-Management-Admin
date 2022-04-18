@@ -79,6 +79,7 @@
     @yield('additional-content')
     @include('layouts.partials.script')
     @yield('additional-js')
+    @yield('flash-js')
     
 </body>
 </html>

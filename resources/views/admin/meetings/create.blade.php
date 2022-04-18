@@ -1,5 +1,14 @@
 @extends('layouts.layout')
 @section('additional-css')
+    <link href="{{asset('admin/libs/datetimepicker/jquerysctipttop.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{asset('admin/libs/datetimepicker/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('admin/libs/datetimepicker/font-awesome.min.css')}}">
+    <link rel="stylesheet" href="{{asset('admin/libs/datetimepicker/bootstrap-datetimepicker.min.css')}}">
+
+    <style>
+        body { background-color: #fafafa; }
+        .container { margin-top: 150px; }
+    </style>
 @endsection
 @section('content')
 <form action="{{url('meetings/create')}}" method="POST"> 
@@ -14,10 +23,10 @@
                     <input type="text" name="topic" class="form-control" placeholder="Meeting Topic">
                     <div class="invalid-feedback" id="topic_error" style="display:none;"></div>
                 </div>
-        
+
                 <div class="form-group mb-3">
                     <label for="start_time">{{__('zoom.start_time')}} <span class="text-danger">*</span></label>
-                    <input type="text" name="start_time" class="form-control" placeholder="start_time">
+                    <input type="text" name="start_time" class="form-control" placeholder="start_time" id="datetimepicker1" />
                     <div class="invalid-feedback" id="start_time_error" style="display:none;"></div>
                 </div>
 
@@ -65,3 +74,32 @@
 
 </form>
 @endsection
+@section('additional-js')
+
+<script src="{{asset('admin')}}/libs/datetimepicker/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="{{asset('admin')}}/libs/datetimepicker/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="{{asset('admin')}}/libs/datetimepicker/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="{{asset('admin')}}/libs/datetimepicker/moment.min.js" type="text/javascript"></script>
+<script src="{{asset('admin')}}/libs/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36251023-1']);
+    _gaq.push(['_setDomainName', 'jqueryscript.net']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+@endsection
+

@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $meeting = ZoomMeeting::where(['topic'=>'demo'])->first();
+        $meeting = ZoomMeeting::where(['topic'=>'nepal'])->first();
         // dd($meeting->topic);
         $rooms = ['test','test1'];
         return view('front.index',compact('meeting','rooms'));

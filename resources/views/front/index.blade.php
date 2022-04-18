@@ -3,7 +3,6 @@
     <style>
         .card-img {
             width: 60px;
-            text-align: center;
         }
     </style>
 
@@ -24,39 +23,41 @@
 
 
     <div class="card-group">
-        <div class="card" style="width: 20rem">
-            <div class="card-img">
-                <img class="card-img-top" src="admin/images/yunige_avatar.png" alt="Card image cap"> 
+        <div class="card " style="width: 20rem">
+            <div class="d-flex justify-content-center">
+                <img class="card-img card-img-top" src="admin/images/sakura.png" alt="Card image cap"> 
             </div>
 
             <div class="card-body">
 
-                <h3 class="card-title">Sakura</h3>
-                <p class="card-text">This sentence is the content of the card.</p>
-                <a href="#" class="btn btn-primary">Join</a>
+                <h3 class="card-title d-flex justify-content-center">Sakura</h3>
+                <p class="card-text d-flex justify-content-center">This sentence is the content of the card.</p>
+                <div class=" d-flex justify-content-center"><a href="#" class="btn btn-primary">Join</a></div>
             </div>
         </div>
         <div class="card" style="width: 20rem">
-            <div class="card-img">
-                <img class="card-img-top" src="admin/images/yunige_avatar.png" alt="Card image cap"> 
+            <div class="d-flex justify-content-center">
+                <img class="card-img card-img-top" src="admin/images/panda.png" alt="Card image cap"> 
             </div>
 
             <div class="card-body">
 
-                <h3 class="card-title">Panda</h3>
-                <p class="card-text">This sentence is the content of the card.</p>
-                <a href="#" class="btn btn-primary">Join</a>
+                <h3 class="card-title d-flex justify-content-center">Panda</h3>
+                <p class="card-text d-flex justify-content-center">This sentence is the content of the card.</p>
+                <div class=" d-flex justify-content-center"><a href="#" class="btn btn-primary">Join</a></div>
+
             </div>
         </div>
         <div class="card" style="width: 20rem">
-            <div class="card-img">
-                <img class="card-img-top" src="admin/images/yunige_avatar.png" alt="Card image cap"> 
+            <div class="d-flex justify-content-center">
+                <img class="card-img card-img-top" src="admin/images/brand-icon.png" alt="Card image cap"> 
             </div>
             <div class="card-body">
 
-                <h3 class="card-title">Monaka</h3>
-                <p class="card-text">This sentence is the content of the card.</p>
-                <a href="#" class="btn btn-primary">Join</a>
+                <h3 class="card-title d-flex justify-content-center">Monaka</h3>
+                <p class="card-text d-flex justify-content-center">This sentence is the content of the card.</p>
+                <div class=" d-flex justify-content-center"><a href="#" class="btn btn-primary">Join</a></div>
+
             </div>
         </div>
     </div>

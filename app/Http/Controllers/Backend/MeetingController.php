@@ -108,7 +108,7 @@ class MeetingController extends Controller
         $updateMeeting = $this->update($meetingId, $request->all());
 
 
-        return redirect()->route('admin.meetings.list');
+        return redirect()->route('admin.meetings.list')->with('success', 'Meeting Updated successfully');
     }
 
     /**
@@ -122,7 +122,7 @@ class MeetingController extends Controller
         $response = $this->delete($meeting->meeting_id);
         if($response['success']){
             ZoomMeeting::find($id)->delete();
-            return redirect()->route('admin.meetings.list');
+            return redirect()->route('admin.meetings.list')->with('success', 'Meeting deleted successfully');
         }
 
     }

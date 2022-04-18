@@ -38,12 +38,12 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="text-lg-right">
-                            <a href="{{url('meetings/all')}}" class="btn btn-info waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> {{__('zoom.all_meeting')}}</a>
                             <a href="{{route('admin.meetings.create')}}" class="btn btn-danger waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> {{__('zoom.add_new_meeting')}}</a>
                         </div>
                     </div><!-- end col-->
                 </div>
 
+                @include('flash-message')
                 <div class="table-responsive">
                     <table class="table table-centered table-hover mb-0" id="table">
                         <thead class="thead-light">
