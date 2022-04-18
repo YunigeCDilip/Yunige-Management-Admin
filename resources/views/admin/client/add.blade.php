@@ -180,16 +180,6 @@
                             <div class="col-lg-6">
                                 <div class="card-box">
                                     <div class="form-group mb-3">
-                                        <label for="amazon">{{__('messages.amazon_progress')}}</label>
-                                        <select class="form-control select2" name="amazon[]" multiple>
-                                            @forelse($amazons as $amazon)
-                                                <option value="{{$amazon->id}}">{{$amazon->name}}</option>
-                                                @empty
-                                            @endforelse
-                                        </select>
-                                        <div class="invalid-feedback" id="amazon_error" style="display:none;"></div>
-                                    </div>
-                                    <div class="form-group mb-3">
                                         <label for="delivery_classification">{{__('messages.delivery_classification')}}</label>
                                         <select class="form-control select2" name="delivery_classification">
                                             <option value="">{{__('messages.select_delivery_classification')}}</option>

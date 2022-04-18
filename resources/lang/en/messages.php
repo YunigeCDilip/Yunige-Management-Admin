@@ -156,4 +156,22 @@ return [
     'brand'                                 => 'Brand Name',
     'brands'                                => 'Brands',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Amazon Progress modules
+    |--------------------------------------------------------------------------
+    |
+    */
+    'add_new_amazon_progress'             => 'Add New Amazon Progress',
+    'memo'                                => 'Memo',
+    'done'                                => 'Done',
+    'not_done'                            => 'Not Done',
+    '0_%'                                 => '0 %',
+    '50_%'                                => '50 %',
+    'compaign'                           => 'Compaign',
+    'attachments'                           => 'Attachments',
+    'select_user'                           => 'Select user',
+    'select_pickup'                           => 'Select pickup',
+    'translation'                           => 'Translation',
+
 ];

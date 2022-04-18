@@ -12,4 +12,8 @@ class ClientAmazonProgress extends Model
     public function progress(){
         return $this->belongsTo(AmazonProgress::class, 'amazon_progress_id');
     }
+
+    public function client(){
+        return $this->belongsTo(Client::class, 'client_id');
+    }
 }

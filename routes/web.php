@@ -4,18 +4,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\MeetingController;
 use App\Http\Controllers\Backend\SettingController;
+use App\Http\Controllers\Backend\ShipperController;
+use App\Http\Controllers\Backend\ZoomRoomController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\ClientMasterController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
-use App\Http\Controllers\Backend\ClientCategoryController;
-use App\Http\Controllers\Backend\DeliveryClassificationController;
 use App\Http\Controllers\Backend\WarehouseDataController;
-use App\Http\Controllers\Backend\MeetingController;
+use App\Http\Controllers\Backend\AmazonProgressController;
+use App\Http\Controllers\Backend\ClientCategoryController;
 use App\Http\Controllers\Backend\MovementConfirmationController;
-use App\Http\Controllers\Backend\ShipperController;
-use App\Http\Controllers\Backend\ZoomRoomController;
+use App\Http\Controllers\Backend\DeliveryClassificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,16 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::put('clients/{client}', [ClientMasterController::class, 'update'])->name('clients.update');
     Route::delete('clients/{client}', [ClientMasterController::class, 'destroy'])->name('clients.destroy');
     Route::post('delete-client-brands', [ClientMasterController::class, 'deleteBrand']);
+
+    Route::post('amazon-progress/activate', [AmazonProgressController::class, 'activate'])->name('amazon-progress.activate');
+    Route::get('amazon-progress', [AmazonProgressController::class, 'index'])->name('amazon-progress.index');
+    Route::get('amazon-progress/create', [AmazonProgressController::class, 'create'])->name('amazon-progress.create');
+    Route::get('amazon-progress/{id}', [AmazonProgressController::class, 'show'])->name('amazon-progress.show');
+    Route::post('amazon-progress', [AmazonProgressController::class, 'store'])->name('amazon-progress.store');
+    Route::get('amazon-progress/{id}/edit', [AmazonProgressController::class, 'edit'])->name('amazon-progress.edit');
+    Route::delete('amazon-progress/{id}', [AmazonProgressController::class, 'destroy'])->name('amazon-progress.destroy');
+    Route::get('amazon-progress-file/{id}', [AmazonProgressController::class, 'deleteFile'])->name('amazon-progress.deleteFile');
+    Route::post('amazon-progress/{id}', [AmazonProgressController::class, 'update'])->name('amazon-progress.update');
 
     Route::get('wdata', [WarehouseDataController::class, 'index'])->name('wdata.index');
     Route::get('wdata/create', [WarehouseDataController::class, 'create'])->name('wdata.create');

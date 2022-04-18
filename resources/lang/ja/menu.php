@@ -34,6 +34,7 @@ return [
     'category'                  => 'Category',
     'movement_confirmation'     => 'Movement Confirmation',
     'delivery_classification'   => 'Delivery Classification',
+    'amazon_progress'           => 'Amazon Progress',
 
 
 ];
