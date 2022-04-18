@@ -77,6 +77,13 @@
                     <span>{{__('menu.client')}}</span>
                 </a>
             </li>
+                        
+            <li>
+                <a href="{{route('admin.amazon-progress.index')}}" class="@if(@$menu == 'Amazon Progress') active @endif">
+                    <i class="fe-pocket"></i>
+                    <span>{{__('menu.amazon_progress')}}</span>
+                </a>
+            </li>
             <li>
                 <a href="{{route('admin.wdata.index')}}" class="@if(@$menu == 'Warehouse Data') active @endif">
                     <i class="fe-pocket"></i>

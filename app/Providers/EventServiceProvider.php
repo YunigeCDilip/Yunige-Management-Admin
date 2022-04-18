@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Models\Client;
+use App\Models\AmazonProgress;
+use Illuminate\Support\Facades\Event;
 use App\Observers\ClientModelObserver;
 use Illuminate\Auth\Events\Registered;
+use App\Observers\AmazonProgressObserver;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -30,5 +32,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Client::observe(ClientModelObserver::class);
+        AmazonProgress::observe(AmazonProgressObserver::class);
     }
 }
