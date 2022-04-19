@@ -15,14 +15,16 @@ class AmazonProgressObserver
      */
     public function creating(AmazonProgress $amazon)
     {
-        $data = explode('_', $amazon->status);
-        $client = Client::find($data[0]);
-        $clientDisplay = "".$client->client_name."";
-        if($amazon->status != "") $clientDisplay .= "-".$amazon->status;
-        if($amazon->pickup != "") $clientDisplay .= "-".$amazon->pickup;
-
-        $amazon->name = $clientDisplay;
-        $amazon->status = $data[1];
+        if($amazon->name == ''){
+            $data = explode('_', $amazon->status);
+            $client = Client::find($data[0]);
+            $clientDisplay = "".$client->client_name."";
+            if($amazon->status != "") $clientDisplay .= "-".$amazon->status;
+            if($amazon->pickup != "") $clientDisplay .= "-".$amazon->pickup;
+    
+            $amazon->name = $clientDisplay;
+            $amazon->status = $data[1];
+        }
     }
 
     /**
