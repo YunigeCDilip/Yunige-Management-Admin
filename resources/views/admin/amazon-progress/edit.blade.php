@@ -22,7 +22,7 @@
                 <select class="form-control select2" name="client">
                     <option value="">{{__('messages.select_client')}}</option>
                     @forelse($clients as $client)
-                        <option value="{{$client->id}}" @if($amazon->amazonProgress->client_id = $client->id) selected @endif>{{$client->client_name}}</option>
+                        <option value="{{$client->id}}" @if(@$amazon->amazonProgress->client_id == $client->id) selected @endif>{{$client->client_name}}</option>
                         @empty
                     @endforelse
                 </select>
@@ -33,7 +33,7 @@
                 <select class="form-control select2" name="user">
                     <option value="">{{__('messages.select_user')}}</option>
                     @forelse($users as $u)
-                        <option value="{{$u->id}}" @if($amazon->user_id = $u->id) selected @endif>{{$u->name}}</option>
+                        <option value="{{$u->id}}" @if(@$amazon->user_id == $u->id) selected @endif>{{$u->name}}</option>
                         @empty
                     @endforelse
                 </select>
