@@ -36,9 +36,6 @@ class MigrateAirtableAmazonProgress extends Command
     public function handle()
     {
         $this->info('Going to migrate tablename= '.AirtableDatabase::AMAZON_PROGRESS);
-        ClientAmazonProgress::truncate();
-        AmazonProgress::truncate();
-        AmazonProgressFile::truncate();
         $clients = new AirtableApiClient(AirtableDatabase::AMAZON_PROGRESS);
         $airtable = new AirTable($clients);
         $data = $airtable->all();
