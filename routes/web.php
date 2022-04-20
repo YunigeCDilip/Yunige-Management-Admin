@@ -4,15 +4,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\CarrierController;
 use App\Http\Controllers\Backend\MeetingController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\ShipperController;
+use App\Http\Controllers\Backend\WdataPicController;
 use App\Http\Controllers\Backend\ZoomRoomController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\LoginController;
+use App\Http\Controllers\Backend\WdataStatusController;
 use App\Http\Controllers\Backend\ClientMasterController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
 use App\Http\Controllers\Backend\WarehouseDataController;
+use App\Http\Controllers\Backend\WdataCategoryController;
 use App\Http\Controllers\Backend\AmazonProgressController;
 use App\Http\Controllers\Backend\ClientCategoryController;
 use App\Http\Controllers\Backend\MovementConfirmationController;
@@ -129,5 +133,33 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('rooms/{id}/edit', [ZoomRoomController::class, 'edit'])->name('rooms.edit');
     Route::post('rooms/{id}', [ZoomRoomController::class, 'updateRoom'])->name('rooms.update');
     Route::get('rooms/{id}/destroy', [ZoomRoomController::class, 'destroy'])->name('rooms.destroy');
+    
+    Route::post('wdata-categories/activate', [WdataCategoryController::class, 'activate'])->name('wdata-categories.activate');
+    Route::get('wdata-categories', [WdataCategoryController::class, 'index'])->name('wdata-categories.index');
+    Route::get('wdata-categories/{id}', [WdataCategoryController::class, 'show'])->name('wdata-categories.show');
+    Route::post('wdata-categories', [WdataCategoryController::class, 'store'])->name('wdata-categories.store');
+    Route::delete('wdata-categories/{id}', [WdataCategoryController::class, 'destroy'])->name('wdata-categories.destroy');
+    Route::put('wdata-categories/{id}', [WdataCategoryController::class, 'update'])->name('wdata-categories.update');
+
+    Route::post('carriers/activate', [CarrierController::class, 'activate'])->name('carriers.activate');
+    Route::get('carriers', [CarrierController::class, 'index'])->name('carriers.index');
+    Route::get('carriers/{id}', [CarrierController::class, 'show'])->name('carriers.show');
+    Route::post('carriers', [CarrierController::class, 'store'])->name('carriers.store');
+    Route::delete('carriers/{id}', [CarrierController::class, 'destroy'])->name('carriers.destroy');
+    Route::put('carriers/{id}', [CarrierController::class, 'update'])->name('carriers.update');
+
+    Route::post('wdata-status/activate', [WdataStatusController::class, 'activate'])->name('wdata-status.activate');
+    Route::get('wdata-status', [WdataStatusController::class, 'index'])->name('wdata-status.index');
+    Route::get('wdata-status/{id}', [WdataStatusController::class, 'show'])->name('wdata-status.show');
+    Route::post('wdata-status', [WdataStatusController::class, 'store'])->name('wdata-status.store');
+    Route::delete('wdata-status/{id}', [WdataStatusController::class, 'destroy'])->name('wdata-status.destroy');
+    Route::put('wdata-status/{id}', [WdataStatusController::class, 'update'])->name('wdata-status.update');
+
+    Route::post('wdata-pics/activate', [WdataPicController::class, 'activate'])->name('wdata-pics.activate');
+    Route::get('wdata-pics', [WdataPicController::class, 'index'])->name('wdata-pics.index');
+    Route::get('wdata-pics/{id}', [WdataPicController::class, 'show'])->name('wdata-pics.show');
+    Route::post('wdata-pics', [WdataPicController::class, 'store'])->name('wdata-pics.store');
+    Route::delete('wdata-pics/{id}', [WdataPicController::class, 'destroy'])->name('wdata-pics.destroy');
+    Route::put('wdata-pics/{id}', [WdataPicController::class, 'update'])->name('wdata-pics.update');
     
 });

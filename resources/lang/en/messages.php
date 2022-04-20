@@ -174,4 +174,22 @@ return [
     'select_pickup'                           => 'Select pickup',
     'translation'                           => 'Translation',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Wdata Master modules
+    |--------------------------------------------------------------------------
+    |
+    */
+    'wdata_pic'                 => 'Warehouse Pics',
+    'wdata_status'              => 'Wdata Statuses',
+    'wdata_carriers'            => 'Wdata Carriers',
+    'wdata_category'            => 'Wdata Categories',
+    'category_name'             => 'Category Name',
+    'add_new_shipper'           => 'Add New Shipper',
+    'add_new_category'          => 'Add New Category',
+    'edit_shipper'              => 'Edit Shipper',
+    'edit_category'             => 'Edit Category',
+    'add_new'                   => 'Add New Data',
+    'edit_data'                 => 'Edit Data',
+
 ];

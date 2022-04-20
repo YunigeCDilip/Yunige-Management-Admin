@@ -25,7 +25,7 @@ class WdataStatusSeeder extends Seeder
 
         foreach($statuses as $status){
             WdataStatus::create([
-                'ja_name' => $status['name'],
+                'name' => $status['name'],
                 'color' => $status['color']
             ]);
         }

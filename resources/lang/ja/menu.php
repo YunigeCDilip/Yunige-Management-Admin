@@ -35,6 +35,11 @@ return [
     'movement_confirmation'     => 'Movement Confirmation',
     'delivery_classification'   => 'Delivery Classification',
     'amazon_progress'           => 'Amazon Progress',
+    'wdata_master'              => 'Wdata Masters',
+    'warehouse_status'          => 'Wdata Status',
+    'carrier'                   => 'Carriers',
+    'inbound_status'            => 'Inbound Status',
+    'wdata_pic'                 => 'Warehouse Pic',
 
 
 ];
