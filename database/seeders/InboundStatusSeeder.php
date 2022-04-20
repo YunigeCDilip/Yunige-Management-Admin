@@ -24,7 +24,7 @@ class InboundStatusSeeder extends Seeder
 
         foreach($statuses as $status){
             InboundStatus::create([
-                'ja_name' => $status['name'],
+                'name' => $status['name'],
                 'color' => $status['color']
             ]);
         }

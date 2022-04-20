@@ -162,16 +162,16 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'add_new_amazon_progress'             => 'Add New Amazon Progress',
-    'memo'                                => 'Memo',
-    'done'                                => 'Done',
-    'not_done'                            => 'Not Done',
-    '0_%'                                 => '0 %',
-    '50_%'                                => '50 %',
-    'compaign'                           => 'Compaign',
+    'add_new_amazon_progress'               => 'Add New Amazon Progress',
+    'memo'                                  => 'Memo',
+    'done'                                  => 'Done',
+    'not_done'                              => 'Not Done',
+    '0_%'                                   => '0 %',
+    '50_%'                                  => '50 %',
+    'compaign'                              => 'Compaign',
     'attachments'                           => 'Attachments',
     'select_user'                           => 'Select user',
-    'select_pickup'                           => 'Select pickup',
+    'select_pickup'                         => 'Select pickup',
     'translation'                           => 'Translation',
 
     /*
@@ -184,12 +184,6 @@ return [
     'wdata_status'              => 'Wdata Statuses',
     'wdata_carriers'            => 'Wdata Carriers',
     'wdata_category'            => 'Wdata Categories',
-    'category_name'             => 'Category Name',
-    'add_new_shipper'           => 'Add New Shipper',
-    'add_new_category'          => 'Add New Category',
-    'edit_shipper'              => 'Edit Shipper',
-    'edit_category'             => 'Edit Category',
-    'add_new'                   => 'Add New Data',
-    'edit_data'                 => 'Edit Data',
+    'wdata_inbounds'            => 'Inbound Statuses',
 
 ];

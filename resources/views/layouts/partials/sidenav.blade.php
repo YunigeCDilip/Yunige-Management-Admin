@@ -89,7 +89,7 @@
                         <a href="{{route('admin.wdata-categories.index')}}">{{__('menu.category')}}</a>
                     </li>
                     <li>
-                        <a href="#">{{__('menu.inbound_status')}}</a>
+                        <a href="{{route('admin.inbound-statuses.index')}}">{{__('menu.inbound_status')}}</a>
                     </li>
                 </ul>
             </li>

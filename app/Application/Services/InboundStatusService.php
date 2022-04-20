@@ -3,15 +3,15 @@
 namespace App\Application\Services;
 
 use Throwable;
-use App\Models\WdataStatus;
+use App\Models\InboundStatus;
 use Illuminate\Http\Response;
 use App\Constants\MessageResponse;
-use App\Http\Resources\WdataStatusResource;
+use App\Http\Resources\InboundStatusResource;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\DatabaseManager;
 
-class WdataStatusService extends Service
+class InboundStatusService extends Service
 {
     /**
      *
@@ -33,11 +33,11 @@ class WdataStatusService extends Service
     public function index()
     {
         try {
-            $data = QueryBuilder::for(WdataStatus::Search(request('search')))
+            $data = QueryBuilder::for(InboundStatus::Search(request('search')))
                 ->defaultSort('name')
                 ->allowedSorts('id', 'name')
                ->paginate((request('per_page')) ?? 20);
-            return $this->responsePaginate(WdataStatusResource::collection($data), MessageResponse::DATA_LOADED);
+            return $this->responsePaginate(InboundStatusResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 
@@ -63,7 +63,7 @@ class WdataStatusService extends Service
             $order = $columns[$request->input('order.0.column')];
             $dir = $request->input('order.0.dir');
             if (empty($request->input('search.value'))) {
-                $shipperLists = WdataStatus::select('*');
+                $shipperLists = InboundStatus::select('*');
                 $totalShipperCount = $shipperLists->count();
                 $shippers = $shipperLists->offset($start)
                     ->limit($limit)
@@ -73,7 +73,7 @@ class WdataStatusService extends Service
 
             } else {
                 $searchKey = $request->input('search.value');
-                $shipperLists = WdataStatus::select('*')->search($searchKey);
+                $shipperLists = InboundStatus::select('*')->search($searchKey);
                 $totalShipperCount = $shipperLists->count();
                 $shippers = $shipperLists->offset($start)
                     ->limit($limit)
@@ -117,7 +117,7 @@ class WdataStatusService extends Service
     public function all()
     {
         try {
-            $data = WdataStatus::select('id', 'name')->get();
+            $data = InboundStatus::select('id', 'name')->get();
 
             return $this->responseOk($data, MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
@@ -137,7 +137,7 @@ class WdataStatusService extends Service
     {
         try {
             $this->db->beginTransaction();
-            $data = new WdataStatus();
+            $data = new InboundStatus();
             $data->name = $request->name;
             $data->save();
 
@@ -161,7 +161,7 @@ class WdataStatusService extends Service
     public function show($id)
     {
         try {
-            $data = WdataStatus::find($id);
+            $data = InboundStatus::find($id);
             if(!$data){
                 return $this->responseError(Response::HTTP_NOT_FOUND, MessageResponse::NOT_FOUND);
             }
@@ -185,7 +185,7 @@ class WdataStatusService extends Service
     {
         try {
             $this->db->beginTransaction();
-            $data = WdataStatus::find($id);
+            $data = InboundStatus::find($id);
             if(!$data){
                 return $this->responseError(Response::HTTP_NOT_FOUND, MessageResponse::NOT_FOUND);
             }
@@ -214,7 +214,7 @@ class WdataStatusService extends Service
     {
         try {
             $this->db->beginTransaction();
-            $category = WdataStatus::find($id);
+            $category = InboundStatus::find($id);
             $category->delete();
             $this->db->commit();
 

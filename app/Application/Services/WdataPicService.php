@@ -6,7 +6,9 @@ use Throwable;
 use App\Models\WdataPic;
 use Illuminate\Http\Response;
 use App\Constants\MessageResponse;
+use App\Http\Resources\WdataPicResource;
 use Illuminate\Support\Facades\Log;
+use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\DatabaseManager;
 
 class WdataPicService extends Service
@@ -31,9 +33,15 @@ class WdataPicService extends Service
     public function index()
     {
         try {
-
+            $data = QueryBuilder::for(WdataPic::where('active_status', true)->Search(request('search')))
+                ->defaultSort('name')
+                ->allowedSorts('id', 'name')
+               ->paginate((request('per_page')) ?? 20);
+            return $this->responsePaginate(WdataPicResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
         }
     }
 

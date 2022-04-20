@@ -3,12 +3,13 @@
 namespace App\Application\Services;
 
 use Throwable;
+use App\Models\Client;
 use App\Models\Shipper;
 use Illuminate\Http\Response;
 use App\Constants\MessageResponse;
-use App\Http\Resources\ShipperResource;
-use App\Models\Client;
 use Illuminate\Support\Facades\Log;
+use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Resources\ShipperResource;
 use Illuminate\Database\DatabaseManager;
 
 class ShipperService extends Service
@@ -33,7 +34,11 @@ class ShipperService extends Service
     public function index()
     {
         try {
-            
+            $data = QueryBuilder::for(Shipper::Search(request('search')))
+                ->defaultSort('shipper_name')
+                ->allowedSorts('id', 'shipper_name')
+               ->paginate((request('per_page')) ?? 20);
+            return $this->responsePaginate(ShipperResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 

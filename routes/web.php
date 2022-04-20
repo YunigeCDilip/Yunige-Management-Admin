@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\WdataStatusController;
 use App\Http\Controllers\Backend\ClientMasterController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
+use App\Http\Controllers\Backend\InboundStatusController;
 use App\Http\Controllers\Backend\WarehouseDataController;
 use App\Http\Controllers\Backend\WdataCategoryController;
 use App\Http\Controllers\Backend\AmazonProgressController;
@@ -148,7 +149,6 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::delete('carriers/{id}', [CarrierController::class, 'destroy'])->name('carriers.destroy');
     Route::put('carriers/{id}', [CarrierController::class, 'update'])->name('carriers.update');
 
-    Route::post('wdata-status/activate', [WdataStatusController::class, 'activate'])->name('wdata-status.activate');
     Route::get('wdata-status', [WdataStatusController::class, 'index'])->name('wdata-status.index');
     Route::get('wdata-status/{id}', [WdataStatusController::class, 'show'])->name('wdata-status.show');
     Route::post('wdata-status', [WdataStatusController::class, 'store'])->name('wdata-status.store');
@@ -161,5 +161,11 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::post('wdata-pics', [WdataPicController::class, 'store'])->name('wdata-pics.store');
     Route::delete('wdata-pics/{id}', [WdataPicController::class, 'destroy'])->name('wdata-pics.destroy');
     Route::put('wdata-pics/{id}', [WdataPicController::class, 'update'])->name('wdata-pics.update');
+
+    Route::get('inbound-statuses', [InboundStatusController::class, 'index'])->name('inbound-statuses.index');
+    Route::get('inbound-statuses/{id}', [InboundStatusController::class, 'show'])->name('inbound-statuses.show');
+    Route::post('inbound-statuses', [InboundStatusController::class, 'store'])->name('inbound-statuses.store');
+    Route::delete('inbound-statuses/{id}', [InboundStatusController::class, 'destroy'])->name('inbound-statuses.destroy');
+    Route::put('inbound-statuses/{id}', [InboundStatusController::class, 'update'])->name('inbound-statuses.update');
     
 });
