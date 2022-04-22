@@ -69,6 +69,30 @@
                     </li>
                 </ul>
             </li>
+            <li class="">
+                <a href="javascript: void(0);" aria-expanded="false">
+                    <i class="fe-users"></i>
+                    <span> {{__('menu.wdata_master')}} </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a href="{{route('admin.wdata-pics.index')}}">{{__('menu.wdata_pic')}}</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.wdata-status.index')}}">{{__('menu.warehouse_status')}}</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.carriers.index')}}">{{__('menu.carrier')}}</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.wdata-categories.index')}}">{{__('menu.category')}}</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.inbound-statuses.index')}}">{{__('menu.inbound_status')}}</a>
+                    </li>
+                </ul>
+            </li>
 
             <li class="menu-title mt-2">{{__('menu.modules')}}</li>            
             <li>

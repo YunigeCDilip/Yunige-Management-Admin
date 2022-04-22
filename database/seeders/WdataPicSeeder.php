@@ -33,7 +33,7 @@ class WdataPicSeeder extends Seeder
 
         foreach($statuses as $status){
             WdataPic::create([
-                'ja_name' => $status['name'],
+                'name' => $status['name'],
                 'color' => $status['color']
             ]);
         }

@@ -160,9 +160,28 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'add_new_amazon_progress'             => 'Add New Amazon Progress',
-    'memo'                                => 'Memo',
-    'done'                                => 'Done',
-    'not_done'                            => 'Not Done',
+    'add_new_amazon_progress'               => 'Add New Amazon Progress',
+    'memo'                                  => 'Memo',
+    'done'                                  => 'Done',
+    'not_done'                              => 'Not Done',
+    '0_%'                                   => '0 %',
+    '50_%'                                  => '50 %',
+    'compaign'                              => 'Compaign',
+    'attachments'                           => 'Attachments',
+    'select_user'                           => 'Select user',
+    'select_pickup'                         => 'Select pickup',
+    'translation'                           => 'Translation',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Wdata Master modules
+    |--------------------------------------------------------------------------
+    |
+    */
+    'wdata_pic'                 => 'Warehouse Pics',
+    'wdata_status'              => 'Wdata Statuses',
+    'wdata_carriers'            => 'Wdata Carriers',
+    'wdata_category'            => 'Wdata Categories',
+    'wdata_inbounds'            => 'Inbound Statuses',
 
 ];
