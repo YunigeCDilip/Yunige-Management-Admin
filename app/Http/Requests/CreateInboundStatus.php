@@ -12,7 +12,7 @@ class CreateInboundStatus extends ValidationRequest
     public function rules()
     {
         return [
-            //  Define rules
+            'name' => 'required|unique:inbound_statuses,name'
         ];
     }
 

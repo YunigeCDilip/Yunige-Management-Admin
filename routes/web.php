@@ -5,6 +5,7 @@ use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\CarrierController;
+use App\Http\Controllers\Backend\DeliverController;
 use App\Http\Controllers\Backend\MeetingController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\ShipperController;
@@ -97,6 +98,13 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::delete('amazon-progress/{id}', [AmazonProgressController::class, 'destroy'])->name('amazon-progress.destroy');
     Route::get('amazon-progress-file/{id}', [AmazonProgressController::class, 'deleteFile'])->name('amazon-progress.deleteFile');
     Route::post('amazon-progress/{id}', [AmazonProgressController::class, 'update'])->name('amazon-progress.update');
+
+    Route::post('delivers/activate', [DeliverController::class, 'activate'])->name('delivers.activate');
+    Route::get('delivers', [DeliverController::class, 'index'])->name('delivers.index');
+    Route::get('delivers/{deliver}', [DeliverController::class, 'show'])->name('delivers.show');
+    Route::post('delivers', [DeliverController::class, 'store'])->name('delivers.store');
+    Route::delete('delivers/{deliver}', [DeliverController::class, 'destroy'])->name('delivers.destroy');
+    Route::put('delivers/{deliver}', [DeliverController::class, 'update'])->name('delivers.update');
 
     Route::get('wdata', [WarehouseDataController::class, 'index'])->name('wdata.index');
     Route::get('wdata/create', [WarehouseDataController::class, 'create'])->name('wdata.create');

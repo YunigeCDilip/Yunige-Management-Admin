@@ -40,6 +40,7 @@ return [
     'carrier'                   => 'Carriers',
     'inbound_status'            => 'Inbound Status',
     'wdata_pic'                 => 'Warehouse Pic',
+    'delivers'                  => 'Delivers',
 
 
 ];

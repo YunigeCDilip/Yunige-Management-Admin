@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
+
 class UpdateInbounStatus extends ValidationRequest
 {
     /**
@@ -12,7 +14,7 @@ class UpdateInbounStatus extends ValidationRequest
     public function rules()
     {
         return [
-            //  Define rules
+            'name' => ['required', Rule::unique('inbound_statuses', 'name')->ignore(request('id'))]
         ];
     }
 

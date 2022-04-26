@@ -185,5 +185,6 @@ return [
     'wdata_carriers'            => 'Wdata Carriers',
     'wdata_category'            => 'Wdata Categories',
     'wdata_inbounds'            => 'Inbound Statuses',
+    'delivers'                  => 'Delivers',
 
 ];

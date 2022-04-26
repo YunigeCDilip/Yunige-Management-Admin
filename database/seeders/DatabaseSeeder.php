@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MovementConfirmationSeeder::class);
         $this->call(InboundStatusSeeder::class);
         $this->call(ForeignDeliveryClassification::class);
+        $this->call(DeliverTableSeeder::class);
         // $this->call(Artisan::call('clientCat:migrate'));
         // $this->call(Artisan::call('itemMaster:migrate'));
         // $this->call(Artisan::call('sdata:migrate'));

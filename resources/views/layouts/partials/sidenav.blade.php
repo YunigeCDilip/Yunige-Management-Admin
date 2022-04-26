@@ -91,6 +91,9 @@
                     <li>
                         <a href="{{route('admin.inbound-statuses.index')}}">{{__('menu.inbound_status')}}</a>
                     </li>
+                    <li>
+                        <a href="{{route('admin.delivers.index')}}">{{__('menu.delivers')}}</a>
+                    </li>
                 </ul>
             </li>
 

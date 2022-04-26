@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
-class CreateCarrierRequest extends ValidationRequest
+use Illuminate\Validation\Rule;
+
+class UpdateDeliverRequest extends ValidationRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,7 +14,7 @@ class CreateCarrierRequest extends ValidationRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:carriers,name'
+            'name' => ['required', Rule::unique('delivers', 'name')->ignore(request('deliver'))]
         ];
     }
 
