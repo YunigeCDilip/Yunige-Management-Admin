@@ -5,6 +5,7 @@ use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\CarrierController;
+use App\Http\Controllers\Backend\DeliverController;
 use App\Http\Controllers\Backend\MeetingController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\ShipperController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\WdataStatusController;
 use App\Http\Controllers\Backend\ClientMasterController;
+use App\Http\Controllers\Backend\CustomBrokerController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
 use App\Http\Controllers\Backend\InboundStatusController;
 use App\Http\Controllers\Backend\WarehouseDataController;
@@ -98,6 +100,13 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('amazon-progress-file/{id}', [AmazonProgressController::class, 'deleteFile'])->name('amazon-progress.deleteFile');
     Route::post('amazon-progress/{id}', [AmazonProgressController::class, 'update'])->name('amazon-progress.update');
 
+    Route::post('delivers/activate', [DeliverController::class, 'activate'])->name('delivers.activate');
+    Route::get('delivers', [DeliverController::class, 'index'])->name('delivers.index');
+    Route::get('delivers/{deliver}', [DeliverController::class, 'show'])->name('delivers.show');
+    Route::post('delivers', [DeliverController::class, 'store'])->name('delivers.store');
+    Route::delete('delivers/{deliver}', [DeliverController::class, 'destroy'])->name('delivers.destroy');
+    Route::put('delivers/{deliver}', [DeliverController::class, 'update'])->name('delivers.update');
+
     Route::get('wdata', [WarehouseDataController::class, 'index'])->name('wdata.index');
     Route::get('wdata/create', [WarehouseDataController::class, 'create'])->name('wdata.create');
     Route::post('wdata', [WarehouseDataController::class, 'store'])->name('wdata.store');
@@ -167,5 +176,13 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::post('inbound-statuses', [InboundStatusController::class, 'store'])->name('inbound-statuses.store');
     Route::delete('inbound-statuses/{id}', [InboundStatusController::class, 'destroy'])->name('inbound-statuses.destroy');
     Route::put('inbound-statuses/{id}', [InboundStatusController::class, 'update'])->name('inbound-statuses.update');
+
+    Route::get('custom-brokers', [CustomBrokerController::class, 'index'])->name('custom-brokers.index');
+    Route::get('custom-brokers/create', [CustomBrokerController::class, 'create'])->name('custom-brokers.create');
+    Route::get('custom-brokers/{id}', [CustomBrokerController::class, 'show'])->name('custom-brokers.show');
+    Route::post('custom-brokers', [CustomBrokerController::class, 'store'])->name('custom-brokers.store');
+    Route::get('custom-brokers/{id}/edit', [CustomBrokerController::class, 'edit'])->name('custom-brokers.edit');
+    Route::delete('custom-brokers/{id}', [CustomBrokerController::class, 'destroy'])->name('custom-brokers.destroy');
+    Route::post('custom-brokers/{id}', [CustomBrokerController::class, 'update'])->name('custom-brokers.update');
     
 });

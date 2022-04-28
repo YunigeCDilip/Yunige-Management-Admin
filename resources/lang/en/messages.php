@@ -185,5 +185,17 @@ return [
     'wdata_carriers'            => 'Wdata Carriers',
     'wdata_category'            => 'Wdata Categories',
     'wdata_inbounds'            => 'Inbound Statuses',
+    'delivers'                  => 'Delivers',
+    'custom_brokers'            => 'Custom Brokers',
+    'wdata_3'                   => 'Wdatas',
+    'telephone_no'              => 'Telephone Number',
+    'fax_number'                => 'Fax Number',
+    'url_back'                  => 'URL-back',
+    'data_by_matter'            => 'Data by matter',
+    'store_house'               => 'Storehouse',
+    'test'                      => 'Test',
+    'product_master'            => 'Product Master',
+    'table_17'                  => 'Table 17',
+    'request_otsunaka'          => 'Request Otsunaka',
 
 ];

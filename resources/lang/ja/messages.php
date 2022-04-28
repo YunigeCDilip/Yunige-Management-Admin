@@ -183,5 +183,17 @@ return [
     'wdata_carriers'            => 'Wdata Carriers',
     'wdata_category'            => 'Wdata Categories',
     'wdata_inbounds'            => 'Inbound Statuses',
+    'delivers'                  => 'Delivers',
+    'custom_brokers'            => 'Custom Brokers',
+    'wdata_3'                   => '倉庫 3',
+    'telephone_no'              => '電話番号',
+    'fax_number'                => 'FAX番号',
+    'url_back'                  => 'URL-back',
+    'data_by_matter'            => '案件別データ',
+    'store_house'               => '倉庫',
+    'test'                      => 'TEST',
+    'product_master'            => '商品マスター',
+    'table_17'                  => 'Table 17',
+    'request_otsunaka'          => '依頼乙仲',
 
 ];
