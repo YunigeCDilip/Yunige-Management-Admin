@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\WdataStatusController;
 use App\Http\Controllers\Backend\ClientMasterController;
+use App\Http\Controllers\Backend\CustomBrokerController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
 use App\Http\Controllers\Backend\InboundStatusController;
 use App\Http\Controllers\Backend\WarehouseDataController;
@@ -175,5 +176,13 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::post('inbound-statuses', [InboundStatusController::class, 'store'])->name('inbound-statuses.store');
     Route::delete('inbound-statuses/{id}', [InboundStatusController::class, 'destroy'])->name('inbound-statuses.destroy');
     Route::put('inbound-statuses/{id}', [InboundStatusController::class, 'update'])->name('inbound-statuses.update');
+
+    Route::get('custom-brokers', [CustomBrokerController::class, 'index'])->name('custom-brokers.index');
+    Route::get('custom-brokers/create', [CustomBrokerController::class, 'create'])->name('custom-brokers.create');
+    Route::get('custom-brokers/{id}', [CustomBrokerController::class, 'show'])->name('custom-brokers.show');
+    Route::post('custom-brokers', [CustomBrokerController::class, 'store'])->name('custom-brokers.store');
+    Route::get('custom-brokers/{id}/edit', [CustomBrokerController::class, 'edit'])->name('custom-brokers.edit');
+    Route::delete('custom-brokers/{id}', [CustomBrokerController::class, 'destroy'])->name('custom-brokers.destroy');
+    Route::post('custom-brokers/{id}', [CustomBrokerController::class, 'update'])->name('custom-brokers.update');
     
 });

@@ -41,6 +41,7 @@ return [
     'inbound_status'            => 'Inbound Status',
     'wdata_pic'                 => 'Warehouse Pic',
     'delivers'                  => 'Delivers',
+    'custom_brokers'            => 'Custom Brokers',
 
 
 ];

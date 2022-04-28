@@ -17,4 +17,5 @@ class AirtableDatabase
     const CLIENT_CAT            = 'clientCat';
     const ITEM_MASTER           = 'itemMaster';
     const AMAZON_PROGRESS       = 'AmazonProgress';
+    const CUSTOM_BROKER         = 'custommBroker';
 }

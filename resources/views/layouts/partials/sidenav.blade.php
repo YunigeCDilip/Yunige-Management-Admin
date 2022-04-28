@@ -94,6 +94,9 @@
                     <li>
                         <a href="{{route('admin.delivers.index')}}">{{__('menu.delivers')}}</a>
                     </li>
+                    <li>
+                        <a href="{{route('admin.custom-brokers.index')}}">{{__('menu.custom_brokers')}}</a>
+                    </li>
                 </ul>
             </li>
 
