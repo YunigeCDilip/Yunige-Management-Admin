@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\API\BarcodeItemController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\PicController;
 use App\Http\Controllers\API\StatusController;
@@ -8,8 +7,10 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\DeliveryController;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\API\BarcodeItemController;
 use App\Http\Controllers\API\ClientMasterController;
 use App\Http\Controllers\API\WarehouseDataController;
+use App\Http\Controllers\API\ClientMasterDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('pics', [PicController::class, 'index']);
     Route::get('categories', [CategoryController::class, 'index']);
 
+    Route::get('client-shippers', [ClientMasterDataController::class, 'shippers']);
+    Route::get('client-categories', [ClientMasterDataController::class, 'categories']);
     Route::get('clients', [ClientMasterController::class, 'index']);
     Route::delete('clients/{client}', [ClientMasterController::class, 'destory']);
     Route::post('clients', [ClientMasterController::class, 'store']);
