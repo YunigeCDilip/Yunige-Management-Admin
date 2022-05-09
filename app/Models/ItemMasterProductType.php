@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ItemMasterProductType extends Model
 {
     use HasFactory;
+
+    public function type(){
+        return $this->belongsTo(ProductType::class);
+    }
 }

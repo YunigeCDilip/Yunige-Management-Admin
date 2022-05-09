@@ -31,10 +31,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ItemLabelSeeder::class);
         $this->call(ProductTypesSeeder::class);
         // $this->call(Artisan::call('clientCat:migrate'));
+        // $this->call(Artisan::call('amazon:migrate'));
+        // $this->call(Artisan::call('clientMaster:migrate'));
         // $this->call(Artisan::call('itemMaster:migrate'));
         // $this->call(Artisan::call('sdata:migrate'));
         // $this->call(Artisan::call('wdata:migrate'));
-        // $this->call(Artisan::call('clientMaster:migrate'));
-        // $this->call(Artisan::call('amazon:migrate'));
     }
 }

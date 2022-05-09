@@ -7,6 +7,7 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\DeliveryController;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\API\ItemMasterController;
 use App\Http\Controllers\API\BarcodeItemController;
 use App\Http\Controllers\API\ClientMasterController;
 use App\Http\Controllers\API\WarehouseDataController;
@@ -56,4 +57,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::delete('wdata/{id}', [WarehouseDataController::class, 'destroy']);
 
     Route::get('barcode-items', [BarcodeItemController::class, 'index']);
+
+    Route::get('master-items', [ItemMasterController::class, 'index']);
+    Route::get('master-items/{id}', [ItemMasterController::class, 'show']);
 });
