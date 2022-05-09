@@ -207,7 +207,7 @@ class ItemMasterService extends Service
             if(!$data){
                 return $this->responseError(Response::HTTP_NOT_FOUND, MessageResponse::NOT_FOUND);
             }
-            $data->load('category', 'shipper', 'label', 'clientItems', 'brands.country', 'productTypes.type', 'images');
+            $data->load('category', 'shipper', 'label', 'clientItems.client', 'brands.country', 'productTypes.type', 'images');
 
             return $this->responseOk(new ItemMasterResource($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {

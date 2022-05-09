@@ -25,7 +25,7 @@ class ItemMaster extends Model
     }
 
     public function clientItems(){
-        return $this->hasMany(ClientItem::class);
+        return $this->hasOne(ClientItem::class);
     }
 
     public function brands(){
@@ -48,7 +48,7 @@ class ItemMaster extends Model
      */
     public function scopeWithQuery(Builder $query)
     {
-        return $query->with('category', 'shipper', 'label', 'clientItems', 'brands.country', 'productTypes.type', 'images');
+        return $query->with('category', 'shipper', 'label', 'clientItems.client', 'brands.country', 'productTypes.type', 'images');
     }
     
     /**
