@@ -6,15 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
+   /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'product_types';
+    public $tableName = 'shipment_methods';
 
     /**
      * Run the migrations.
-     * @table product_types
+     * @table shipment_methods
      *
      * @return void
      */
@@ -23,8 +23,8 @@ return new class extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->string('name', 255);
-            $table->tinyInteger('active_status')->default(true);
+            $table->string('name');
+            $table->tinyInteger('active_status')->default('1');
             $table->softDeletes();
             $table->timestamps();
         });

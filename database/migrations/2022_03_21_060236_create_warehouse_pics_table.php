@@ -10,11 +10,11 @@ return new class extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'product_types';
+    public $tableName = 'warehouse_pics';
 
     /**
      * Run the migrations.
-     * @table product_types
+     * @table warehouse_pics
      *
      * @return void
      */
@@ -22,9 +22,8 @@ return new class extends Migration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->bigIncrements('id');
-            $table->string('name', 255);
-            $table->tinyInteger('active_status')->default(true);
+            $table->increments('id');
+            $table->string('name');
             $table->softDeletes();
             $table->timestamps();
         });

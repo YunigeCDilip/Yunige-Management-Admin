@@ -24,6 +24,7 @@ return new class extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
+            $table->string('airtable_id')->nullable();
             $table->text('name');
             $table->unsignedBigInteger('country_id')->nullable();
             $table->string('ja_name', 255)->nullable();
