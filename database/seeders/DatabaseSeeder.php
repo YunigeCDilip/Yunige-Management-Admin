@@ -27,6 +27,9 @@ class DatabaseSeeder extends Seeder
         $this->call(InboundStatusSeeder::class);
         $this->call(ForeignDeliveryClassification::class);
         $this->call(DeliverTableSeeder::class);
+        $this->call(ItemCategorySeeder::class);
+        $this->call(ItemLabelSeeder::class);
+        $this->call(ProductTypesSeeder::class);
         // $this->call(Artisan::call('clientCat:migrate'));
         // $this->call(Artisan::call('itemMaster:migrate'));
         // $this->call(Artisan::call('sdata:migrate'));
