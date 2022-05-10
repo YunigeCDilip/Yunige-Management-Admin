@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\WdataPicController;
 use App\Http\Controllers\Backend\ZoomRoomController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\LoginController;
+use App\Http\Controllers\Backend\BrandMasterController;
 use App\Http\Controllers\Backend\WdataStatusController;
 use App\Http\Controllers\Backend\ClientMasterController;
 use App\Http\Controllers\Backend\CustomBrokerController;
@@ -184,5 +185,20 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('custom-brokers/{id}/edit', [CustomBrokerController::class, 'edit'])->name('custom-brokers.edit');
     Route::delete('custom-brokers/{id}', [CustomBrokerController::class, 'destroy'])->name('custom-brokers.destroy');
     Route::post('custom-brokers/{id}', [CustomBrokerController::class, 'update'])->name('custom-brokers.update');
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Item Masters Web Routes
+    |--------------------------------------------------------------------------
+    | Modules: Item Brand Masters
+    |
+    */
+    Route::get('item-brands', [BrandMasterController::class, 'index'])->name('item-brands.index');
+    Route::get('item-brands/create', [BrandMasterController::class, 'create'])->name('item-brands.create');
+    Route::get('item-brands/{id}', [BrandMasterController::class, 'show'])->name('item-brands.show');
+    Route::post('item-brands', [BrandMasterController::class, 'store'])->name('item-brands.store');
+    Route::get('item-brands/{id}/edit', [BrandMasterController::class, 'edit'])->name('item-brands.edit');
+    Route::delete('item-brands/{id}', [BrandMasterController::class, 'destroy'])->name('item-brands.destroy');
+    Route::post('item-brands/{id}', [BrandMasterController::class, 'update'])->name('item-brands.update');
     
 });
