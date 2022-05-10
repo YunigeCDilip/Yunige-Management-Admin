@@ -14,13 +14,6 @@ class ItemMasterResource extends JsonResource
      */
     public function toArray($request)
     {
-        $cData = null;
-        $country = $this->whenLoaded('brands.country');
-        if($country){
-            $cData['id'] = $country->id; 
-            $cData['name'] = $country->name; 
-        }
-
         return [
             'id'                        => $this->id,
             'product_name'              => $this->product_name,
@@ -41,8 +34,7 @@ class ItemMasterResource extends JsonResource
             'category'                  => new ItemCategoryResource($this->whenLoaded('category')),
             'shipper'                   => new ShipperResource($this->whenLoaded('shipper')),
             'label'                     => new ItemLabelResource($this->whenLoaded('label')),
-            'client'                    => new ClientMasterResource($this->whenLoaded('clientItems.client')),
-            'country'                   => $cData,
+            'client'                    => new RelationClientResource($this->whenLoaded('clientItems')),
             'product_types'             => ProductTypeResource::collection($this->whenLoaded('productTypes')),
             'images'                    => ItemImageResource::collection($this->whenLoaded('images')),
         ];

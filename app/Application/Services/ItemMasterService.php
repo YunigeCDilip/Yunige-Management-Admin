@@ -41,8 +41,8 @@ class ItemMasterService extends Service
     {
         try {
             $data = QueryBuilder::for(ItemMaster::WithQuery()->Search(request('search')))
-                ->defaultSort('name')
-                ->allowedSorts('id', 'name')
+                ->defaultSort('id')
+                ->allowedSorts('id', 'product_name')
                ->paginate((request('per_page')) ?? 20);
             return $this->responsePaginate(ItemMasterResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {

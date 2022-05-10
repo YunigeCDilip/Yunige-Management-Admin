@@ -13,23 +13,23 @@ class ItemMaster extends Model
     protected $dates = ['deleted_at'];
 
     public function category(){
-        return $this->belongsTo(ItemCategory::class);
+        return $this->belongsTo(ItemCategory::class, 'item_category_id');
     }
 
     public function shipper(){
-        return $this->belongsTo(Shipper::class);
+        return $this->belongsTo(Shipper::class, 'shipper_id');
     }
 
     public function label(){
-        return $this->hasOne(ItemLabel::class);
+        return $this->belongsTo(ItemLabel::class, 'item_label_id');
     }
 
     public function clientItems(){
-        return $this->hasOne(ClientItem::class);
+        return $this->hasOne(ClientItem::class)->latest();
     }
 
     public function brands(){
-        return $this->belongsTo(BrandMaster::class);
+        return $this->belongsTo(BrandMaster::class, 'brand_master_id');
     }
 
     public function productTypes(){

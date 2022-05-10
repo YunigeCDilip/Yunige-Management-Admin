@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BrandMasterResource extends JsonResource
+class RelationClientResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,16 +14,11 @@ class BrandMasterResource extends JsonResource
      */
     public function toArray($request)
     {
-        $cData = null;
-        $country = $this->whenLoaded('country');
-        if(!is_null($country)){
-            $cData['id'] = $country->id; 
-            $cData['name'] = $country->name; 
-        }
+        $client = $this->whenLoaded('client');
         return [
-            'id'        => $this->id,
-            'name'      => $this->name,
-            'country'   => $cData
+            'id'                => $client->id,
+            'serial_number'     => $client->serial_number,
+            'name'              => $client->client_name,
         ];
     }
 }
