@@ -60,7 +60,7 @@ class ItemMaster extends Model
     public function scopeSearch(Builder $query, $search)
     {
         if($search != ''){
-            return $query->where('name', 'LIKE', '%'.$search.'%')
+            return $query->where('product_name', 'LIKE', '%'.$search.'%')
                     ->orWhereHas('category', function($q) use($search){
                         $q->where('name', 'LIKE', '%'.$search.'%');
                     })
