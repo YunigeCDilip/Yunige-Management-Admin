@@ -83,10 +83,10 @@
                         <a href="{{route('admin.item-categories.index')}}">{{__('menu.category')}}</a>
                     </li>
                     <li>
-                        <a href="{{route('admin.classifications.index')}}">{{__('menu.label')}}</a>
+                        <a href="{{route('admin.item-labels.index')}}">{{__('menu.label')}}</a>
                     </li>
                     <li>
-                        <a href="{{route('admin.movements.index')}}">{{__('menu.product_type')}}</a>
+                        <a href="{{route('admin.product-types.index')}}">{{__('menu.product_type')}}</a>
                     </li>
                 </ul>
             </li>

@@ -3,15 +3,15 @@
 namespace App\Application\Services;
 
 use Throwable;
-use App\Models\ItemCategory;
+use App\Models\ItemLabel;
 use Illuminate\Http\Response;
 use App\Constants\MessageResponse;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\DatabaseManager;
-use App\Http\Resources\ItemCategoryResource;
+use App\Http\Resources\ItemLabelResource;
 
-class ItemCategoryService extends Service
+class ItemLabelService extends Service
 {
     /**
      *
@@ -33,11 +33,11 @@ class ItemCategoryService extends Service
     public function index()
     {
         try {
-            $data = QueryBuilder::for(ItemCategory::Search(request('search')))
+            $data = QueryBuilder::for(ItemLabel::Search(request('search')))
                 ->defaultSort('name')
                 ->allowedSorts('id', 'name')
                ->paginate((request('per_page')) ?? 20);
-            return $this->responsePaginate(ItemCategoryResource::collection($data), MessageResponse::DATA_LOADED);
+            return $this->responsePaginate(ItemLabelResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 
@@ -63,7 +63,7 @@ class ItemCategoryService extends Service
             $order = $columns[$request->input('order.0.column')];
             $dir = $request->input('order.0.dir');
             if (empty($request->input('search.value'))) {
-                $shipperLists = ItemCategory::select('*');
+                $shipperLists = ItemLabel::select('*');
                 $totalShipperCount = $shipperLists->count();
                 $shippers = $shipperLists->offset($start)
                     ->limit($limit)
@@ -73,7 +73,7 @@ class ItemCategoryService extends Service
 
             } else {
                 $searchKey = $request->input('search.value');
-                $shipperLists = ItemCategory::select('*')->search($searchKey);
+                $shipperLists = ItemLabel::select('*')->search($searchKey);
                 $totalShipperCount = $shipperLists->count();
                 $shippers = $shipperLists->offset($start)
                     ->limit($limit)
@@ -117,7 +117,7 @@ class ItemCategoryService extends Service
     public function all()
     {
         try {
-            $data = ItemCategory::select('id', 'name')->get();
+            $data = ItemLabel::select('id', 'name')->get();
 
             return $this->responseOk($data, MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
@@ -137,7 +137,7 @@ class ItemCategoryService extends Service
     {
         try {
             $this->db->beginTransaction();
-            $data = new ItemCategory();
+            $data = new ItemLabel();
             $data->name = $request->name;
             $data->save();
 
@@ -161,7 +161,7 @@ class ItemCategoryService extends Service
     public function show($id)
     {
         try {
-            $data = ItemCategory::find($id);
+            $data = ItemLabel::find($id);
             if(!$data){
                 return $this->responseError(Response::HTTP_NOT_FOUND, MessageResponse::NOT_FOUND);
             }
@@ -185,7 +185,7 @@ class ItemCategoryService extends Service
     {
         try {
             $this->db->beginTransaction();
-            $data = ItemCategory::find($id);
+            $data = ItemLabel::find($id);
             if(!$data){
                 return $this->responseError(Response::HTTP_NOT_FOUND, MessageResponse::NOT_FOUND);
             }
@@ -214,7 +214,7 @@ class ItemCategoryService extends Service
     {
         try {
             $this->db->beginTransaction();
-            $category = ItemCategory::find($id);
+            $category = ItemLabel::find($id);
             $category->delete();
             $this->db->commit();
 

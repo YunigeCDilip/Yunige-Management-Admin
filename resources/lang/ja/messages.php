@@ -214,5 +214,7 @@ return [
     'false'                     => 'False',
     'true'                      => 'True',
     'item_categories'           => 'Item Categories',
+    'item_labels'               => 'Item Labels',
+    'product_types'             => 'Product Types',
 
 ];

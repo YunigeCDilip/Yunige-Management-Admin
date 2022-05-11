@@ -12,8 +12,10 @@ use App\Http\Controllers\Backend\ShipperController;
 use App\Http\Controllers\Backend\WdataPicController;
 use App\Http\Controllers\Backend\ZoomRoomController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\ItemLabelController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\BrandMasterController;
+use App\Http\Controllers\Backend\ProductTypeController;
 use App\Http\Controllers\Backend\WdataStatusController;
 use App\Http\Controllers\Backend\ClientMasterController;
 use App\Http\Controllers\Backend\CustomBrokerController;
@@ -207,4 +209,16 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::delete('item-categories/{id}', [ItemCategoryController::class, 'destroy'])->name('item-categories.destroy');
     Route::get('item-categories/{id}', [ItemCategoryController::class, 'show'])->name('item-categories.show');
     Route::put('item-categories/{id}', [ItemCategoryController::class, 'update'])->name('item-categories.update');
+
+    Route::get('item-labels', [ItemLabelController::class, 'index'])->name('item-labels.index');
+    Route::post('item-labels', [ItemLabelController::class, 'store'])->name('item-labels.store');
+    Route::delete('item-labels/{id}', [ItemLabelController::class, 'destroy'])->name('item-labels.destroy');
+    Route::get('item-labels/{id}', [ItemLabelController::class, 'show'])->name('item-labels.show');
+    Route::put('item-labels/{id}', [ItemLabelController::class, 'update'])->name('item-labels.update');
+
+    Route::get('product-types', [ProductTypeController::class, 'index'])->name('product-types.index');
+    Route::post('product-types', [ProductTypeController::class, 'store'])->name('product-types.store');
+    Route::delete('product-types/{id}', [ProductTypeController::class, 'destroy'])->name('product-types.destroy');
+    Route::get('product-types/{id}', [ProductTypeController::class, 'show'])->name('product-types.show');
+    Route::put('product-types/{id}', [ProductTypeController::class, 'update'])->name('product-types.update');
 });
