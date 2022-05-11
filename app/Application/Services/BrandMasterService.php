@@ -36,7 +36,7 @@ class BrandMasterService extends Service
     public function index()
     {
         try {
-            $data = QueryBuilder::for(BrandMaster::Search(request('search')))
+            $data = QueryBuilder::for(BrandMaster::with('country')->Search(request('search')))
                 ->defaultSort('-id')
                 ->allowedSorts('id', 'name')
                ->paginate((request('per_page')) ?? 20);

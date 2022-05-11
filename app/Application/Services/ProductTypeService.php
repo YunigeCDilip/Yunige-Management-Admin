@@ -9,7 +9,7 @@ use App\Constants\MessageResponse;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\DatabaseManager;
-use App\Http\Resources\ProductTypeResource;
+use App\Http\Resources\ProductTypeDetailResource;
 
 class ProductTypeService extends Service
 {
@@ -37,7 +37,7 @@ class ProductTypeService extends Service
                 ->defaultSort('name')
                 ->allowedSorts('id', 'name')
                ->paginate((request('per_page')) ?? 20);
-            return $this->responsePaginate(ProductTypeResource::collection($data), MessageResponse::DATA_LOADED);
+            return $this->responsePaginate(ProductTypeDetailResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 
