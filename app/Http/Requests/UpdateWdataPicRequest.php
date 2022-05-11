@@ -12,7 +12,7 @@ class UpdateWdataPicRequest extends ValidationRequest
     public function rules()
     {
         return [
-            //  Define rules
+            'name' => 'required'
         ];
     }
 

@@ -215,5 +215,6 @@ return [
     'check'                     => 'Check',
     'false'                     => 'False',
     'true'                      => 'True',
+    'item_categories'           => 'Item Categories',
 
 ];

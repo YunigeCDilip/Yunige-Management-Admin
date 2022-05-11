@@ -80,7 +80,7 @@
                         <a href="{{route('admin.item-brands.index')}}">{{__('menu.brand_master')}}</a>
                     </li>
                     <li>
-                        <a href="{{route('admin.categories.index')}}">{{__('menu.category')}}</a>
+                        <a href="{{route('admin.item-categories.index')}}">{{__('menu.category')}}</a>
                     </li>
                     <li>
                         <a href="{{route('admin.classifications.index')}}">{{__('menu.label')}}</a>

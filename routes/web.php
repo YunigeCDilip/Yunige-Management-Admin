@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\BrandMasterController;
 use App\Http\Controllers\Backend\WdataStatusController;
 use App\Http\Controllers\Backend\ClientMasterController;
 use App\Http\Controllers\Backend\CustomBrokerController;
+use App\Http\Controllers\Backend\ItemCategoryController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
 use App\Http\Controllers\Backend\InboundStatusController;
 use App\Http\Controllers\Backend\WarehouseDataController;
@@ -190,7 +191,7 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     |--------------------------------------------------------------------------
     | Item Masters Web Routes
     |--------------------------------------------------------------------------
-    | Modules: Item Brand Masters
+    | Modules: Item Brand Masters, Item Categories
     |
     */
     Route::get('item-brands', [BrandMasterController::class, 'index'])->name('item-brands.index');
@@ -201,4 +202,9 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::delete('item-brands/{id}', [BrandMasterController::class, 'destroy'])->name('item-brands.destroy');
     Route::post('item-brands/{id}', [BrandMasterController::class, 'update'])->name('item-brands.update');
     
+    Route::get('item-categories', [ItemCategoryController::class, 'index'])->name('item-categories.index');
+    Route::post('item-categories', [ItemCategoryController::class, 'store'])->name('item-categories.store');
+    Route::delete('item-categories/{id}', [ItemCategoryController::class, 'destroy'])->name('item-categories.destroy');
+    Route::get('item-categories/{id}', [ItemCategoryController::class, 'show'])->name('item-categories.show');
+    Route::put('item-categories/{id}', [ItemCategoryController::class, 'update'])->name('item-categories.update');
 });
