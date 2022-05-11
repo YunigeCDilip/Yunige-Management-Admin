@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class CreateWdataStatusRequest extends ValidationRequest
+class UpdateBrandMaster extends ValidationRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,7 +12,8 @@ class CreateWdataStatusRequest extends ValidationRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'ja_name' => 'required_if:en_name,null',
+            'en_name' => 'required_if:ja_name,null',
         ];
     }
 

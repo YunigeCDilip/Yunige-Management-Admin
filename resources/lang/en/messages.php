@@ -198,4 +198,25 @@ return [
     'table_17'                  => 'Table 17',
     'request_otsunaka'          => 'Request Otsunaka',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Item Master modules
+    |--------------------------------------------------------------------------
+    |
+    */
+    'brand_masters'             => 'Brand Masters',
+    'logo'                      => 'Logo',
+    'select_country'            => 'Select country',
+    'brandJp'                   => 'Brand Name JP',
+    'brandEng'                  => 'Brand Name Eng',
+    'remarks'                   => 'Remarks',
+    'brand_url'                 => 'Brand Url',
+    'parallel_import'           => 'Parallel Import',
+    'check'                     => 'Check',
+    'false'                     => 'False',
+    'true'                      => 'True',
+    'item_categories'           => 'Item Categories',
+    'item_labels'               => 'Item Labels',
+    'product_types'             => 'Product Types',
+
 ];

@@ -12,10 +12,14 @@ use App\Http\Controllers\Backend\ShipperController;
 use App\Http\Controllers\Backend\WdataPicController;
 use App\Http\Controllers\Backend\ZoomRoomController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\ItemLabelController;
 use App\Http\Controllers\Backend\Auth\LoginController;
+use App\Http\Controllers\Backend\BrandMasterController;
+use App\Http\Controllers\Backend\ProductTypeController;
 use App\Http\Controllers\Backend\WdataStatusController;
 use App\Http\Controllers\Backend\ClientMasterController;
 use App\Http\Controllers\Backend\CustomBrokerController;
+use App\Http\Controllers\Backend\ItemCategoryController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
 use App\Http\Controllers\Backend\InboundStatusController;
 use App\Http\Controllers\Backend\WarehouseDataController;
@@ -185,4 +189,36 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::delete('custom-brokers/{id}', [CustomBrokerController::class, 'destroy'])->name('custom-brokers.destroy');
     Route::post('custom-brokers/{id}', [CustomBrokerController::class, 'update'])->name('custom-brokers.update');
     
+    /*
+    |--------------------------------------------------------------------------
+    | Item Masters Web Routes
+    |--------------------------------------------------------------------------
+    | Modules: Item Brand Masters, Item Categories
+    |
+    */
+    Route::get('item-brands', [BrandMasterController::class, 'index'])->name('item-brands.index');
+    Route::get('item-brands/create', [BrandMasterController::class, 'create'])->name('item-brands.create');
+    Route::get('item-brands/{id}', [BrandMasterController::class, 'show'])->name('item-brands.show');
+    Route::post('item-brands', [BrandMasterController::class, 'store'])->name('item-brands.store');
+    Route::get('item-brands/{id}/edit', [BrandMasterController::class, 'edit'])->name('item-brands.edit');
+    Route::delete('item-brands/{id}', [BrandMasterController::class, 'destroy'])->name('item-brands.destroy');
+    Route::post('item-brands/{id}', [BrandMasterController::class, 'update'])->name('item-brands.update');
+    
+    Route::get('item-categories', [ItemCategoryController::class, 'index'])->name('item-categories.index');
+    Route::post('item-categories', [ItemCategoryController::class, 'store'])->name('item-categories.store');
+    Route::delete('item-categories/{id}', [ItemCategoryController::class, 'destroy'])->name('item-categories.destroy');
+    Route::get('item-categories/{id}', [ItemCategoryController::class, 'show'])->name('item-categories.show');
+    Route::put('item-categories/{id}', [ItemCategoryController::class, 'update'])->name('item-categories.update');
+
+    Route::get('item-labels', [ItemLabelController::class, 'index'])->name('item-labels.index');
+    Route::post('item-labels', [ItemLabelController::class, 'store'])->name('item-labels.store');
+    Route::delete('item-labels/{id}', [ItemLabelController::class, 'destroy'])->name('item-labels.destroy');
+    Route::get('item-labels/{id}', [ItemLabelController::class, 'show'])->name('item-labels.show');
+    Route::put('item-labels/{id}', [ItemLabelController::class, 'update'])->name('item-labels.update');
+
+    Route::get('product-types', [ProductTypeController::class, 'index'])->name('product-types.index');
+    Route::post('product-types', [ProductTypeController::class, 'store'])->name('product-types.store');
+    Route::delete('product-types/{id}', [ProductTypeController::class, 'destroy'])->name('product-types.destroy');
+    Route::get('product-types/{id}', [ProductTypeController::class, 'show'])->name('product-types.show');
+    Route::put('product-types/{id}', [ProductTypeController::class, 'update'])->name('product-types.update');
 });

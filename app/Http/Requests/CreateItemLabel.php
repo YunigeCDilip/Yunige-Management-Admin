@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class CreateWdataStatusRequest extends ValidationRequest
+class CreateItemLabel extends ValidationRequest
 {
     /**
      * Get the validation rules that apply to the request.
