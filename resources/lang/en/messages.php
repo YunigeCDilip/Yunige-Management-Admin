@@ -198,4 +198,18 @@ return [
     'table_17'                  => 'Table 17',
     'request_otsunaka'          => 'Request Otsunaka',
 
+    /*
+    |--------------------------------------------------------------------------
+    | FBA list modules
+    |--------------------------------------------------------------------------
+    |
+    */
+    'add_new_fba'           => 'Add New FBA',
+    'fba_name'              => 'FBA Name',
+    'notes'                 => 'Notes',
+    'label'                 => 'Label',
+    'address'               => 'Address',
+    'fba'                   => 'FBA',
+
+
 ];

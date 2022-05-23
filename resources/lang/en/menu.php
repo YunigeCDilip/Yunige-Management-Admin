@@ -42,4 +42,5 @@ return [
     'wdata_pic'                 => 'Warehouse Pic',
     'delivers'                  => 'Delivers',
     'custom_brokers'            => 'Custom Brokers',
+    'fba'                       => 'FBA'
 ];
