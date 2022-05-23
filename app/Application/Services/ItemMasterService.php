@@ -62,12 +62,14 @@ class ItemMasterService extends Service
     {
         try {
             $columns = array(
-                0 => 'serial_number',
-                1 => 'client_name',
-                2 => 'category_name',
-                3 => 'shipper_name',
-                4 => 'resp_person',
-                5 => 'contact_no'
+                0 => 'product_name',
+                1 => 'images',
+                2 => 'product_barcode',
+                3 => 'barcode_entry_date',
+                4 => 'brand_master_id',
+                5 => 'item_category_id',
+                6 => 'item_label_id',
+                7 => 'shipper_id',
             );
             $limit = $request->input('length');
             $start = $request->input('start');
@@ -84,58 +86,60 @@ class ItemMasterService extends Service
                 }
 
                 if (!empty($datas)) {
-                    $clientLists = ItemMaster::WithQuery();
-                    $totalClientCount = $clientLists->count();
-                    $clients = $clientLists->offset($start)
+                    $itemLists = ItemMaster::WithQuery();
+                    $totalItemCount = $itemLists->count();
+                    $items = $itemLists->offset($start)
                         ->limit($limit)
                         ->orderBy($order, $dir)
                         ->get();
-                    $totalFiltered = $totalClientCount;
+                    $totalFiltered = $totalItemCount;
 
                 } else {
-                    $clientLists = ItemMaster::WithQuery();
-                    $totalClientCount = $clientLists->count();
-                    $clients = $clientLists->offset($start)
+                    $itemLists = ItemMaster::WithQuery();
+                    $totalItemCount = $itemLists->count();
+                    $items = $itemLists->offset($start)
                         ->limit($limit)
                         ->orderBy($order, $dir)
                         ->get();
-                    $totalFiltered = $totalClientCount;
+                    $totalFiltered = $totalItemCount;
 
                 }
 
             } else {
                 $searchKey = $request->input('search.value');
-                $clientLists = ItemMaster::WithQuery()
+                $itemLists = ItemMaster::WithQuery()
                     ->Search($searchKey);
-                $totalClientCount = $clientLists->count();
-                $clients = $clientLists->offset($start)
+                $totalItemCount = $itemLists->count();
+                $items = $itemLists->offset($start)
                     ->limit($limit)
                     ->orderBy($order, $dir)
                     ->get();
-                $totalFiltered = $totalClientCount;
+                $totalFiltered = $totalItemCount;
 
             }
             $tableContent = array();
-            if (!empty($clients)) {
-                $clientData = array();
-                foreach ($clients as $client) {
+            if (!empty($items)) {
+                $itemData = array();
+                foreach ($items as $item) {
                     $nestedData = array();
-                    $nestedData['id'] = $client->id;
-                    $nestedData['serial_number'] = $client->serial_number;
-                    $nestedData['client_name'] = $client->client_name;
-                    $nestedData['shipper_name'] = ($client->shipper_name != '') ? $client->shipper_name : '-';
-                    $nestedData['category_name'] = ($client->category_name != '') ? $client->category_name : '-';
-                    $nestedData['resp_person'] = ($client->resp_person != '') ? $client->resp_person : '-';
-                    $nestedData['contact_no'] = ($client->contact_number != '') ? $client->contact_number : '-';
+                    $nestedData['id'] = $item->id;
+                    $nestedData['product_name'] = $item->product_name;
+                    $nestedData['images'] = $item->images;
+                    $nestedData['brand_master_id'] = ($item->brand_master_id != '') ? $item->brands->name : '-';
+                    $nestedData['item_category_id'] = ($item->item_category_id != '') ? $item->category->name : '-';
+                    $nestedData['item_label_id'] = ($item->item_label_id != '') ? $item->label->name : '-';
+                    $nestedData['shipper_id'] = ($item->shipper_id != '') ? $item->shipper->shipper_name : '-';
+                    $nestedData['product_barcode'] = ($item->product_barcode != '') ? $item->product_barcode : '-';
+                    $nestedData['barcode_entry_date'] = ($item->barcode_entry_date != '') ? $item->barcode_entry_date : '-';
                     $nestedData['manage_permission'] = $this->checkPermission('manage.client');
-                    $clientData[] = $nestedData;
+                    $itemData[] = $nestedData;
                 }
 
                 $tableContent = array(
                     "draw" => intval($request->input('draw')),
-                    "recordsTotal" => $totalClientCount,
+                    "recordsTotal" => $totalItemCount,
                     "recordsFiltered" => $totalFiltered,
-                    "data" => $clientData,
+                    "data" => $itemData,
                 );
             }
             return $tableContent;

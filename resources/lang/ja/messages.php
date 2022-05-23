@@ -216,5 +216,6 @@ return [
     'item_categories'           => 'Item Categories',
     'item_labels'               => 'Item Labels',
     'product_types'             => 'Product Types',
+    'item'                      => 'Items',
 
 ];

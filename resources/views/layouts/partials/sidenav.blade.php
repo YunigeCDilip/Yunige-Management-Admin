@@ -130,6 +130,13 @@
             </li>
                         
             <li>
+                <a href="{{route('admin.items.index')}}" class="@if(@$menu == 'Items') active @endif">
+                    <i class="fe-pocket"></i>
+                    <span>{{__('menu.item')}}</span>
+                </a>
+            </li>
+                        
+            <li>
                 <a href="{{route('admin.amazon-progress.index')}}" class="@if(@$menu == 'Amazon Progress') active @endif">
                     <i class="fe-pocket"></i>
                     <span>{{__('menu.amazon_progress')}}</span>

@@ -15,6 +15,7 @@ use App\Models\ItemImage;
 use App\Models\ItemLabel;
 use App\Models\ItemMaster;
 use App\Models\ItemMasterProductType;
+use App\Models\PdfItemLabel;
 use App\Models\ProductType;
 use App\Models\Shipper;
 
@@ -90,6 +91,31 @@ class MigrateAirtableItemMaster extends Command
                 $itemMaster->unit = (isset($item['fields']['Unit/Set'])) ? $item['fields']['Unit/Set'] : null;
                 $itemMaster->weight = (isset($item['fields']['Weight'])) ? $item['fields']['Weight'] : null;
                 $itemMaster->weight2 = (isset($item['fields']['Weight2'])) ? $item['fields']['Weight2'] : null;
+
+                $itemMaster->label_link = (isset($item['fields']['Label(Link)'])) ? $item['fields']['Label(Link)'] : null; // file
+                $itemMaster->label_pdf_date = (isset($item['fields']['LabelPDF_Date'])) ? date('Y-m-d H:i:s', strtotime($item['fields']['LabelPDF_Date'])) : null;
+                $itemMaster->stricted_words = (isset($item['fields']['RestrictedWords1'])) ? $item['fields']['RestrictedWords1'] : null;
+                $itemMaster->w_no = (isset($item['fields']['w/No'])) ? $item['fields']['w/No'] : null;
+                $itemMaster->ing_list = (isset($item['fields']['IngList'])) ? $item['fields']['IngList'] : null;
+                $itemMaster->label_date = (isset($item['fields']['LabelDate'])) ? date('Y-m-d H:i:s', strtotime($item['fields']['LabelDate'])) : null;
+                $itemMaster->rec_mark = (isset($item['fields']['RECMark'])) ? json_encode($item['fields']['RECMark']) : null; //array
+                $itemMaster->sampling = (isset($item['fields']['Sampling'])) ? $item['fields']['Sampling'] : null;
+                $itemMaster->lot_sampling = (isset($item['fields']['LotSampling'])) ? $item['fields']['LotSampling'] : null;
+                $itemMaster->product_nickname = (isset($item['fields']['愛称'])) ? $item['fields']['愛称'] : null;
+                $itemMaster->outer_height = (isset($item['fields']['OuterWidth'])) ? $item['fields']['OuterWidth'] : null;
+                $itemMaster->outer_width = (isset($item['fields']['OuterHeight'])) ? $item['fields']['OuterHeight'] : null;
+                $itemMaster->unit_width = (isset($item['fields']['UnitWidth'])) ? $item['fields']['UnitWidth'] : null;
+                $itemMaster->unit_height = (isset($item['fields']['UnitHeight'])) ? $item['fields']['UnitHeight'] : null;
+                $itemMaster->origin = (isset($item['fields']['Origin'])) ? $item['fields']['Origin'] : null;
+                $itemMaster->lot_no = (isset($item['fields']['LotNo'])) ? $item['fields']['LotNo'] : null;
+                $itemMaster->bbd = (isset($item['fields']['BBD'])) ? $item['fields']['BBD'] : null;
+                $itemMaster->label_remarks = (isset($item['fields']['LabelRemark'])) ? $item['fields']['LabelRemark'] : null;
+                $itemMaster->lot_arr_date = (isset($item['fields']['LotArrDate'])) ? date('Y-m-d H:i:s', strtotime($item['fields']['LotArrDate'])) : null;
+                $itemMaster->sample_date = (isset($item['fields']['SampleDate'])) ? date('Y-m-d H:i:s', strtotime($item['fields']['SampleDate'])) : null;
+                $itemMaster->label_photo = (isset($item['fields']['LabelPhoto'])) ? $item['fields']['LabelPhoto'] : null;
+                $itemMaster->amazon_req = (isset($item['fields']['AmazInfoReq'])) ? $item['fields']['AmazInfoReq'] : null;
+                $itemMaster->outer_label_pos = (isset($item['fields']['OuterLabelPos'])) ? $item['fields']['OuterLabelPos'] : null;
+                $itemMaster->unit_label_pos = (isset($item['fields']['UnitLabelPos'])) ? $item['fields']['UnitLabelPos'] : null;
                 $itemMaster->save();
     
                 if($itemMaster){
@@ -98,6 +124,35 @@ class MigrateAirtableItemMaster extends Command
                             $image = new ItemImage();
                             $image->item_master_id = $itemMaster->id;
                             $image->url = $photo['url'];
+                            $image->save();
+                        }
+                    }
+
+                    if(isset($item['fields']['LabelPDF'])){
+                        foreach($item['fields']['LabelPDF'] as $photo){
+                            $image = new PdfItemLabel();
+                            $image->item_master_id = $itemMaster->id;
+                            $image->type = 'LabelPDF';
+                            $image->file = $photo['url'];
+                            $image->save();
+                        }
+                    }
+                    if(isset($item['fields']['LabelAppPDF'])){
+                        foreach($item['fields']['LabelAppPDF'] as $photo){
+                            $image = new PdfItemLabel();
+                            $image->item_master_id = $itemMaster->id;
+                            $image->type = 'LabelAppPDF';
+                            $image->file = $photo['url'];
+                            $image->save();
+                        }
+                    }
+
+                    if(isset($item['fields']['IngList_Data'])){
+                        foreach($item['fields']['IngList_Data'] as $photo){
+                            $image = new PdfItemLabel();
+                            $image->item_master_id = $itemMaster->id;
+                            $image->type = 'IngListData';
+                            $image->file = $photo['url'];
                             $image->save();
                         }
                     }
@@ -128,6 +183,60 @@ class MigrateAirtableItemMaster extends Command
                     }
                 }
             }else{
+                $itemMaster->label_link = (isset($item['fields']['Label(Link)'])) ? $item['fields']['Label(Link)'] : null; // file
+                $itemMaster->label_pdf_date = (isset($item['fields']['LabelPDF_Date'])) ? date('Y-m-d H:i:s', strtotime($item['fields']['LabelPDF_Date'])) : null;
+                $itemMaster->stricted_words = (isset($item['fields']['RestrictedWords1'])) ? $item['fields']['RestrictedWords1'] : null;
+                $itemMaster->w_no = (isset($item['fields']['w/No'])) ? $item['fields']['w/No'] : null;
+                $itemMaster->ing_list = (isset($item['fields']['IngList'])) ? $item['fields']['IngList'] : null;
+                $itemMaster->label_date = (isset($item['fields']['LabelDate'])) ? date('Y-m-d H:i:s', strtotime($item['fields']['LabelDate'])) : null;
+                $itemMaster->rec_mark = (isset($item['fields']['RECMark'])) ? json_encode($item['fields']['RECMark']) : null; //array
+                $itemMaster->sampling = (isset($item['fields']['Sampling'])) ? $item['fields']['Sampling'] : null;
+                $itemMaster->lot_sampling = (isset($item['fields']['LotSampling'])) ? $item['fields']['LotSampling'] : null;
+                $itemMaster->product_nickname = (isset($item['fields']['愛称'])) ? $item['fields']['愛称'] : null;
+                $itemMaster->outer_height = (isset($item['fields']['OuterWidth'])) ? $item['fields']['OuterWidth'] : null;
+                $itemMaster->outer_width = (isset($item['fields']['OuterHeight'])) ? $item['fields']['OuterHeight'] : null;
+                $itemMaster->unit_width = (isset($item['fields']['UnitWidth'])) ? $item['fields']['UnitWidth'] : null;
+                $itemMaster->unit_height = (isset($item['fields']['UnitHeight'])) ? $item['fields']['UnitHeight'] : null;
+                $itemMaster->origin = (isset($item['fields']['Origin'])) ? $item['fields']['Origin'] : null;
+                $itemMaster->lot_no = (isset($item['fields']['LotNo'])) ? $item['fields']['LotNo'] : null;
+                $itemMaster->bbd = (isset($item['fields']['BBD'])) ? $item['fields']['BBD'] : null;
+                $itemMaster->label_remarks = (isset($item['fields']['LabelRemark'])) ? $item['fields']['LabelRemark'] : null;
+                $itemMaster->lot_arr_date = (isset($item['fields']['LotArrDate'])) ? date('Y-m-d H:i:s', strtotime($item['fields']['LotArrDate'])) : null;
+                $itemMaster->sample_date = (isset($item['fields']['SampleDate'])) ? date('Y-m-d H:i:s', strtotime($item['fields']['SampleDate'])) : null;
+                $itemMaster->label_photo = (isset($item['fields']['LabelPhoto'])) ? $item['fields']['LabelPhoto'] : null;
+                $itemMaster->amazon_req = (isset($item['fields']['AmazInfoReq'])) ? $item['fields']['AmazInfoReq'] : null;
+                $itemMaster->outer_label_pos = (isset($item['fields']['OuterLabelPos'])) ? $item['fields']['OuterLabelPos'] : null;
+                $itemMaster->unit_label_pos = (isset($item['fields']['UnitLabelPos'])) ? $item['fields']['UnitLabelPos'] : null;
+                $itemMaster->save();
+
+                if(isset($item['fields']['LabelPDF'])){
+                    foreach($item['fields']['LabelPDF'] as $photo){
+                        $image = new PdfItemLabel();
+                        $image->item_master_id = $itemMaster->id;
+                        $image->type = 'LabelPDF';
+                        $image->file = $photo['url'];
+                        $image->save();
+                    }
+                }
+                if(isset($item['fields']['LabelAppPDF'])){
+                    foreach($item['fields']['LabelAppPDF'] as $photo){
+                        $image = new PdfItemLabel();
+                        $image->item_master_id = $itemMaster->id;
+                        $image->type = 'LabelAppPDF';
+                        $image->file = $photo['url'];
+                        $image->save();
+                    }
+                }
+
+                if(isset($item['fields']['IngList_Data'])){
+                    foreach($item['fields']['IngList_Data'] as $photo){
+                        $image = new PdfItemLabel();
+                        $image->item_master_id = $itemMaster->id;
+                        $image->type = 'IngListData';
+                        $image->file = $photo['url'];
+                        $image->save();
+                    }
+                }
     
                 if(isset($item['fields']['ClientName'])){
                     ClientItem::where('item_master_id', $itemMaster->id)->delete();

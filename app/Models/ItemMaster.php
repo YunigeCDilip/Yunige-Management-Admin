@@ -61,11 +61,19 @@ class ItemMaster extends Model
     {
         if($search != ''){
             return $query->where('product_name', 'LIKE', '%'.$search.'%')
+                    ->orWhere('product_barcode', 'LIKE', '%'.$search.'%')
+                    ->orWhere('barcode_entry_date', 'LIKE', '%'.$search.'%')
                     ->orWhereHas('category', function($q) use($search){
                         $q->where('name', 'LIKE', '%'.$search.'%');
                     })
                     ->orWhereHas('shipper', function($q) use($search){
                         $q->where('shipper_name', 'LIKE', '%'.$search.'%');
+                    })
+                    ->orWhereHas('label', function($q) use($search){
+                        $q->where('name', 'LIKE', '%'.$search.'%');
+                    })
+                    ->orWhereHas('brands', function($q) use($search){
+                        $q->where('name', 'LIKE', '%'.$search.'%');
                     });
         }
     }

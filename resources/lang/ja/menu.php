@@ -46,6 +46,7 @@ return [
     'brand_master'              => 'Brand Master',
     'label'                     => 'Item Labels',
     'product_type'              => 'Product Types',
+    'item'                      => 'Items',
 
 
 ];
