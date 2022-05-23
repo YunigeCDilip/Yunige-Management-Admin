@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Application\Services\ItemMasterService;
 use App\Http\Requests\CreateItemMaster;
 use App\Http\Requests\UpdateItemMaster;
-use Throwable;
+use App\Models\ItemMaster;
 
 class ItemMasterController extends Controller 
 {
@@ -31,9 +30,32 @@ class ItemMasterController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $this->service->index();
+        if(!$request->ajax()){
+            $data['title'] = trans('messages.item');
+            $data['menu'] = trans('messages.item');
+            $data['subMenu'] = trans('actions.lists');
+
+            return view('admin.item.index', $data);
+        }
+
+        $data = $this->service->datatable($request);
 
         return $data;
+    }
+
+    /**
+     * Return all active data for view.
+     *
+     * @return View
+     */
+    public function create()
+    {
+        $data = $this->service->create();
+        $data['title'] = trans('messages.item');
+        $data['menu'] = trans('messages.item');
+        $data['subMenu'] = trans('actions.add');
+
+        return view('admin.item.add', $data);
     }
 
     /**
@@ -51,12 +73,19 @@ class ItemMasterController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  CreateItemMaster $request
-     * @return  Response
+     * @param CreateItemMaster $request
+     * @return Response
      */
     public function store(CreateItemMaster $request)
     {
-        $data = $this->service->store($request);
+        $data = json_decode($this->service->store($request)->getContent());
+        $responseData['status'] = $data->status;
+        $responseData['message'] = $data->message;
+        if($data->status){
+            $responseData['url'] = route('admin.items.index');
+        }
+
+        return $responseData;
 
         return $data;
     }
@@ -69,22 +98,31 @@ class ItemMasterController extends Controller
      */
     public function show($id)
     {
-        $data = $this->service->show($id);
+        $data['title'] = trans('messages.item');
+        $data['menu'] = trans('messages.item');
+        $data['subMenu'] = trans('actions.view');
+        $data['item'] = ItemMaster::find($id);
+        $data['item']->load('category', 'shipper', 'label', 'clientItems', 'brands', 'productTypes.type', 'images');
 
-        return $data;
+        return view('admin.client.show', $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return  Response
+     * @param int $id
+     * @return View
      */
     public function edit($id)
     {
-        $data = $this->service->edit($id);
+        $data = $this->service->create();
+        $data['title'] = trans('messages.item');
+        $data['menu'] = trans('messages.item');
+        $data['subMenu'] = trans('actions.edit');
+        $data['item'] = ItemMaster::find($id);
+        $data['item']->load('category', 'shipper', 'label', 'clientItems', 'brands', 'productTypes.type', 'images');
 
-        return $data;
+        return view('admin.item.edit', $data);
     }
 
     /**
@@ -96,16 +134,21 @@ class ItemMasterController extends Controller
      */
     public function update(UpdateItemMaster $request, $id)
     {
-        $data = $this->service->update($request, $id);
+        $data = json_decode($this->service->update($request, $id)->getContent());
+        $responseData['status'] = $data->status;
+        $responseData['message'] = $data->message;
+        if($data->status){
+            $responseData['url'] = route('admin.items.index');
+        }
 
-        return $data;
+        return $responseData;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return  Response
+     * @param int $id
+     * @return Response
      */
     public function destroy(Request $request, $id)
     {

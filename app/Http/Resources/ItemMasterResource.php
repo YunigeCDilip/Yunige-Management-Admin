@@ -43,6 +43,7 @@ class ItemMasterResource extends JsonResource
             'label'                     => new ItemLabelResource($this->whenLoaded('label')),
             'client'                    => new ClientMasterResource($this->whenLoaded('clientItems.client')),
             'country'                   => $cData,
+            'client'                    => new RelationClientResource($this->whenLoaded('clientItems')),
             'product_types'             => ProductTypeResource::collection($this->whenLoaded('productTypes')),
             'images'                    => ItemImageResource::collection($this->whenLoaded('images')),
         ];

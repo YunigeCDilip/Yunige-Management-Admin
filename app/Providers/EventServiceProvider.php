@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Client;
+use App\Models\BrandMaster;
 use App\Models\AmazonProgress;
 use Illuminate\Support\Facades\Event;
+use App\Observers\BrandMasterObserver;
 use App\Observers\ClientModelObserver;
 use Illuminate\Auth\Events\Registered;
 use App\Observers\AmazonProgressObserver;
@@ -33,5 +35,6 @@ class EventServiceProvider extends ServiceProvider
     {
         Client::observe(ClientModelObserver::class);
         AmazonProgress::observe(AmazonProgressObserver::class);
+        BrandMaster::observe(BrandMasterObserver::class);
     }
 }

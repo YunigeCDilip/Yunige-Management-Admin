@@ -9,7 +9,8 @@ class ItemMasterProductType extends Model
 {
     use HasFactory;
 
-    public function type(){
-        return $this->belongsTo(ProductType::class);
+    public function type()
+    {
+        return $this->belongsTo(ProductType::class, 'product_type_id');
     }
 }

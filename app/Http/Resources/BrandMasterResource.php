@@ -14,9 +14,16 @@ class BrandMasterResource extends JsonResource
      */
     public function toArray($request)
     {
+        $cData = null;
+        $country = $this->whenLoaded('country');
+        if(!is_null($country)){
+            $cData['id'] = $country->id; 
+            $cData['name'] = $country->name; 
+        }
         return [
-            'id'    => $this->id,
-            'name'  => $this->name
+            'id'        => $this->id,
+            'name'      => $this->name,
+            'country'   => $cData
         ];
     }
 }

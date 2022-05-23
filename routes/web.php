@@ -12,10 +12,15 @@ use App\Http\Controllers\Backend\ShipperController;
 use App\Http\Controllers\Backend\WdataPicController;
 use App\Http\Controllers\Backend\ZoomRoomController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\ItemLabelController;
 use App\Http\Controllers\Backend\Auth\LoginController;
+use App\Http\Controllers\Backend\ItemMasterController;
+use App\Http\Controllers\Backend\BrandMasterController;
+use App\Http\Controllers\Backend\ProductTypeController;
 use App\Http\Controllers\Backend\WdataStatusController;
 use App\Http\Controllers\Backend\ClientMasterController;
 use App\Http\Controllers\Backend\CustomBrokerController;
+use App\Http\Controllers\Backend\ItemCategoryController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
 use App\Http\Controllers\Backend\InboundStatusController;
 use App\Http\Controllers\Backend\WarehouseDataController;
@@ -54,6 +59,50 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     
     Route::resource('roles', RoleController::class);
 
+    Route::post('users/activate', [UserController::class, 'activate'])->name('users.activate');
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
+    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('users/{user}', [UserController::class, 'update'])->name('users.update');
+
+    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
+        
+    /*
+    |--------------------------------------------------------------------------
+    | Zoom Routes
+    |--------------------------------------------------------------------------
+    | Modules: Mettings, Rooms
+    |
+    */
+    Route::get('meetings', [MeetingController::class, 'list'])->name('meetings.list');
+    Route::get('meetings/all', [MeetingController::class, 'meetingList'])->name('meetings.meetingList');
+    Route::get('meetings/create', [MeetingController::class, 'createMeet'])->name('meetings.create');
+    Route::post('meetings/create', [MeetingController::class, 'store'])->name('meetings.index');
+    Route::get('meetings/{meetingId}/participants', [MeetingController::class, 'participantList'])->name('meetings.participants');
+    Route::get('meetings/{id}/edit', [MeetingController::class, 'edit'])->name('meetings.edit');
+    Route::post('meetings/{id}', [MeetingController::class, 'updateMeeting'])->name('meetings.update');
+    Route::get('meetings/{id}/destroy', [MeetingController::class, 'destroy'])->name('meetings.destroy');
+
+
+    Route::get('rooms', [ZoomRoomController::class, 'listRooms'])->name('rooms.list');
+    Route::get('rooms/create', [ZoomRoomController::class, 'createRoom'])->name('rooms.create');
+    Route::post('rooms', [ZoomRoomController::class, 'saveRoom'])->name('rooms.store');
+    Route::get('rooms/{id}/edit', [ZoomRoomController::class, 'edit'])->name('rooms.edit');
+    Route::post('rooms/{id}', [ZoomRoomController::class, 'updateRoom'])->name('rooms.update');
+    Route::get('rooms/{id}/destroy', [ZoomRoomController::class, 'destroy'])->name('rooms.destroy');
+        
+    /*
+    |--------------------------------------------------------------------------
+    | Client Master Data Web Routes
+    |--------------------------------------------------------------------------
+    | Modules: Shippers, categories, delivery classifications, Movement confirmations
+    |
+    */
+
     Route::get('shippers', [ShipperController::class, 'index'])->name('shippers.index');
     Route::post('shippers', [ShipperController::class, 'store'])->name('shippers.store');
     Route::delete('shippers/{shipper}', [ShipperController::class, 'destroy'])->name('shippers.destroy');
@@ -80,6 +129,13 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::post('movements', [MovementConfirmationController::class, 'store'])->name('movements.store');
     Route::delete('movements/{movement}', [MovementConfirmationController::class, 'destroy'])->name('movements.destroy');
     Route::put('movements/{movement}', [MovementConfirmationController::class, 'update'])->name('movements.update');
+
+    Route::post('delivers/activate', [DeliverController::class, 'activate'])->name('delivers.activate');
+    Route::get('delivers', [DeliverController::class, 'index'])->name('delivers.index');
+    Route::get('delivers/{deliver}', [DeliverController::class, 'show'])->name('delivers.show');
+    Route::post('delivers', [DeliverController::class, 'store'])->name('delivers.store');
+    Route::delete('delivers/{deliver}', [DeliverController::class, 'destroy'])->name('delivers.destroy');
+    Route::put('delivers/{deliver}', [DeliverController::class, 'update'])->name('delivers.update');
     
     Route::get('clients', [ClientMasterController::class, 'index'])->name('clients.index');
     Route::get('clients/create', [ClientMasterController::class, 'create'])->name('clients.create');
@@ -90,6 +146,13 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::delete('clients/{client}', [ClientMasterController::class, 'destroy'])->name('clients.destroy');
     Route::post('delete-client-brands', [ClientMasterController::class, 'deleteBrand']);
 
+    /*
+    |--------------------------------------------------------------------------
+    | Amazon Progress Web Routes
+    |--------------------------------------------------------------------------
+    | Modules: Create, Update, Delete, Update
+    |
+    */
     Route::post('amazon-progress/activate', [AmazonProgressController::class, 'activate'])->name('amazon-progress.activate');
     Route::get('amazon-progress', [AmazonProgressController::class, 'index'])->name('amazon-progress.index');
     Route::get('amazon-progress/create', [AmazonProgressController::class, 'create'])->name('amazon-progress.create');
@@ -99,51 +162,14 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::delete('amazon-progress/{id}', [AmazonProgressController::class, 'destroy'])->name('amazon-progress.destroy');
     Route::get('amazon-progress-file/{id}', [AmazonProgressController::class, 'deleteFile'])->name('amazon-progress.deleteFile');
     Route::post('amazon-progress/{id}', [AmazonProgressController::class, 'update'])->name('amazon-progress.update');
-
-    Route::post('delivers/activate', [DeliverController::class, 'activate'])->name('delivers.activate');
-    Route::get('delivers', [DeliverController::class, 'index'])->name('delivers.index');
-    Route::get('delivers/{deliver}', [DeliverController::class, 'show'])->name('delivers.show');
-    Route::post('delivers', [DeliverController::class, 'store'])->name('delivers.store');
-    Route::delete('delivers/{deliver}', [DeliverController::class, 'destroy'])->name('delivers.destroy');
-    Route::put('delivers/{deliver}', [DeliverController::class, 'update'])->name('delivers.update');
-
-    Route::get('wdata', [WarehouseDataController::class, 'index'])->name('wdata.index');
-    Route::get('wdata/create', [WarehouseDataController::class, 'create'])->name('wdata.create');
-    Route::post('wdata', [WarehouseDataController::class, 'store'])->name('wdata.store');
-    Route::delete('wdata/{wdata}', [WarehouseDataController::class, 'destroy'])->name('wdata.destroy');
-    Route::get('wdata/{wdata}', [WarehouseDataController::class, 'show'])->name('wdata.show');
-    Route::get('wdata/{wdata}/edit', [WarehouseDataController::class, 'edit'])->name('wdata.edit');
-    Route::post('wdata/{wdata}', [WarehouseDataController::class, 'update'])->name('wdata.update');
-
-    Route::post('users/activate', [UserController::class, 'activate'])->name('users.activate');
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
-    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
-    Route::post('users', [UserController::class, 'store'])->name('users.store');
-    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
-    Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
-    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::post('users/{user}', [UserController::class, 'update'])->name('users.update');
-
-    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
-    Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
-
-    Route::get('meetings', [MeetingController::class, 'list'])->name('meetings.list');
-    Route::get('meetings/all', [MeetingController::class, 'meetingList'])->name('meetings.meetingList');
-    Route::get('meetings/create', [MeetingController::class, 'createMeet'])->name('meetings.create');
-    Route::post('meetings/create', [MeetingController::class, 'store'])->name('meetings.index');
-    Route::get('meetings/{meetingId}/participants', [MeetingController::class, 'participantList'])->name('meetings.participants');
-    Route::get('meetings/{id}/edit', [MeetingController::class, 'edit'])->name('meetings.edit');
-    Route::post('meetings/{id}', [MeetingController::class, 'updateMeeting'])->name('meetings.update');
-    Route::get('meetings/{id}/destroy', [MeetingController::class, 'destroy'])->name('meetings.destroy');
-
-
-    Route::get('rooms', [ZoomRoomController::class, 'listRooms'])->name('rooms.list');
-    Route::get('rooms/create', [ZoomRoomController::class, 'createRoom'])->name('rooms.create');
-    Route::post('rooms', [ZoomRoomController::class, 'saveRoom'])->name('rooms.store');
-    Route::get('rooms/{id}/edit', [ZoomRoomController::class, 'edit'])->name('rooms.edit');
-    Route::post('rooms/{id}', [ZoomRoomController::class, 'updateRoom'])->name('rooms.update');
-    Route::get('rooms/{id}/destroy', [ZoomRoomController::class, 'destroy'])->name('rooms.destroy');
-    
+        
+    /*
+    |--------------------------------------------------------------------------
+    | Wdata Master Data Web Routes
+    |--------------------------------------------------------------------------
+    | Modules: Wdata Categories, Carrires, Wdata Status, Pics, inbound status, custom brokers
+    |
+    */
     Route::post('wdata-categories/activate', [WdataCategoryController::class, 'activate'])->name('wdata-categories.activate');
     Route::get('wdata-categories', [WdataCategoryController::class, 'index'])->name('wdata-categories.index');
     Route::get('wdata-categories/{id}', [WdataCategoryController::class, 'show'])->name('wdata-categories.show');
@@ -184,5 +210,53 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('custom-brokers/{id}/edit', [CustomBrokerController::class, 'edit'])->name('custom-brokers.edit');
     Route::delete('custom-brokers/{id}', [CustomBrokerController::class, 'destroy'])->name('custom-brokers.destroy');
     Route::post('custom-brokers/{id}', [CustomBrokerController::class, 'update'])->name('custom-brokers.update');
+
+    Route::get('wdata', [WarehouseDataController::class, 'index'])->name('wdata.index');
+    Route::get('wdata/create', [WarehouseDataController::class, 'create'])->name('wdata.create');
+    Route::post('wdata', [WarehouseDataController::class, 'store'])->name('wdata.store');
+    Route::delete('wdata/{wdata}', [WarehouseDataController::class, 'destroy'])->name('wdata.destroy');
+    Route::get('wdata/{wdata}', [WarehouseDataController::class, 'show'])->name('wdata.show');
+    Route::get('wdata/{wdata}/edit', [WarehouseDataController::class, 'edit'])->name('wdata.edit');
+    Route::post('wdata/{wdata}', [WarehouseDataController::class, 'update'])->name('wdata.update');
     
+    /*
+    |--------------------------------------------------------------------------
+    | Item Masters Web Routes
+    |--------------------------------------------------------------------------
+    | Modules: Item Brand Masters, Item Categories, Item Labels, Product Types
+    |
+    */
+    Route::get('item-brands', [BrandMasterController::class, 'index'])->name('item-brands.index');
+    Route::get('item-brands/create', [BrandMasterController::class, 'create'])->name('item-brands.create');
+    Route::get('item-brands/{id}', [BrandMasterController::class, 'show'])->name('item-brands.show');
+    Route::post('item-brands', [BrandMasterController::class, 'store'])->name('item-brands.store');
+    Route::get('item-brands/{id}/edit', [BrandMasterController::class, 'edit'])->name('item-brands.edit');
+    Route::delete('item-brands/{id}', [BrandMasterController::class, 'destroy'])->name('item-brands.destroy');
+    Route::post('item-brands/{id}', [BrandMasterController::class, 'update'])->name('item-brands.update');
+    
+    Route::get('item-categories', [ItemCategoryController::class, 'index'])->name('item-categories.index');
+    Route::post('item-categories', [ItemCategoryController::class, 'store'])->name('item-categories.store');
+    Route::delete('item-categories/{id}', [ItemCategoryController::class, 'destroy'])->name('item-categories.destroy');
+    Route::get('item-categories/{id}', [ItemCategoryController::class, 'show'])->name('item-categories.show');
+    Route::put('item-categories/{id}', [ItemCategoryController::class, 'update'])->name('item-categories.update');
+
+    Route::get('item-labels', [ItemLabelController::class, 'index'])->name('item-labels.index');
+    Route::post('item-labels', [ItemLabelController::class, 'store'])->name('item-labels.store');
+    Route::delete('item-labels/{id}', [ItemLabelController::class, 'destroy'])->name('item-labels.destroy');
+    Route::get('item-labels/{id}', [ItemLabelController::class, 'show'])->name('item-labels.show');
+    Route::put('item-labels/{id}', [ItemLabelController::class, 'update'])->name('item-labels.update');
+
+    Route::get('product-types', [ProductTypeController::class, 'index'])->name('product-types.index');
+    Route::post('product-types', [ProductTypeController::class, 'store'])->name('product-types.store');
+    Route::delete('product-types/{id}', [ProductTypeController::class, 'destroy'])->name('product-types.destroy');
+    Route::get('product-types/{id}', [ProductTypeController::class, 'show'])->name('product-types.show');
+    Route::put('product-types/{id}', [ProductTypeController::class, 'update'])->name('product-types.update');
+    
+    Route::get('items', [ItemMasterController::class, 'index'])->name('items.index');
+    Route::get('items/create', [ItemMasterController::class, 'create'])->name('items.create');
+    Route::post('items', [ItemMasterController::class, 'store'])->name('items.store');
+    Route::get('items/{item}', [ItemMasterController::class, 'show'])->name('items.show');
+    Route::get('items/{item}/edit', [ItemMasterController::class, 'edit'])->name('items.edit');
+    Route::put('items/{item}', [ItemMasterController::class, 'update'])->name('items.update');
+    Route::delete('items/{item}', [ItemMasterController::class, 'destroy'])->name('items.destroy');
 });
