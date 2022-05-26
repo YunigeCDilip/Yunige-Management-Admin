@@ -71,6 +71,27 @@
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false">
                     <i class="fe-users"></i>
+                    <span> {{__('menu.item_master')}} </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a href="{{route('admin.item-brands.index')}}">{{__('menu.brand_master')}}</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.item-categories.index')}}">{{__('menu.category')}}</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.item-labels.index')}}">{{__('menu.label')}}</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.product-types.index')}}">{{__('menu.product_type')}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="">
+                <a href="javascript: void(0);" aria-expanded="false">
+                    <i class="fe-users"></i>
                     <span> {{__('menu.wdata_master')}} </span>
                     <span class="menu-arrow"></span>
                 </a>
@@ -110,6 +131,13 @@
                 <a href="{{route('admin.fba.index')}}" class="@if(@$menu == 'fba list') active @endif">
                     <i class="fe-pocket"></i>
                     <span>{{__('menu.fba')}}</span>
+                </a>
+            </li>
+                        
+            <li>
+                <a href="{{route('admin.items.index')}}" class="@if(@$menu == 'Items') active @endif">
+                    <i class="fe-pocket"></i>
+                    <span>{{__('menu.item')}}</span>
                 </a>
             </li>
                         

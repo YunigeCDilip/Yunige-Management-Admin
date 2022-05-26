@@ -12,4 +12,8 @@ class ClientItem extends Model
     public function item(){
         return $this->belongsTo(ItemMaster::class, 'item_master_id');
     }
+
+    public function client(){
+        return $this->belongsTo(Client::class, 'client_id');
+    }
 }

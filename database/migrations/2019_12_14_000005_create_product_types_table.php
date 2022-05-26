@@ -24,6 +24,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('name', 255);
+            $table->tinyInteger('active_status')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });

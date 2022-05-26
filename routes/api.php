@@ -7,10 +7,12 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\DeliveryController;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\API\ItemMasterController;
 use App\Http\Controllers\API\BarcodeItemController;
 use App\Http\Controllers\API\ClientMasterController;
 use App\Http\Controllers\API\WarehouseDataController;
 use App\Http\Controllers\API\ClientMasterDataController;
+use App\Http\Controllers\API\ItemMasterDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +56,14 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('wdata', [WarehouseDataController::class, 'store']);
     Route::put('wdata/{id}', [WarehouseDataController::class, 'update']);
     Route::delete('wdata/{id}', [WarehouseDataController::class, 'destroy']);
+
+    Route::get('shippers', [ClientMasterDataController::class, 'shippers']);
+    Route::get('item-categories', [ItemMasterDataController::class, 'categories']);
+    Route::get('item-labels', [ItemMasterDataController::class, 'labels']);
+    Route::get('item-brands', [ItemMasterDataController::class, 'brands']);
+    Route::get('product-types', [ItemMasterDataController::class, 'types']);
+    Route::get('master-items', [ItemMasterController::class, 'index']);
+    Route::get('master-items/{id}', [ItemMasterController::class, 'show']);
 
     Route::get('barcode-items', [BarcodeItemController::class, 'index']);
 });

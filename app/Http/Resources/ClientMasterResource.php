@@ -25,7 +25,6 @@ class ClientMasterResource extends JsonResource
             'shipper_name'       => $this->shipper_name,
             'person_name'       => $this->resp_person,
             'contact'       => $this->contact_number,
-            
         ];
     }
 }

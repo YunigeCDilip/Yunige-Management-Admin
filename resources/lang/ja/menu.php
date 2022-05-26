@@ -42,8 +42,12 @@ return [
     'wdata_pic'                 => 'Warehouse Pic',
     'delivers'                  => 'Delivers',
     'custom_brokers'            => 'Custom Brokers',
-    'fba'                       => 'FBA'
-
+    'fba'                       => 'FBA',
+    'item_master'               => 'Item Masters',
+    'brand_master'              => 'Brand Master',
+    'label'                     => 'Item Labels',
+    'product_type'              => 'Product Types',
+    'item'                      => 'Items',
 
 
 ];

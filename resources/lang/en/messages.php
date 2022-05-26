@@ -211,5 +211,40 @@ return [
     'address'               => 'Address',
     'fba'                   => 'FBA',
 
+    /*
+    |
+    | Item Master modules
+    |--------------------------------------------------------------------------
+    |
+    */
+    'brand_masters'             => 'Brand Masters',
+    'logo'                      => 'Logo',
+    'select_country'            => 'Select country',
+    'brandJp'                   => 'Brand Name JP',
+    'brandEng'                  => 'Brand Name Eng',
+    'remarks'                   => 'Remarks',
+    'brand_url'                 => 'Brand Url',
+    'parallel_import'           => 'Parallel Import',
+    'check'                     => 'Check',
+    'false'                     => 'False',
+    'true'                      => 'True',
+    'item_categories'           => 'Item Categories',
+    'item_labels'               => 'Item Labels',
+    'product_types'             => 'Product Types',
+    'item'                      => 'Items',
+    'images'                    => 'Images',
+    'barcode'                   => 'Barcode',
+    'barcode_entry_date'        => 'Barcode Entry Date',
+    'brand_r'                   => 'Brand',
+    'select_brand_master'       => 'Select brand',
+    'label'                     => 'Label',
+    'item_jp'                   => 'Japanese Name',
+    'item_en'                   => 'English Name',
+    'jp_description'            => 'Description JP',
+    'en_description'            => 'Description EN',
+    'select_label'              => 'Select label',
+    'unit'                      => 'Unit',
+    'weight'                    => 'Weight',
+    'weight_2'                  => 'Weight 2',
 
 ];
