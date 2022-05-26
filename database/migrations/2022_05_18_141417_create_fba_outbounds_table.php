@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('fba_id');
             $table->string('outbound_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

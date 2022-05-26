@@ -189,6 +189,10 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('fba', [FbaListController::class, 'index'])->name('fba.index');
     Route::get('fba/create', [FbaListController::class, 'create'])->name('fba.create');
     Route::post('fba', [FbaListController::class, 'store'])->name('fba.store');
+    Route::get('fba/{id}', [FbaListController::class, 'show'])->name('fba.show');
+    Route::get('fba/{id}/edit', [FbaListController::class, 'edit'])->name('fba.edit');
+    Route::put('fba/{id}', [FbaListController::class, 'update'])->name('fba.update');
+    Route::delete('fba/{id}', [FbaListController::class, 'destroy'])->name('fba.destroy');
 
     
 });

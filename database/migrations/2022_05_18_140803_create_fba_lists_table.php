@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('fba_lists', function (Blueprint $table) {
             $table->id();
-            $table->string('fba_id');
+            $table->string('fba_id')->nullable();
             $table->string('fba_name');
             $table->string('notes');
             $table->string('label');
             $table->string('address');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

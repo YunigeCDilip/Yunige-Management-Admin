@@ -3,14 +3,13 @@
 namespace App\Application\Services;
 
 use Throwable;
-use Carbon\Carbon;
+//use Carbon\Carbon;
+use App\Models\FbaList;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\DatabaseManager;
 use App\Http\Resources\FbaListResource;
-
-use App\Models\FbaList;
 use App\Constants\MessageResponse;
 
 
@@ -173,13 +172,88 @@ class FbaListService extends Service
             $fba->label = $request->label;
             $fba->address = $request->address;
             //$fba->request = $request->request_data;
-            //dd($fba->save());
+            //dd($fba);
             $fba->save();
 
             $this->db->commit();
             return $this->responseOk(null, MessageResponse::DATA_CREATED);
         } catch (Throwable $e) {
             //dd($request->fba_name);
+            $this->db->rollback();
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+    }
+    /**
+     * Show the form for showing the specified resource.
+     *
+     * @param  int $id
+     * @return  Response
+     */
+    public function show($id)
+    {
+        try {
+            $data = FbaList::find($id);
+            if(!$data){
+                return $this->responseError(Response::HTTP_NOT_FOUND, MessageResponse::NOT_FOUND);
+            }
+            $data->load('fba_name', 'notes', 'label', 'address');
+
+            return $this->responseOk(new FbaListResource($data), MessageResponse::DATA_LOADED);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+    }
+
+     /**
+     * Update resource in storage.
+     *
+     * @param Request $request
+     * @param $id
+     * @return Response
+     */
+    public function update($request, $id)
+    {
+        try {
+            $this->db->beginTransaction();
+            $fba = FbaList::find($id);
+            $fba->fba_name  = $request->fba_name;
+            $fba->notes  = $request->notes;
+            $fba->label  = $request->label;
+            $fba->address  = $request->address;
+           
+            $fba->save();
+            $this->db->commit();
+
+            return $this->responseOk(null, MessageResponse::DATA_CREATED);
+        } catch (Throwable $e) {
+            $this->db->rollback();
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     * @param $id
+     * @return Response
+     */
+    public function destroy($request, $id)
+    {
+        try {
+            $this->db->beginTransaction();
+            $fba = FbaList::find($id);
+            $fba->delete();
+            $this->db->commit();
+
+            return $this->responseOk(null, MessageResponse::DATA_DELETED);
+        } catch (Throwable $e) {
             $this->db->rollback();
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 

@@ -38,7 +38,9 @@ class MigrateAirtableFbaList extends Command
         $data = $airtable->all();
         foreach($data as $fba){
             $FbaList = new FbaList();
-            info($fba);
+
+            //info('hello');
+            
             $FbaList->fba_id = $fba['id'];
             $FbaList->fba_name = (isset($fba['fields']['FBA名称'])) ? $fba['fields']['FBA名称'] : null;
             $FbaList->notes = (isset($fba['fields']['Notes'])) ? $fba['fields']['Notes'] : null;
@@ -56,6 +58,7 @@ class MigrateAirtableFbaList extends Command
                     }
                 }
             }
+            
             
         }
         $this->info('Action complete for: tablename= '.AirtableDatabase::FBA_LIST);

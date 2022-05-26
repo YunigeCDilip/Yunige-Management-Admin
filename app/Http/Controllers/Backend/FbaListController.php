@@ -60,12 +60,24 @@ class FbaListController extends Controller
     }
 
     /**
+     * Return all active data for view.
+     *
+     * @return  Response
+     */
+    public function all()
+    {
+        $data = $this->service->all();
+
+        return $data;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param CreateFbaList $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateFbaList $request)
     {
         $data = json_decode($this->service->store($request)->getContent());
         $responseData['status'] = $data->status;
@@ -73,7 +85,7 @@ class FbaListController extends Controller
         if($data->status){
             $responseData['url'] = route('admin.clients.index');
         }
-
+        //dd('hello',$responseData);
         return $responseData;
 
         return $data;
@@ -82,45 +94,70 @@ class FbaListController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\FbaList  $fbaList
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return  Response
      */
-    public function show(FbaList $fbaList)
+    public function show($id)
     {
-        //
+        $data['title'] = trans('messages.fba');
+        $data['menu'] = trans('messages.fba');
+        $data['subMenu'] = trans('actions.view');
+        $data['fba'] = FbaList::find($id);
+        //$data['fba']->load('fba_name', 'notes', 'label', 'address');
+
+        return view('admin.fba.show', $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\FbaList  $fbaList
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return View
      */
-    public function edit(FbaList $fbaList)
+    public function edit($id)
     {
-        //
+
+        $data = $this->service->create();
+        
+        $data['title'] = trans('messages.fba');
+        $data['menu'] = trans('messages.fba');
+        $data['subMenu'] = trans('actions.edit');
+        $data['fba'] = FbaList::find($id);
+        //dd($data['fba']->load('fba_name');
+        //$data['fba']->load('fba_name', 'notes', 'label', 'address');
+
+        return view('admin.fba.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\FbaList  $fbaList
-     * @return \Illuminate\Http\Response
+     * @param  UpdateFbaList $request
+     * @param  int $id
+     * @return  Response
      */
-    public function update(Request $request, FbaList $fbaList)
+    public function update(UpdateFbaList $request, $id)
     {
-        //
+        $data = json_decode($this->service->update($request, $id)->getContent());
+        $responseData['status'] = $data->status;
+        $responseData['message'] = $data->message;
+        if($data->status){
+            $responseData['url'] = route('admin.fba.index');
+        }
+
+        return $responseData;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\FbaList  $fbaList
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
-    public function destroy(FbaList $fbaList)
+    public function destroy(Request $request, $id)
     {
-        //
+        $data = $this->service->destroy($request, $id);
+
+        return $data;
     }
 }
