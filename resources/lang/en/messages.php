@@ -227,7 +227,7 @@ return [
     'label'                     => 'Label',
     'item_jp'                   => 'Japanese Name',
     'item_en'                   => 'English Name',
-    'jp_description'            => 'Description JP',
+    'ja_description'            => 'Description JP',
     'en_description'            => 'Description EN',
     'select_label'              => 'Select label',
     'unit'                      => 'Unit',
