@@ -49,6 +49,10 @@ class User extends Authenticatable
         'active_status' => 'boolean',
     ];
 
+    public function designations(){
+        return $this->hasMany(UserDesignation::class, 'user_id');
+    }
+
     /**
      * @param Builder $query
      *
@@ -137,6 +141,22 @@ class User extends Authenticatable
                     ->orWhere('name', 'LIKE', '%'.$search.'%')
                     ->orWhereRaw("IF(active_status = 1, 'Active', 'InActive') like ?",[$search])
                     ->orWhereDate('created_at', $search);
+        }
+    }
+
+    /**
+     * Save/Update designations
+     * @param mixed $designations
+     * 
+     * @return void
+     */
+    public function syncDesignations($designations){
+        UserDesignation::where('user_id', $this->id)->delete();
+        foreach($designations as $designation){
+            $d = new UserDesignation();
+            $d->user_id = $this->id;
+            $d->designation_id = $designation;
+            $d->save();
         }
     }
 }

@@ -100,6 +100,7 @@ class UserController extends Controller
         $data = $this->service->create();
         $data['user'] = User::find($id);
         $data['permissionSelected'] = $data['user']->permissions()->pluck('id')->toArray();
+        $data['designationSelected'] = $data['user']->designations->pluck('designation_id')->toArray();
         $data['title'] = trans('messages.users');
         $data['menu'] = trans('messages.users');
         $data['subMenu'] = trans('actions.edit');

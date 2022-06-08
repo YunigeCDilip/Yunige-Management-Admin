@@ -10,6 +10,7 @@ use App\Http\Resources\UserResource;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Application\Services\RoleService;
 use App\Application\Contracts\UserContract;
+use App\Models\Designation;
 
 class UserService extends Service
 {
@@ -81,7 +82,7 @@ class UserService extends Service
                 }
 
                 if (!empty($datas)) {
-                        $userLists = User::select('*');
+                        $userLists = User::with('designations.designation');
                         $userListss = $userLists->FilterSuperAdmin()
                         ->FilteredByName((isset($datas['name']) && $datas['name'] != "") ? $datas['name'] : '')
                         ->FilteredByEmail((isset($datas['email']) && $datas['email'] != "") ? $datas['email'] : '')
@@ -96,7 +97,7 @@ class UserService extends Service
                     $totalFiltered = $totalUsersCount;
 
                 } else {
-                    $userLists = User::select('*')->FilterSuperAdmin();
+                    $userLists = User::with('designations.designation')->FilterSuperAdmin();
                     $totalUsersCount = $userLists->count();
                     $users = $userLists->offset($start)
                         ->limit($limit)
@@ -109,7 +110,7 @@ class UserService extends Service
             } else {
 
                 $searchKey = $request->input('search.value');
-                $userLists = User::select('*')
+                $userLists = User::with('designations.designation')
                     ->FilterSuperAdmin()->FilterByGlobalSearch($searchKey);
                 $totalUsersCount = $userLists->count();
                 $users = $userLists->offset($start)
@@ -130,6 +131,7 @@ class UserService extends Service
                     $nestedData['role'] = (!$user->roles->isEmpty()) ? $user->roles[0]->name : 'Super Admin';
                     $nestedData['email'] = $user->email;
                     $nestedData['active_status'] = $user->active_status;
+                    $nestedData['designation'] = $user->designations;
                     $nestedData['created_at'] = $user->created_at->toDateTimeString();
                     $nestedData['manage_permission'] = $this->checkPermission('manage.user');
                     $nestedData['is_auth_user'] = ($user->id == $this->getAuthUser()->id) ? true : false;
@@ -164,6 +166,7 @@ class UserService extends Service
             $permissions = json_decode($this->roleService->permissions()->getContent());
             $data['roles'] = $roles->payload;
             $data['permissions'] = $permissions->payload;
+            $data['designations'] = Designation::all();
 
             return $data;
         } catch (Throwable $e) {
@@ -187,7 +190,10 @@ class UserService extends Service
                 'address' => $request->address,
                 'password' => bcrypt($request->password),
                 'active_status' => $request->status,
-            ])->syncRoles([$request->role])->syncPermissions($request->permissions);
+            ])
+            ->syncRoles([$request->role])
+            ->syncPermissions($request->permissions)
+            ->syncDesignations($request->designation);
 
             return $this->responseOk($user, MessageResponse::DATA_CREATED);
         } catch (Throwable $e) {
@@ -207,6 +213,7 @@ class UserService extends Service
     {
         try {
             $user = User::find($id);
+            $user->load('roles','designations.designation');
 
             return $this->responseOk($user, MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
@@ -235,7 +242,9 @@ class UserService extends Service
             $user->password = ($request->has('password')) ? bcrypt($request->password) : $user->password;
             $user->save();
 
-            $user->syncRoles([$request->role])->syncPermissions($request->permissions);
+            $user->syncRoles([$request->role])
+                ->syncPermissions($request->permissions)
+                ->syncDesignations($request->designation);
 
             return $this->responseOk($user, MessageResponse::DATA_CREATED);
         } catch (Throwable $e) {
