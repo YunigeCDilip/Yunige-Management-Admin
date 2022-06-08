@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Carrier;
+use App\Models\Container;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class CarrierSeeder extends Seeder
+class ContainerTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,18 +17,13 @@ class CarrierSeeder extends Seeder
     public function run()
     {
         $data = [
-            "新大阪",
-            "大東倉庫",
-            "吉南倉庫",
-            "東京-yamato",
-            "桑才倉庫",
-            "南港倉庫",
-            "Inter-Assist",
-            "相模原"
+            '20フィート',
+            '40フィート',
+            '混載',
         ];
         
         foreach($data as $status){
-            Carrier::create([
+            Container::create([
                 'name' => $status
             ]);
         }

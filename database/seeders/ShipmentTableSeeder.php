@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\WdataCategory;
+use App\Models\ShipmentMethod;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class WdataCategorySeeder extends Seeder
+class ShipmentTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,20 +16,13 @@ class WdataCategorySeeder extends Seeder
      */
     public function run()
     {
-        
         $data = [
-           "化粧品",
-           "食品",
-           "雑貨",
-           "その他",
-           "IOR",
-           "ユニゲ自社仕入",
-           "PSE確認",
-           "化粧品原料"
+            '航空',
+            '海上'
         ];
-
+        
         foreach($data as $status){
-            WdataCategory::create([
+            ShipmentMethod::create([
                 'name' => $status
             ]);
         }

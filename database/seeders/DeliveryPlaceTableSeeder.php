@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\WdataCategory;
+use App\Models\DeliveryPlace;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class WdataCategorySeeder extends Seeder
+class DeliveryPlaceTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,20 +16,19 @@ class WdataCategorySeeder extends Seeder
      */
     public function run()
     {
-        
         $data = [
-           "化粧品",
-           "食品",
-           "雑貨",
-           "その他",
-           "IOR",
-           "ユニゲ自社仕入",
-           "PSE確認",
-           "化粧品原料"
+            '大松運送',
+            '桑才倉庫',
+            '大松倉庫',
+            '吉南倉庫',
+            '吉南',
+            '大松',
+            'プロップ',
+            '南港',
         ];
-
+        
         foreach($data as $status){
-            WdataCategory::create([
+            DeliveryPlace::create([
                 'name' => $status
             ]);
         }

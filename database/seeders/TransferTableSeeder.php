@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\WdataCategory;
+use App\Models\Transfer;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class WdataCategorySeeder extends Seeder
+class TransferTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,20 +16,18 @@ class WdataCategorySeeder extends Seeder
      */
     public function run()
     {
-        
         $data = [
-           "化粧品",
-           "食品",
-           "雑貨",
-           "その他",
-           "IOR",
-           "ユニゲ自社仕入",
-           "PSE確認",
-           "化粧品原料"
+           "大東倉庫",
+           "南港倉庫",
+           "新大阪",
+           "桑才倉庫",
+           "東京-yamato",
+           "吉南倉庫",
+           "inter-Assist"
         ];
-
+        
         foreach($data as $status){
-            WdataCategory::create([
+            Transfer::create([
                 'name' => $status
             ]);
         }
