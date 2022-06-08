@@ -46,7 +46,6 @@
                     </li>
                 </ul>
             </li>
-
             <li class="menu-title mt-2">{{__('menu.master_data')}}</li>
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false">
@@ -126,6 +125,12 @@
                 <a href="{{route('admin.clients.index')}}" class="@if(@$menu == 'Client Data') active @endif">
                     <i class="fe-pocket"></i>
                     <span>{{__('menu.client')}}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('admin.fba.index')}}" class="@if(@$menu == 'fba list') active @endif">
+                    <i class="fe-pocket"></i>
+                    <span>{{__('menu.fba')}}</span>
                 </a>
             </li>
                         

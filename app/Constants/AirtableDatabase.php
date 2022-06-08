@@ -18,6 +18,7 @@ class AirtableDatabase
     const ITEM_MASTER           = 'ItemMaster';
     const AMAZON_PROGRESS       = 'AmazonProgress';
     const CUSTOM_BROKER         = 'custommBroker';
+    const FBA_LIST              = 'FBAList';
     const BRAND_MASTER          = 'brandMaster';
     const MEMBER                = 'Member';
 }
