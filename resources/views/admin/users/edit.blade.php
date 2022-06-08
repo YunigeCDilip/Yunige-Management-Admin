@@ -72,6 +72,18 @@
                     </select>
                     <div class="invalid-feedback" id="role_error" style="display:none;"></div>
                 </div>
+
+                <div class="form-group mb-3">
+                    <label for="designation">{{__('messages.designation')}} <span class="text-danger">*</span></label>
+                    <select class="form-control select2" name="designation[]" multiple>
+                        <option value="">{{__('messages.select_designation')}}</option>
+                        @forelse(@$designations as $designation)
+                            <option value="{{$designation->id}}" @if(in_array($designation->id, $designationSelected)) selected @endif>{{$designation->name}}</option>
+                            @empty
+                        @endforelse
+                    </select>
+                    <div class="invalid-feedback" id="role_error" style="display:none;"></div>
+                </div>
                 <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">{{__('messages.permissions')}}</h5>
                 <div class="invalid-feedback" id="permissions_error" style="display:none;"></div>
                 @forelse($permissions as $index => $permission)
