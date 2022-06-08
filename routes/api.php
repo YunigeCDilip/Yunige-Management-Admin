@@ -13,6 +13,7 @@ use App\Http\Controllers\API\ClientMasterController;
 use App\Http\Controllers\API\WarehouseDataController;
 use App\Http\Controllers\API\ClientMasterDataController;
 use App\Http\Controllers\API\ItemMasterDataController;
+use App\Http\Controllers\API\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,4 +67,16 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('master-items/{id}', [ItemMasterController::class, 'show']);
 
     Route::get('barcode-items', [BarcodeItemController::class, 'index']);
+
+    Route::get('users', [UserController::class, 'index']);
+    Route::get('users/profile', [UserController::class, 'userProfile']);
+    Route::post('users', [UserController::class, 'store']);
+    Route::get('users/{user}', [UserController::class, 'show']);
+    Route::put('users/{user}', [UserController::class, 'update']);
+    Route::put('users/profile/{user}', [UserController::class, 'updateProfile']);
+
+    Route::delete('users/{user}', [UserController::class, 'destory']);
+
+
+
 });

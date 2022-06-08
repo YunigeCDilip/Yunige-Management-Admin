@@ -288,4 +288,44 @@ class UserService extends Service
             return $this->responseError();
         }
     }
+    /**
+     * login users user profile
+     *
+     * 
+     * @return  Response
+     */
+    public function userProfile()
+    {
+        $user = $this->getAuthUser();
+
+        return $this->responseOk($user, MessageResponse::DATA_LOADED);
+    }
+    /**
+     * update users user profile
+     * @param  Request $request
+     * @param  int $id
+     * @return  Response
+     */
+    public function userProfileUpdate($request, $id)
+    {
+        try {
+            $user = User::find($id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
+            //$user->active_status = $request->status;
+            //$user->password = ($request->has('password')) ? bcrypt($request->password) : $user->password;
+            $user->save();
+
+            //$user->syncRoles([$request->role])->syncPermissions($request->permissions);
+
+            return $this->responseOk($user, MessageResponse::DATA_CREATED);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+
+    }
 }
