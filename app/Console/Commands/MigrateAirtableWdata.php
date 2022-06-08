@@ -56,6 +56,10 @@ class MigrateAirtableWdata extends Command
         $airtable = new AirTable($clients);
         $data = $airtable->all();
         foreach($data as $item){
+            $wdata = Wdata::where('airtable_id', $item['id'])->first();
+            if(!$wdata){
+                $wdata = new Wdata();
+            }
             if(isset($item['fields']['pic'])){
                 $pic = WdataPic::where('name', $item['fields']['pic'])->first();
             }
@@ -111,8 +115,6 @@ class MigrateAirtableWdata extends Command
             if(isset($item['fields']['pickDirection'])){
                 $pickDirection = PickDirection::where('name', $item['fields']['pickDirection'])->first();
             }
-
-            $wdata = new Wdata();
             $wdata->airtable_id = $item['id'];
             $wdata->name = $item['fields']['Name'];
             $wdata->warehouse_number = isset($item['fields']['wNo']) ? $item['fields']['wNo'] : null;

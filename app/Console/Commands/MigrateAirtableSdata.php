@@ -76,7 +76,7 @@ class MigrateAirtableSdata extends Command
                 $delivery = Delivery::where('airtable_id', $asdata['fields']['サンプル配送会社'][0])->first();
             }
             $sdata->delivery_id = isset($asdata['fields']['サンプル配送会社']) ? $delivery->id : null;
-            $sdata->sample_tracking_no = isset($asdata['fields']['サンプル追跡番号']) ? $asdata['fields']['サンプル追跡番号'] : null;
+            $sdata->sample_tracking_no = isset($asdata['fields']['サンプル追跡番号']) ? $asdata['fields']['サンプル追跡番号']['text'] : null;
             $sdata->tracking_url = isset($asdata['fields']['追跡URL']) ? $asdata['fields']['追跡URL'] : null;
             $sdata->label_creation_progress = isset($asdata['fields']['ラベル作成進捗']) ? $asdata['fields']['ラベル作成進捗'] : null;
             $sdata->label_creation_date = isset($asdata['fields']['ラベル作成依頼日付（自動）']) ? date('Y-m-d', strtotime($asdata['fields']['ラベル作成依頼日付（自動）'])) : null;
@@ -97,13 +97,13 @@ class MigrateAirtableSdata extends Command
             $sdata->ingredient_billing_date = isset($asdata['fields']['成分請求日']) ? date('Y-m-d', strtotime($asdata['fields']['成分請求日'])) : null;
             $sdata->application_completed_date = isset($asdata['fields']['申請請求日']) ? date('Y-m-d', strtotime($asdata['fields']['申請請求日'])) : null;
             $sdata->label_completed_date = isset($asdata['fields']['ラベル請求完了日']) ? date('Y-m-d', strtotime($asdata['fields']['ラベル請求完了日'])) : null;
-            $sdata->analysis_amount = isset($asdata['fields']['分析金額']) ? $asdata['fields']['分析金額'] : 0;
+            $sdata->analysis_amount = isset($asdata['fields']['分析金額']) ? $asdata['fields']['分析金額'][0] : 0;
             $sdata->other_billed = isset($asdata['fields']['その他請求済み']) ? $asdata['fields']['その他請求済み'] : 0;
             $sdata->other_billed_date = isset($asdata['fields']['その他請求日']) ? date('Y-m-d', strtotime($asdata['fields']['その他請求日'])) : null;
 
             $sdata->all_completed_billing = isset($asdata['fields']['全てのs（成分届出ラベルその他）請求完了']) ? $asdata['fields']['全てのs（成分届出ラベルその他）請求完了'] : false;
             $sdata->all_completed_date = isset($asdata['fields']['すべて完了日【自動】']) ? date('Y-m-d', strtotime($asdata['fields']['すべて完了日【自動】'])) : null;
-            if(isset($asdata['fields']['サンプル配送会社'])){
+            if(isset($asdata['fields']['AmazonProgress'])){
                 $amazon = AmazonProgress::where('airtable_id', $asdata['fields']['AmazonProgress'][0])->first();
             }
             $sdata->amazon_progress_id = isset($asdata['fields']['AmazonProgress']) ? $amazon->id : null;
@@ -148,12 +148,11 @@ class MigrateAirtableSdata extends Command
             if(isset($asdata['fields']['ラベル依頼者NEO'])){
                 $requester = User::where('airtable_id', $asdata['fields']['ラベル依頼者NEO'][0])->first();
             }
-            $sdata->label_requester_id = isset($asdata['fields']['ラベル依頼者NEO']) ? $requester->id : null;
+            $sdata->label_requester_id = (isset($asdata['fields']['ラベル依頼者NEO']) && $requester) ? $requester->id : null;
             $sdata->supplementary_memo = isset($asdata['fields']['ラベル作成依頼全体補足メモ']) ? $asdata['fields']['ラベル作成依頼全体補足メモ'] : null;
             $sdata->send_label_creation = isset($asdata['fields']['ラベル作成依頼メール送信']) ? $asdata['fields']['ラベル作成依頼メール送信'] : false;
             $sdata->label_creation_request = isset($asdata['fields']['ラベル作成依頼日付']) ? $asdata['fields']['ラベル作成依頼日付'] : null; //date
             $sdata->email = isset($asdata['fields']['メールアドレス (from ラベル依頼者NEO)']) ? $asdata['fields']['メールアドレス (from ラベル依頼者NEO)'][0] : null;
-            Log::info($sdata);
             $sdata->save();
 
             if($sdata){
@@ -227,7 +226,7 @@ class MigrateAirtableSdata extends Command
                 }
                 if(isset($asdata['fields']['アイテム【商品マスターリンク】'])){
                     foreach($asdata['fields']['アイテム【商品マスターリンク】'] as $value){
-                        $im = ItemMaster::where('aritable_id', $value)->first();
+                        $im = ItemMaster::where('airtable_id', $value)->first();
                         if($im){
                             $new = new SdataItemMaster();
                             $new->sdata_id = $sdata->id;
@@ -238,7 +237,7 @@ class MigrateAirtableSdata extends Command
                 }
                 if(isset($asdata['fields']['wサンプル'])){
                     foreach($asdata['fields']['wサンプル'] as $value){
-                        $im = Wdata::where('aritable_id', $value)->first();
+                        $im = Wdata::where('airtable_id', $value)->first();
                         if($im){
                             $new = new SdataSample();
                             $new->sdata_id = $sdata->id;

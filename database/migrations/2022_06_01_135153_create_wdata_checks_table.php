@@ -10,7 +10,7 @@ return new class extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'wadata_checks';
+    public $tableName = 'wdata_checks';
 
     /**
      * Run the migrations.

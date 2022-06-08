@@ -34,9 +34,9 @@ return new class extends Migration
             $table->unsignedBigInteger('delivery_id')->nullable();
             $table->date('inbound_eta')->nullable();
             $table->date('outbound_eta')->nullable();
-            $table->string('permit_number')->nullable();
+            $table->longText('permit_number')->nullable();
             $table->longText('irregular')->nullable();
-            $table->string('track_number')->nullable();
+            $table->longText('track_number')->nullable();
             $table->longText('memo_invoice')->nullable();
             $table->longText('pickup')->nullable();
             $table->date('pickup_date')->nullable();
