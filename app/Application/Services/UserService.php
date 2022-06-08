@@ -6,6 +6,8 @@ use Throwable;
 use App\Models\User;
 use App\Constants\MessageResponse;
 use Illuminate\Support\Facades\Log;
+use App\Http\Resources\UserResource;
+use Spatie\QueryBuilder\QueryBuilder;
 use App\Application\Services\RoleService;
 use App\Application\Contracts\UserContract;
 
@@ -31,11 +33,14 @@ class UserService extends Service
      *
      * @return  Response
      */
-    public function index(){
+    public function index()
+    {
         try {
-            $data = $this->contract->index();
-
-            return $data;
+            $data = QueryBuilder::for(User::Search(request('search')))
+                ->defaultSort('name')
+                ->allowedSorts('id', 'name')
+               ->paginate((request('per_page')) ?? 20);
+            return $this->responsePaginate(UserResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 

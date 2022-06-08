@@ -9,7 +9,6 @@ use App\Constants\AirtableDatabase;
 use App\Models\BrandMaster;
 use App\Models\Client;
 use App\Models\ClientItem;
-use App\Models\Country;
 use App\Models\ItemCategory;
 use App\Models\ItemImage;
 use App\Models\ItemLabel;
@@ -42,40 +41,6 @@ class MigrateAirtableItemMaster extends Command
      */
     public function handle()
     {
-        $this->info('Going to migrate: tablename= '.AirtableDatabase::BRAND_MASTER);
-        $brandClients = new AirtableApiClient(AirtableDatabase::BRAND_MASTER);
-        $airtableBrand = new AirTable($brandClients);
-        $brands = $airtableBrand->all();
-
-        if($brands){
-            foreach($brands as $item){
-                if(isset($item['fields']['Name']) && $item['fields']['Name'] != ''){
-                    $b = new BrandMaster();
-                    if(isset($item['fields']['country']) && $item['fields']['country'] != ''){
-                        $country = Country::where('name', $item['fields']['country'])->first();
-                        if(!$country){
-                            $country = new Country();
-                            $country->name = $item['fields']['country'];
-                            $country->save();
-                        }
-                    }
-                    $b->airtable_id = $item['id'];
-                    $b->name = $item['fields']['Name'];
-                    $b->country_id = (isset($item['fields']['country'])) ? $country->id : null;
-                    $b->en_name = (isset($item['fields']['ブランド名【English】'])) ? $item['fields']['ブランド名【English】'] : null;
-                    $b->ja_name = (isset($item['fields']['ブランド名【日本語】'])) ? $item['fields']['ブランド名【日本語】'] : null;
-                    $b->parallel_import = (isset($item['fields']['並行輸入'])) ? true : false;
-                    $b->brand_logo = (isset($item['fields']['ブランドロゴ'])) ? $item['fields']['ブランドロゴ'][0]['url'] : null;
-                    $b->brand_url = (isset($item['fields']['URL'])) ? $item['fields']['URL'] : null;
-                    $b->check = (isset($item['fields']['check'])) ? true : false;
-                    $b->remarks = (isset($item['fields']['備考'])) ? $item['fields']['備考'] : null;
-                    $b->category = (isset($item['fields']['カテゴリ'])) ? $item['fields']['カテゴリ'] : null;
-                    $b->save();
-                }
-            }
-        }
-        $this->info('Action complete for: tablename= '.AirtableDatabase::BRAND_MASTER);
-
         $this->info('Going to migrate: tablename= '.AirtableDatabase::ITEM_MASTER);
         $clients = new AirtableApiClient(AirtableDatabase::ITEM_MASTER);
         $airtable = new AirTable($clients);
@@ -125,14 +90,13 @@ class MigrateAirtableItemMaster extends Command
                 $itemMaster->unit = (isset($item['fields']['Unit/Set'])) ? $item['fields']['Unit/Set'] : null;
                 $itemMaster->weight = (isset($item['fields']['Weight'])) ? $item['fields']['Weight'] : null;
                 $itemMaster->weight2 = (isset($item['fields']['Weight2'])) ? $item['fields']['Weight2'] : null;
-
-                $itemMaster->label_link = (isset($item['fields']['Label(Link)'])) ? $item['fields']['Label(Link)'] : null; // file
+                $itemMaster->label_link = (isset($item['fields']['Label(Link)'])) ? $item['fields']['Label(Link)'][0]['url'] : null; // file
                 $itemMaster->label_pdf_date = (isset($item['fields']['LabelPDF_Date'])) ? date('Y-m-d H:i:s', strtotime($item['fields']['LabelPDF_Date'])) : null;
-                $itemMaster->stricted_words = (isset($item['fields']['RestrictedWords1'])) ? $item['fields']['RestrictedWords1'] : null;
+                $itemMaster->stricted_words = (isset($item['fields']['RestrictedWords1'])) ? json_encode($item['fields']['RestrictedWords1'], true) : null;
                 $itemMaster->w_no = (isset($item['fields']['w/No'])) ? $item['fields']['w/No'] : null;
                 $itemMaster->ing_list = (isset($item['fields']['IngList'])) ? $item['fields']['IngList'] : null;
                 $itemMaster->label_date = (isset($item['fields']['LabelDate'])) ? date('Y-m-d H:i:s', strtotime($item['fields']['LabelDate'])) : null;
-                $itemMaster->rec_mark = (isset($item['fields']['RECMark'])) ? json_encode($item['fields']['RECMark']) : null; //array
+                $itemMaster->rec_mark = (isset($item['fields']['RECMark'])) ? json_encode($item['fields']['RECMark'], true) : null; //array
                 $itemMaster->sampling = (isset($item['fields']['Sampling'])) ? $item['fields']['Sampling'] : null;
                 $itemMaster->lot_sampling = (isset($item['fields']['LotSampling'])) ? $item['fields']['LotSampling'] : null;
                 $itemMaster->product_nickname = (isset($item['fields']['愛称'])) ? $item['fields']['愛称'] : null;
@@ -149,7 +113,7 @@ class MigrateAirtableItemMaster extends Command
                 $itemMaster->label_photo = (isset($item['fields']['LabelPhoto'])) ? $item['fields']['LabelPhoto'] : null;
                 $itemMaster->amazon_req = (isset($item['fields']['AmazInfoReq'])) ? $item['fields']['AmazInfoReq'] : null;
                 $itemMaster->outer_label_pos = (isset($item['fields']['OuterLabelPos'])) ? $item['fields']['OuterLabelPos'] : null;
-                $itemMaster->unit_label_pos = (isset($item['fields']['UnitLabelPos'])) ? $item['fields']['UnitLabelPos'] : null;
+                $itemMaster->unit_label_pos = (isset($item['fields']['UnitLabelPos'])) ? json_encode($item['fields']['UnitLabelPos'], true) : null;
                 $itemMaster->save();
     
                 if($itemMaster){
@@ -217,13 +181,13 @@ class MigrateAirtableItemMaster extends Command
                     }
                 }
             }else{
-                $itemMaster->label_link = (isset($item['fields']['Label(Link)'])) ? $item['fields']['Label(Link)'] : null; // file
+                $itemMaster->label_link = (isset($item['fields']['Label(Link)'])) ? $item['fields']['Label(Link)'][0]['url'] : null; // file
                 $itemMaster->label_pdf_date = (isset($item['fields']['LabelPDF_Date'])) ? date('Y-m-d H:i:s', strtotime($item['fields']['LabelPDF_Date'])) : null;
-                $itemMaster->stricted_words = (isset($item['fields']['RestrictedWords1'])) ? $item['fields']['RestrictedWords1'] : null;
+                $itemMaster->stricted_words = (isset($item['fields']['RestrictedWords1'])) ? json_encode($item['fields']['RestrictedWords1'], true) : null;
                 $itemMaster->w_no = (isset($item['fields']['w/No'])) ? $item['fields']['w/No'] : null;
                 $itemMaster->ing_list = (isset($item['fields']['IngList'])) ? $item['fields']['IngList'] : null;
                 $itemMaster->label_date = (isset($item['fields']['LabelDate'])) ? date('Y-m-d H:i:s', strtotime($item['fields']['LabelDate'])) : null;
-                $itemMaster->rec_mark = (isset($item['fields']['RECMark'])) ? json_encode($item['fields']['RECMark']) : null; //array
+                $itemMaster->rec_mark = (isset($item['fields']['RECMark'])) ? json_encode($item['fields']['RECMark'], true) : null; //array
                 $itemMaster->sampling = (isset($item['fields']['Sampling'])) ? $item['fields']['Sampling'] : null;
                 $itemMaster->lot_sampling = (isset($item['fields']['LotSampling'])) ? $item['fields']['LotSampling'] : null;
                 $itemMaster->product_nickname = (isset($item['fields']['愛称'])) ? $item['fields']['愛称'] : null;
@@ -240,7 +204,7 @@ class MigrateAirtableItemMaster extends Command
                 $itemMaster->label_photo = (isset($item['fields']['LabelPhoto'])) ? $item['fields']['LabelPhoto'] : null;
                 $itemMaster->amazon_req = (isset($item['fields']['AmazInfoReq'])) ? $item['fields']['AmazInfoReq'] : null;
                 $itemMaster->outer_label_pos = (isset($item['fields']['OuterLabelPos'])) ? $item['fields']['OuterLabelPos'] : null;
-                $itemMaster->unit_label_pos = (isset($item['fields']['UnitLabelPos'])) ? $item['fields']['UnitLabelPos'] : null;
+                $itemMaster->unit_label_pos = (isset($item['fields']['UnitLabelPos'])) ? json_encode($item['fields']['UnitLabelPos'], true) : null;
                 $itemMaster->save();
 
                 if(isset($item['fields']['LabelPDF'])){

@@ -13,10 +13,11 @@ class AirtableDatabase
     const CLIENT_MASTER         = 'ClientMaster';
     const DELIVERY              = 'delivery';
     const JOB                   = 'job';
-    const SDATA                 = 'sdata';
+    const SDATA                 = 'sData';
     const CLIENT_CAT            = 'clientCat';
-    const ITEM_MASTER           = 'itemMaster';
+    const ITEM_MASTER           = 'ItemMaster';
     const AMAZON_PROGRESS       = 'AmazonProgress';
     const CUSTOM_BROKER         = 'custommBroker';
     const BRAND_MASTER          = 'brandMaster';
+    const MEMBER                = 'Member';
 }

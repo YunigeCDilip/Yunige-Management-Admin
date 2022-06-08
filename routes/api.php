@@ -13,6 +13,7 @@ use App\Http\Controllers\API\ClientMasterController;
 use App\Http\Controllers\API\WarehouseDataController;
 use App\Http\Controllers\API\ClientMasterDataController;
 use App\Http\Controllers\API\ItemMasterDataController;
+use App\Http\Controllers\API\Web\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     /*
     |--------------------------------------------------------------------------
-    | Roles API Routes
+    | Mobile API Routes
     |--------------------------------------------------------------------------
     */
     Route::get('permissions', [RoleController::class, 'permissions']);
@@ -69,4 +70,8 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::get('master-items', [ItemMasterController::class, 'index']);
     Route::get('master-items/{id}', [ItemMasterController::class, 'show']);
+
+    Route::group(['prefix' => 'web'], function(){
+        Route::get('users/lists', [UserController::class, 'index']);
+    });
 });
