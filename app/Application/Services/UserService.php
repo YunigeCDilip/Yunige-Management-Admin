@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Log;
 use App\Application\Services\RoleService;
 use App\Application\Contracts\UserContract;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class UserService extends Service
@@ -309,10 +311,11 @@ class UserService extends Service
      * @param  int $id
      * @return  Response
      */
-    public function userProfileUpdate($request, $id)
+    public function userProfileUpdate($request)
     {
+        $data= Auth::user();
         try {
-            $user = User::find($id);
+            $user = User::find($data->id);
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone = $request->phone;

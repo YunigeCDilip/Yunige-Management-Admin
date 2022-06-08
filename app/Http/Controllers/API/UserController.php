@@ -37,16 +37,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
       * @param CreateUserRequest $request
@@ -74,26 +64,16 @@ class UserController extends Controller
         return $data;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
-      * @param UpdateUserRequest $request
+      * @param UpdateUserProfileRequest $request
      * @param int $id
      * 
      * @return Response
      */
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateUserProfileRequest $request, $id)
     {
         $data = $this->service->update($request, $id);
 
@@ -127,9 +107,9 @@ class UserController extends Controller
      * update user profile
      * @return [type]
      */
-    public function updateProfile(UpdateUserProfileRequest $request, $id)
+    public function updateProfile(UpdateUserProfileRequest $request)
     {
-        $data = $this->service->userProfileUpdate($request, $id);
+        $data = $this->service->userProfileUpdate($request);
 
         return $data;
     }

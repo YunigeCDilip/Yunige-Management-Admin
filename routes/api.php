@@ -68,14 +68,14 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::get('barcode-items', [BarcodeItemController::class, 'index']);
 
-    Route::get('users', [UserController::class, 'index']);
     Route::get('users/profile', [UserController::class, 'userProfile']);
-    Route::post('users', [UserController::class, 'store']);
-    Route::get('users/{user}', [UserController::class, 'show']);
-    Route::put('users/{user}', [UserController::class, 'update']);
-    Route::put('users/profile/{user}', [UserController::class, 'updateProfile']);
+    Route::put('users/profile', [UserController::class, 'updateProfile']);
 
-    Route::delete('users/{user}', [UserController::class, 'destory']);
+    // Route::get('users', [UserController::class, 'index']);
+    // Route::post('users', [UserController::class, 'store']);
+    // Route::get('users/{user}', [UserController::class, 'show']);
+    // Route::put('users/{user}', [UserController::class, 'update']);
+    // Route::delete('users/{user}', [UserController::class, 'destory']);
 
 
 
