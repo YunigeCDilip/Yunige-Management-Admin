@@ -8,6 +8,8 @@ use App\Constants\MessageResponse;
 use Illuminate\Support\Facades\Log;
 use App\Application\Services\RoleService;
 use App\Application\Contracts\UserContract;
+use App\Http\Resources\UserResource;
+
 
 class UserService extends Service
 {
@@ -296,9 +298,10 @@ class UserService extends Service
      */
     public function userProfile()
     {
-        $user = $this->getAuthUser();
+        $data = $this->getAuthUser();
 
-        return $this->responseOk($user, MessageResponse::DATA_LOADED);
+        return $this->responseOk(new UserResource($data), MessageResponse::DATA_LOADED);
+
     }
     /**
      * update users user profile
@@ -314,13 +317,8 @@ class UserService extends Service
             $user->email = $request->email;
             $user->phone = $request->phone;
             $user->address = $request->address;
-            //$user->active_status = $request->status;
-            //$user->password = ($request->has('password')) ? bcrypt($request->password) : $user->password;
             $user->save();
-
-            //$user->syncRoles([$request->role])->syncPermissions($request->permissions);
-
-            return $this->responseOk($user, MessageResponse::DATA_CREATED);
+            return $this->responseOk(null, MessageResponse::DATA_CREATED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 

@@ -16,6 +16,11 @@ class UserResource extends JsonResource
     {
         return [
             'id'                    => $this->id,
+            'name'                  => $this->name,
+            'email'                 => $this->email,
+            'phone'                 => $this->phone,
+            'address'               => $this->address,
+            'role'                  => (!$this->roles->isEmpty()) ? $this->roles[0]->name : null
         ];
     }
 }
