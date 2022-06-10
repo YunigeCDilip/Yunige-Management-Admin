@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -49,7 +50,12 @@ class User extends Authenticatable
         'active_status' => 'boolean',
     ];
 
-    public function designations(){
+    /**
+     * Has Many relationship with designations
+     * @return HasMany
+     */
+    public function designations() : HasMany
+    {
         return $this->hasMany(UserDesignation::class, 'user_id');
     }
 

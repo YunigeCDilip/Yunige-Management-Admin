@@ -2,22 +2,28 @@
 
 namespace App\Application\Services;
 
-use Illuminate\Support\Facades\Log;
-use App\Application\Contracts\SDataContract;
 use Throwable;
+use App\Models\Sdata;
+use Illuminate\Http\Response;
+use App\Constants\MessageResponse;
+use App\Http\Resources\SDataDetailResource;
+use Illuminate\Support\Facades\Log;
+use App\Http\Resources\SDataResource;
+use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Database\DatabaseManager;
 
-class SDataService
+class SDataService extends Service
 {
     /**
      *
-     * @var  SData $contract
+     * @var DatabaseManager $db
     */
-    protected $contract;
+    protected $db;
 
     public function __construct(
-        SDataContract $contract
+        DatabaseManager $db
     ){
-        $this->contract = $contract;
+        $this->db = $db;
     }
 
     /**
@@ -25,44 +31,19 @@ class SDataService
      *
      * @return  Response
      */
-    public function index(){
+    public function index()
+    {
         try {
-            $data = $this->contract->index();
-
-            return $data;
+            $data = QueryBuilder::for(Sdata::WithQuery()->Search(request('search')))
+                ->defaultSort('id')
+                ->allowedSorts('id', 'name')
+               ->paginate((request('per_page')) ?? 20);
+               
+            return $this->responsePaginate(SDataResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
-        }
-    }
 
-    /**
-     * Return all active data for view.
-     *
-     * @return  Response
-     */
-    public function all(){
-        try {
-            $data = $this->contract->all();
-
-            return $data;
-        } catch (Throwable $e) {
-            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
-        }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param    Request  $request
-     * @return  Response
-     */
-    public function store($request){
-        try {
-            $data = $this->contract->store($request);
-
-            return $data;
-        } catch (Throwable $e) {
-            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+            return $this->responseError();
         }
     }
 
@@ -75,63 +56,16 @@ class SDataService
     public function show($id)
     {
         try {
-            $data = $this->contract->show($id);
+            $data = Sdata::withQuery()->where('id', $id)->first();
+            if(!$data){
+                return $this->responseError(Response::HTTP_NOT_FOUND, MessageResponse::NOT_FOUND);
+            }
 
-            return $data;
+            return $this->responseOk(new SDataDetailResource($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
-        }
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return  Response
-     */
-    public function edit($id)
-    {
-        try {
-            $data = $this->contract->edit($id);
-
-            return $data;
-        } catch (Throwable $e) {
-            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
-        }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request $request
-     * @param  int $id
-     * @return  Response
-     */
-    public function update($request, $id)
-    {
-        try {
-            $data = $this->contract->update($request, $id);
-
-            return $data;
-        } catch (Throwable $e) {
-            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return  Response
-     */
-    public function destroy($request, $id)
-    {
-        try {
-            $data = $this->contract->destroy($request, $id);
-
-            return $data;
-        } catch (Throwable $e) {
-            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+            return $this->responseError();
         }
     }
 }
