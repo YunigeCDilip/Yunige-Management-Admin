@@ -84,9 +84,12 @@ class Sdata extends Model
      */
     public function scopeWithQuery(Builder $query)
     {
-        return $query->with('attachments', 'samples.wdata:id,name', 'items.item', 'labelRequester:id,name,email', 'incharge:id,name,email', 'amazonProgress:id,name', 'delivery:id,name');
+        return $query->with('samples.wdata:id,name', 'items.item', 'labelRequester:id,name,email', 'incharge:id,name,email', 'amazonProgress:id,name', 'delivery:id,name');
     }
 
+    /**
+     * @return mixed
+     */
     public function groupedAttachments()
     {
         return $this->attachments->groupBy('type');

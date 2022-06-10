@@ -165,6 +165,9 @@ class MigrateAirtableWdata extends Command
             $wdata->transfer_id = (isset($item['fields']['transfer']) && $transfer) ? $transfer->id : null;
             $wdata->pick_direction_id = (isset($item['fields']['pickDirection']) && $pickDirection) ? $pickDirection->id : null;
             // $wdata->inter_assist_inbound_id = isset($item['fields']['Name']) ? $item['fields']['Name'] : null;
+            if(isset($item['createdTime'])){
+                $wdata->created_at = date('Y-m-d h:i:s', strtotime($item['createdTime']));
+            }
             $wdata->save();
 
             if($wdata){
