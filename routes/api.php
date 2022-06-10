@@ -2,18 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\PicController;
+use App\Http\Controllers\API\SDataController;
 use App\Http\Controllers\API\StatusController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\DeliveryController;
+use App\Http\Controllers\API\Web\UserController;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\API\ItemMasterController;
 use App\Http\Controllers\API\BarcodeItemController;
 use App\Http\Controllers\API\ClientMasterController;
 use App\Http\Controllers\API\WarehouseDataController;
-use App\Http\Controllers\API\ClientMasterDataController;
 use App\Http\Controllers\API\ItemMasterDataController;
-use App\Http\Controllers\API\Web\UserController;
+use App\Http\Controllers\API\ClientMasterDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,12 +53,6 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::get('carriers', [DeliveryController::class, 'index']);
 
-    Route::get('wdata', [WarehouseDataController::class, 'index']);
-    Route::get('wdata/{id}', [WarehouseDataController::class, 'show']);
-    Route::post('wdata', [WarehouseDataController::class, 'store']);
-    Route::put('wdata/{id}', [WarehouseDataController::class, 'update']);
-    Route::delete('wdata/{id}', [WarehouseDataController::class, 'destroy']);
-
     Route::get('shippers', [ClientMasterDataController::class, 'shippers']);
     Route::get('item-categories', [ItemMasterDataController::class, 'categories']);
     Route::get('item-labels', [ItemMasterDataController::class, 'labels']);
@@ -70,6 +65,15 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::get('master-items', [ItemMasterController::class, 'index']);
     Route::get('master-items/{id}', [ItemMasterController::class, 'show']);
+
+    Route::get('sdatas', [SDataController::class, 'index']);
+    Route::get('sdatas/{sdata}', [SDataController::class, 'show']);
+
+    Route::get('wdata', [WarehouseDataController::class, 'index']);
+    Route::get('wdata/{id}', [WarehouseDataController::class, 'show']);
+    Route::post('wdata', [WarehouseDataController::class, 'store']);
+    Route::put('wdata/{id}', [WarehouseDataController::class, 'update']);
+    Route::delete('wdata/{id}', [WarehouseDataController::class, 'destroy']);
 
     Route::group(['prefix' => 'web'], function(){
         Route::get('users/lists', [UserController::class, 'index']);
