@@ -10,6 +10,9 @@ use App\Http\Resources\UserResource;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Application\Services\RoleService;
 use App\Application\Contracts\UserContract;
+use Illuminate\Support\Facades\Auth;
+
+
 use App\Models\Designation;
 
 class UserService extends Service
@@ -301,5 +304,42 @@ class UserService extends Service
 
             return $this->responseError();
         }
+    }
+    /**
+     * login users user profile
+     *
+     * 
+     * @return  Response
+     */
+    public function userProfile()
+    {
+        $data = $this->getAuthUser();
+
+        return $this->responseOk(new UserResource($data), MessageResponse::DATA_LOADED);
+
+    }
+    /**
+     * update users user profile
+     * @param  Request $request
+     * @param  int $id
+     * @return  Response
+     */
+    public function userProfileUpdate($request)
+    {
+        $data= Auth::user();
+        try {
+            $user = User::find($data->id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
+            $user->save();
+            return $this->responseOk(null, MessageResponse::DATA_CREATED);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+
     }
 }

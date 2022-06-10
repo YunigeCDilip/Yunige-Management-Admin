@@ -14,6 +14,7 @@ use App\Http\Controllers\API\BarcodeItemController;
 use App\Http\Controllers\API\ClientMasterController;
 use App\Http\Controllers\API\WarehouseDataController;
 use App\Http\Controllers\API\ItemMasterDataController;
+use App\Http\Controllers\API\UserProfileController;
 use App\Http\Controllers\API\ClientMasterDataController;
 
 /*
@@ -62,6 +63,17 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('master-items/{id}', [ItemMasterController::class, 'show']);
 
     Route::get('barcode-items', [BarcodeItemController::class, 'index']);
+
+    Route::get('users/profile', [UserProfileController::class, 'userProfile']);
+    Route::put('users/profile', [UserProfileController::class, 'updateProfile']);
+
+    // Route::get('users', [UserProfileController::class, 'index']);
+    // Route::post('users', [UserProfileController::class, 'store']);
+    // Route::get('users/{user}', [UserProfileController::class, 'show']);
+    // Route::put('users/{user}', [UserProfileController::class, 'update']);
+    // Route::delete('users/{user}', [UserProfileController::class, 'destory']);
+
+
 
     Route::get('master-items', [ItemMasterController::class, 'index']);
     Route::get('master-items/{id}', [ItemMasterController::class, 'show']);
