@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\WdataCategory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class WdataCategorySeeder extends Seeder
 {
@@ -14,6 +16,22 @@ class WdataCategorySeeder extends Seeder
      */
     public function run()
     {
-        //
+        
+        $data = [
+           "化粧品",
+           "食品",
+           "雑貨",
+           "その他",
+           "IOR",
+           "ユニゲ自社仕入",
+           "PSE確認",
+           "化粧品原料"
+        ];
+
+        foreach($data as $status){
+            WdataCategory::create([
+                'name' => $status
+            ]);
+        }
     }
 }

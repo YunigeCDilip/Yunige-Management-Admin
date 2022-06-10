@@ -52,6 +52,7 @@
                                 <th>SN</th>
                                 <th>{{__('messages.name')}}</th>
                                 <th>{{__('messages.email')}}</th>
+                                <th>{{__('messages.designation')}}</th>
                                 <th>{{__('messages.role')}}</th>
                                 <th>{{__('messages.status')}}</th>
                                 <th>{{__('messages.created_date')}}</th>

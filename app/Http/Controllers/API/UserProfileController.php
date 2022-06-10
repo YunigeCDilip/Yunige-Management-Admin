@@ -11,7 +11,7 @@ use App\Application\Services\UserService;
 use App\Models\User;
 
 
-class UserController extends Controller
+class UserProfileController extends Controller
 {
     /**
      * @var  $service

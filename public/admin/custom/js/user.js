@@ -164,6 +164,25 @@ $(function(){
             {data: 'id'},
             {data: 'name'},
             {data: 'email'},
+            {data: 'designation', 
+                render: function(data, type, dataObject, meta) {
+                    var desig = '';
+                    if(data.length){
+                        $.each(data, function(index, val){
+                            if(index == 0){
+                                var color = 'secondary';
+                            }else if(index == 1){
+                                var color = 'primary';
+                            }else{
+                                var color = 'warning';
+                            }
+                            desig += '<span class="badge badge-'+color+'">'+val.designation.name+'</span>';
+                        });
+                    }
+
+                    return desig;
+                }
+            },
             {data: 'role',
                 render: function(data, type, dataObject, meta) {
                     return '<span class="badge badge-success">'+dataObject.role+'</span>';

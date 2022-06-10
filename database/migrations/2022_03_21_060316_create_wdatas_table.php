@@ -31,11 +31,12 @@ return new class extends Migration
             $table->unsignedBigInteger('carrier_id')->nullable();
             $table->unsignedBigInteger('wdata_pic_id')->nullable();
             $table->unsignedBigInteger('wdata_status_id')->nullable();
+            $table->unsignedBigInteger('delivery_id')->nullable();
             $table->date('inbound_eta')->nullable();
             $table->date('outbound_eta')->nullable();
-            $table->string('permit_number')->nullable();
+            $table->longText('permit_number')->nullable();
             $table->longText('irregular')->nullable();
-            $table->string('track_number')->nullable();
+            $table->longText('track_number')->nullable();
             $table->longText('memo_invoice')->nullable();
             $table->longText('pickup')->nullable();
             $table->date('pickup_date')->nullable();
@@ -101,10 +102,11 @@ return new class extends Migration
 
             $table->index(["transfer_id"], 'fk_wdata_transfers1_idx');
 
+            $table->index(["delivery_id"], 'fk_wdata_deliveries1_idx');
+
             $table->index(["inter_assist_inbound_id"], 'fk_wdata_inter_assist_inbounds1_idx');
             $table->softDeletes();
             $table->timestamps();
-
 
             $table->foreign('inbound_status_id', 'fk_wdatas_inbound_statuses1_idx')
                 ->references('id')->on('inbound_statuses')
@@ -173,6 +175,12 @@ return new class extends Migration
 
             $table->foreign('inter_assist_inbound_id', 'fk_wdata_inter_assist_inbounds1_idx')
                 ->references('id')->on('inter_assist_inbounds')
+                ->onDelete('no action')
+                ->onUpdate('no action');
+
+
+            $table->foreign('delivery_id', 'fk_wdata_deliveries1_idx')
+                ->references('id')->on('deliveries')
                 ->onDelete('no action')
                 ->onUpdate('no action');
         });

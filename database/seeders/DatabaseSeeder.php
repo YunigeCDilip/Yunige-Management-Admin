@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(DesignationTableSeeder::class);
         $this->call(UserTableSeeder::class);
         $this->call(RoleTableSeeder::class);
         $this->call(PermissionTableSeeder::class);
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LocalizationSeeder::class);
         $this->call(WdataStatusSeeder::class);
         $this->call(WdataPicSeeder::class);
+        $this->call(CarrierSeeder::class);
         $this->call(ShipperSeeder::class);
         $this->call(MovementConfirmationSeeder::class);
         $this->call(InboundStatusSeeder::class);
@@ -30,11 +32,30 @@ class DatabaseSeeder extends Seeder
         $this->call(ItemCategorySeeder::class);
         $this->call(ItemLabelSeeder::class);
         $this->call(ProductTypesSeeder::class);
+        $this->call(ContainerTableSeeder::class);
+        $this->call(DeliveryPlaceTableSeeder::class);
+        $this->call(IncompleteTableSeeder::class);
+        $this->call(PicDirectionTableSeeder::class);
+        $this->call(ReasonTableSeeder::class);
+        $this->call(ShipmentTableSeeder::class);
+        $this->call(TrackInputTableSeeder::class);
+        $this->call(TransferTableSeeder::class);
+        $this->call(WarehouseJobSeeder::class);
+        $this->call(WdataCategorySeeder::class);
+
+        // $this->call(Artisan::call('member:migrate'));
         // $this->call(Artisan::call('clientCat:migrate'));
         // $this->call(Artisan::call('amazon:migrate'));
+        // $this->call(Artisan::call('delivery:migrate'));
+        // $this->call(Artisan::call('brandMaster:migrate'));
         // $this->call(Artisan::call('clientMaster:migrate'));
         // $this->call(Artisan::call('itemMaster:migrate'));
+        
         // $this->call(Artisan::call('sdata:migrate'));
         // $this->call(Artisan::call('wdata:migrate'));
+        // $this->call(Artisan::call('customBrokers:migrate'));
+        // $this->call(Artisan::call('FbaList:migrate'));
+        // $this->call(Artisan::call('outbound:migrate'));
+
     }
 }
