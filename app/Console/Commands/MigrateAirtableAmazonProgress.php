@@ -10,7 +10,7 @@ use App\Airtable\AirtableApiClient;
 use App\Constants\AirtableDatabase;
 use App\Models\ClientAmazonProgress;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Models\AmazonProgressFile;
+use App\Models\AmazonProgressFile;
 
 class MigrateAirtableAmazonProgress extends Command
 {

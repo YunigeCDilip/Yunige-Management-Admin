@@ -13,7 +13,7 @@ use App\Models\ClientAmazonProgress;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\DatabaseManager;
-use App\Models\Models\AmazonProgressFile;
+use App\Models\AmazonProgressFile;
 use App\Http\Resources\AmazonProgressResource;
 
 class AmazonProgressService extends Service
