@@ -85,10 +85,9 @@ class FbaListController extends Controller
         if($data->status){
             $responseData['url'] = route('admin.fba.index');
         }
-        //return $responseData;
+        return $responseData;
 
-        //return $data;
-        return redirect()->route('admin.fba.index');
+        return $data;
 
     }
 
@@ -139,7 +138,6 @@ class FbaListController extends Controller
      */
     public function update(UpdateFbaList $request, $id)
     {
-        dd('hello');
         $data = json_decode($this->service->update($request, $id)->getContent());
         $responseData['status'] = $data->status;
         $responseData['message'] = $data->message;
