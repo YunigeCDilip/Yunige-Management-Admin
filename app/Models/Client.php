@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
@@ -23,47 +26,102 @@ class Client extends Model
         'takatsu_working_date' => 'datetime',
     ];
 
-    public function category(){
+    /**
+     * BelongsTo relationships with Client
+     * @return BelongsTo
+     */
+    public function category(): BelongsTo
+    {
         return $this->belongsTo(ClientCategory::class, 'client_category_id');
     }
 
-    public function requestedClient(){
+    /**
+     * BelongsTo relationships with Client
+     * @return BelongsTo
+     */
+    public function requestedClient(): BelongsTo
+    {
         return $this->belongsTo(Client::class, 'request_client_id');
     }
 
-    public function shipper(){
+    /**
+     * BelongsTo relationships with Shipper
+     * @return BelongsTo
+     */
+    public function shipper(): BelongsTo
+    {
         return $this->belongsTo(Shipper::class);
     }
 
-    public function contact(){
+    /**
+     * HasOne relationships with ClientContact
+     * @return HasOne
+     */
+    public function contact(): HasOne
+    {
         return $this->hasOne(ClientContact::class);
     }
 
-    public function amazonProgress(){
+    /**
+     * HasMany relationships with ClientAmazonProgress
+     * @return HasMany
+     */
+    public function amazonProgress(): HasMany
+    {
         return $this->hasMany(ClientAmazonProgress::class);
     }
 
-    public function sdatas(){
+    /**
+     * HasMany relationships with ClientSdata
+     * @return HasMany
+     */
+    public function sdatas(): HasMany
+    {
         return $this->hasMany(ClientSdata::class);
     }
 
-    public function items(){
+    /**
+     * HasMany relationships with ClientItem
+     * @return HasMany
+     */
+    public function items(): HasMany
+    {
         return $this->hasMany(ClientItem::class);
     }
 
-    public function wdatas(){
+    /**
+     * HasMany relationships with ClientWdata
+     * @return HasMany
+     */
+    public function wdatas(): HasMany
+    {
         return $this->hasMany(ClientWdata::class);
     }
 
-    public function movement(){
+    /**
+     * BelongsTo relationships with MovementConfirmation
+     * @return BelongsTo
+     */
+    public function movement(): BelongsTo
+    {
         return $this->belongsTo(MovementConfirmation::class, 'movement_confirmation_id');
     }
 
-    public function classification(){
+    /**
+     * BelongsTo relationships with ForeignDeliveryClassification
+     * @return BelongsTo
+     */
+    public function classification(): BelongsTo
+    {
         return $this->belongsTo(ForeignDeliveryClassification::class, 'foreign_delivery_classifications_id');
     }
 
-    public function brands(){
+    /**
+     * HasMany relationships with ClientBrand
+     * @return HasMany
+     */
+    public function brands(): HasMany
+    {
         return $this->hasMany(ClientBrand::class);
     }
 

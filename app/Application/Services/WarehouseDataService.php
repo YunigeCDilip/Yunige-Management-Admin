@@ -3,6 +3,7 @@
 namespace App\Application\Services;
 
 use Throwable;
+use App\Models\Wdata;
 use App\Airtable\AirTable;
 use Illuminate\Http\Response;
 use App\Domains\WarehouseDomain;
@@ -10,8 +11,10 @@ use App\Constants\MessageResponse;
 use App\Airtable\AirtableApiClient;
 use App\Constants\AirtableDatabase;
 use Illuminate\Support\Facades\Log;
-use App\Http\Resources\WarehouseDataResource;
+use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\DatabaseManager;
+use App\Http\Resources\WdataDetailResource;
+use App\Http\Resources\WarehouseDataResource;
 
 class WarehouseDataService extends Service
 {
@@ -47,37 +50,12 @@ class WarehouseDataService extends Service
     public function index()
     {
         try {
-            $search = request('search');
-            $perPage = request('per_page') ?? 20;
-            if($this->getCache(AirtableDatabase::WDATA)){
-                $data = json_decode($this->getCache(AirtableDatabase::WDATA), true);
-            }else{
-                $data = $this->airtable->get();
-                $this->setCache(AirtableDatabase::WDATA, json_encode($data['records']));
-            }
-            if($search != ''){
-                $data = collect($data)->filter(function($item) use ($search) {
-                    foreach($item['fields'] as $key => $value){
-                        if(!is_array($item['fields'][$key])){
-                            if(stripos($item['fields'][$key],$search)){
-                                return $item;
-                            }
-                        }else{
-                            foreach($item['fields'][$key] as $index => $v){
-                                if(!is_array($item['fields'][$key][$index]) && stripos($v,$search)){
-                                    return $item;
-                                }
-                            }
-                        }
-                    }
-                });
-                $options['path'] = url('/').'/api/wdata?per_page='.$perPage.'&search='.$search;
-            }else{
-                $options['path'] = url('/').'/api/wdata?per_page='.$perPage;
-            }
-            $response = $this->paginate(WarehouseDataResource::collection($data), request('per_page'), request('page'), $options);
-
-            return $this->responsePaginate($response, MessageResponse::DATA_LOADED);
+            $data = QueryBuilder::for(Wdata::WithQuery()->Search(request('search')))
+                ->defaultSort('id')
+                ->allowedSorts('id', 'name')
+               ->paginate((request('per_page')) ?? 20);
+               
+            return $this->responsePaginate(WarehouseDataResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 
@@ -218,14 +196,12 @@ class WarehouseDataService extends Service
     public function show($id)
     {
         try {
-            if($this->getCache(AirtableDatabase::WDATA.'_'.$id)){
-                $data = json_decode($this->getCache(AirtableDatabase::WDATA.'_'.$id), true);
-            }else{
-                $data = $this->airtable->find($id);
-                $this->setCache(AirtableDatabase::WDATA.'_'.$id, json_encode($data));
+            $data = Wdata::withQuery()->where('id', $id)->first();
+            if(!$data){
+                return $this->responseError(Response::HTTP_NOT_FOUND, MessageResponse::NOT_FOUND);
             }
 
-            return $this->responseOk($data, MessageResponse::DATA_LOADED);
+            return $this->responseOk(new WdataDetailResource($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 

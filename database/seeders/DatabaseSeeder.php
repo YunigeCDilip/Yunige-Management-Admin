@@ -48,11 +48,10 @@ class DatabaseSeeder extends Seeder
         // $this->call(Artisan::call('amazon:migrate'));
         // $this->call(Artisan::call('delivery:migrate'));
         // $this->call(Artisan::call('brandMaster:migrate'));
+        // $this->call(Artisan::call('wdata:migrate'));
+        // $this->call(Artisan::call('sdata:migrate'));
         // $this->call(Artisan::call('clientMaster:migrate'));
         // $this->call(Artisan::call('itemMaster:migrate'));
-        
-        // $this->call(Artisan::call('sdata:migrate'));
-        // $this->call(Artisan::call('wdata:migrate'));
         // $this->call(Artisan::call('customBrokers:migrate'));
         // $this->call(Artisan::call('FbaList:migrate'));
         // $this->call(Artisan::call('outbound:migrate'));

@@ -224,17 +224,6 @@ class MigrateAirtableSdata extends Command
                         $file->save();
                     }
                 }
-                if(isset($asdata['fields']['アイテム【商品マスターリンク】'])){
-                    foreach($asdata['fields']['アイテム【商品マスターリンク】'] as $value){
-                        $im = ItemMaster::where('airtable_id', $value)->first();
-                        if($im){
-                            $new = new SdataItemMaster();
-                            $new->sdata_id = $sdata->id;
-                            $new->item_master_id = $im->id;
-                            $new->save();
-                        }
-                    }
-                }
                 if(isset($asdata['fields']['wサンプル'])){
                     foreach($asdata['fields']['wサンプル'] as $value){
                         $im = Wdata::where('airtable_id', $value)->first();
