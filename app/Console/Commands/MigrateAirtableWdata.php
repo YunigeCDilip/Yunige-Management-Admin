@@ -125,6 +125,7 @@ class MigrateAirtableWdata extends Command
             $wdata->delivery_id = (isset($item['fields']['carrier']) && $carrier) ? $carrier->id : null;
             $wdata->wdata_pic_id = (isset($item['fields']['pic']) && $pic) ? $pic->id : null;
             $wdata->wdata_status_id = (isset($item['fields']['status']) && $status) ? $status->id : null;
+            $wdata->etd = isset($item['fields']['etd']) ? date('Y-m-d', strtotime($item['fields']['etd'])) : null;
             $wdata->inbound_eta = isset($item['fields']['inboundETA']) ? date('Y-m-d', strtotime($item['fields']['inboundETA'])) : null;
             $wdata->outbound_eta = isset($item['fields']['outboundETD']) ? date('Y-m-d', strtotime($item['fields']['outboundETD'])) : null;
             $wdata->permit_number = isset($item['fields']['permitNo']) ? $item['fields']['permitNo'] : null;

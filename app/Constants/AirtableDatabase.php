@@ -21,4 +21,6 @@ class AirtableDatabase
     const FBA_LIST              = 'FBAList';
     const BRAND_MASTER          = 'brandMaster';
     const MEMBER                = 'Member';
+    const OUTBOUND              = 'Outbound';
+    const INTER_ASSIST_OUTBOUND = 'InterAssistOutbound';
 }

@@ -8,6 +8,7 @@ use App\Airtable\AirtableApiClient;
 use App\Constants\AirtableDatabase;
 use App\Models\FbaList;
 use App\Models\FbaOutbound;
+use App\Models\Outbound;
 
 class MigrateAirtableFbaList extends Command
 {
@@ -38,9 +39,6 @@ class MigrateAirtableFbaList extends Command
         $data = $airtable->all();
         foreach($data as $fba){
             $FbaList = new FbaList();
-
-            //info('hello');
-            
             $FbaList->fba_id = $fba['id'];
             $FbaList->fba_name = (isset($fba['fields']['FBA名称'])) ? $fba['fields']['FBA名称'] : null;
             $FbaList->notes = (isset($fba['fields']['Notes'])) ? $fba['fields']['Notes'] : null;
@@ -51,10 +49,13 @@ class MigrateAirtableFbaList extends Command
                 $outboundList = (isset($fba['fields']['出荷報告'])) ? $fba['fields']['出荷報告'] : null;
                 if (!empty($outboundList) && is_array($outboundList)) {
                     foreach ($outboundList as $key => $outbound) {
-                        $FbaOutbound = new FbaOutbound();
-                        $FbaOutbound->fba_id = $FbaList['id'];
-                        $FbaOutbound->outbound_id = $outbound;
-                        $FbaOutbound->save();
+                        $outbd = Outbound::where('airtable_id', $outbound)->first();
+                        if($outbd){
+                            $FbaOutbound = new FbaOutbound();
+                            $FbaOutbound->fba_id = $FbaList->id;
+                            $FbaOutbound->outbound_id = $outbd->id;
+                            $FbaOutbound->save();
+                        }
                     }
                 }
             }

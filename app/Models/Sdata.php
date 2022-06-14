@@ -87,6 +87,10 @@ class Sdata extends Model
         return $query->with('attachments', 'samples.wdata:id,name', 'items.item', 'labelRequester:id,name,email', 'incharge:id,name,email', 'amazonProgress:id,name', 'delivery:id,name');
     }
 
+    /**
+     * Grouped Attachments
+     * @return mixed
+     */
     public function groupedAttachments()
     {
         return $this->attachments->groupBy('type');

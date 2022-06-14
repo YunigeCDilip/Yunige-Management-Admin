@@ -197,6 +197,7 @@ class Wdata extends Model
     }
 
     /**
+     * Grouped Attachments
      * @return mixed
      */
     public function groupedAttachments()

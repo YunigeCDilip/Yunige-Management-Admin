@@ -247,4 +247,18 @@ return [
     'weight'                    => 'Weight',
     'weight_2'                  => 'Weight 2',
 
+    /*
+    |
+    | Outbounds
+    |--------------------------------------------------------------------------
+    |
+    */
+    'outbounds'              => 'Outbounds',
+    'wdata'                  => 'wNumberLink',
+    'warehouse_in_charge'    => 'Warehouse In Charge',
+    'reserve'                => 'Reserve',
+    'ship_date'              => 'Ship Date',
+    'delivery_id'            => 'Shipping Company',
+    'create_date'            => 'Create Date',
+
 ];
