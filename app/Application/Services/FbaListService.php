@@ -119,7 +119,7 @@ class FbaListService extends Service
                     $nestedData['label'] = ($fba->label != '') ? $fba->label : '-';
                     $nestedData['address'] = ($fba->address != '') ? $fba->address : '-';
                     //$nestedData['resp_person'] = ($fba->resp_person != '') ? $fba->resp_person : '-';
-                    $nestedData['manage_permission'] = $this->checkPermission('manage.client');
+                    $nestedData['manage_permission'] = $this->checkPermission('manage.fba');
                     $fbaData[] = $nestedData;
                 }
 

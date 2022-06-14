@@ -2,7 +2,6 @@
 @section('additional-css')
 @endsection
 @section('content')
-<form action="{{url('fba')}}" method="POST"> 
 <form id="addForm" method="post" autocomplete="off" class="needs-validation" novalidate>
 	@csrf
 	<div class="row">
@@ -40,7 +39,7 @@
 	<div class="row">
         <div class="col-lg-12">
             <div class="form-group mb-3">
-                <button class="btn w-sm btn-success waves-effect waves-light save-user">
+                <button class="btn w-sm btn-success waves-effect waves-light save-fba">
                     <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>
                     {{__('actions.save')}}
                 </button>
@@ -51,4 +50,9 @@
 
 
 </form>
+@endsection
+@section('additional-js')
+<script src="{{asset('admin')}}/libs/datatables/jquery.dataTables.min.js"></script>
+<script src="{{asset('admin')}}/libs/sweetalert/sweetalert.min.js"></script>
+<script src="{{asset('admin/custom/js/fba.js')}}"></script>
 @endsection
