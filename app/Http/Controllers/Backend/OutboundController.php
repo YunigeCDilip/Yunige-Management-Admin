@@ -4,11 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Application\Services\OutboundService;
-use App\Http\Requests\CreateOutboundRequest;
-use App\Http\Requests\UpdateOutboundRequest;
-use Throwable;
+use App\Models\Outbound;
 
 class OutboundController extends Controller 
 {
@@ -23,7 +20,7 @@ class OutboundController extends Controller
     {
         $this->service = $service;
     }
-
+    
     /**
      * Display a listing of the resource.
      *
@@ -31,32 +28,15 @@ class OutboundController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $this->service->index();
+        if(!$request->ajax()){
+            $data['title'] = trans('messages.outbounds');
+            $data['menu'] = trans('messages.outbounds');
+            $data['subMenu'] = trans('actions.lists');
 
-        return $data;
-    }
+            return view('admin.outbound.index', $data);
+        }
 
-    /**
-     * Return all active data for view.
-     *
-     * @return  Response
-     */
-    public function all()
-    {
-        $data = $this->service->all();
-
-        return $data;
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  CreateOutboundRequest $request
-     * @return  Response
-     */
-    public function store(CreateOutboundRequest $request)
-    {
-        $data = $this->service->store($request);
+        $data = $this->service->datatable($request);
 
         return $data;
     }
@@ -69,43 +49,20 @@ class OutboundController extends Controller
      */
     public function show($id)
     {
-        $data = $this->service->show($id);
+        $data['title'] = trans('messages.outbounds');
+        $data['menu'] = trans('messages.outbounds');
+        $data['subMenu'] = trans('actions.view');
+        $data['outbound'] = Outbound::find($id);
+        $data['outbound']->load('attachments', 'fbalists', 'wdata:id,name','delivery:id,name');
 
-        return $data;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return  Response
-     */
-    public function edit($id)
-    {
-        $data = $this->service->edit($id);
-
-        return $data;
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  UpdateOutboundRequest $request
-     * @param  int $id
-     * @return  Response
-     */
-    public function update(UpdateOutboundRequest $request, $id)
-    {
-        $data = $this->service->update($request, $id);
-
-        return $data;
+        return view('admin.outbound.show', $data);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return  Response
+     * @param int $id
+     * @return Response
      */
     public function destroy(Request $request, $id)
     {

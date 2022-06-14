@@ -13,6 +13,10 @@ class Outbound extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $casts = [
+        'warehouse_in_charge' => 'array'
+    ];
+
     /**
      * Has Many relationships with Attachments
      * @return HasMany
@@ -57,7 +61,7 @@ class Outbound extends Model
      */
     public function scopeWithQuery(Builder $query)
     {
-        return $query->with('attachments', 'fbalists', 'wdata.id,name','delivery:id,name');
+        return $query->with('attachments', 'fbalists', 'wdata:id,name','delivery:id,name');
     }
 
     /**

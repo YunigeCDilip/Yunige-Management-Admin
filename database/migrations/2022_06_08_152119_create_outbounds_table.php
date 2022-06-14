@@ -34,7 +34,7 @@ return new class extends Migration
             $table->tinyInteger('completed')->default(0);
             $table->unsignedBigInteger('delivery_id')->nullable();
             $table->string('invoice_no', 255)->nullable();
-            $table->string('additional_invoice_no', 255)->nullable();
+            $table->text('additional_invoice_no')->nullable();
             $table->string('fba_reservation_no', 255)->nullable();
             $table->date('fba_entry_date')->nullable();
             $table->integer('small_no')->nullable();
