@@ -247,4 +247,15 @@ return [
     'weight'                    => 'Weight',
     'weight_2'                  => 'Weight 2',
 
+    /*
+    |--------------------------------------------------------------------------
+    | FBA list modules
+    |--------------------------------------------------------------------------
+    |
+    */
+    'add_new_designation'       => 'Add New Designation',
+    'edit_designation'          => 'Edit Designation',
+    'designation_name'          => 'Name',
+    'designation'               => 'Designation',
+
 ];

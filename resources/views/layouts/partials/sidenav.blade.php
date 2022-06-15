@@ -29,6 +29,9 @@
                     <li>
                         <a href="{{route('admin.users.index')}}">{{__('menu.users')}}</a>
                     </li>
+                    <li>
+                        <a href="{{route('admin.designations.index')}}">{{__('menu.designation')}}</a>
+                    </li>
                 </ul>
             </li>
             <li class="">

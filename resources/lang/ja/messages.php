@@ -229,4 +229,15 @@ return [
     'product_types'             => 'Product Types',
     'item'                      => 'Items',
 
+     /*
+    |--------------------------------------------------------------------------
+    | FBA list modules
+    |--------------------------------------------------------------------------
+    |
+    */
+    'add_new_designation'       => 'Add New Designation',
+    'edit_designation'          => 'Edit Designation',
+    'designation_name'          => 'Name',
+    'designation'               => 'Designation',
+
 ];

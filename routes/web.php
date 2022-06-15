@@ -30,6 +30,7 @@ use App\Http\Controllers\Backend\ClientCategoryController;
 use App\Http\Controllers\Backend\MovementConfirmationController;
 use App\Http\Controllers\Backend\DeliveryClassificationController;
 use App\Http\Controllers\Backend\FbaListController;
+use App\Http\Controllers\Backend\DesignationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -268,4 +269,10 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('items/{item}/edit', [ItemMasterController::class, 'edit'])->name('items.edit');
     Route::put('items/{item}', [ItemMasterController::class, 'update'])->name('items.update');
     Route::delete('items/{item}', [ItemMasterController::class, 'destroy'])->name('items.destroy');
+
+    Route::get('designations', [DesignationController::class, 'index'])->name('designations.index');
+    Route::post('designations', [DesignationController::class, 'store'])->name('designations.store');
+    Route::delete('designations/{designation}', [DesignationController::class, 'destroy'])->name('designations.destroy');
+    Route::get('designations/{designation}', [DesignationController::class, 'show'])->name('designations.show');
+    Route::put('designations/{designation}', [DesignationController::class, 'update'])->name('designations.update');
 });
