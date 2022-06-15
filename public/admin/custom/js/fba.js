@@ -19,23 +19,6 @@ function messages(message, type)
         }(window.jQuery);
 }
 
-$(function(){
-    $(".select2").select2();
-    $('#datetimepicker').datetimepicker({
-        "allowInputToggle": true,
-        "showClose": true,
-        "showClear": true,
-        "showTodayButton": true,
-        "format": "YYYY-MM-DD hh:mm:ss A",
-    });
-    $('#datetimepicker1').datetimepicker({
-        "allowInputToggle": true,
-        "showClose": true,
-        "showClear": true,
-        "showTodayButton": true,
-        "format": "YYYY-MM-DD hh:mm:ss A",
-    });
-});
 
 var table;
 $(function(){

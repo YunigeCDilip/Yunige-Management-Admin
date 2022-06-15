@@ -257,5 +257,18 @@ return [
     'edit_designation'          => 'Edit Designation',
     'designation_name'          => 'Name',
     'designation'               => 'Designation',
+    /*
+    |--------------------------------------------------------------------------
+    | Outbounds
+    |--------------------------------------------------------------------------
+    |
+    */
+    'outbounds'              => 'Outbounds',
+    'wdata'                  => 'wNumberLink',
+    'warehouse_in_charge'    => 'Warehouse In Charge',
+    'reserve'                => 'Reserve',
+    'ship_date'              => 'Ship Date',
+    'delivery_id'            => 'Shipping Company',
+    'create_date'            => 'Create Date',
 
 ];

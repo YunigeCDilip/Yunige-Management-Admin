@@ -31,6 +31,7 @@ use App\Http\Controllers\Backend\MovementConfirmationController;
 use App\Http\Controllers\Backend\DeliveryClassificationController;
 use App\Http\Controllers\Backend\FbaListController;
 use App\Http\Controllers\Backend\DesignationController;
+use App\Http\Controllers\Backend\OutboundController;
 
 /*
 |--------------------------------------------------------------------------
@@ -169,7 +170,7 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     |--------------------------------------------------------------------------
     | Wdata Master Data Web Routes
     |--------------------------------------------------------------------------
-    | Modules: Wdata Categories, Carrires, Wdata Status, Pics, inbound status, custom brokers
+    | Modules: Wdata Categories, Carrires, Wdata Status, Pics, inbound status, custom brokers,Outbounds
     |
     */
     Route::post('wdata-categories/activate', [WdataCategoryController::class, 'activate'])->name('wdata-categories.activate');
@@ -228,6 +229,10 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('wdata/{wdata}', [WarehouseDataController::class, 'show'])->name('wdata.show');
     Route::get('wdata/{wdata}/edit', [WarehouseDataController::class, 'edit'])->name('wdata.edit');
     Route::post('wdata/{wdata}', [WarehouseDataController::class, 'update'])->name('wdata.update');
+
+    Route::get('outbounds', [OutboundController::class, 'index'])->name('outbounds.index');
+    Route::get('outbounds/{outbound}', [OutboundController::class, 'show'])->name('outbounds.show');
+    Route::delete('outbounds/{outbound}', [OutboundController::class, 'destroy'])->name('outbounds.destroy');
     
     /*
     |--------------------------------------------------------------------------

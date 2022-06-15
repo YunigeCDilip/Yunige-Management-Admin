@@ -32,6 +32,7 @@ return new class extends Migration
             $table->unsignedBigInteger('wdata_pic_id')->nullable();
             $table->unsignedBigInteger('wdata_status_id')->nullable();
             $table->unsignedBigInteger('delivery_id')->nullable();
+            $table->date('etd')->nullable();
             $table->date('inbound_eta')->nullable();
             $table->date('outbound_eta')->nullable();
             $table->longText('permit_number')->nullable();

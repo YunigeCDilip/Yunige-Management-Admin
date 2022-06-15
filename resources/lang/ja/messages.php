@@ -239,5 +239,18 @@ return [
     'edit_designation'          => 'Edit Designation',
     'designation_name'          => 'Name',
     'designation'               => 'Designation',
+    /*
+    |--------------------------------------------------------------------------
+    | Outbounds
+    |--------------------------------------------------------------------------
+    |
+    */
+    'outbounds'              => 'Outbounds',
+    'wdata'                  => 'wNumberLink',
+    'warehouse_in_charge'    => '担当倉庫',
+    'reserve'                => '保留',
+    'ship_date'              => '出荷日',
+    'delivery_id'            => '運送会社',
+    'create_date'            => 'Create Date',
 
 ];

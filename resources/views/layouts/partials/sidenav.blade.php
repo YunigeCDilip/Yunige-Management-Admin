@@ -157,6 +157,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{route('admin.outbounds.index')}}" class="@if(@$menu == 'Outbounds') active @endif">
+                    <i class="fe-pocket"></i>
+                    <span>{{__('menu.outbounds')}}</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{route('admin.settings.index')}}" class="@if(@$menu == 'Settings') active @endif">
                     <i class="fe-settings"></i>
                     <span>{{__('menu.settings')}}</span>

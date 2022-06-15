@@ -49,4 +49,5 @@ return [
     'product_type'              => 'Product Types',
     'item'                      => 'Items',
     'designation'               => 'Designation',
+    'outbounds'                 => 'Outbounds',
 ];

@@ -2,23 +2,20 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class CreateFbaList extends FormRequest
+class UpdateOutboundRequest extends ValidationRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return  array
      */
     public function rules()
     {
         return [
-            'fba_name' => 'required'
-            
+            //  Define rules
         ];
     }
+
     /**
      * Get the validation messages that apply to the request.
      *

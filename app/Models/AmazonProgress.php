@@ -2,22 +2,31 @@
 
 namespace App\Models;
 
-use App\Models\Models\AmazonProgressFile;
+use App\Models\AmazonProgressFile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AmazonProgress extends Model
 {
     use HasFactory;
-
-    public function amazonProgress()
+    
+    /**
+     * HasOne relationships with ClientAmazonProgress
+     * @return HasOne
+     */
+    public function amazonProgress() : HasOne
     {
         return $this->hasOne(ClientAmazonProgress::class, 'amazon_progress_id');
     }
 
-
-    public function files()
+    /**
+     * HasMany relationships with AmazonProgressFile
+     * @return HasMany
+     */
+    public function files() : HasMany
     {
         return $this->hasMany(AmazonProgressFile::class, 'amazon_progress_id');
     }

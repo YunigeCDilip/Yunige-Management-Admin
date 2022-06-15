@@ -16,6 +16,7 @@ use App\Http\Controllers\API\WarehouseDataController;
 use App\Http\Controllers\API\ItemMasterDataController;
 use App\Http\Controllers\API\UserProfileController;
 use App\Http\Controllers\API\ClientMasterDataController;
+use App\Http\Controllers\API\OutboundController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +87,9 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('wdata', [WarehouseDataController::class, 'store']);
     Route::put('wdata/{id}', [WarehouseDataController::class, 'update']);
     Route::delete('wdata/{id}', [WarehouseDataController::class, 'destroy']);
+
+    Route::get('outbounds', [OutboundController::class, 'index']);
+    Route::get('outbounds/{outbound}', [OutboundController::class, 'show']);
 
     Route::group(['prefix' => 'web'], function(){
         Route::get('users/lists', [UserController::class, 'index']);
