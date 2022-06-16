@@ -229,6 +229,8 @@ return [
     'product_types'             => 'Product Types',
     'item'                      => 'Items',
 
+    /*
+    |
      /*
     |--------------------------------------------------------------------------
     | FBA list modules

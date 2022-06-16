@@ -15,10 +15,12 @@ class ItemMasterResource extends JsonResource
     public function toArray($request)
     {
         $cData = null;
-        $country = $this->whenLoaded('brands.country');
-        if($country){
-            $cData['id'] = $country->id; 
-            $cData['name'] = $country->name; 
+        if($this->brands){
+            $country = $this->brands->country;
+            if($country){
+                $cData['id'] = $country->id; 
+                $cData['name'] = $country->name;
+            } 
         }
 
         return [
