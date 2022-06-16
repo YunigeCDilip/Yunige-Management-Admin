@@ -82,7 +82,6 @@ class MigrateAirtableOutbounds extends Command
                 $outbound->inter_assist_share = (isset($item['fields']['InterAssist-Share'])) ? $item['fields']['InterAssist-Share'] : null;
                 $outbound->url_delivery = (isset($item['fields']['URL-Delivery'])) ? $item['fields']['URL-Delivery'] : null;
                 $outbound->mail_text = (isset($item['fields']['Mail Text'])) ? $item['fields']['Mail Text'] : null;
-                Log::info($outbound);
                 $outbound->save();
 
                 if(isset($item['fields']['FBAラベル']) && count($item['fields']['FBAラベル']) > 0){
