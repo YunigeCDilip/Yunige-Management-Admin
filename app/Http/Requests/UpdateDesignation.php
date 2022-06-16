@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CreateFbaList extends FormRequest
+class UpdateDesignation extends ValidationRequest
 {
 
     /**
@@ -15,7 +15,7 @@ class CreateFbaList extends FormRequest
     public function rules()
     {
         return [
-            'fba_name' => 'required'
+            'name' => ['required', Rule::unique('Designations', 'name')->ignore(request('Designation'))]
             
         ];
     }

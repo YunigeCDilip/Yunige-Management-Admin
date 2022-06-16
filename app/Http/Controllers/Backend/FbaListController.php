@@ -83,12 +83,12 @@ class FbaListController extends Controller
         $responseData['status'] = $data->status;
         $responseData['message'] = $data->message;
         if($data->status){
-            $responseData['url'] = route('admin.clients.index');
+            $responseData['url'] = route('admin.fba.index');
         }
-        //dd('hello',$responseData);
         return $responseData;
 
         return $data;
+
     }
 
     /**
