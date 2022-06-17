@@ -54,7 +54,6 @@ class MigrateInterAssistOutbounds extends Command
                     $outbds->send_email = (isset($item['fields']['メール送信'])) ? $item['fields']['メール送信'] : false;
                     $outbds->remarks = (isset($item['fields']['特記事項'])) ? $item['fields']['特記事項'] : null;
                     $outbds->fba_id = (isset($item['fields']['FBA ID'])) ? $item['fields']['FBA ID'] : null;
-                    \Log::info($outbds);
                     $outbds->save();
     
                     if(isset($item['fields']['FBA予約票']) && count($item['fields']['FBA予約票']) > 0){
