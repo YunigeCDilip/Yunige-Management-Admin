@@ -90,8 +90,8 @@ class MigrateAirtableOutbounds extends Command
                         $aFile->outbound_id = $outbound->id;
                         $aFile->url = Storage::disk('s3')->url($fileName);
                         $aFile->type = 'FBA Reservation Slips';
-                        $aFile->file_name = isset($value['filename']) ? $value['filename'] : null;
-                        $aFile->ext = isset($value['type']) ? $value['type'] : null;
+                        $aFile->file_name = isset($value['filename']) ? $file['filename'] : null;
+                        $aFile->ext = isset($file['type']) ? $file['type'] : null;
                         $aFile->save();
                     }
                 }
@@ -105,8 +105,8 @@ class MigrateAirtableOutbounds extends Command
                         $aFile->outbound_id = $outbound->id;
                         $aFile->url = Storage::disk('s3')->url($fileName);
                         $aFile->type = 'Others';
-                        $aFile->file_name = isset($value['filename']) ? $value['filename'] : null;
-                        $aFile->ext = isset($value['type']) ? $value['type'] : null;
+                        $aFile->file_name = isset($file['filename']) ? $file['filename'] : null;
+                        $aFile->ext = isset($file['type']) ? $file['type'] : null;
                         $aFile->save();
                     }
                 }
@@ -120,8 +120,8 @@ class MigrateAirtableOutbounds extends Command
                         $aFile->outbound_id = $outbound->id;
                         $aFile->url = Storage::disk('s3')->url($fileName);
                         $aFile->type = 'InvoiceImageJudgment';
-                        $aFile->file_name = isset($value['filename']) ? $value['filename'] : null;
-                        $aFile->ext = isset($value['type']) ? $value['type'] : null;
+                        $aFile->file_name = isset($file['filename']) ? $file['filename'] : null;
+                        $aFile->ext = isset($file['type']) ? $file['type'] : null;
                         $aFile->save();
                     }
                 }

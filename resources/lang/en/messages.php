@@ -264,12 +264,22 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'outbounds'              => 'Outbounds',
-    'wdata'                  => 'wNumberLink',
-    'warehouse_in_charge'    => 'Warehouse In Charge',
-    'reserve'                => 'Reserve',
-    'ship_date'              => 'Ship Date',
-    'delivery_id'            => 'Shipping Company',
-    'create_date'            => 'Create Date',
+    'outbounds'                 => 'Outbounds',
+    'wdata'                     => 'wNumberLink',
+    'warehouse_in_charge'       => 'Warehouse In Charge',
+    'reserve'                   => 'Reserve',
+    'ship_date'                 => 'Ship Date',
+    'delivery_id'               => 'Shipping Company',
+    'create_date'               => 'Create Date',
+    'completed'                 => 'Completed',
+    'invoice_no'                => 'Invoice Number',
+    'additional_invoice_no'     => 'Additional Invoice Number',
+    'fba_reservation_no'        => 'FBA Reservation No',
+    'fba_entry_date'            => 'FBA Entry Date',
+    'fba_no'                    => 'FBA Number',
+    'po_no'                     => 'PO Number',
+    'url'                       => 'URL',
+    'mail_text'                 => 'Mail Text',
+    'files'                     => 'Attachments',
 
 ];
