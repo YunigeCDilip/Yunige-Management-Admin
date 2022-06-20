@@ -15,6 +15,7 @@ return [
 
     'languages'         => 'Languages',
     'change_language'   => 'Change Language',
+    'id'                => 'SN',
 
     /*
     |--------------------------------------------------------------------------

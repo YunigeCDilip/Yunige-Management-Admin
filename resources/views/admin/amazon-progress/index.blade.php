@@ -48,6 +48,7 @@
                     <table class="table table-centered table-hover mb-0" id="table">
                         <thead class="thead-light">
                             <tr>
+                                <th>{{__('messages.id')}}</th>
                                 <th>{{__('messages.name')}}</th>
                                 <th>{{__('messages.status')}}</th>
                                 <th>{{__('messages.pickup')}}</th>

@@ -41,7 +41,8 @@ var table;
 $(function(){
     table = $("#table").DataTable({
         dom: 'lfrtip',
-        lengthMenu: [ 10, 25, 50, 100, 200, 500],
+        order: [[0, 'desc']],
+        lengthMenu: [ 25, 50, 100, 200, 500],
         serverSide: true,
         responsive: true,
         processing: true,
@@ -63,6 +64,7 @@ $(function(){
             }
         },
         columns: [
+            {data: 'id', visible: false},
             {data: 'serial_number'},
             {data: 'client_name'},
             {data: 'category_name'},

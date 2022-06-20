@@ -103,6 +103,7 @@ jQuery(document).ready(function(){
 $(document).ready(function() {
     var a = $("#table").DataTable({
         dom: 'lfrtip',
+        order: [[0, 'desc']],
         lengthMenu: [25, 50, 100, 200, 500],
         serverSide: true,
         responsive: true,
@@ -125,6 +126,7 @@ $(document).ready(function() {
             }
         },
         columns: [
+            {data: 'id', visible:false},
             {data: 'Name'},
             {data: 'clientName'},
             {data: 'permitNo'},
