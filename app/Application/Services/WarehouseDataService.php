@@ -73,14 +73,15 @@ class WarehouseDataService extends Service
     {
         try {
             $columns = array(
-                0 => 'Name',
-                1 => 'clientName',
-                2 => 'permitNo',
-                3 => 'trkNo',
-                4 => 'deliver',
-                5 => 'cat',
-                6 => 'status',
-                7 => 'createdTime',
+                0 => 'id',
+                1 => 'Name',
+                2 => 'clientName',
+                3 => 'permitNo',
+                4 => 'trkNo',
+                5 => 'deliver',
+                6 => 'cat',
+                7 => 'status',
+                8 => 'createdTime',
             );
             $limit = $request->input('length');
             $start = $request->input('start');

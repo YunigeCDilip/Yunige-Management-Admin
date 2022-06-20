@@ -46,6 +46,7 @@ var table;
 $(function(){
     table = $("#table").DataTable({
         dom: 'lfrtip',
+        order: [[0, 'desc']],
         lengthMenu: [25, 50, 100, 200, 500],
         serverSide: true,
         responsive: true,
@@ -68,6 +69,7 @@ $(function(){
             }
         },
         columns: [
+            {data: 'id', visible: false},
             {data: 'product_name'},
             {data: 'images', render: function(data, type, dataObject, meta){
                 if(data.length){

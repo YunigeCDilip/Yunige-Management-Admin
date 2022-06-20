@@ -66,12 +66,13 @@ class ClientMasterService extends Service
     {
         try {
             $columns = array(
-                0 => 'serial_number',
-                1 => 'client_name',
-                2 => 'category_name',
-                3 => 'shipper_name',
-                4 => 'resp_person',
-                5 => 'contact_no'
+                0 => 'id',
+                1 => 'serial_number',
+                2 => 'client_name',
+                3 => 'category_name',
+                4 => 'shipper_name',
+                5 => 'resp_person',
+                6 => 'contact_no'
             );
             $limit = $request->input('length');
             $start = $request->input('start');

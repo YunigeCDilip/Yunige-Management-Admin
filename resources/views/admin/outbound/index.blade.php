@@ -48,6 +48,7 @@
                     <table class="table table-centered table-hover mb-0" id="table">
                         <thead class="thead-light">
                             <tr>
+                                <th>{{__('messages.id')}}</th>
                                 <th style="width: 320px;">{{__('messages.name')}}</th>
                                 <th>{{__('messages.wdata')}}</th>
                                 <th>{{__('messages.warehouse_in_charge')}}</th>
