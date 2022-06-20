@@ -72,53 +72,52 @@ class WarehouseDataService extends Service
     public function datatable($request)
     {
         try {
+            $columns = array(
+                0 => 'Name',
+                1 => 'clientName',
+                2 => 'permitNo',
+                3 => 'trkNo',
+                4 => 'deliver',
+                5 => 'cat',
+                6 => 'status',
+                7 => 'createdTime',
+            );
             $limit = $request->input('length');
             $start = $request->input('start');
-            $search = $request->input('search')['value'];
-            if($this->getCache(AirtableDatabase::WDATA)){
-                $data = json_decode($this->getCache(AirtableDatabase::WDATA), true);
-                if($search != ''){
-                    $data = collect($data)->filter(function($item) use ($search) {
-                        foreach($item['fields'] as $key => $value){
-                            if(!is_array($item['fields'][$key])){
-                                if(stripos($item['fields'][$key],$search)){
-                                    return $item;
-                                }
-                            }else{
-                                foreach($item['fields'][$key] as $index => $v){
-                                    if(!is_array($item['fields'][$key][$index]) && stripos($v,$search)){
-                                        return $item;
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-            }else{
-                $data = $this->airtable->get();
-                $this->setCache(AirtableDatabase::WDATA, json_encode($data['records']));
-            }
-            $wDatas = [];
-            $tableContent = [];
-            if(isset($data) && $data){
-                $wDatas = WarehouseDataResource::collection($data);
-                if (!empty($data)) {
-                    $tableContent = [
-                        "draw" => intval($request->input('draw')),
-                        "recordsTotal" => count($wDatas),
-                        "recordsFiltered" => count($wDatas),
-                        "data" => array_slice(json_decode($wDatas->toJson(), true), $start, $limit)
-                    ];
-                }
-            }else{
-                $tableContent = [
-                    "draw" => intval($request->input('draw')),
-                    "recordsTotal" => count($wDatas),
-                    "recordsFiltered" => count($wDatas),
-                    "data" => []
-                ];
-            }
+            $order = $columns[$request->input('order.0.column')];
+            $dir = $request->input('order.0.dir');
+            if (empty($request->input('search.value'))) {
+                $itemLists = Wdata::WithQuery();
+                $totalItemCount = $itemLists->count();
+                $items = $itemLists->offset($start)
+                    ->limit($limit)
+                    ->orderBy($order, $dir)
+                    ->get();
+                $totalFiltered = $totalItemCount;
 
+            } else {
+                $searchKey = $request->input('search.value');
+                $itemLists = Wdata::WithQuery()
+                    ->Search($searchKey);
+                $totalItemCount = $itemLists->count();
+                $items = $itemLists->offset($start)
+                    ->limit($limit)
+                    ->orderBy($order, $dir)
+                    ->get();
+                $totalFiltered = $totalItemCount;
+
+            }
+            $tableContent = array();
+            if (!empty($items)) {
+                $itemData = WarehouseDataResource::collection($items);
+
+                $tableContent = array(
+                    "draw" => intval($request->input('draw')),
+                    "recordsTotal" => $totalItemCount,
+                    "recordsFiltered" => $totalFiltered,
+                    "data" => json_decode($itemData->toJson(), true),
+                );
+            }
             return $tableContent;
             
         } catch (\Exception $e) {
