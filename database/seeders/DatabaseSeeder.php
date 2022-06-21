@@ -54,6 +54,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(Artisan::call('itemMaster:migrate'));
         // $this->call(Artisan::call('customBrokers:migrate'));
         // $this->call(Artisan::call('outbound:migrate'));
+        // $this->call(Artisan::call('interAssistOutbound:migrate'));
         // $this->call(Artisan::call('FbaList:migrate'));
 
     }

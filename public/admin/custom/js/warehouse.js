@@ -103,6 +103,8 @@ jQuery(document).ready(function(){
 $(document).ready(function() {
     var a = $("#table").DataTable({
         dom: 'lfrtip',
+        order: [[0, 'desc']],
+        lengthMenu: [25, 50, 100, 200, 500],
         serverSide: true,
         responsive: true,
         processing: true,
@@ -124,11 +126,11 @@ $(document).ready(function() {
             }
         },
         columns: [
+            {data: 'id', visible:false},
             {data: 'Name'},
             {data: 'clientName'},
             {data: 'permitNo'},
             {data: 'trkNo'},
-            {data: 'country'},
             {data: 'deliver'},
             {data: 'cat',
                 render: function(data, type, dataObject, meta) {
@@ -147,7 +149,7 @@ $(document).ready(function() {
                 render: function(data, type, dataObject, meta) {
                     var action = '';
                     action += '<a href="'+baseUrl+'wdata/'+dataObject.id+'" class="action-icon"> <i class="mdi mdi-eye text-success"></i></a>';
-                    action += '<a href="'+baseUrl+'wdata/'+dataObject.id+'/edit" class="action-icon"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
+                    // action += '<a href="'+baseUrl+'wdata/'+dataObject.id+'/edit" class="action-icon"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
                     action += '<a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete text-danger" data-id="'+dataObject.id+'"></i></a>';
                     
                     return action;

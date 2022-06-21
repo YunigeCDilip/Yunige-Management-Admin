@@ -53,7 +53,9 @@ class OutboundController extends Controller
         $data['menu'] = trans('messages.outbounds');
         $data['subMenu'] = trans('actions.view');
         $data['outbound'] = Outbound::find($id);
-        $data['outbound']->load('attachments', 'fbalists', 'wdata:id,name','delivery:id,name');
+        $data['outbound']->load('fbalists', 'wdata:id,name','delivery:id,name');
+        $data['warehouseIncharge'] = json_decode(json_encode($data['outbound']->warehouse_in_charge), true);
+        $data['attachments'] = $data['outbound']->groupedAttachments();
 
         return view('admin.outbound.show', $data);
     }

@@ -60,11 +60,12 @@ class AmazonProgressService extends Service
     {
         try {
             $columns = array(
-                0 => 'name',
-                1 => 'status',
-                2 => 'pickup',
-                3 => 'memo',
-                4 => 'done',
+                0 => 'id',
+                1 => 'name',
+                2 => 'status',
+                3 => 'pickup',
+                4 => 'memo',
+                5 => 'done',
             );
             $limit = $request->input('length');
             $start = $request->input('start');

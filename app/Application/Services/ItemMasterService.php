@@ -62,14 +62,15 @@ class ItemMasterService extends Service
     {
         try {
             $columns = array(
-                0 => 'product_name',
-                1 => 'images',
-                2 => 'product_barcode',
-                3 => 'barcode_entry_date',
-                4 => 'brand_master_id',
-                5 => 'item_category_id',
-                6 => 'item_label_id',
-                7 => 'shipper_id',
+                0 => 'id',
+                1 => 'product_name',
+                2 => 'images',
+                3 => 'product_barcode',
+                4 => 'barcode_entry_date',
+                5 => 'brand_master_id',
+                6 => 'item_category_id',
+                7 => 'item_label_id',
+                8 => 'shipper_id',
             );
             $limit = $request->input('length');
             $start = $request->input('start');

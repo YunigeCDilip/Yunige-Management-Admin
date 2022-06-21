@@ -28,8 +28,7 @@
                             </div>
                             <div class="form-group mx-sm-3 mb-2">
                                 <select class="custom-select" id="page-select">
-                                    <option value="10" selected>10</option>
-                                    <option value="25">25</option>
+                                    <option value="25" selected>25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
                                     <option value="200">200</option>
@@ -49,11 +48,11 @@
                     <table class="table table-centered table-hover mb-0" id="table">
                         <thead class="thead-light">
                             <tr>
+                                <th>{{__('messages.id')}}</th>
                                 <th>{{__('messages.name')}}</th>
                                 <th>{{__('messages.client_name')}}</th>
                                 <th>{{__('messages.permit_no')}}</th>
                                 <th>{{__('messages.track_no')}}</th>
-                                <th>{{__('messages.country')}}</th>
                                 <th>{{__('messages.carrier')}}</th>
                                 <th>{{__('messages.category')}}</th>
                                 <th>{{__('messages.status')}}</th>

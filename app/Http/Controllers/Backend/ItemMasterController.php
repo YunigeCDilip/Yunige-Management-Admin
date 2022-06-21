@@ -104,7 +104,7 @@ class ItemMasterController extends Controller
         $data['item'] = ItemMaster::find($id);
         $data['item']->load('category', 'shipper', 'label', 'clientItems', 'brands', 'productTypes.type', 'images');
 
-        return view('admin.client.show', $data);
+        return view('admin.item.show', $data);
     }
 
     /**

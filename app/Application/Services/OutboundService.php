@@ -79,13 +79,14 @@ class OutboundService extends Service
     {
         try {
             $columns = array(
-                0 => 'name',
-                1 => 'wdata_id',
-                2 => 'warehouse_in_charge',
-                3 => 'reserve',
-                4 => 'ship_date',
-                5 => 'delivery_id',
-                6 => 'create_date',
+                0 => 'id',
+                1 => 'name',
+                2 => 'wdata_id',
+                3 => 'warehouse_in_charge',
+                4 => 'reserve',
+                5 => 'ship_date',
+                6 => 'delivery_id',
+                7 => 'create_date',
             );
             $limit = $request->input('length');
             $start = $request->input('start');
