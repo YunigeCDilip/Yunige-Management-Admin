@@ -10,194 +10,168 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.client_name')}}</h5>
+                        <h5>{{__('messages.name')}}</h5>
                         <small class="text-muted">
-                        {{$client->client_name}}
+                        {{$item->product_name}}
                         </small>
                     </div>
+                    @if($item->clientItems)
+                    <div class="form-group mb-3">
+                        <h5>{{__('messages.client')}}</h5>
+                        <small class="text-muted">
+                        {{$item->clientItems->client->client_name}}
+                        </small>
+                    </div>
+                    @endif
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.client_no')}}</h5>
+                        <h5>{{__('messages.item_jp')}}</h5>
                         <small class="text-muted">
-                            {{$client->serial_number}}
+                            {{$item->jp_name}}
+                        </small>
+                    </div>
+                    <div class="form-group mb-3">
+                        <h5>{{__('messages.item_en')}}</h5>
+                        <small class="text-muted">
+                        {{$item->productgname}}
                         </small>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6">
+                    @if($item->brands)
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.clientjp')}}</h5>
+                        <h5>{{__('messages.brand_r')}}</h5>
                         <small class="text-muted">
-                            {{$client->ja_name}}
+                            {{$item->brands->name}}
+                        </small>
+                    </div>
+                    @endif
+                    <div class="form-group mb-3">
+                        <h5>{{__('messages.barcode')}}</h5>
+                        <small class="text-muted">
+                            {{$item->product_barcode}}
                         </small>
                     </div>
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.clienteng')}}</h5>
+                        <h5>{{__('messages.barcode_entry_date')}}</h5>
                         <small class="text-muted">
-                            {{$client->en_name}}
+                            {{$item->barcode_entry_date}}
                         </small>
                     </div>
-                    <div class="form-group mb-3">
-                        <h5>{{__('messages.company_tel')}}</h5>
-                        <small class="text-muted">
-                            {{$client->company_tel}}
-                        </small>
-                    </div>
+                    @if($item->shipper)
                     <div class="form-group mb-3">
                         <h5>{{__('messages.shipper')}}</h5>
                         <small class="text-muted">
                             <span class="badge badge-pink badge-pill">
-                            {{($client->shipper) ? $client->shipper->shipper_name : ''}}
+                            {{($item->shipper) ? $item->shipper->shipper_name : ''}}
                             </span>
                         </small>
                     </div>
+                    @endif
                     <div class="form-group mb-3">
                         <h5>{{__('messages.category')}}</h5>
                         <small class="text-muted">
                             <span class="badge badge-primary badge-pill">
-                            {{($client->category) ? $client->category->name : ''}}
+                            {{($item->category) ? $item->category->name : ''}}
                             </span>
                         </small>
                     </div>
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.fax')}}</h5>
+                        <h5>{{__('messages.ja_description')}}</h5>
                         <small class="text-muted">
-                            {{$client->fax}}
+                            {{$item->jp_description}}
                         </small>
                     </div>
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.hp')}}</h5>
+                        <h5>{{__('messages.en_description')}}</h5>
                         <small class="text-muted">
-                        {{ $client->hp }}
+                        {{ $item->description }}
                         </small>
                     </div>
+                    @if($item->label)
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.warehouse_remarks')}}</h5>
+                        <h5>{{__('messages.label')}}</h5>
                         <small class="text-muted">
-                        {{ $client->warehouse_remarks }}
+                        {{ $item->label->name }}
                         </small>
                     </div>
+                    @endif
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.invoice_momo')}}</h5>
+                        <h5>{{__('messages.product_types')}}</h5>
                         <small class="text-muted">
-                        {{ $client->invoice }}
-                        </small>
-                    </div>
-                    <div class="form-group mb-3">
-                        <h5>{{__('messages.brands')}}</h5>
-                        <small class="text-muted">
-                            @forelse($client->brands as $d)
+                            @forelse($item->productTypes as $d)
                                 <span class="badge badge-info badge-pill">
-                                    {{$d->name}}
+                                    {{$d->type->name}}
                                 </span>
                                 @empty
                             @endforelse
+                        </small>
+                    </div>
+                    <div class="form-group mb-3">
+                        <h5>{{__('messages.unit')}}</h5>
+                        <small class="text-muted">
+                            {{$item->unit}}
+                        </small>
+                    </div>
+                    <div class="form-group mb-3">
+                        <h5>{{__('messages.weight')}}</h5>
+                        <small class="text-muted">
+                            {{$item->weight}}
                         </small>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.request_customer_association')}}</h5>
+                        <h5>{{__('messages.weight_2')}}</h5>
                         <small class="text-muted">
-                            @if($client->requestedClient)
-                            <span class="badge badge-warning badge-pill">
-                                {{$client->requestedClient->client_name}}
-                            </span>
-                            @endif
+                            {{$item->weight2}}
                         </small>
                     </div>
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.request')}}</h5>
+                        <h5>{{__('messages.w_no')}}</h5>
                         <small class="text-muted">
-                            {{$client->request}}
+                        {{$item->w_no}}
+                        </small>
+                    </div> 
+                    <div class="form-group mb-3">
+                        <h5>{{__('messages.lot_no')}}</h5>
+                        <small class="text-muted">
+                        {{$item->lot_no}}
                         </small>
                     </div>
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.client_data')}}</h5>
+                        <h5>{{__('messages.bbd')}}</h5>
                         <small class="text-muted">
-                            @forelse($client->sdatas as $d)
-                                <span class="badge badge-dark badge-pill">
-                                    {{$d->sdata->name}}
-                                </span>
-                                @empty
-                            @endforelse
+                        {{$item->bbd}}
                         </small>
-                    </div>
+                    </div>                   
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.warehouse_data')}}</h5>
-                        @forelse($client->wdatas as $d)
-                            <span class="badge badge-light badge-pill">
-                                {{$d->wdata->name}}
-                            </span>
-                            @empty
-                        @endforelse
-                    </div>
-                    <div class="form-group mb-3">
-                        <h5>{{__('messages.master_data')}}</h5>
+                        <h5>{{__('messages.label_date')}}</h5>
                         <small class="text-muted">
-                            @forelse($client->items as $d)
-                                <span class="badge badge-dark badge-pill">
-                                    {{$d->item->product_name}}
-                                </span>
-                                @empty
-                            @endforelse
-                        </small>
-                    </div>
-                    <div class="form-group mb-3">
-                        <h5>{{__('messages.amazon_progress')}}</h5>
-                        <small class="text-muted">
-                            @forelse($client->amazonProgress as $da)
-                                <span class="badge badge-blue badge-pill">
-                                    {{$da->progress->name}}
-                                </span>
-                                @empty
-                            @endforelse
-                        </small>
-                    </div>
-                    <div class="form-group mb-3">
-                        <h5>{{__('messages.delivery_classification')}}</h5>
-                        <small class="text-muted">
-                            @if($client->classification)
-                            <span class="badge badge-info badge-pill">
-                                {{$client->classification->name}}
-                            </span>
-                            @endif
-                        </small>
-                    </div>
-                    <div class="form-group mb-3">
-                        <h5>{{__('messages.customer_classification')}}</h5>
-                        <small class="text-muted">
-                        {{$client->customer_classification}}
+                        {{($item->label_date) ? date('F d, Y H:i:s', strtotime($item->label_date)) : ''}}
                         </small>
                     </div>                    
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.takatsu_working_date')}}</h5>
+                        <h5>{{__('messages.lot_arr_date')}}</h5>
                         <small class="text-muted">
-                        {{($client->takatsu_working_date) ? $client->takatsu_working_date->format('Y-m-d H:i:s A') : ''}}
+                        {{($item->lot_arr_date) ? date('F d, Y H:i:s', strtotime($item->lot_arr_date)) : ''}}
+                        </small>
+                    </div>                
+                    <div class="form-group mb-3">
+                        <h5>{{__('messages.sample_date')}}</h5>
+                        <small class="text-muted">
+                        {{($item->sample_date) ? date('F d, Y H:i:s', strtotime($item->sample_date)) : ''}}
                         </small>
                     </div>
                     <div class="form-group mb-3">
-                        <h5>{{__('messages.sugio_book_print')}}</h5>
+                        <h5>{{__('messages.label_remarks')}}</h5>
                         <small class="text-muted">
-                            @if($client->sugio_book_print)
-                            <span class="badge badge-success badge-pill">True</span>
-                            @else
-                            <span class="badge badge-danger badge-pill">False</span>
-                            @endif
+                        {{$item->label_remarks}}
                         </small>
-                    </div>
-                    <div class="form-group mb-3">
-                        <h5>{{__('messages.yamazaki_book_print')}}</h5>
-                        <small class="text-muted">
-                            @if($client->yamazaki_book_print)
-                            <span class="badge badge-success badge-pill">True</span>
-                            @else
-                            <span class="badge badge-danger badge-pill">False</span>
-                            @endif
-                        </small>
-                    </div>
+                    </div>  
                 </div>
             </div>
         </div>
@@ -205,50 +179,91 @@
     <div class="col-lg-4">
         <div class="card-box">
             <div class="form-group mb-3">
-                <h5>{{__('messages.resp_per')}}</h5>
+                <h5>{{__('messages.sampling')}}</h5>
                 <small class="text-muted">
-                {{$client->contact->name}}
+                {{$item->sampling}}
                 </small>
             </div>            
             <div class="form-group mb-3">
-                <h5>{{__('messages.email')}}</h5>
+                <h5>{{__('messages.lot_sampling')}}</h5>
                 <small class="text-muted">
-                {{$client->contact->email}}
+                {{$item->lot_sampling}}
                 </small>
             </div>
             <div class="form-group mb-3">
-                <h5>{{__('messages.contact_no')}}</h5>
+                <h5>{{__('messages.outer_height')}}</h5>
                 <small class="text-muted">
-                {{$client->contact->contact_number}}
+                {{$item->outer_height}}
                 </small>
             </div>
             <div class="form-group mb-3">
-                <h5>{{__('messages.seller_add')}}</h5>
+                <h5>{{__('messages.outer_width')}}</h5>
                 <small class="text-muted">
-                {{$client->contact->seller_add}}
+                {{$item->outer_width}}
                 </small>
             </div>
             <div class="form-group mb-3">
-                <h5>{{__('messages.office_add')}}</h5>
+                <h5>{{__('messages.unit_width')}}</h5>
                 <small class="text-muted">
-                {{$client->contact->office_add}}
+                {{$item->unit_width}}
                 </small>
             </div>
             <div class="form-group mb-3">
-                <h5>{{__('messages.seller_name')}}</h5>
+                <h5>{{__('messages.unit_height')}}</h5>
                 <small class="text-muted">
-                {{$client->contact->seller_name}}
+                {{$item->unit_height}}
                 </small>
             </div>
             <div class="form-group mb-3">
-                <h5>{{__('messages.pick_add')}}</h5>
+                <h5>{{__('messages.origin')}}</h5>
                 <small class="text-muted">
-                {{$client->contact->pic_add}}
+                {{$item->origin}}
+                </small>
+            </div>
+            <div class="form-group mb-3">
+                <h5>{{__('messages.amazon_req')}}</h5>
+                <small class="text-muted">
+                {{$item->amazon_req}}
+                </small>
+            </div>
+            <div class="form-group mb-3">
+                <h5>{{__('messages.outer_label_pos')}}</h5>
+                <small class="text-muted">
+                {{$item->outer_label_pos}}
                 </small>
             </div>
         </div>
     </div> <!-- end col -->
 </div>
+
+@if($item->images)
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card-box">
+            <div class="table-responsive mt-4">
+                <table class="table table-bordered table-centered mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>{{__('messages.files')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @foreach($item->images as $f)
+                                    <a href="{{$f->url}}" target="_blank">
+                                        <img src="{{$f->url}}" alt="Image" height="50">
+                                    </a>
+                                @endforeach
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div>
+@endif
 <!-- end row -->
     @section('additional-content')
     @endsection

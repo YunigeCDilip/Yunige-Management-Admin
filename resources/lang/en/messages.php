@@ -247,6 +247,22 @@ return [
     'unit'                      => 'Unit',
     'weight'                    => 'Weight',
     'weight_2'                  => 'Weight 2',
+    'w_no'                      => 'W No',
+    'lot_no'                    => 'Lot No',
+    'bbd'                       => 'BBD',
+    'label_date'                => 'Label Date',
+    'lot_arr_date'              => 'Lot Date',
+    'sample_date'               => 'Sample Date',
+    'label_remarks'             => 'Label Remarks',
+    'sampling'                  => 'Sampling',
+    'lot_sampling'              => 'Lot Sampling',
+    'outer_height'              => 'Outer Height',
+    'outer_width'               => 'Outer Width',
+    'unit_width'                => 'Unit Width',
+    'unit_height'               => 'Unit Height',
+    'origin'                    => 'Origin',
+    'amazon_req'                => 'Amazon Request',
+    'outer_label_pos'           => 'Outer Label Pos',
 
     /*
     |
