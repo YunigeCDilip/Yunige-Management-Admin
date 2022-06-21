@@ -249,7 +249,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | FBA list modules
+    | Designation list modules
     |--------------------------------------------------------------------------
     |
     */
@@ -270,5 +270,24 @@ return [
     'ship_date'              => 'Ship Date',
     'delivery_id'            => 'Shipping Company',
     'create_date'            => 'Create Date',
+
+     /*
+    |--------------------------------------------------------------------------
+    | SData
+    |--------------------------------------------------------------------------
+    |
+    */
+    'add_new_sdata'             => 'Add New SData',
+    'name'                      => 'name',
+    'case_number'               => 'Case Number',
+    'by_country'                => 'Country',
+    'case_in_charge'            => 'Case In Charge',
+    'memo'                      => 'Memo',
+    'matter_date'               => 'Matter Date',
+    'priority'                  => 'Priority',
+    'ingredient_progress'       => 'Ingredient Progress',
+    'notification_progress'     => 'Notification Progress',
+    'sample_progress'           => 'Sample Progress',
+    'label_creation_progress'   => 'Label Creation Progress',
 
 ];
