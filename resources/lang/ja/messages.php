@@ -209,6 +209,7 @@ return [
     'label'                 => 'Label',
     'address'               => 'Address',
     'fba'                   => 'FBA',
+    
     /*
     | Item Master modules
     |--------------------------------------------------------------------------
@@ -229,12 +230,42 @@ return [
     'item_labels'               => 'Item Labels',
     'product_types'             => 'Product Types',
     'item'                      => 'Items',
+    'images'                    => 'Images',
+    'barcode'                   => 'Barcode',
+    'barcode_entry_date'        => 'Barcode Entry Date',
+    'brand_r'                   => 'Brand',
+    'select_brand_master'       => 'Select brand',
+    'label'                     => 'Label',
+    'item_jp'                   => 'Japanese Name',
+    'item_en'                   => 'English Name',
+    'ja_description'            => 'Description JP',
+    'en_description'            => 'Description EN',
+    'select_label'              => 'Select label',
+    'unit'                      => 'Unit',
+    'weight'                    => 'Weight',
+    'weight_2'                  => 'Weight 2',
+    'w_no'                      => 'W No',
+    'lot_no'                    => 'Lot No',
+    'bbd'                       => 'BBD',
+    'label_date'                => 'Label Date',
+    'lot_arr_date'              => 'Lot Date',
+    'sample_date'               => 'Sample Date',
+    'label_remarks'             => 'Label Remarks',
+    'sampling'                  => 'Sampling',
+    'lot_sampling'              => 'Lot Sampling',
+    'outer_height'              => 'Outer Height',
+    'outer_width'               => 'Outer Width',
+    'unit_width'                => 'Unit Width',
+    'unit_height'               => 'Unit Height',
+    'origin'                    => 'Origin',
+    'amazon_req'                => 'Amazon Request',
+    'outer_label_pos'           => 'Outer Label Pos',
 
     /*
     |
      /*
     |--------------------------------------------------------------------------
-    | FBA list modules
+    | Designation list modules
     |--------------------------------------------------------------------------
     |
     */
@@ -248,12 +279,22 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'outbounds'              => 'Outbounds',
-    'wdata'                  => 'wNumberLink',
-    'warehouse_in_charge'    => '担当倉庫',
-    'reserve'                => '保留',
-    'ship_date'              => '出荷日',
-    'delivery_id'            => '運送会社',
-    'create_date'            => 'Create Date',
+    'outbounds'                 => 'Outbounds',
+    'wdata'                     => 'wNumberLink',
+    'warehouse_in_charge'       => '担当倉庫',
+    'reserve'                   => '保留',
+    'ship_date'                 => '出荷日',
+    'delivery_id'               => '運送会社',
+    'create_date'               => 'Create Date',
+    'completed'                 => 'Completed',
+    'invoice_no'                => 'Invoice Number',
+    'additional_invoice_no'     => 'Additional Invoice Number',
+    'fba_reservation_no'        => 'FBA Reservation No',
+    'fba_entry_date'            => 'FBA Entry Date',
+    'fba_no'                    => 'FBA Number',
+    'po_no'                     => 'PO Number',
+    'url'                       => 'URL',
+    'mail_text'                 => 'Mail Text',
+    'files'                     => 'Attachments',
 
 ];
