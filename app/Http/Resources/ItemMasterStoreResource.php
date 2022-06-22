@@ -16,9 +16,10 @@ class ItemMasterStoreResource extends JsonResource
     {
         return [
             'id'        => $this->id,
-            'name'      => $this->item->name,
-            'barcode'   => $this->item->barcode,
+            'name'      => $this->item->product_name,
+            'barcode'   => $this->item->product_barcode,
             'quantity'  => $this->quantity,
+            'images'    => ItemImageResource::collection($this->item->images),
         ];
     }
 }

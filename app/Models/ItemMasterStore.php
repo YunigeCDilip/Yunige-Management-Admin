@@ -29,7 +29,7 @@ class ItemMasterStore extends Model
      */
     public function scopeWithQuery(Builder $query)
     {
-        return $query->with('item');
+        return $query->with('item', 'item.images');
     }
     
     /**
