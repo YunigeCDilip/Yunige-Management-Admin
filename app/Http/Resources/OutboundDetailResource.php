@@ -40,7 +40,7 @@ class OutboundDetailResource extends JsonResource
             'mail_text'                 => $this->mail_text,
             'wdata_link'                => ($this->wdata) ? $this->wdata->name : null,
             'fbalists'                  => $this->fbalists,
-            'attachments'               => ($attachments) ? $attachments : null,
+            'attachments'               => (!$attachments->isEmpty()) ? $attachments : null,
             'created_at'                => $this->created_at,
             'updated_at'                => $this->updated_at,
         ];

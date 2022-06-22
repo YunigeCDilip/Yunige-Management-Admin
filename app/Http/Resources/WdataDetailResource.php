@@ -67,7 +67,7 @@ class WdataDetailResource extends JsonResource
             'transfer'                  => $this->transfer,
             'pick_direction'            => $this->pickDirection,
             'created_time'              => Carbon::parse($this->created_at)->format('F d, Y'),
-            'attachments'               => ($attachments) ? $attachments : null
+            'attachments'               => (!$attachments->isEmpty()) ? $attachments : null
         ];
     }
 }
