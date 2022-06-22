@@ -17,6 +17,7 @@ class WdataDetailResource extends JsonResource
     {
         $jobs = ($this->jobs) ? $this->jobs->pluck('job.name')->toArray() : null;
         $categories = ($this->jobs) ? $this->jobs->pluck('job.name')->toArray() : null;
+        $attachments = $this->groupedAttachments();
         return [
             'id'                        => $this->id,
             'airtable_id'               => $this->airtable_id,
@@ -66,7 +67,7 @@ class WdataDetailResource extends JsonResource
             'transfer'                  => $this->transfer,
             'pick_direction'            => $this->pickDirection,
             'created_time'              => Carbon::parse($this->created_at)->format('F d, Y'),
-            'attachments'               => $this->groupedAttachments()
+            'attachments'               => ($attachments) ? $attachments : null
         ];
     }
 }

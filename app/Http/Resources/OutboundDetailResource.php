@@ -14,6 +14,7 @@ class OutboundDetailResource extends JsonResource
      */
     public function toArray($request)
     {
+        $attachments = $this->groupedAttachments();
         return [
             'id'                        => $this->id,
             'name'                      => $this->name,
@@ -39,7 +40,7 @@ class OutboundDetailResource extends JsonResource
             'mail_text'                 => $this->mail_text,
             'wdata_link'                => ($this->wdata) ? $this->wdata->name : null,
             'fbalists'                  => $this->fbalists,
-            'attachments'               => $this->groupedAttachments(),
+            'attachments'               => ($attachments) ? $attachments : null,
             'created_at'                => $this->created_at,
             'updated_at'                => $this->updated_at,
         ];
