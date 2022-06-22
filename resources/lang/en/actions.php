@@ -20,5 +20,6 @@ return [
     'add'               => 'Add',
     'lists'             => 'Lists',
     'view'              => 'View',
+    'reader'            => 'Read',
 
 ];
