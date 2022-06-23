@@ -26,6 +26,7 @@ use App\Http\Controllers\Backend\InboundStatusController;
 use App\Http\Controllers\Backend\WarehouseDataController;
 use App\Http\Controllers\Backend\WdataCategoryController;
 use App\Http\Controllers\Backend\AmazonProgressController;
+use App\Http\Controllers\Backend\BarcodeReaderController;
 use App\Http\Controllers\Backend\ClientCategoryController;
 use App\Http\Controllers\Backend\MovementConfirmationController;
 use App\Http\Controllers\Backend\DeliveryClassificationController;
@@ -289,4 +290,9 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('sdata/{id}/edit', [SDataController::class, 'edit'])->name('sdata.edit');
     Route::put('sdata/{id}', [SDataController::class, 'update'])->name('sdata.update');
     Route::delete('sdata/{id}', [SDataController::class, 'destroy'])->name('sdata.destroy');
+
+    
+    Route::get('barcodes', [BarcodeReaderController::class, 'index'])->name('barcode.index');
+    Route::post('barcodes', [BarcodeReaderController::class, 'list'])->name('barcode.list');
+    Route::post('verify-items', [BarcodeReaderController::class, 'checkBarcode'])->name('barcode.verify');
 });

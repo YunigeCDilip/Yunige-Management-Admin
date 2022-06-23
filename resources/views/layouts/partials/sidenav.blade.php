@@ -169,6 +169,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{route('admin.barcode.index')}}" class="@if(@$menu == 'Barcodes') active @endif">
+                    <i class="fe-grid"></i>
+                    <span>{{__('menu.barcode')}}</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{route('admin.settings.index')}}" class="@if(@$menu == 'Settings') active @endif">
                     <i class="fe-settings"></i>
                     <span>{{__('menu.settings')}}</span>

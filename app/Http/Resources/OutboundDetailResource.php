@@ -14,9 +14,11 @@ class OutboundDetailResource extends JsonResource
      */
     public function toArray($request)
     {
+        $attachments = $this->groupedAttachments();
         return [
             'id'                        => $this->id,
             'name'                      => $this->name,
+            'warehouse_in_charge'       => $this->warehouse_in_charge,
             'ship_date'                 => $this->ship_date,
             'create_date'               => $this->create_date,
             'estimited_ship_date'       => $this->estimited_ship_date,
@@ -26,12 +28,19 @@ class OutboundDetailResource extends JsonResource
             'reserve'                   => $this->reserve,
             'completed'                 => $this->completed,
             'special_notes'             => $this->special_notes,
+            'fba_reservation_no'        => $this->fba_reservation_no,
             'fba_entry_date'            => $this->fba_entry_date,
+            'small_no'                  => $this->small_no,
+            'send_email'                => $this->send_email,
+            'wait_date_create_modify'   => $this->wait_date_create_modify,
+            'inter_assist_share'        => $this->inter_assist_share,
             'additional_invoice_no'     => $this->additional_invoice_no,
+            'url_delivery'              => $this->url_delivery,
+            'shipping_company'          => ($this->delivery_id != '') ? $this->delivery->name : null,
+            'mail_text'                 => $this->mail_text,
+            'wdata_link'                => ($this->wdata) ? $this->wdata->name : null,
             'fbalists'                  => $this->fbalists,
-            'wdata'                     => $this->wdata,
-            'delivery'                  => $this->delivery,
-            'attachments'               => $this->groupedAttachments(),
+            'attachments'               => (!$attachments->isEmpty()) ? $attachments : null,
             'created_at'                => $this->created_at,
             'updated_at'                => $this->updated_at,
         ];

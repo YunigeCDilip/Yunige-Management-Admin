@@ -14,6 +14,7 @@ class SDataDetailResource extends JsonResource
      */
     public function toArray($request)
     {
+        $attachments = $this->groupedAttachments();
         return [
             "id"                            => $this->id,
             "name"                          => $this->name,
@@ -104,7 +105,7 @@ class SDataDetailResource extends JsonResource
             "incharge"                      => $this->incharge,
             "samples"                       => WdataRelationData::collection($this->whenLoaded('samples')),
             "amazon_progress"               => new AmazonProgressResource($this->whenLoaded('amazonProgress')),
-            'attachments'                   => $this->groupedAttachments(),
+            'attachments'                   => (!$attachments->isEmpty()) ? $attachments : null,
             'items'                         => ItemMasterRelationResource::collection($this->whenLoaded('items'))
         ];
     }

@@ -51,4 +51,5 @@ return [
     'designation'               => 'Designation',
     'outbounds'                 => 'Outbounds',
     'sdata'                     => 'SData',
+    'barcode'                   => 'Barcodes',
 ];
