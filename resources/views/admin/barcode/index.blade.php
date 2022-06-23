@@ -493,7 +493,7 @@
                                 setTimeout(function() {
                                     $("#success-message").hide();
                                     $('#qrcode-input').focus();
-                                },5000)
+                                },3000)
                             } else{
                                 thisReference.qrData = '';
                                 $("#fail-message").find(".text-danger").html('Invalid Barcode');
@@ -502,7 +502,7 @@
                                 setTimeout(function() {
                                     $('#fail-message').hide();
                                     $('#qrcode-input').focus();
-                                }, 5000)
+                                }, 3000)
                             }
 
                         }).catch(function(error) {
@@ -513,7 +513,7 @@
                             setTimeout(function() {
                                 $('#fail-message').hide();
                                 $('#qrcode-input').focus();
-                            }, 5000)
+                            }, 3000)
                         })
 
                 },500)
