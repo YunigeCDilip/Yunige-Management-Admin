@@ -79,7 +79,7 @@ class BarcodeReaderService extends Service
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 
-            return $this->responseError();
+            return $this->responseError(Response::HTTP_NOT_FOUND, 'Barcode : '.$request->barcode.' Not Found');
         }
     }
 }
