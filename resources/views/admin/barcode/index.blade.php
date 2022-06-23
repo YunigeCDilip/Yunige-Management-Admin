@@ -413,8 +413,8 @@
                         <span class="swal2-x-mark-line-right"></span>
                     </span>
                 </div>
-                <h3 class="text-danger"></h3>
-                <p id="message"></p>
+                <p class="text-danger"></p>
+                <h4 id="message"></h4>
             </div>
         </div>
         <div class="message-alert text-center" id="success-message" style="display: none;">
@@ -428,8 +428,8 @@
                         <div class="icon-fix"></div>
                     </div>
                 </div>
-                <h3 class="text-success"></h3>
-                <p id="message"></p>
+                <p class="text-success"></p>
+                <h4 id="message"></h4>
             </div>
         </div>
           
@@ -484,40 +484,36 @@
                     axios.post(baseUrl + 'verify-items', {barcode: thisReference.qrData})
                         .then(function(response) {
                             if(response.data.status) {
-                                var message = response.data.payload.barcode+' : '+response.data.payload.quantity;
+                                thisReference.qrData = '';
+                                var message = 'Barcode : '+response.data.payload.barcode+' : '+response.data.payload.quantity;
                                 $("#success-message").find(".text-success").html(response.data.payload.name);
                                 $("#success-message").find("#message").html(message);
                                 $("#success-message").show(500);
-                                thisReference.qrData = '';
-                                this.listBarcodeItems();
+                                thisReference.listBarcodeItems();
                                 setTimeout(function() {
                                     $("#success-message").hide();
                                     $('#qrcode-input').focus();
-                                    thisReference.qrData = '';
                                 },5000)
                             } else{
+                                thisReference.qrData = '';
                                 $("#fail-message").find(".text-danger").html('Invalid Barcode');
                                 $("#fail-message").find("#message").html(response.data.message);
                                 $("#fail-message").show(500);
-                                thisReference.qrData = '';
                                 setTimeout(function() {
                                     $('#fail-message').hide();
                                     $('#qrcode-input').focus();
-                                    thisReference.qrData = '';
-                                },5000)
+                                }, 5000)
                             }
 
                         }).catch(function(error) {
-                            $("#fail-message").find(".text-danger").html('Server Error');
-                            $("#fail-message").find("#message").html(response.data.message);
-                            $("#fail-message").show(500);
                             thisReference.qrData = '';
+                            $("#fail-message").find(".text-danger").html('Invalid Barcode');
+                            $("#fail-message").find("#message").html(error.response.data.message);
+                            $("#fail-message").show(500);
                             setTimeout(function() {
                                 $('#fail-message').hide();
                                 $('#qrcode-input').focus();
-                                thisReference.qrData = '';
-                            },5000)
-                            console.log(error);
+                            }, 5000)
                         })
 
                 },500)

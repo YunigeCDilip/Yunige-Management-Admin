@@ -61,9 +61,9 @@ class BarcodeReaderService extends Service
         }
 
         try {
-            $item = ItemMaster::where('barcode', $request->barcode)->first();
+            $item = ItemMaster::where('product_barcode', $request->barcode)->first();
             if(!$item){
-                return $this->error(Response::HTTP_NOT_FOUND, MessageResponse::NOT_FOUND);
+                return $this->responseError(Response::HTTP_NOT_FOUND, 'Barcode : '.$request->barcode.' Not Found.');
             }
             $store = ItemMasterStore::where('item_master_id', $item->id)->first();
             if(!$store){
