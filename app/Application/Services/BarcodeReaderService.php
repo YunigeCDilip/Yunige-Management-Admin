@@ -57,7 +57,7 @@ class BarcodeReaderService extends Service
     public function checkBarcode($request)
     {
         if($request->barcode == ''){
-            return $this->error(Response::HTTP_NOT_FOUND, 'Unable to read item barcode.');
+            return $this->responseError(Response::HTTP_NOT_FOUND, 'Unable to read item barcode.');
         }
 
         try {
