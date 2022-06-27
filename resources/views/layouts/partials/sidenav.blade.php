@@ -136,6 +136,12 @@
                     <span>{{__('menu.fba')}}</span>
                 </a>
             </li>
+            <li>
+                <a href="{{route('admin.sdata.index')}}" class="@if(@$menu == 'sdata') active @endif">
+                    <i class="fe-pocket"></i>
+                    <span>{{__('menu.sdata')}}</span>
+                </a>
+            </li>
                         
             <li>
                 <a href="{{route('admin.items.index')}}" class="@if(@$menu == 'Items') active @endif">

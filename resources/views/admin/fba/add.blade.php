@@ -43,7 +43,7 @@
                     <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>
                     {{__('actions.save')}}
                 </button>
-                <a href="{{route('admin.meetings.list')}}" class="btn w-sm btn-danger waves-effect">{{__('actions.cancel')}}</a>
+                <a href="{{route('admin.fba.index')}}" class="btn w-sm btn-danger waves-effect">{{__('actions.cancel')}}</a>
             </div>
         </div>
     </div>

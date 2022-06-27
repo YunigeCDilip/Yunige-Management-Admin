@@ -33,6 +33,7 @@ use App\Http\Controllers\Backend\DeliveryClassificationController;
 use App\Http\Controllers\Backend\FbaListController;
 use App\Http\Controllers\Backend\DesignationController;
 use App\Http\Controllers\Backend\OutboundController;
+use App\Http\Controllers\Backend\SDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -282,6 +283,15 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('designations/{designation}', [DesignationController::class, 'show'])->name('designations.show');
     Route::put('designations/{designation}', [DesignationController::class, 'update'])->name('designations.update');
 
+    Route::get('sdata', [SDataController::class, 'index'])->name('sdata.index');
+    Route::get('sdata/create', [SDataController::class, 'create'])->name('sdata.create');
+    Route::post('sdata', [SDataController::class, 'store'])->name('sdata.store');
+    Route::get('sdata/{id}', [SDataController::class, 'show'])->name('sdata.show');
+    Route::get('sdata/{id}/edit', [SDataController::class, 'edit'])->name('sdata.edit');
+    Route::put('sdata/{id}', [SDataController::class, 'update'])->name('sdata.update');
+    Route::delete('sdata/{id}', [SDataController::class, 'destroy'])->name('sdata.destroy');
+
+    
     Route::get('barcodes', [BarcodeReaderController::class, 'index'])->name('barcode.index');
     Route::post('barcodes', [BarcodeReaderController::class, 'list'])->name('barcode.list');
     Route::post('verify-items', [BarcodeReaderController::class, 'checkBarcode'])->name('barcode.verify');

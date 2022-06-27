@@ -50,5 +50,6 @@ return [
     'item'                      => 'Items',
     'designation'               => 'Designation',
     'outbounds'                 => 'Outbounds',
+    'sdata'                     => 'SData',
     'barcode'                   => 'Barcodes',
 ];

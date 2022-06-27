@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Log;
 use App\Application\Services\SDataService;
 use App\Http\Requests\CreateSDataRequest;
 use App\Http\Requests\UpdateSDataRequest;
+use App\Models\Sdata;
+
 use Throwable;
 
 class SDataController extends Controller 
@@ -31,9 +33,31 @@ class SDataController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $this->service->index();
+        if(!$request->ajax()){
+            $data['title'] = trans('messages.sdata');
+            $data['menu'] = trans('messages.sdata');
+            $data['subMenu'] = trans('actions.lists');
 
+            return view('admin.sdata.index', $data);
+        }
+        //$data = $this->service->index();
+        $data = $this->service->datatable($request);
         return $data;
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return View
+     */
+    public function create()
+    {
+        $data = $this->service->create();
+        $data['title'] = trans('messages.sdata');
+        $data['menu'] = trans('messages.sdata');
+        $data['subMenu'] = trans('actions.add');
+
+        return view('admin.sdata.add', $data);
     }
 
     /**
@@ -56,7 +80,13 @@ class SDataController extends Controller
      */
     public function store(CreateSDataRequest $request)
     {
-        $data = $this->service->store($request);
+        $data = json_decode($this->service->store($request)->getContent());
+        $responseData['status'] = $data->status;
+        $responseData['message'] = $data->message;
+        if($data->status){
+            $responseData['url'] = route('admin.sdata.index');
+        }
+        return $responseData;
 
         return $data;
     }
@@ -69,9 +99,15 @@ class SDataController extends Controller
      */
     public function show($id)
     {
-        $data = $this->service->show($id);
+        //$data = $this->service->show($id);
 
-        return $data;
+        //return $data;
+
+        $data['title'] = trans('messages.sdata');
+        $data['menu'] = trans('messages.sdata');
+        $data['subMenu'] = trans('actions.view');
+        $data['sdata'] = Sdata::find($id);
+        return view('admin.sdata.view', $data);
     }
 
     /**
@@ -82,9 +118,12 @@ class SDataController extends Controller
      */
     public function edit($id)
     {
-        $data = $this->service->edit($id);
-
-        return $data;
+        $data = $this->service->create();
+        $data['title'] = trans('messages.sdata');
+        $data['menu'] = trans('messages.sdata');
+        $data['subMenu'] = trans('actions.edit');
+        $data['sdata'] = Sdata::find($id);
+        return view('admin.sdata.edit', $data);
     }
 
     /**

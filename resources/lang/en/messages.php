@@ -267,7 +267,7 @@ return [
     /*
     |
     |--------------------------------------------------------------------------
-    | FBA list modules
+    | Designation list modules
     |--------------------------------------------------------------------------
     |
     */
@@ -298,5 +298,104 @@ return [
     'url'                       => 'URL',
     'mail_text'                 => 'Mail Text',
     'files'                     => 'Attachments',
+
+     /*
+    |--------------------------------------------------------------------------
+    | SData
+    |--------------------------------------------------------------------------
+    |
+    */
+    'add_new_sdata'             => 'Add New SData',
+    'sdata'                     => 'SData',
+    'name'                      => 'name',
+    'case_number'               => 'Case Number',
+    'amazon_sold'               => 'Amazon Sold',
+    'by_country'                => 'Country',
+    'case_in_charge'            => 'Case In Charge',
+    'categories'                => 'Categories',
+    'memo'                      => 'Memo',
+    'matter_date'               => 'Matter Date',
+    'priority'                  => 'Priority',
+    'priority_change_date'      => 'Priority Change Date',
+    'ingredient_progress'       => 'Ingredient Progress',
+    'ingredient_date'           => 'Ingredient Date',
+    'ingredient_number_ok'      => 'Ingredient Number Ok',
+    'total_ingredient'          => 'Total Ingredient',
+    'notification_progress'     => 'Notification Progress',
+    'application_date'          => 'Application Date',
+    'foreign_noti'              => 'Foreign Notification',
+    'manufact_sales_noti'       => 'Manufact Sales Notification',
+    'change_noti'               => 'Change Notification',
+    'sample_progress'           => 'Sample Progress',
+    'sample_date'               => 'Sample Date',
+    'delivery_id'               => 'Delivery Id',
+    'sample_tracking_no'        => 'Sample Tracking No', 
+    'tracking_url'              => 'Tracking Url',
+    'label_creation_progress'   => 'Label Creation Progress',
+    'label_creation_date'       => 'Label Creation Date',
+    'no_label_design'           => 'No Label Design',
+
+    'data_confirmation'	        =>	'data_confirmation',
+    'data_creation_date'	    =>	'data_creation_date',
+    'customer_service'	        =>	'customer_service',
+    'corresponding_date'	    =>	'corresponding_date',
+    'printing_progress'	        =>	'printing_progress',
+    'print_date'	            =>	'print_date',
+    'delivery_category'	        =>	'delivery_category',
+    'label_delivery_date'	    =>	'label_delivery_date',
+    'ingredient_billing_completed'	=>	'ingredient_billing_completed',
+    'application_completed'	    =>	'application_completed',
+    'label_design_completed'	=>	'label_design_completed',
+    'ingredient_billing_date'	=>	'ingredient_billing_date',
+    'application_completed_date'	=>	'application_completed_date',
+    'label_completed_date'	    =>	'label_completed_date',
+    'analysis_amount'	        =>	'analysis_amount',
+    'other_billed'	            =>	'other_billed',
+    'other_billed_date'	        =>	'other_billed_date',
+    'all_completed_billing'	    =>	'all_completed_billing',
+    'all_completed_date'	    =>	'all_completed_date',
+    'amazon_progress_id'	    =>	'amazon_progress_id',
+    'created_serial_no'	        =>	'created_serial_no',
+    'revised_label'	            =>	'revised_label',
+    'billing_competed_kurohara'	=>	'billing_competed_kurohara',
+    'amazon_quote'	            =>	'amazon_quote',
+    'declatation_number'	    =>	'declatation_number',
+    'product_master'	        =>	'product_master',
+    'label_requester'	        =>	'label_requester',
+    'double_checker'	        =>	'double_checker',
+    'double_checked'	        =>	'double_checked',
+    'ingredient_costs'	        =>	'ingredient_costs',
+    'foreign_noti_fee'	        =>	'foreign_noti_fee',
+    'manufact_sales_noti_fee'	=>	'manufact_sales_noti_fee',
+    'change_noti_fee'	        =>	'change_noti_fee',
+    'label_design_fee'	        =>	'label_design_fee',
+    'print_components'	        =>	'print_components',
+    'stamp_print_murata'	    =>	'stamp_print_murata',
+    'stamp_print_sugio'	        =>	'stamp_print_sugio',
+    'labeling_priority'	        =>	'labeling_priority',
+    'calculation'	            =>	'calculation',
+    'ingredient_request_takeda'	=>	'ingredient_request_takeda',
+    'product_master_request'	=>	'product_master_request',
+    'count_product_masters'	    =>	'count_product_masters',
+    'ingredient_special_note'	=>	'ingredient_special_note',
+    'ingredient_transmission'	=>	'ingredient_transmission',
+    'user_id'	                =>	'user_id',
+    'transmission_international'	=>	'transmission_international',
+    'transmission_national'	    =>	'transmission_national',
+    'takeda_email'	            =>	'takeda_email',
+    'kanban_printed'	        =>	'kanban_printed',
+    'storage_link'	            =>	'storage_link',
+    'test_link'	                =>	'test_link',
+    'label_requester_id'	    =>	'label_requester_id',
+    'supplementary_memo'	    =>	'supplementary_memo',
+    'send_label_creation'	    =>	'send_label_creation',
+    'label_creation_request'	=>	'label_creation_request',
+    'email'	                    =>	'email',
+
+
+   
+  
+   
+
 
 ];
