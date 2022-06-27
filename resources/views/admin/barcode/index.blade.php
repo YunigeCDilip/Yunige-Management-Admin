@@ -364,7 +364,7 @@
 @section('content')
 <div class="row qr-section" id="app" v-on:click="focusInput" v-cloak>
     <div class="col-12">
-        <input type="text" id="qrcode-input" class="form-control" v-model="qrData"  @keyup.prevent="qrcodeDetected">
+        <input type="text" id="qrcode-input" class="form-control" v-model="qrData"  @keyup.prevent="qrcodeDetected" disabled>
         <div class="text-center">
             <i class="h1 mdi mdi mdi-barcode-scan text-muted"></i>
             <h3 class="mb-3">Read Barcode Frequently !!!</h3>
@@ -450,6 +450,7 @@
                 }
             },
             mounted: function() {
+                $('#qrcode-input').prop( "disabled", false);
                 $('#qrcode-input').focus();
 
                 $(".qr-section").click(function () {
@@ -460,8 +461,11 @@
             methods: {
                 closeMessage: function(type){
                     $('.message-alert').hide(500);
+                    $('#qrcode-input').prop( "disabled", false);
+                    $('#qrcode-input').focus();
                 },
                 focusInput: function(){
+                    $('#qrcode-input').prop( "disabled", false);
                     $('#qrcode-input').focus();
                     
                     $(".qr-section").click(function () {
@@ -493,27 +497,21 @@
                                 setTimeout(function() {
                                     $("#success-message").hide();
                                     $('#qrcode-input').focus();
-                                },3000)
+                                },800)
                             } else{
                                 thisReference.qrData = '';
+                                $('#qrcode-input').prop( "disabled", true );
                                 $("#fail-message").find(".text-danger").html('Invalid Barcode');
                                 $("#fail-message").find("#message").html(response.data.message);
                                 $("#fail-message").show(500);
-                                setTimeout(function() {
-                                    $('#fail-message').hide();
-                                    $('#qrcode-input').focus();
-                                }, 3000)
                             }
 
                         }).catch(function(error) {
                             thisReference.qrData = '';
+                            $('#qrcode-input').prop( "disabled", true );
                             $("#fail-message").find(".text-danger").html('Invalid Barcode');
                             $("#fail-message").find("#message").html(error.response.data.message);
                             $("#fail-message").show(500);
-                            setTimeout(function() {
-                                $('#fail-message').hide();
-                                $('#qrcode-input').focus();
-                            }, 3000)
                         })
 
                 },500)

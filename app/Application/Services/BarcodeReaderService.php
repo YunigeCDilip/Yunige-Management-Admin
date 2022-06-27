@@ -69,7 +69,7 @@ class BarcodeReaderService extends Service
             if(!$store){
                 $store = new ItemMasterStore();
                 $store->item_master_id = $item->id;
-                $store->quantity = 1;
+                $store->quantity = 0;
                 $store->save();
             }
             $store->quantity += 1;
