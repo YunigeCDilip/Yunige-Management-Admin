@@ -57,16 +57,17 @@ class SDataService extends Service
     {
         try {
             $columns = array(
-                0 => 'name',
-                1 => 'case_number',
-                2 => 'by_country',
-                3 => 'case_in_charge',
-                4 => 'matter_date',
-                5 => 'priority',
-                6 => 'ingredient_progress',
-                7 => 'notification_progress',
-                8 => 'sample_progress',
-                9 => 'label_creation_progress',
+                0 => 'id',
+                1 => 'name',
+                2 => 'case_number',
+                3 => 'by_country',
+                4 => 'case_in_charge',
+                5 => 'matter_date',
+                6 => 'priority',
+                7 => 'ingredient_progress',
+                8 => 'notification_progress',
+                9 => 'sample_progress',
+                10 => 'label_creation_progress',
             );
             $limit = $request->input('length');
             $start = $request->input('start');
