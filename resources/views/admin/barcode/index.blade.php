@@ -359,6 +359,12 @@
         position: relative;
     }
     [v-cloak] {display: none}
+
+    .jq-toast-wrap {
+        width: 400px !important;
+        left: 78% !important;
+        bottom: 60% !important;
+    }
 </style>
 @endsection
 @section('content')
@@ -372,37 +378,39 @@
             is a hand-held or stationary input device used to capture and<br> and read information contained in a bar code .!</p>
 
         </div>
-        <div class="col-xl-12 order-xl-1 order-2" v-if="items.length">
-            <div class="card-box mb-2" v-for="item in items">
-                <div class="row align-items-center">
-                    <div class="col-sm-4">
-                        <div class="media">
-                            <div class="media-body">
-                                <h4 class="mt-0 mb-2 font-16">@{{ item.name }}</h4>
+        <div class="row">
+            <div class="col-xl-12 order-xl-1 order-2" v-if="items.length">
+                <div class="card-box mb-2" v-for="item in items">
+                    <div class="row align-items-center">
+                        <div class="col-sm-4">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h4 class="mt-0 mb-2 font-16">@{{ item.name }}</h4>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="text-center my-3 my-sm-0">
-                            <template v-if="item.images.length">
-                                <template v-for="image in item.images">
-                                    <a :href="image.url" target="_blank"><img :src="image.url" alt="" height="50"></a>
+                        <div class="col-sm-4">
+                            <div class="text-center my-3 my-sm-0">
+                                <template v-if="item.images.length">
+                                    <template v-for="image in item.images">
+                                        <a :href="image.url" target="_blank"><img :src="image.url" alt="" height="50"></a>
+                                    </template>
                                 </template>
-                            </template>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="text-center my-3 my-sm-0">
-                            <p class="mb-0">@{{ item.barcode }}</p>
+                        <div class="col-sm-2">
+                            <div class="text-center my-3 my-sm-0">
+                                <p class="mb-0">@{{ item.barcode }}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="text-center my-3 my-sm-0">
-                        <input type="text" readonly :value="item.quantity" style="width: 50px;border: outset;">
+                        <div class="col-sm-2">
+                            <div class="text-center my-3 my-sm-0">
+                            <input type="text" readonly :value="item.quantity" style="width: 50px;border: outset;">
+                            </div>
                         </div>
-                    </div>
-                </div> <!-- end row -->
-            </div> <!-- end card-box-->
+                    </div> <!-- end row -->
+                </div> <!-- end card-box-->
+            </div>
         </div>
         <div class="message-alert text-center" id="fail-message" style="display: none;">
             <div class="message-box">
@@ -414,21 +422,6 @@
                     </span>
                 </div>
                 <p class="text-danger"></p>
-                <h4 id="message"></h4>
-            </div>
-        </div>
-        <div class="message-alert text-center" id="success-message" style="display: none;">
-            <div class="message-box">
-                <a href="javascript:void(0);" class="btn-close" v-on:click="closeMessage">&times</a>
-                <div class="success-checkmark">
-                    <div class="check-icon">
-                        <span class="icon-line line-tip"></span>
-                        <span class="icon-line line-long"></span>
-                        <div class="icon-circle"></div>
-                        <div class="icon-fix"></div>
-                    </div>
-                </div>
-                <p class="text-success"></p>
                 <h4 id="message"></h4>
             </div>
         </div>
@@ -446,7 +439,8 @@
             data: function(){
                 return{
                     qrData: '',
-                    items: []
+                    items: [],
+                    barcodes: []
                 }
             },
             mounted: function() {
@@ -457,12 +451,23 @@
                     $( ".form-control" ).focus();
                 });
                 this.listBarcodeItems();
+                this.methodProcessor();
             },
             methods: {
+                methodProcessor: function(){
+                    let thisReference = this;
+                    thisReference.barcodes = JSON.parse(localStorage.getItem('barcodes'));
+                    if(thisReference.barcodes.length > 0){
+                        console.log(thisReference.barcodes.length -1, thisReference.barcodes[thisReference.barcodes.length -1]);
+                        thisReference.verifyItems(thisReference.barcodes.length -1, thisReference.barcodes[thisReference.barcodes.length -1]);
+                    }
+                },
                 closeMessage: function(type){
                     $('.message-alert').hide(500);
                     $('#qrcode-input').prop( "disabled", false);
                     $('#qrcode-input').focus();
+                    let thisReference = this;
+                    thisReference.methodProcessor();
                 },
                 focusInput: function(){
                     $('#qrcode-input').prop( "disabled", false);
@@ -481,40 +486,55 @@
                         }).catch(function(error) {
                         });
                 },
-                qrcodeDetected: _.debounce(function() {
-                    $('#qrcode-input').blur();
+                verifyItems: function(i, v){
                     let thisReference = this;
-
-                    axios.post(baseUrl + 'verify-items', {barcode: thisReference.qrData})
-                        .then(function(response) {
-                            if(response.data.status) {
-                                thisReference.qrData = '';
-                                var message = 'Barcode : '+response.data.payload.barcode+' : '+response.data.payload.quantity;
-                                $("#success-message").find(".text-success").html(response.data.payload.name);
-                                $("#success-message").find("#message").html(message);
-                                $("#success-message").show(500);
-                                thisReference.listBarcodeItems();
-                                setTimeout(function() {
-                                    $("#success-message").hide();
-                                    $('#qrcode-input').focus();
-                                },800)
-                            } else{
-                                thisReference.qrData = '';
-                                $('#qrcode-input').prop( "disabled", true );
-                                $("#fail-message").find(".text-danger").html('Invalid Barcode');
-                                $("#fail-message").find("#message").html(response.data.message);
-                                $("#fail-message").show(500);
-                            }
-
-                        }).catch(function(error) {
+                    thisReference.barcodes.splice(i, 1);
+                    localStorage.setItem('barcodes', JSON.stringify(thisReference.barcodes));
+                    if(v === "") return false;
+                    axios.post(baseUrl + 'verify-items', {barcode: v})
+                    .then(function(response) {
+                        if(response.data.status) {
+                            thisReference.qrData = '';
+                            var message = 'Barcode : '+response.data.payload.barcode+' : '+response.data.payload.quantity;
+                            !function(p){
+                                "use strict";
+                                var t=function(){};
+                                t.prototype.send=function(t,i,o,e,n,a,s,r){
+                                    a||(a=3e3),s||(s=1);
+                                    var c={heading:t,text:i,position:o,loaderBg:e,icon:n,hideAfter:a,stack:s};
+                                    r&&(c.showHideTransition=r),p.toast().reset("all"),p.toast(c)},
+                                    p.NotificationApp=new t,p.NotificationApp.Constructor=t
+                                }(window.jQuery),
+                                function(i){
+                                    i.NotificationApp.send(response.data.payload.name,message,"bottom-center","#5ba035","success");
+                                    
+                            }(window.jQuery);
+                        } else{
                             thisReference.qrData = '';
                             $('#qrcode-input').prop( "disabled", true );
                             $("#fail-message").find(".text-danger").html('Invalid Barcode');
-                            $("#fail-message").find("#message").html(error.response.data.message);
+                            $("#fail-message").find("#message").html(response.data.message);
                             $("#fail-message").show(500);
-                        })
+                        }
 
-                },500)
+                    }).catch(function(error) {
+                        thisReference.qrData = '';
+                        $('#qrcode-input').prop( "disabled", true );
+                        $("#fail-message").find(".text-danger").html('Invalid Barcode');
+                        $("#fail-message").find("#message").html(error.response.data.message);
+                        $("#fail-message").show(500);
+                    })
+                },
+                qrcodeDetected: _.debounce(function() {
+                    $('#qrcode-input').blur();
+                    let thisReference = this;
+                    thisReference.barcodes.push(thisReference.qrData);
+                    thisReference.qrData = '';
+                    $('#qrcode-input').focus();
+                    localStorage.setItem('barcodes', JSON.stringify(thisReference.barcodes));
+                    thisReference.methodProcessor();
+
+                },200)
             }
         });
     </script>
