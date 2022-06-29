@@ -359,10 +359,16 @@
         position: relative;
     }
     [v-cloak] {display: none}
+
+    .jq-toast-wrap {
+        width: 400px !important;
+        left: 78% !important;
+        bottom: 60% !important;
+    }
 </style>
 @endsection
 @section('content')
-<div class="row qr-section" id="app" v-on:click="focusInput" v-cloak>
+<div class="row qr-section" id="app" @click="focusInput($event)" v-cloak>
     <div class="col-12">
         <input type="text" id="qrcode-input" class="form-control" v-model="qrData"  @keyup.prevent="qrcodeDetected" disabled>
         <div class="text-center">
@@ -372,37 +378,90 @@
             is a hand-held or stationary input device used to capture and<br> and read information contained in a bar code .!</p>
 
         </div>
-        <div class="col-xl-12 order-xl-1 order-2" v-if="items.length">
-            <div class="card-box mb-2" v-for="item in items">
-                <div class="row align-items-center">
-                    <div class="col-sm-4">
-                        <div class="media">
-                            <div class="media-body">
-                                <h4 class="mt-0 mb-2 font-16">@{{ item.name }}</h4>
+        <div class="row" v-if="items.length">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-4">
+                                
                             </div>
+                            <div class="col-sm-8">
+                                <div class="text-sm-right">
+                                    <div class="btn-group mb-2">
+                                        <button type="button" class="btn btn-success btn-xs" @click.prevent=exportBarcodeReports(1)><i class=" mdi mdi-file-excel mr-1"></i> Export xlxs</button>
+                                    </div>
+                                    <div class="btn-group mb-2" style="display: none;">
+                                        <button type="button" class="btn btn-secondary btn-xs" @click.prevent=exportBarcodeReports(0)><i class="mdi mdi-file-pdf mr-1"></i> Export pdf</button>
+                                    </div>
+                                </div>
+                            </div><!-- end col-->
                         </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="text-center my-3 my-sm-0">
-                            <template v-if="item.images.length">
-                                <template v-for="image in item.images">
-                                    <a :href="image.url" target="_blank"><img :src="image.url" alt="" height="50"></a>
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                <tr>
+                                    <th>Images</th>
+                                    <th>Item Name</th>
+                                    <th>Barcode</th>
+                                    <th>Readings</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in items">
+                                        <td>
+                                        <template v-if="item.images.length">
+                                            <template v-for="image in item.images">
+                                                <a :href="image.url" target="_blank"><img :src="image.url" alt="" height="15"></a>
+                                            </template>
+                                        </template>
+                                        </td>
+                                        <td>@{{ item.name }}</td>
+                                        <td>@{{ item.barcode }}</td>
+                                        <td>
+                                            <input type="text" readonly :value="item.quantity" style="width: 50px;border: outset;">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ul class="pagination pagination-rounded justify-content-end mb-0" v-if="pagination.last_page != 1">
+                            <li class="page-item">
+                                <template v-if="pagination.current_page == 1">
+                                    <a class="page-link" href="javascript: void(0);" aria-label="Previous">
+                                        <span aria-hidden="true">«</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
                                 </template>
-                            </template>
-                        </div>
+                                <template v-else>
+                                    <a class="page-link" href="javascript: void(0);" 
+                                        aria-label="Previous"
+                                        @click.prevent="paginate(pagination.first_page_url)">
+                                        <span aria-hidden="true">«</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </template>
+                            </li>
+                            <li class="page-item">
+                                <template v-if="pagination.current_page == pagination.last_page">
+                                    <a class="page-link" href="javascript: void(0);" aria-label="Next">
+                                        <span aria-hidden="true">»</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </template>
+                                <template v-else>
+                                    <a class="page-link" href="javascript: void(0);"
+                                        aria-label="Next"
+                                        @click.prevent="paginate(pagination.next_page_url)">
+                                        <span aria-hidden="true">»</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </template>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="col-sm-2">
-                        <div class="text-center my-3 my-sm-0">
-                            <p class="mb-0">@{{ item.barcode }}</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="text-center my-3 my-sm-0">
-                        <input type="text" readonly :value="item.quantity" style="width: 50px;border: outset;">
-                        </div>
-                    </div>
-                </div> <!-- end row -->
-            </div> <!-- end card-box-->
+                </div>
+            </div>
         </div>
         <div class="message-alert text-center" id="fail-message" style="display: none;">
             <div class="message-box">
@@ -414,21 +473,6 @@
                     </span>
                 </div>
                 <p class="text-danger"></p>
-                <h4 id="message"></h4>
-            </div>
-        </div>
-        <div class="message-alert text-center" id="success-message" style="display: none;">
-            <div class="message-box">
-                <a href="javascript:void(0);" class="btn-close" v-on:click="closeMessage">&times</a>
-                <div class="success-checkmark">
-                    <div class="check-icon">
-                        <span class="icon-line line-tip"></span>
-                        <span class="icon-line line-long"></span>
-                        <div class="icon-circle"></div>
-                        <div class="icon-fix"></div>
-                    </div>
-                </div>
-                <p class="text-success"></p>
                 <h4 id="message"></h4>
             </div>
         </div>
@@ -446,25 +490,51 @@
             data: function(){
                 return{
                     qrData: '',
-                    items: []
+                    items: [],
+                    pagination: [],
+                    barcodes: [],
+                    barcodeIds: [],
+                    exportAll: false,
                 }
             },
             mounted: function() {
                 $('#qrcode-input').prop( "disabled", false);
                 $('#qrcode-input').focus();
 
-                $(".qr-section").click(function () {
+                $(".qr-section").click(function (e) {
+                    e.preventDefault();
                     $( ".form-control" ).focus();
                 });
                 this.listBarcodeItems();
+                this.methodProcessor();
             },
             methods: {
+                paginate: function(url){
+                    let thisReference = this;
+                    axios.post(url, {})
+                        .then(function(response) {
+                            thisReference.items = response.data.payload;
+                            thisReference.pagination = response.data.meta_data.pagination;
+
+                        }).catch(function(error) {
+                        });
+                },
+                methodProcessor: function(){
+                    let thisReference = this;
+                    thisReference.barcodes = JSON.parse(localStorage.getItem('barcodes'));
+                    if(thisReference.barcodes.length > 0){
+                        thisReference.verifyItems(thisReference.barcodes.length -1, thisReference.barcodes[thisReference.barcodes.length -1]);
+                    }
+                },
                 closeMessage: function(type){
                     $('.message-alert').hide(500);
                     $('#qrcode-input').prop( "disabled", false);
                     $('#qrcode-input').focus();
+                    let thisReference = this;
+                    thisReference.methodProcessor();
                 },
-                focusInput: function(){
+                focusInput: function(e){
+                    e.preventDefault();
                     $('#qrcode-input').prop( "disabled", false);
                     $('#qrcode-input').focus();
                     
@@ -477,44 +547,77 @@
                     axios.post(baseUrl + 'barcodes', {})
                         .then(function(response) {
                             thisReference.items = response.data.payload;
+                            thisReference.pagination = response.data.meta_data.pagination;
 
                         }).catch(function(error) {
                         });
                 },
-                qrcodeDetected: _.debounce(function() {
-                    $('#qrcode-input').blur();
+                verifyItems: function(i, v){
                     let thisReference = this;
-
-                    axios.post(baseUrl + 'verify-items', {barcode: thisReference.qrData})
-                        .then(function(response) {
-                            if(response.data.status) {
-                                thisReference.qrData = '';
-                                var message = 'Barcode : '+response.data.payload.barcode+' : '+response.data.payload.quantity;
-                                $("#success-message").find(".text-success").html(response.data.payload.name);
-                                $("#success-message").find("#message").html(message);
-                                $("#success-message").show(500);
-                                thisReference.listBarcodeItems();
-                                setTimeout(function() {
-                                    $("#success-message").hide();
-                                    $('#qrcode-input').focus();
-                                },800)
-                            } else{
-                                thisReference.qrData = '';
-                                $('#qrcode-input').prop( "disabled", true );
-                                $("#fail-message").find(".text-danger").html('Invalid Barcode');
-                                $("#fail-message").find("#message").html(response.data.message);
-                                $("#fail-message").show(500);
-                            }
-
-                        }).catch(function(error) {
+                    thisReference.barcodes.splice(i, 1);
+                    localStorage.setItem('barcodes', JSON.stringify(thisReference.barcodes));
+                    if(v === "") return false;
+                    axios.post(baseUrl + 'verify-items', {barcode: v})
+                    .then(function(response) {
+                        if(response.data.status) {
+                            thisReference.qrData = '';
+                            var message = 'Barcode : '+response.data.payload.barcode+' : '+response.data.payload.quantity;
+                            !function(p){
+                                "use strict";
+                                var t=function(){};
+                                t.prototype.send=function(t,i,o,e,n,a,s,r){
+                                    a||(a=3e3),s||(s=1);
+                                    var c={heading:t,text:i,position:o,loaderBg:e,icon:n,hideAfter:a,stack:s};
+                                    r&&(c.showHideTransition=r),p.toast().reset("all"),p.toast(c)},
+                                    p.NotificationApp=new t,p.NotificationApp.Constructor=t
+                                }(window.jQuery),
+                                function(i){
+                                    i.NotificationApp.send(response.data.payload.name,message,"bottom-center","#5ba035","success");
+                                    
+                            }(window.jQuery);
+                        } else{
                             thisReference.qrData = '';
                             $('#qrcode-input').prop( "disabled", true );
                             $("#fail-message").find(".text-danger").html('Invalid Barcode');
-                            $("#fail-message").find("#message").html(error.response.data.message);
+                            $("#fail-message").find("#message").html(response.data.message);
                             $("#fail-message").show(500);
-                        })
+                        }
 
-                },500)
+                    }).catch(function(error) {
+                        thisReference.qrData = '';
+                        $('#qrcode-input').prop( "disabled", true );
+                        $("#fail-message").find(".text-danger").html('Invalid Barcode');
+                        $("#fail-message").find("#message").html(error.response.data.message);
+                        $("#fail-message").show(500);
+                    })
+                },
+                qrcodeDetected: _.debounce(function() {
+                    $('#qrcode-input').blur();
+                    let thisReference = this;
+                    thisReference.barcodes.push(thisReference.qrData);
+                    thisReference.qrData = '';
+                    $('#qrcode-input').focus();
+                    localStorage.setItem('barcodes', JSON.stringify(thisReference.barcodes));
+                    thisReference.methodProcessor();
+
+                },200),
+                exportBarcodeReports: function(type){
+                    let thisReference = this;
+                    thisReference.items.map(function(v,i){
+                        thisReference.barcodeIds.push(v.id);
+                    });
+
+                    var searchFormData = {
+                            ids: thisReference.barcodeIds,
+                        }
+                    if(type == 1){
+                        var url = baseUrl + "barcodes/excel-export?"+  $.param(searchFormData);
+
+                    }else{
+                        var url = baseUrl + "barcodes/pdf-export?"+  $.param(searchFormData);
+                    }
+                    window.location = url;
+                }
             }
         });
     </script>
