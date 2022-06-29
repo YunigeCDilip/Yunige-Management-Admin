@@ -38,9 +38,9 @@ class BarcodeReaderService extends Service
             $data = QueryBuilder::for(ItemMasterStore::WithQuery()->Search(request('search')))
                 ->defaultSort('quantity')
                 ->allowedSorts('id', 'quantity')
-               ->get();
+               ->paginate(20);
             
-            return $this->responseOk(ItemMasterStoreResource::collection($data), MessageResponse::DATA_FOUND);
+            return $this->responsePaginate(ItemMasterStoreResource::collection($data), MessageResponse::DATA_FOUND);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 

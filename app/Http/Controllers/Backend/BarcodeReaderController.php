@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Exports\ReadableItemBarcodeExport;
 use App\Application\Services\BarcodeReaderService;
+use Excel;
 
 class BarcodeReaderController extends Controller
 {
@@ -15,7 +18,7 @@ class BarcodeReaderController extends Controller
 
     public function __construct(
         BarcodeReaderService $service
-    ){
+    ) {
         $this->service = $service;
     }
 
@@ -57,5 +60,30 @@ class BarcodeReaderController extends Controller
         $data = $this->service->checkBarcode($request);
 
         return $data;
+    }
+
+    /**
+     * export xlxs barcode items counts
+     * @param Request $request
+     * 
+     * @return mixed
+     */
+    public function excel(Request $request)
+    {
+        $currentDate = Carbon::now()->toDateTimeString();
+        $fileName = $currentDate . 'items-read.xlsx';
+        $file = Excel::download(new ReadableItemBarcodeExport($request), $fileName);
+
+        return $file;
+    }
+
+    /**
+     * export pdf barcode items counts
+     * @param Request $request
+     * 
+     * @return mixed
+     */
+    public function pdf(Request $request)
+    {
     }
 }

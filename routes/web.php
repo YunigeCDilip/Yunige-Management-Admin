@@ -293,6 +293,8 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
 
     
     Route::get('barcodes', [BarcodeReaderController::class, 'index'])->name('barcode.index');
+    Route::get('barcodes/excel-export', [BarcodeReaderController::class, 'excel'])->name('barcode.excel.export');
+    Route::get('barcodes/pdf-export', [BarcodeReaderController::class, 'pdf'])->name('barcode.pdf.export');
     Route::post('barcodes', [BarcodeReaderController::class, 'list'])->name('barcode.list');
     Route::post('verify-items', [BarcodeReaderController::class, 'checkBarcode'])->name('barcode.verify');
 });
