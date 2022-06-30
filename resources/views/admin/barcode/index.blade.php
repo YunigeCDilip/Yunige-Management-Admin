@@ -391,7 +391,7 @@
                                     <div class="btn-group mb-2">
                                         <button type="button" class="btn btn-success btn-xs" @click.prevent=exportBarcodeReports(1)><i class=" mdi mdi-file-excel mr-1"></i> Export xlxs</button>
                                     </div>
-                                    <div class="btn-group mb-2" style="display: none;">
+                                    <div class="btn-group mb-2">
                                         <button type="button" class="btn btn-secondary btn-xs" @click.prevent=exportBarcodeReports(0)><i class="mdi mdi-file-pdf mr-1"></i> Export pdf</button>
                                     </div>
                                 </div>
