@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Backend;
 use PDF;
 use Excel;
 use Throwable;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ItemMasterStore;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Picqer\Barcode\BarcodeGenerator;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 use App\Exports\ReadableItemBarcodeExport;
 use App\Application\Services\BarcodeReaderService;
 
@@ -76,8 +77,7 @@ class BarcodeReaderController extends Controller
     public function excel(Request $request)
     {
         try{
-            $currentDate = Carbon::now()->toDateTimeString();
-            $fileName = $currentDate . 'items-read.xlsx';
+            $fileName = date('YmdHis') . 'items-read.xlsx';
             $file = Excel::download(new ReadableItemBarcodeExport($request), $fileName);
 
             return $file;
@@ -103,11 +103,40 @@ class BarcodeReaderController extends Controller
             $items = ItemMasterStore::WithQuery()->whereIn('id', $request->ids)->get();
             $pdf = PDF::loadView('admin.barcode.pdf', compact('items', 'logo', 'user'));
             $pdf->setPaper('a4')->setOrientation('landscape')->setOption('images', true);
-            $currentDate = Carbon::now()->toDateTimeString();
-            $fileName = $currentDate . 'items-read.pdf';
+            $fileName = date('YmdHis') . 'items-read.pdf';
               
             return $pdf->download($fileName);  
 
+        }catch(Throwable $e){
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return redirect()->back();
+        }   
+    }
+
+    /**
+     * generate barcode image
+     * @param $barcode
+     * 
+     * @return mixed
+     */
+    public function generate($barcode)
+    {
+        try{
+            $generator = new BarcodeGeneratorPNG();
+            // file_put_contents('barcode.png', $generator->getBarcode('081231723897', BarcodeGenerator::TYPE_CODE_39, 1, 30));
+            // echo '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($barcode, BarcodeGenerator::TYPE_CODE_39, 1, 80)) . '">';
+            $bcode = base64_encode($generator->getBarcode($barcode, BarcodeGenerator::TYPE_CODE_39, 1, 50));
+
+            $pdf = PDF::loadView('admin.barcode.barcode-pdf', compact('bcode', 'barcode'));
+            $pdf->setOrientation('landscape')->setOption('images', true);
+            $pdf->setOption('page-width', '29')->setOption('page-height', '42');
+            $fileName = date('YmdHis') . 'barcode.pdf';
+
+            // return view('admin.barcode.barcode-pdf', compact('bcode', 'barcode'));
+              
+            return $pdf->stream();  
+            return $pdf->download($fileName);  
         }catch(Throwable $e){
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
 

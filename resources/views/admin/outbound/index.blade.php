@@ -5,6 +5,7 @@
     <link href="{{asset('admin/libs/datatables/buttons.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/libs/datatables/select.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{asset('admin/libs/sweetalert/sweetalert.css')}}">
+    <link rel="stylesheet" href="{{asset('admin/libs/multiselect-dropdown/css/bootstrap-multiselect.css')}}">
     <style>
         .dataTables_filter, .dataTables_length{
             display: none;
@@ -28,6 +29,15 @@
                             </div>
                             <div class="form-group mx-sm-3 mb-2">
                                 <select class="custom-select" id="page-select">
+                                    <option value="25" selected>25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="500">500</option>
+                                </select>
+                            </div>
+                            <div class="form-group mx-sm-3 mb-2">
+                                <select multiple class="custom-select column-visible">
                                     <option value="25" selected>25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
@@ -76,6 +86,7 @@
         <script src="{{asset('admin')}}/libs/datatables/dataTables.responsive.min.js"></script>
         <script src="{{asset('admin')}}/libs/datatables/responsive.bootstrap4.min.js"></script>
         <script src="{{asset('admin')}}/libs/sweetalert/sweetalert.min.js"></script>
+        <script src="{{asset('admin/libs/multiselect-dropdown/js/bootstrap-multiselect.js')}}"></script>
         <script src="{{asset('admin/custom/js/outbound.js')}}"></script>
     @endsection
 @endsection

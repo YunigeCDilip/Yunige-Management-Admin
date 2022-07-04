@@ -131,3 +131,9 @@ $('table#table').delegate('.mdi-delete', 'click', function(e){
         }
     });
 });
+
+$(function(){
+    $('.column-visible').multiselect({
+        includeSelectAllOption: true,
+      });
+});
