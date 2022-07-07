@@ -53,6 +53,26 @@ class UserService extends Service
     }
 
     /**
+     * Return required data for view.
+     *
+     * @return  Response
+     */
+    public function all()
+    {
+        try {
+            $data = QueryBuilder::for(User::where('active_status', true))
+                ->defaultSort('name')
+                ->allowedSorts('id', 'name')
+               ->get();
+            return $this->responseOk(UserResource::collection($data), MessageResponse::DATA_LOADED);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+    }
+
+    /**
      * return all datatable resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

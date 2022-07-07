@@ -53,6 +53,26 @@ class ItemMasterService extends Service
     }
 
     /**
+     * Return required data for view.
+     *
+     * @return  Response
+     */
+    public function all()
+    {
+        try {
+            $data = QueryBuilder::for(ItemMaster::WithQuery())
+                ->defaultSort('id')
+                ->allowedSorts('id', 'product_name')
+               ->get();
+            return $this->responseOk(ItemMasterResource::collection($data), MessageResponse::DATA_LOADED);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+    }
+
+    /**
      * return all datatable resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

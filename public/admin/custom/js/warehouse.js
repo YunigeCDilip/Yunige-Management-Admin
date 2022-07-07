@@ -19,8 +19,69 @@ function messages(message, type)
         }(window.jQuery);
 }
 
+
+
+$(function(){
+    $('.add-new-client').on('click', function(e){
+        e.preventDefault();
+        var modal = new Custombox.modal({
+            content: {
+                effect: 'fadein',
+                target: '#add-client-modal'
+            },
+            overlay: {
+                close: false,
+            }
+        });
+        modal.open();
+    });
+});
+
 jQuery(document).ready(function(){
+    $('.datetimepicker').datetimepicker({
+        "allowInputToggle": true,
+        "showClose": true,
+        "showClear": true,
+        "showTodayButton": true,
+        "format": "YYYY-MM-DD",
+    });
     $(".select2").select2();
+    // $(".modal-select2").select2({
+    //     dropdownParent: $('.modal-demo')
+    // });
+    $(".productimage").dropify({
+        messages:{
+            default:"Drag and drop a productimage here",
+            replace:"Drag and drop or click to replace",
+            remove:"Remove",
+            error:"Ooops, something wrong appended."
+        },
+        error:{
+            fileSize:"The file size is too big (1M max)."
+        }
+    });
+    $(".psedocs").dropify({
+        messages:{
+            default:"Drag and drop a psedocs here",
+            replace:"Drag and drop or click to replace",
+            remove:"Remove",
+            error:"Ooops, something wrong appended."
+        },
+        error:{
+            fileSize:"The file size is too big (1M max)."
+        }
+    });
+    $(".food").dropify({
+        messages:{
+            default:"Drag and drop a food here",
+            replace:"Drag and drop or click to replace",
+            remove:"Remove",
+            error:"Ooops, something wrong appended."
+        },
+        error:{
+            fileSize:"The file size is too big (1M max)."
+        }
+    });
     $(".permit").dropify({
         messages:{
             default:"Drag and drop a permit here",
@@ -98,6 +159,24 @@ jQuery(document).ready(function(){
             fileSize:"The file size is too big (1M max)."
         }
     });
+    $('form#addForm').delegate(".add-new-item","click", function (e) {
+        e.preventDefault();
+        var modal = new Custombox.modal({
+            content: {
+                effect: 'fadein',
+                target: '#add-item-modal'
+            },
+            overlay: {
+                close: false,
+            }
+        });
+        modal.open();
+    });
+
+    $('.cancel').on('click', function(e){
+        e.preventDefault();
+        Custombox.modal.close();
+    })
 });
 
 $(document).ready(function() {
@@ -374,3 +453,17 @@ $('.updateWdata').on('click', function(e){
         },
     });
 });
+
+!(function (n) {
+    "use strict";
+    var t = function () {};
+        (t.prototype.initTippyTooltips = function () {
+            0 < n('[data-plugin="tippy"]').length && tippy('[data-plugin="tippy"]');
+        }),
+        (t.prototype.init = function () {
+            this.initTippyTooltips();
+        }),
+        (n.Components = new t()),
+        (n.Components.Constructor = t);
+});
+    
