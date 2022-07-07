@@ -75,10 +75,16 @@
                                         <label for="cat">{{__('messages.category_classification')}}<span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="cat[]">
                                             <option value="">{{__('messages.select_category')}}</option>
+<<<<<<< HEAD
                                             @forelse($cat as $value)
                                                 <option value="{{$value}}">{{$value}}</option>
                                                 @empty
                                             @endforelse
+=======
+                                            @foreach($cat as $value)
+                                                <option value="{{$value}}">{{$value}}</option>
+                                            @endforeach
+>>>>>>> ca5061d62b03a89dbaada56d31483d73021663ef
                                         </select>
                                         <div class="invalid-feedback" id="cat_error" style="display:none;"></div>
                                     </div>
@@ -109,10 +115,16 @@
                                         <label for="shipping_company">{{__('messages.shipping_company')}}</label>
                                         <select class="form-control select2" name="shipping_company">
                                             <option value="">{{__('messages.select_shipping_company')}}</option>
+<<<<<<< HEAD
                                             @forelse($shipments as $value)
                                                 <option value="{{$value->id}}">{{$value->name}}</option>
                                                 @empty
                                             @endforelse
+=======
+                                            @foreach($shipments as $value)
+                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                            @endforeach
+>>>>>>> ca5061d62b03a89dbaada56d31483d73021663ef
                                         </select>
                                         <div class="invalid-feedback" id="shipping_company_error" style="display:none;"></div>
                                     </div>
@@ -151,10 +163,16 @@
                                         <label for="arrival_progresses">{{__('messages.arrival_progresses')}} <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="arrival_progress">
                                             <option value="">{{__('messages.select_arrival_progress')}}</option>
+<<<<<<< HEAD
                                             @forelse($status as $value)
                                                 <option value="{{$value->id}}">{{$value->name}}</option>
                                                 @empty
                                             @endforelse
+=======
+                                            @foreach($status as $value)
+                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                            @endforeach
+>>>>>>> ca5061d62b03a89dbaada56d31483d73021663ef
                                         </select>
                                         <div class="invalid-feedback" id="status_error" style="display:none;"></div>
                                     </div>
@@ -163,10 +181,16 @@
                                         <label for="goods_progress">{{__('messages.goods_progress')}} <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="goods_progress">
                                             <option value="">{{__('messages.select_goods_progress')}}</option>
+<<<<<<< HEAD
                                             @forelse($inboundStatus as $value)
                                                 <option value="{{$value->id}}">{{$value->name}}</option>
                                                 @empty
                                             @endforelse
+=======
+                                            @foreach($inboundStatus as $value)
+                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                            @endforeach
+>>>>>>> ca5061d62b03a89dbaada56d31483d73021663ef
                                         </select>
                                         <div class="invalid-feedback" id="goods_progress_error" style="display:none;"></div>
                                     </div>
@@ -202,10 +226,16 @@
                                             <label for="labeling_status">{{__('messages.labeling_status')}} <span class="text-danger">*</span></label>
                                             <select class="form-control select2" name="labeling_status[]">
                                                 <option value="">{{__('messages.select_labeling_status')}}</option>
+<<<<<<< HEAD
                                                 @forelse($labelingStatus as $value)
                                                     <option value="{{$value}}">{{$value}}</option>
                                                     @empty
                                                 @endforelse
+=======
+                                                @foreach($labelingStatus as $value)
+                                                    <option value="{{$value}}">{{$value}}</option>
+                                                @endforeach
+>>>>>>> ca5061d62b03a89dbaada56d31483d73021663ef
                                             </select>
                                             <div class="invalid-feedback" id="labeling_status_error" style="display:none;"></div>
                                         </div>
@@ -214,10 +244,16 @@
                                             <label for="reg_work_inst">{{__('messages.reg_work_inst')}} <span class="text-danger">*</span></label>
                                             <select class="form-control select2" name="reg_work_inst[][]" multiple>
                                                 <option value="">------</option>
+<<<<<<< HEAD
                                                 @forelse($workInstructions as $value)
                                                     <option value="{{$value}}">{{$value}}</option>
                                                     @empty
                                                 @endforelse
+=======
+                                                @foreach($workInstructions as $value)
+                                                    <option value="{{$value}}">{{$value}}</option>
+                                                @endforeach
+>>>>>>> ca5061d62b03a89dbaada56d31483d73021663ef
                                             </select>
                                             <div class="invalid-feedback" id="reg_work_inst_error" style="display:none;"></div>
                                         </div>
