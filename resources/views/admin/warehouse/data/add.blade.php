@@ -75,9 +75,10 @@
                                         <label for="cat">{{__('messages.category_classification')}}<span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="cat[]">
                                             <option value="">{{__('messages.select_category')}}</option>
-                                            @foreach($cat as $value)
+                                            @forelse($cat as $value)
                                                 <option value="{{$value}}">{{$value}}</option>
-                                            @endforeach
+                                                @empty
+                                            @endforelse
                                         </select>
                                         <div class="invalid-feedback" id="cat_error" style="display:none;"></div>
                                     </div>
@@ -108,9 +109,10 @@
                                         <label for="shipping_company">{{__('messages.shipping_company')}}</label>
                                         <select class="form-control select2" name="shipping_company">
                                             <option value="">{{__('messages.select_shipping_company')}}</option>
-                                            @foreach($shipments as $value)
+                                            @forelse($shipments as $value)
                                                 <option value="{{$value->id}}">{{$value->name}}</option>
-                                            @endforeach
+                                                @empty
+                                            @endforelse
                                         </select>
                                         <div class="invalid-feedback" id="shipping_company_error" style="display:none;"></div>
                                     </div>
@@ -149,9 +151,10 @@
                                         <label for="arrival_progresses">{{__('messages.arrival_progresses')}} <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="arrival_progress">
                                             <option value="">{{__('messages.select_arrival_progress')}}</option>
-                                            @foreach($status as $value)
+                                            @forelse($status as $value)
                                                 <option value="{{$value->id}}">{{$value->name}}</option>
-                                            @endforeach
+                                                @empty
+                                            @endforelse
                                         </select>
                                         <div class="invalid-feedback" id="status_error" style="display:none;"></div>
                                     </div>
@@ -160,9 +163,10 @@
                                         <label for="goods_progress">{{__('messages.goods_progress')}} <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="goods_progress">
                                             <option value="">{{__('messages.select_goods_progress')}}</option>
-                                            @foreach($inboundStatus as $value)
+                                            @forelse($inboundStatus as $value)
                                                 <option value="{{$value->id}}">{{$value->name}}</option>
-                                            @endforeach
+                                                @empty
+                                            @endforelse
                                         </select>
                                         <div class="invalid-feedback" id="goods_progress_error" style="display:none;"></div>
                                     </div>
@@ -198,9 +202,10 @@
                                             <label for="labeling_status">{{__('messages.labeling_status')}} <span class="text-danger">*</span></label>
                                             <select class="form-control select2" name="labeling_status[]">
                                                 <option value="">{{__('messages.select_labeling_status')}}</option>
-                                                @foreach($labelingStatus as $value)
+                                                @forelse($labelingStatus as $value)
                                                     <option value="{{$value}}">{{$value}}</option>
-                                                @endforeach
+                                                    @empty
+                                                @endforelse
                                             </select>
                                             <div class="invalid-feedback" id="labeling_status_error" style="display:none;"></div>
                                         </div>
@@ -209,9 +214,10 @@
                                             <label for="reg_work_inst">{{__('messages.reg_work_inst')}} <span class="text-danger">*</span></label>
                                             <select class="form-control select2" name="reg_work_inst[][]" multiple>
                                                 <option value="">------</option>
-                                                @foreach($workInstructions as $value)
+                                                @forelse($workInstructions as $value)
                                                     <option value="{{$value}}">{{$value}}</option>
-                                                @endforeach
+                                                    @empty
+                                                @endforelse
                                             </select>
                                             <div class="invalid-feedback" id="reg_work_inst_error" style="display:none;"></div>
                                         </div>
