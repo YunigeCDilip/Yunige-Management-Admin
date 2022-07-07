@@ -13,8 +13,16 @@ use App\Constants\AirtableDatabase;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\DatabaseManager;
+use App\Application\Services\UserService;
 use App\Http\Resources\WdataDetailResource;
 use App\Http\Resources\WarehouseDataResource;
+use App\Models\BrandMaster;
+use App\Models\CustomBroker;
+use App\Models\InboundStatus;
+use App\Models\ItemCategory;
+use App\Models\ShipmentMethod;
+use App\Models\Shipper;
+use App\Models\WdataStatus;
 
 class WarehouseDataService extends Service
 {
@@ -23,22 +31,30 @@ class WarehouseDataService extends Service
      * @var Airtable $contract
      * @var ClientMasterService $clientService
      * @var DeliveryService $deliveryService
+     * @var UserService $userService
+     * @var ItemMasterService $itemService
      * @var DatabaseManager $db
     */
     protected $airtable;
     protected $clientService;
     protected $deliveryService;
+    protected $userService;
+    protected $itemService;
     protected $db;
 
     public function __construct(
         ClientMasterService $clientService,
         DeliveryService $deliveryService,
+        UserService $userService,
+        ItemMasterService $itemService,
         DatabaseManager $db
     ){
         $this->apiClient = new AirtableApiClient(AirtableDatabase::WDATA);
         $this->airtable = new AirTable($this->apiClient);
         $this->clientService = $clientService;
         $this->deliveryService = $deliveryService;
+        $this->itemService = $itemService;
+        $this->userService = $userService;
         $this->db = $db;
     }
 
@@ -138,13 +154,25 @@ class WarehouseDataService extends Service
         try {
             $clients = json_decode($this->clientService->index()->getContent());
             $delivery = json_decode($this->deliveryService->index()->getContent());
+            $users = json_decode($this->userService->all()->getContent());
+            $items = json_decode($this->itemService->all()->getContent());
             $data['pic'] = WarehouseDomain::pic();
             $data['cat'] = WarehouseDomain::cat();
-            $data['status'] = WarehouseDomain::status();
+            $data['status'] = WdataStatus::all();
             $data['jobs'] = WarehouseDomain::job();
-            $data['inboundStatus'] = WarehouseDomain::inboundStatus();
+            $data['inboundStatus'] = InboundStatus::all();
+            $data['shippers'] = Shipper::all();
+            $data['categories'] = ItemCategory::all();
+            $data['arrivalPlaces'] = WarehouseDomain::arrivalPlaces();
+            $data['labelingStatus'] = WarehouseDomain::labelingStatus();
+            $data['workInstructions'] = WarehouseDomain::workInstructions();
+            $data['shipments'] = ShipmentMethod::all();
+            $data['customBrokers'] = CustomBroker::select('id', 'name')->get();
+            $data['brands'] = BrandMaster::select('id', 'name')->get();
             $data['clients'] = $clients->payload;
             $data['carrier'] = $delivery->payload;
+            $data['users'] = $users->payload;
+            $data['items'] = $items->payload;
 
             return $data;
         } catch (Throwable $e) {

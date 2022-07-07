@@ -270,6 +270,68 @@ class WarehouseDomain
     }
 
     /**
+     * List all arrivalPlaces in airtable
+     * 
+     * @return array
+     */
+    public static function arrivalPlaces()
+    {
+        return[
+            "新大阪",
+            "大東倉庫",
+            "加納倉庫",
+            "南港(OSAKA)",
+            "相模原(TOKYO)",
+            "川崎倉庫",
+            "東京-yamato",
+            "Inter-Assist",
+            "桑才倉庫",
+            "吉南倉庫",
+            "その他",
+            "ITALY",
+            "DUBAI",
+            "UK",
+        ];
+    }
+    
+    /**
+     * List all labelingStatus in airtable
+     * 
+     * @return array
+     */
+    public static function labelingStatus()
+    {
+        return[
+            "不明(新規s薬事のため)",
+            "日本貼付",
+            "海外貼付",
+            "雑貨（貼付不要)"
+        ];
+    }
+    
+    /**
+     * List all workInstructions in airtable
+     * 
+     * @return array
+     */
+    public static function workInstructions()
+    {
+        return[
+            "数量検品必要",
+            "数量検品不要",
+            "転送",
+            "サンプル",
+            "FBA",
+            "食品",
+            "薬事",
+            "PSE",
+            "保管",
+            "別途(イレギュラ指示)",
+            "【商品別】作業指示(イレギュラー)"
+        ];
+    }
+
+    /**
      * Format data for wdata post api
      * 
      * @param Request $request
