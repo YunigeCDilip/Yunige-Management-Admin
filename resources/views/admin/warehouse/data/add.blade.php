@@ -75,10 +75,12 @@
                                         <label for="cat">{{__('messages.category_classification')}}<span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="cat[]">
                                             <option value="">{{__('messages.select_category')}}</option>
-                                            @forelse($cat as $value)
-                                                <option value="{{$value}}">{{$value}}</option>
-                                                @empty
-                                            @endforelse
+                                            @if($cat)
+                                                @forelse($cat as $value)
+                                                    <option value="{{$value}}">{{$value}}</option>
+                                                    @empty
+                                                @endforelse
+                                            @endif
                                         </select>
                                         <div class="invalid-feedback" id="cat_error" style="display:none;"></div>
                                     </div>
@@ -87,10 +89,12 @@
                                         <a href="javascript:void(0)" class="btn btn-success btn-xs form-button mt-0 add-new-client float-right">+</a>
                                         <select class="form-control select2" name="client">
                                             <option value="">{{__('messages.select_client')}}</option>
-                                            @forelse(@$clients as $client)
-                                                <option value="{{$client->id}}">{{$client->name}}</option>
-                                                @empty
-                                            @endforelse
+                                            @if($clients)
+                                                @forelse(@$clients as $client)
+                                                    <option value="{{$client->id}}">{{$client->name}}</option>
+                                                    @empty
+                                                @endforelse
+                                            @endif
                                         </select>
                                         <div class="invalid-feedback" id="client_error" style="display:none;"></div>
                                     </div>
@@ -98,10 +102,12 @@
                                         <label for="arrival_place">{{__('messages.arrival_place')}} <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="arrival_place">
                                             <option value="">{{__('messages.select_arrival_place')}}</option>
-                                            @forelse($carrier as $value)
-                                                <option value="{{$value->id}}">{{$value->name}}</option>
-                                                @empty
-                                            @endforelse
+                                            @if($carrier)
+                                                @forelse($carrier as $value)
+                                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                                    @empty
+                                                @endforelse
+                                            @endif
                                         </select>
                                         <div class="invalid-feedback" id="arrival_place_error" style="display:none;"></div>
                                     </div>
@@ -109,10 +115,12 @@
                                         <label for="shipping_company">{{__('messages.shipping_company')}}</label>
                                         <select class="form-control select2" name="shipping_company">
                                             <option value="">{{__('messages.select_shipping_company')}}</option>
-                                            @forelse($shipments as $value)
-                                                <option value="{{$value->id}}">{{$value->name}}</option>
-                                                @empty
-                                            @endforelse
+                                            @if($shipments)
+                                                @forelse($shipments as $value)
+                                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                                    @empty
+                                                @endforelse
+                                            @endif
                                         </select>
                                         <div class="invalid-feedback" id="shipping_company_error" style="display:none;"></div>
                                     </div>
@@ -134,10 +142,12 @@
                                         <label for="customs_broker">{{__('messages.customs_broker')}}</label>
                                         <select class="form-control select2" name="customs_broker">
                                             <option value="">{{__('messages.select_customs_broker')}}</option>
-                                            @forelse($customBrokers as $value)
-                                                <option value="{{$value->id}}">{{$value->name}}</option>
-                                                @empty
-                                            @endforelse
+                                            @if($customBrokers)
+                                                @forelse($customBrokers as $value)
+                                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                                    @empty
+                                                @endforelse
+                                            @endif
                                         </select>
                                         <div class="invalid-feedback" id="status_error" style="display:none;"></div>
                                     </div>
@@ -151,10 +161,12 @@
                                         <label for="arrival_progresses">{{__('messages.arrival_progresses')}} <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="arrival_progress">
                                             <option value="">{{__('messages.select_arrival_progress')}}</option>
-                                            @forelse($status as $value)
-                                                <option value="{{$value->id}}">{{$value->name}}</option>
-                                                @empty
-                                            @endforelse
+                                            @if($status)
+                                                @forelse($status as $value)
+                                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                                    @empty
+                                                @endforelse
+                                            @endif
                                         </select>
                                         <div class="invalid-feedback" id="status_error" style="display:none;"></div>
                                     </div>
@@ -163,10 +175,12 @@
                                         <label for="goods_progress">{{__('messages.goods_progress')}} <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="goods_progress">
                                             <option value="">{{__('messages.select_goods_progress')}}</option>
-                                            @forelse($inboundStatus as $value)
-                                                <option value="{{$value->id}}">{{$value->name}}</option>
-                                                @empty
-                                            @endforelse
+                                            @if($inboundStatus)
+                                                @forelse($inboundStatus as $value)
+                                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                                    @empty
+                                                @endforelse
+                                            @endif
                                         </select>
                                         <div class="invalid-feedback" id="goods_progress_error" style="display:none;"></div>
                                     </div>
@@ -190,22 +204,25 @@
                                             <a href="javascript:void(0)" class="btn btn-success btn-xs form-button mt-0 add-new-item float-right">+</a>
                                             <select class="form-control select2" name="product[]">
                                                 <option value="">{{__('messages.select_product')}}</option>
+                                                @if($items)
                                                 @forelse(@$items as $item)
                                                     <option value="{{$item->id}}">{{$item->product_name}}</option>
                                                     @empty
                                                 @endforelse
+                                                @endif
                                             </select>
                                             <div class="invalid-feedback" id="product_error" style="display:none;"></div>
                                         </div>
-
                                         <div class="form-group mb-3">
                                             <label for="labeling_status">{{__('messages.labeling_status')}} <span class="text-danger">*</span></label>
                                             <select class="form-control select2" name="labeling_status[]">
                                                 <option value="">{{__('messages.select_labeling_status')}}</option>
-                                                @forelse($labelingStatus as $value)
-                                                    <option value="{{$value}}">{{$value}}</option>
-                                                    @empty
-                                                @endforelse
+                                                @if($workInstructions)
+                                                    @forelse($labelingStatus as $value)
+                                                        <option value="{{$value}}">{{$value}}</option>
+                                                        @empty
+                                                    @endforelse
+                                                @endif
                                             </select>
                                             <div class="invalid-feedback" id="labeling_status_error" style="display:none;"></div>
                                         </div>
