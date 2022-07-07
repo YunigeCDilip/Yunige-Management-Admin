@@ -142,12 +142,11 @@
                                         <label for="customs_broker">{{__('messages.customs_broker')}}</label>
                                         <select class="form-control select2" name="customs_broker">
                                             <option value="">{{__('messages.select_customs_broker')}}</option>
-
                                             @if($customBrokers)
-                                            @forelse($customBrokers as $value)
-                                                <option value="{{$value->id}}">{{$value->name}}</option>
-                                                @empty
-                                            @endforelse
+                                                @forelse($customBrokers as $value)
+                                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                                    @empty
+                                                @endforelse
                                             @endif
                                         </select>
                                         <div class="invalid-feedback" id="status_error" style="display:none;"></div>
@@ -176,12 +175,11 @@
                                         <label for="goods_progress">{{__('messages.goods_progress')}} <span class="text-danger">*</span></label>
                                         <select class="form-control select2" name="goods_progress">
                                             <option value="">{{__('messages.select_goods_progress')}}</option>
-
                                             @if($inboundStatus)
-                                            @forelse($inboundStatus as $value)
-                                                <option value="{{$value->id}}">{{$value->name}}</option>
-                                                @empty
-                                            @endforelse
+                                                @forelse($inboundStatus as $value)
+                                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                                    @empty
+                                                @endforelse
                                             @endif
                                         </select>
                                         <div class="invalid-feedback" id="goods_progress_error" style="display:none;"></div>
