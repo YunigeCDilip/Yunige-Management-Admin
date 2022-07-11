@@ -351,7 +351,7 @@
                     $(".dis-clone-here .btn-secondary").removeClass("btn-success add-more-dis").addClass("btn-danger remove-clone");
                     $(".dis-clone-here .btn-secondary").text("- Remove");
                     $('.dis-clone-here').find('input:last').val("");
-                    $('.dis-clone-here').find('.dis-clone').each(function(index, val){
+                    $('.dis-clone-here').find('.row-0').each(function(index, val){
                         index++;
                     $(this).attr('id', 'clone-'+index);
                         $(this).find('.error-message').empty().hide();
@@ -373,7 +373,7 @@
                     }, function (isConfirm){
                         if(isConfirm){
                             thisRef.parent().remove();
-                            $('.dis-clone-here').find('.dis-clone').each(function(index, val){
+                            $('.dis-clone-here').find('.row-0').each(function(index, val){
                                 index++;
                                 $(this).attr('id', 'clone-'+index);
                                 $(this).find('.error-message').empty().hide();

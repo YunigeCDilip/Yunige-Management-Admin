@@ -24,6 +24,13 @@ function messages(message, type)
 $(function(){
     $('.add-new-client').on('click', function(e){
         e.preventDefault();
+        $('form#addClientForm').find('.invalid-feedback').each(function(){
+            $(this).empty().hide();
+        });
+        $('form#addClientForm').find('.form-control').each(function(){
+            $(this).prop("required", false);
+        });
+        $('form#addClientForm').removeClass('was-validated');
         var modal = new Custombox.modal({
             content: {
                 effect: 'fadein',
@@ -161,6 +168,13 @@ jQuery(document).ready(function(){
     });
     $('form#addForm').delegate(".add-new-item","click", function (e) {
         e.preventDefault();
+        $('form#addItemForm').find('.invalid-feedback').each(function(){
+            $(this).empty().hide();
+        });
+        $('form#addItemForm').find('.form-control').each(function(){
+            $(this).prop("required", false);
+        });
+        $('form#addItemForm').removeClass('was-validated');
         var modal = new Custombox.modal({
             content: {
                 effect: 'fadein',
@@ -248,6 +262,142 @@ $('.custom-select').on('change', function () {
 
 $('#searchForm').keyup(function(){
     $('body').find('#table_filter input').val($(this).val()).trigger('keyup');
+});
+
+var addClientForm = $('form#addClientForm');
+$('.save-client').on('click', function(e){
+    e.preventDefault();
+    addClientForm.find('.invalid-feedback').each(function(){
+        $(this).empty().hide();
+    });
+    $(this).prop('disabled', true);
+    $(this).parents('.text-right').find('.spinner-border').show();
+    var thisReference = $(this);
+    var form_data = new FormData();
+    var foods;
+    addClientForm.find('.food-file').each(function(key, value){
+        foods = $(this).find('input[name="food[]"]')[0].files;
+        for (var i = 0; i < foods.length; ++i) {
+            (typeof foods[i] == 'undefined') ? '' : form_data.append('food['+i+']', foods[i]);
+        }
+    });
+    var add_Form = addClientForm.serializeArray();
+    $.each(add_Form, function(key, val){
+        form_data.append(val.name, val.value);
+    });
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: baseUrl + "save-client",
+        data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            thisReference.prop('disabled', false);
+            thisReference.parents('.text-right').find('.spinner-border').hide();
+            messages(data.message, data.status);
+            if(data.status){
+                Custombox.modal.close();
+                $('form#addForm').find('select[name="client"]').append('<option value="'+data.payload.id+'" selected>'+data.payload.name+'</option>').trigger('change');
+            }else{
+                thisReference.parents('.text-right').find('.spinner-border').hide();
+                thisReference.prop('disabled', false);
+                addClientForm.find('.lg-error').each(function(){
+                    $(this).empty().hide();
+                });
+                addClientForm.find('.lg-error-top').empty().append('<span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span> '+ data.message).show();
+            }
+        },
+        error: function(error){
+            if( error.status === 422 && error.readyState == 4) {
+                $('.modal-demo').animate({
+                    scrollTop: 0
+                }, 300);        
+                addClientForm.find('.invalid-feedback').each(function(){
+                    $(this).empty().hide();
+                });
+                var errors = $.parseJSON(error.responseText);
+                $.each(errors.message, function (key, val) {
+                    addClientForm.find('input[name="'+key+'"]').attr('required', 'required');
+                    addClientForm.find('#' + key + '_error').empty().append(val);
+                    addClientForm.find('#' + key + '_error').show();
+                });
+                thisReference.parents('.text-right').find('.spinner-border').hide();
+                thisReference.prop('disabled', false);
+            }
+
+            addClientForm.addClass('was-validated');
+        },
+    });
+});
+
+var addItemForm = $('form#addItemForm');
+$('.save-client').on('click', function(e){
+    e.preventDefault();
+    addItemForm.find('.invalid-feedback').each(function(){
+        $(this).empty().hide();
+    });
+    $(this).prop('disabled', true);
+    $(this).parents('.text-right').find('.spinner-border').show();
+    var thisReference = $(this);
+    var form_data = new FormData();
+    var foods;
+    addItemForm.find('.food-file').each(function(key, value){
+        foods = $(this).find('input[name="food[]"]')[0].files;
+        for (var i = 0; i < foods.length; ++i) {
+            (typeof foods[i] == 'undefined') ? '' : form_data.append('food['+i+']', foods[i]);
+        }
+    });
+    var add_Form = addItemForm.serializeArray();
+    $.each(add_Form, function(key, val){
+        form_data.append(val.name, val.value);
+    });
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: baseUrl + "save-item",
+        data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            thisReference.prop('disabled', false);
+            thisReference.parents('.text-right').find('.spinner-border').hide();
+            messages(data.message, data.status);
+            if(data.status){
+                Custombox.modal.close();
+                $('form#addForm').find('select[name="client"]').append('<option value="'+data.payload.id+'" selected>'+data.payload.name+'</option>').trigger('change');
+            }else{
+                thisReference.parents('.text-right').find('.spinner-border').hide();
+                thisReference.prop('disabled', false);
+                addItemForm.find('.lg-error').each(function(){
+                    $(this).empty().hide();
+                });
+                addItemForm.find('.lg-error-top').empty().append('<span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span> '+ data.message).show();
+            }
+        },
+        error: function(error){
+            if( error.status === 422 && error.readyState == 4) {
+                $('.modal-demo').animate({
+                    scrollTop: 0
+                }, 300);        
+                addItemForm.find('.invalid-feedback').each(function(){
+                    $(this).empty().hide();
+                });
+                var errors = $.parseJSON(error.responseText);
+                $.each(errors.message, function (key, val) {
+                    addItemForm.find('input[name="'+key+'"]').attr('required', 'required');
+                    addItemForm.find('#' + key + '_error').empty().append(val);
+                    addItemForm.find('#' + key + '_error').show();
+                });
+                thisReference.parents('.text-right').find('.spinner-border').hide();
+                thisReference.prop('disabled', false);
+            }
+
+            addItemForm.addClass('was-validated');
+        },
+    });
 });
 
 var addForm = $('form#addForm');

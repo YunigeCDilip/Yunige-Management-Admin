@@ -6,17 +6,18 @@ use App\Http\Controllers\API\SDataController;
 use App\Http\Controllers\API\StatusController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\DeliveryController;
+use App\Http\Controllers\API\OutboundController;
 use App\Http\Controllers\API\Web\UserController;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\API\ItemMasterController;
 use App\Http\Controllers\API\BarcodeItemController;
+use App\Http\Controllers\API\UserProfileController;
+use App\Http\Controllers\API\WdataMasterController;
 use App\Http\Controllers\API\ClientMasterController;
 use App\Http\Controllers\API\WarehouseDataController;
 use App\Http\Controllers\API\ItemMasterDataController;
-use App\Http\Controllers\API\UserProfileController;
 use App\Http\Controllers\API\ClientMasterDataController;
-use App\Http\Controllers\API\OutboundController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +83,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('sdatas', [SDataController::class, 'index']);
     Route::get('sdatas/{sdata}', [SDataController::class, 'show']);
 
+    Route::get('wdata-required-parameters', [WdataMasterController::class, 'index']);
     Route::get('wdata', [WarehouseDataController::class, 'index']);
     Route::get('wdata/{id}', [WarehouseDataController::class, 'show']);
     Route::post('wdata', [WarehouseDataController::class, 'store']);

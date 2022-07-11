@@ -15,8 +15,8 @@ class DeliveryResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'        => $this['id'],
-            'name'      => $this['fields']['Name']
+            'id'        => $this->id,
+            'name'      => $this->name
         ];
     }
 }

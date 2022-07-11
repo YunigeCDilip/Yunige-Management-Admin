@@ -4,7 +4,7 @@
     </button>
     <h4 class="custom-modal-title">{{__('messages.add_new_product')}}</h4>
     <div class="custom-modal-text text-left">
-        <form id="addForm" method="post" class="needs-validation" novalidate>
+        <form id="addItemForm" method="post" class="needs-validation" novalidate>
             @csrf
 
             <div class="form-group mb-3">
@@ -82,7 +82,9 @@
             </div>
 
             <div class="text-right">
-                <button type="button" class="btn btn-success waves-effect waves-light save-item">{{__('actions.save')}}</button>
+                <button type="button" class="btn btn-success waves-effect waves-light save-item">
+                <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>    
+                {{__('actions.save')}}</button>
                 <button type="button" class="btn btn-danger waves-effect waves-light m-l-10 cancel">{{__('actions.cancel')}}</button>
             </div>
         </form>
