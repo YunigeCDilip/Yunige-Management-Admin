@@ -8,7 +8,9 @@ use App\Constants\MessageResponse;
 use App\Airtable\AirtableApiClient;
 use App\Constants\AirtableDatabase;
 use Illuminate\Support\Facades\Log;
+use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Resources\DeliveryResource;
+use App\Models\Delivery;
 
 class DeliveryService extends Service
 {
@@ -38,6 +40,26 @@ class DeliveryService extends Service
                 $this->setCache(AirtableDatabase::DELIVERY, json_encode($data['records']));
             }
 
+            return $this->responseOk(DeliveryResource::collection($data), MessageResponse::DATA_LOADED);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+    }
+
+     /**
+     * Return required data for view.
+     *
+     * @return  Response
+     */
+    public function all()
+    {
+        try {
+            $data = QueryBuilder::for(Delivery::class)
+                ->defaultSort('name')
+                ->allowedSorts('id', 'name')
+               ->get();
             return $this->responseOk(DeliveryResource::collection($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);

@@ -231,6 +231,8 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('wdata/{wdata}', [WarehouseDataController::class, 'show'])->name('wdata.show');
     Route::get('wdata/{wdata}/edit', [WarehouseDataController::class, 'edit'])->name('wdata.edit');
     Route::post('wdata/{wdata}', [WarehouseDataController::class, 'update'])->name('wdata.update');
+    Route::post('save-client', [WarehouseDataController::class, 'saveClient']);
+    Route::post('save-item', [WarehouseDataController::class, 'saveItem']);
 
     Route::get('outbounds', [OutboundController::class, 'index'])->name('outbounds.index');
     Route::get('outbounds/{outbound}', [OutboundController::class, 'show'])->name('outbounds.show');

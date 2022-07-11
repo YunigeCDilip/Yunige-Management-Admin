@@ -4,22 +4,22 @@
     </button>
     <h4 class="custom-modal-title">{{__('messages.add_new_customer')}}</h4>
     <div class="custom-modal-text text-left">
-        <form id="addForm" method="post" class="needs-validation" novalidate>
+        <form id="addClientForm" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
             @csrf
             <div class="form-group mb-3">
-                <label for="ja_name">{{__('messages.clientjp')}}</label>
+                <label for="ja_name">{{__('messages.clientjp')}} <span class="text-danger">*</span></label>
                 <input type="text" name="ja_name" class="form-control">
                 <div class="invalid-feedback" id="ja_name_error" style="display:none;"></div>
             </div>
                             
             <div class="form-group mb-3">
-                <label for="en_name">{{__('messages.clienteng')}}</label>
+                <label for="en_name">{{__('messages.clienteng')}} <span class="text-danger">*</span></label>
                 <input type="text" name="en_name" class="form-control">
                 <div class="invalid-feedback" id="en_name_error" style="display:none;"></div>
             </div>
             <div class="form-group mb-3">
-                <label for="shipper">{{__('messages.country_classification')}}</label>
-                <select class="form-control modal-select2" name="shipper">
+                <label for="shipper">{{__('messages.country_classification')}} <span class="text-danger">*</span></label>
+                <select class="form-control" name="shipper" id="shipper">
                     <option value="">{{__('messages.select_country_c')}}</option>
                     @forelse($shippers as $shipper)
                         <option value="{{$shipper->id}}">{{$shipper->shipper_name}}</option>
@@ -91,7 +91,9 @@
             </div>  
 
             <div class="text-right">
-                <button type="button" class="btn btn-success waves-effect waves-light save-client">{{__('actions.save')}}</button>
+                <button type="button" class="btn btn-success waves-effect waves-light save-client">
+                <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>    
+                {{__('actions.save')}}</button>
                 <button type="button" class="btn btn-danger waves-effect waves-light m-l-10 cancel">{{__('actions.cancel')}}</button>
             </div>
         </form>
