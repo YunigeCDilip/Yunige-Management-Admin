@@ -4,7 +4,7 @@
     </button>
     <h4 class="custom-modal-title">{{__('messages.add_new_product')}}</h4>
     <div class="custom-modal-text text-left">
-        <form id="addItemForm" method="post" class="needs-validation" novalidate>
+        <form id="addItemForm" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
             @csrf
 
             <div class="form-group mb-3">
@@ -70,13 +70,13 @@
             </div>
             <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">{{__('messages.product_image')}}</h5>
             <div class="form-group mb-3 productimage-file">
-                <input type="file" name="productimage" class="dropify productimage" data-max-file-size="1M" multiple/>
+                <input type="file" name="productimage[]" class="dropify productimage" data-max-file-size="1M" multiple/>
                 <div class="invalid-feedback" id="productimage_error" style="display:none;"></div>
                 <p class="text-muted text-center mt-2 mb-0">{{__('messages.product_image')}}</p>
             </div>
             <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">{{__('messages.pse_docs')}}</h5>
             <div class="form-group mb-3 psedocs-file">
-                <input type="file" name="psedocs" class="dropify psedocs" data-max-file-size="1M" multiple/>
+                <input type="file" name="psedocs[]" class="dropify psedocs" data-max-file-size="1M" multiple/>
                 <div class="invalid-feedback" id="psedocs_error" style="display:none;"></div>
                 <p class="text-muted text-center mt-2 mb-0">{{__('messages.pse_docs')}}</p>
             </div>

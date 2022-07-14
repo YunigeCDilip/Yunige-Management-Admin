@@ -194,15 +194,15 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="producttab">
-                        <div id="dis-clone">
+                        <div id="dis-clone" class="row-0">
                             <a href="#" class="btn btn-secondary btn-xs form-button mt-0 add-more-dis pull-right">+ Add More</a>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="card-box">
                                         <div class="form-group mb-3">
                                             <label for="product">{{__('messages.product_list')}} <span class="text-danger">*</span></label>
-                                            <a href="javascript:void(0)" class="btn btn-success btn-xs form-button mt-0 add-new-item float-right">+</a>
-                                            <select class="form-control select2" name="product[]">
+                                            <a href="javascript:void(0)" class="btn btn-success btn-xs form-button mt-0 add-new-item float-right" data-product="0">+</a>
+                                            <select class="form-control select2" name="items[0][product]">
                                                 <option value="">{{__('messages.select_product')}}</option>
                                                 @if($items)
                                                 @forelse(@$items as $item)
@@ -215,7 +215,7 @@
                                         </div>
                                         <div class="form-group mb-3">
                                             <label for="labeling_status">{{__('messages.labeling_status')}} <span class="text-danger">*</span></label>
-                                            <select class="form-control select2" name="labeling_status[]">
+                                            <select class="form-control select2" name="items[0][labeling_status]">
                                                 <option value="">{{__('messages.select_labeling_status')}}</option>
                                                 @if($workInstructions)
                                                     @forelse($labelingStatus as $value)
@@ -229,7 +229,7 @@
 
                                         <div class="form-group mb-3">
                                             <label for="reg_work_inst">{{__('messages.reg_work_inst')}} <span class="text-danger">*</span></label>
-                                            <select class="form-control select2" name="reg_work_inst[][]" multiple>
+                                            <select class="form-control select2" name="items[0][reg_work_inst][]" multiple>
                                                 <option value="">------</option>
                                                 @forelse($workInstructions as $value)
                                                     <option value="{{$value}}">{{$value}}</option>
@@ -244,13 +244,13 @@
                                     <div class="card-box">
                                         <div class="form-group mb-3">
                                             <label for="warehouse_qty">{{__('messages.warehouse_qty')}} <span class="text-danger">*</span></label>
-                                            <input type="number" name="warehouse_qty[]" class="form-control">
+                                            <input type="number" name="items[0][warehouse_qty]" class="form-control">
                                             <div class="invalid-feedback" id="warehouse_qty_error" style="display:none;"></div>
                                         </div>
 
                                         <div class="form-group mb-3">
                                             <label for="fnsku_not_req">{{__('messages.fnsku_not_req')}} <span class="text-danger">*</span></label>
-                                            <select class="form-control select2" name="fnsku_not_req[]">
+                                            <select class="form-control select2" name="items[0][fnsku_not_req]">
                                                 <option value="">{{__('messages.select_fnsku')}}</option>
                                                 <option value="必要">必要</option>
                                                 <option value="不要">不要</option>
@@ -261,7 +261,7 @@
 
                                         <div class="form-group mb-3">
                                             <label for="ireg_work_inst">{{__('messages.ireg_work_inst')}}</label>
-                                            <textarea name="ireg_work_inst[]" class="form-control"></textarea>
+                                            <textarea name="items[0][ireg_work_inst]" class="form-control"></textarea>
                                             <div class="invalid-feedback" id="ireg_work_inst_error" style="display:none;"></div>
                                         </div>
                                     </div>
@@ -346,21 +346,52 @@
             $(document).ready(function(){
                 $(".add-more-dis").click(function (e) {
                     e.preventDefault();
+                    $(this).parent('div').find('select').select2('destroy');
                     var $dis = $("#dis-clone").html();
                     $('.dis-clone-here').append('<div class="row-0">'+$dis+'</div>');
+                    $(this).parent('div').find('select').select2().trigger("change");
                     $(".dis-clone-here .btn-secondary").removeClass("btn-success add-more-dis").addClass("btn-danger remove-clone");
                     $(".dis-clone-here .btn-secondary").text("- Remove");
                     $('.dis-clone-here').find('input:last').val("");
                     $('.dis-clone-here').find('.row-0').each(function(index, val){
                         index++;
-                    $(this).attr('id', 'clone-'+index);
+                        $(this).attr('id', 'clone-'+index);
+                        $(this).find('.add-new-item').attr("data-product", index);
+                        $(this).find('.remove-clone').attr('data-clone', index);
                         $(this).find('.error-message').empty().hide();
+                        $(this).find('select').each(function(){
+                            $(this).select2().trigger("change");
+                        });
+
+                        $(this).find('.form-control').each(function(){
+                            switch($(this).attr("name")){
+                                case 'items[0][product]':
+                                    $(this).attr("name", "items["+index+"][product]");
+                                    break;
+                                case 'items[0][labeling_status]':
+                                    $(this).attr("name", "items["+index+"][labeling_status]");
+                                    break;
+                                case 'items[0][warehouse_qty]':
+                                    $(this).attr("name", "items["+index+"][warehouse_qty]");
+                                    break;
+                                case 'items[0][fnsku_not_req]':
+                                    $(this).attr("name", "items["+index+"][fnsku_not_req]");
+                                    break;
+                                case 'items[0][ireg_work_inst]':
+                                    $(this).attr("name", "items["+index+"][ireg_work_inst]");
+                                    break;
+                                default:
+                                    $(this).attr("name", "items["+index+"][reg_work_inst][]");
+                            }
+                        });
+
                     });
                 });
 
                 $('form#addForm').delegate(".remove-clone","click", function (e) {
                     e.preventDefault();
                     var thisRef = $(this);
+                    var cloneIndex = $(this).attr('data-clone');
                     swal({
                         title: "Are you sure you want to remove this field ?",
                         type: "warning",
@@ -376,7 +407,31 @@
                             $('.dis-clone-here').find('.row-0').each(function(index, val){
                                 index++;
                                 $(this).attr('id', 'clone-'+index);
+                                $(this).find('.add-new-item').attr("data-product", index);
+                                $(this).find('.remove-clone').attr('data-clone', index);
                                 $(this).find('.error-message').empty().hide();
+
+                                $(this).find('.form-control').each(function(){
+                                    switch($(this).attr("name")){
+                                        case 'items['+cloneIndex+'][product]':
+                                            $(this).attr("name", "items["+index+"][product]");
+                                            break;
+                                        case 'items['+cloneIndex+'][labeling_status]':
+                                            $(this).attr("name", "items["+index+"][labeling_status]");
+                                            break;
+                                        case 'items['+cloneIndex+'][warehouse_qty]':
+                                            $(this).attr("name", "items["+index+"][warehouse_qty]");
+                                            break;
+                                        case 'items['+cloneIndex+'][fnsku_not_req]':
+                                            $(this).attr("name", "items["+index+"][fnsku_not_req]");
+                                            break;
+                                        case 'items['+cloneIndex+'][ireg_work_inst]':
+                                            $(this).attr("name", "items["+index+"][ireg_work_inst]");
+                                            break;
+                                        default:
+                                            $(this).attr("name", "items["+index+"][reg_work_inst][]");
+                                    }
+                                });
                             });
                         }
                     });

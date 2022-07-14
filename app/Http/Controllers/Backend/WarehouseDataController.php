@@ -68,6 +68,8 @@ class WarehouseDataController extends Controller
      */
     public function store(CreateWarehouseData $request)
     {
+
+        dd($request->all());
         $data = json_decode($this->service->store($request)->getContent());
         $responseData['status'] = $data->status;
         $responseData['message'] = $data->message;
