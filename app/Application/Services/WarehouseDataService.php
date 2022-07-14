@@ -8,6 +8,7 @@ use App\Models\Wdata;
 use App\Models\Client;
 use App\Models\Shipper;
 use App\Airtable\AirTable;
+use App\Models\ItemMaster;
 use App\Models\BrandMaster;
 use App\Models\WdataStatus;
 use App\Models\CustomBroker;
@@ -26,8 +27,9 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\DatabaseManager;
 use App\Application\Services\UserService;
-use App\Http\Resources\ClientMasterResource;
+use App\Http\Resources\ItemMasterResource;
 use App\Http\Resources\WdataDetailResource;
+use App\Http\Resources\ClientMasterResource;
 use App\Http\Resources\WarehouseDataResource;
 
 class WarehouseDataService extends Service
@@ -377,6 +379,58 @@ class WarehouseDataService extends Service
      */
     public function saveItem($request)
     {
+        $data = ItemMaster::first();
+        
+        return $this->responseOk(new ItemMasterResource($data), MessageResponse::DATA_CREATED);
+        try {
+            $this->db->beginTransaction();
+            $client = new Client();
+            $client->incharge_id = $request->incharge;
+            $client->ja_name = $request->ja_name;
+            $client->en_name = $request->en_name;
+            $client->shipper_id = $request->shipper;
+            $client->hp = $request->hp;
+            $client->company_tel = $request->company_tel;
+            $client->fax = $request->fax;
+            $client->customer_memo = $request->customer_memo;
+            $client->save();
 
+            if($client){
+                $contact = new ClientContact();
+                $contact->client_id = $client->id;
+                $contact->name = $request->person_name;
+                $contact->office_add = $request->office_add;
+                $contact->email = $request->email;
+                $contact->contact_number = $request->contact_number;
+                $contact->seller_name = $request->amazon_listed;
+                $contact->seller_add = $request->amazon_listed_address;
+                $contact->delivery_address = $request->delivery_address;
+                $contact->save();
+
+
+                if(isset($request['food'])){
+                    foreach($request['food'] as $attach){
+                        $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'client'.$attach->extension());
+                        Storage::disk('s3')->put($fileName, $attach);
+                        $file = new ClientAttachment();
+                        $file->client_id = $client->id;
+                        $file->type = '食品届';
+                        $file->file_name = $fileName;
+                        $file->ext = $attach->extension();
+                        $file->url = Storage::disk('s3')->url($fileName);
+                        $file->save();
+                    }
+                }
+            }
+
+            $this->db->commit();
+
+            return $this->responseOk(new ClientMasterResource($client), MessageResponse::DATA_CREATED);
+        } catch (Throwable $e) {
+            $this->db->rollback();
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
     }
 }

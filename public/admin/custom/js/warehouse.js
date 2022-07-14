@@ -53,9 +53,6 @@ jQuery(document).ready(function(){
         "format": "YYYY-MM-DD",
     });
     $(".select2").select2();
-    // $(".modal-select2").select2({
-    //     dropdownParent: $('.modal-demo')
-    // });
     $(".productimage").dropify({
         messages:{
             default:"Drag and drop a productimage here",
@@ -175,6 +172,8 @@ jQuery(document).ready(function(){
             $(this).prop("required", false);
         });
         $('form#addItemForm').removeClass('was-validated');
+        var productIndex = $(this).attr('data-product');
+        $('form#addItemForm').find('.save-item').attr("data-product", productIndex);
         var modal = new Custombox.modal({
             content: {
                 effect: 'fadein',
@@ -333,8 +332,9 @@ $('.save-client').on('click', function(e){
 });
 
 var addItemForm = $('form#addItemForm');
-$('.save-client').on('click', function(e){
+$('.save-item').on('click', function(e){
     e.preventDefault();
+    var productIndex = $(this).attr('data-product');
     addItemForm.find('.invalid-feedback').each(function(){
         $(this).empty().hide();
     });
@@ -342,11 +342,18 @@ $('.save-client').on('click', function(e){
     $(this).parents('.text-right').find('.spinner-border').show();
     var thisReference = $(this);
     var form_data = new FormData();
-    var foods;
-    addItemForm.find('.food-file').each(function(key, value){
-        foods = $(this).find('input[name="food[]"]')[0].files;
-        for (var i = 0; i < foods.length; ++i) {
-            (typeof foods[i] == 'undefined') ? '' : form_data.append('food['+i+']', foods[i]);
+    var productimages;
+    var psedocs;
+    addItemForm.find('.productimage-file').each(function(key, value){
+        productimages = $(this).find('input[name="productimage[]"]')[0].files;
+        for (var i = 0; i < productimages.length; ++i) {
+            (typeof productimages[i] == 'undefined') ? '' : form_data.append('productimage['+i+']', productimages[i]);
+        }
+    });
+    addItemForm.find('.psedocs-file').each(function(key, value){
+        psedocs = $(this).find('input[name="psedocs[]"]')[0].files;
+        for (var i = 0; i < psedocs.length; ++i) {
+            (typeof psedocs[i] == 'undefined') ? '' : form_data.append('psedocs['+i+']', psedocs[i]);
         }
     });
     var add_Form = addItemForm.serializeArray();
@@ -367,7 +374,12 @@ $('.save-client').on('click', function(e){
             messages(data.message, data.status);
             if(data.status){
                 Custombox.modal.close();
-                $('form#addForm').find('select[name="client"]').append('<option value="'+data.payload.id+'" selected>'+data.payload.name+'</option>').trigger('change');
+                if(productIndex != 0){
+                    $('#clone-'+productIndex).find('select[name="product[]"]').append('<option value="'+data.payload.id+'" selected>'+data.payload.name+'</option>').trigger('change');
+                }else{
+                    $('#dis-clone').find('select[name="product[]"]').append('<option value="'+data.payload.id+'" selected>'+data.payload.name+'</option>').trigger('change');
+                }
+                
             }else{
                 thisReference.parents('.text-right').find('.spinner-border').hide();
                 thisReference.prop('disabled', false);
@@ -411,17 +423,31 @@ $('.saveWdata').on('click', function(e){
     var thisReference = $(this);
     var form_data = new FormData();
     var invoices;
-    var permits;
+    var packings;
+    var ans;
+    var bls;
     addForm.find('.invoice-file').each(function(key, value){
         invoices = $(this).find('input[name="invoice[]"]')[0].files;
         for (var i = 0; i < invoices.length; ++i) {
             (typeof invoices[i] == 'undefined') ? '' : form_data.append('invoice['+i+']', invoices[i]);
         }
     });
-    addForm.find('.permit-file').each(function(key, value){
-        permits = $(this).find('input[name="permit[]"]')[0].files;
-        for (var i = 0; i < permits.length; ++i) {
-            (typeof permits[i] == 'undefined') ? '' : form_data.append('permit['+i+']', permits[i]);
+    addForm.find('.packing-file').each(function(key, value){
+        packings = $(this).find('input[name="packing[]"]')[0].files;
+        for (var i = 0; i < packings.length; ++i) {
+            (typeof packings[i] == 'undefined') ? '' : form_data.append('packing['+i+']', packings[i]);
+        }
+    });
+    addForm.find('.an-file').each(function(key, value){
+        ans = $(this).find('input[name="an[]"]')[0].files;
+        for (var i = 0; i < ans.length; ++i) {
+            (typeof ans[i] == 'undefined') ? '' : form_data.append('an['+i+']', ans[i]);
+        }
+    });
+    addForm.find('.bl-file').each(function(key, value){
+        bls = $(this).find('input[name="bl[]"]')[0].files;
+        for (var i = 0; i < bls.length; ++i) {
+            (typeof bls[i] == 'undefined') ? '' : form_data.append('bl['+i+']', ans[i]);
         }
     });
     var add_Form = $('form#addForm').serializeArray();
