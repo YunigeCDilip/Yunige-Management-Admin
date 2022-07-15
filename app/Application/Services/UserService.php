@@ -362,4 +362,25 @@ class UserService extends Service
         }
 
     }
+
+    /**
+     * retrun users based on designations
+     * @param  $designation
+     * @return  Response
+     */
+    public function getUsers($designation)
+    {
+        try {
+            $user = User::whereHas('designations', function($query) use($designation){
+                $query->where('designation_id', $designation);
+            })->get();
+
+            return $this->responseOk($user, MessageResponse::DATA_LOADED);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+
+    }
 }

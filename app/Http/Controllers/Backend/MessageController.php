@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Application\Services\MessageService;
 use App\Http\Requests\CreateMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
-use Throwable;
 
 class MessageController extends Controller 
 {
@@ -31,9 +29,64 @@ class MessageController extends Controller
      */
     public function index(Request $request)
     {
+        $data['title'] = trans('messages.emails');
+        $data['menu'] = trans('messages.emails');
+        $data['subMenu'] = trans('actions.lists');
+
+        return view('admin.email.index', $data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return  Response
+     */
+    public function sentView(Request $request)
+    {
+        $data['title'] = trans('messages.emails');
+        $data['menu'] = trans('messages.emails');
+        $data['subMenu'] = trans('actions.lists');
+
+        return view('admin.email.sent', $data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function received()
+    {
+        $data = $this->service->received();
+
+        return $data;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function sent()
+    {
         $data = $this->service->index();
 
         return $data;
+    }
+
+    /**
+     * Return all active data for view.
+     *
+     * @return View
+     */
+    public function create()
+    {
+        $data = $this->service->create();
+        $data['title'] = trans('messages.emails');
+        $data['menu'] = trans('messages.emails');
+        $data['subMenu'] = trans('actions.add');
+
+        return view('admin.email.add', $data);
     }
 
     /**
@@ -56,7 +109,14 @@ class MessageController extends Controller
      */
     public function store(CreateMessageRequest $request)
     {
-        $data = $this->service->store($request);
+        $data = json_decode($this->service->store($request)->getContent());
+        $responseData['status'] = $data->status;
+        $responseData['message'] = $data->message;
+        if($data->status){
+            $responseData['url'] = route('admin.emails.index');
+        }
+
+        return $responseData;
 
         return $data;
     }

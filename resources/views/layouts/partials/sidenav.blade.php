@@ -33,10 +33,16 @@
                         <a href="{{route('admin.designations.index')}}">{{__('menu.designation')}}</a>
                     </li>
                 </ul>
+            </li>            
+            <li>
+                <a href="{{route('admin.emails.index')}}" class="@if(@$menu == 'Email') active @endif">
+                    <i class="fe-mail"></i>
+                    <span>{{__('menu.email')}}</span>
+                </a>
             </li>
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false">
-                    <i class="fe-airplay"></i>
+                    <i class="fe-package"></i>
                     <span> {{__('menu.zoom')}} </span>
                     <span class="menu-arrow"></span>
                 </a>
@@ -52,7 +58,7 @@
             <li class="menu-title mt-2">{{__('menu.master_data')}}</li>
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false">
-                    <i class="fe-users"></i>
+                    <i class="fe-briefcase"></i>
                     <span> {{__('menu.client_master')}} </span>
                     <span class="menu-arrow"></span>
                 </a>
@@ -73,7 +79,7 @@
             </li>
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false">
-                    <i class="fe-users"></i>
+                    <i class="fe-briefcase"></i>
                     <span> {{__('menu.item_master')}} </span>
                     <span class="menu-arrow"></span>
                 </a>
@@ -94,7 +100,7 @@
             </li>
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false">
-                    <i class="fe-users"></i>
+                    <i class="fe-briefcase"></i>
                     <span> {{__('menu.wdata_master')}} </span>
                     <span class="menu-arrow"></span>
                 </a>

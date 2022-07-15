@@ -152,4 +152,17 @@ class UserController extends Controller
 
         return $data;
     }
+
+    /**
+     * retrun users based on designations
+     *
+     * @param int $designation
+     * @return Response
+     */
+    public function getUsers($designation)
+    {
+        $data = $this->service->getUsers($designation);
+
+        return $data;
+    }
 }
