@@ -11,7 +11,8 @@
 @section('content')
 <form id="editForm" method="post" class="needs-validation" novalidate>
     @csrf
-    <input type="hidden" name="client_id" value="{{$client->id}}">
+        {{dd($clients->3)}}
+    <input type="hidden" name="client_id" value="{{$clientItems->id}}">
     <div class="row">
         <div class="col-xl-12">
             <div class="card-box">

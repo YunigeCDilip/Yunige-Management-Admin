@@ -260,6 +260,8 @@ return [
     'origin'                    => 'Origin',
     'amazon_req'                => 'Amazon Request',
     'outer_label_pos'           => 'Outer Label Pos',
+    'product_nickname'          => 'Product Nickname',
+
 
     /*
     |

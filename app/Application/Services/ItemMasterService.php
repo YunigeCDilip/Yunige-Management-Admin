@@ -11,6 +11,7 @@ use App\Models\ItemMaster;
 use App\Models\BrandMaster;
 use App\Models\ProductType;
 use App\Models\ItemCategory;
+use App\Models\PdfItemLabel;
 use Illuminate\Http\Response;
 use App\Constants\MessageResponse;
 use Illuminate\Support\Facades\Log;
@@ -166,6 +167,7 @@ class ItemMasterService extends Service
             $data['labels'] = ItemLabel::select('id', 'name')->get();
             $data['brands'] = BrandMaster::select('id', 'name')->get();
             $data['shippers'] = Shipper::select('id', 'shipper_name')->get();
+            $data['PdfItemLabel'] = PdfItemLabel::select('id', 'file')->get();
 
             return $data;
         } catch (Throwable $e) {
@@ -184,8 +186,11 @@ class ItemMasterService extends Service
         try {
             $this->db->beginTransaction();
             $item = new ItemMaster();
+            dd($request);
+
             $item->ja_name = $request->ja_name;
             $item->en_name = $request->en_name;
+            $item->item_category_id = $request->item_category_id;
             $item->save();
 
             $this->db->commit();
