@@ -32,6 +32,7 @@ return new class extends Migration
             $table->unsignedBigInteger('wdata_pic_id')->nullable();
             $table->unsignedBigInteger('wdata_status_id')->nullable();
             $table->unsignedBigInteger('delivery_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->date('etd')->nullable();
             $table->date('inbound_eta')->nullable();
             $table->date('outbound_eta')->nullable();
@@ -104,6 +105,8 @@ return new class extends Migration
             $table->index(["transfer_id"], 'fk_wdata_transfers1_idx');
 
             $table->index(["delivery_id"], 'fk_wdata_deliveries1_idx');
+
+            $table->index(["user_id"], 'fk_wdata_users1_idx');
 
             $table->index(["inter_assist_inbound_id"], 'fk_wdata_inter_assist_inbounds1_idx');
             $table->softDeletes();
@@ -182,6 +185,12 @@ return new class extends Migration
 
             $table->foreign('delivery_id', 'fk_wdata_deliveries1_idx')
                 ->references('id')->on('deliveries')
+                ->onDelete('no action')
+                ->onUpdate('no action');
+
+
+            $table->foreign('user_id', 'fk_wdata_users1_idx')
+                ->references('id')->on('users')
                 ->onDelete('no action')
                 ->onUpdate('no action');
         });

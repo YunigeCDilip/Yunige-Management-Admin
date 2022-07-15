@@ -12,7 +12,10 @@ class CreateItemMaster extends ValidationRequest
     public function rules()
     {
         return [
-            //  Define rules
+            'customer' => 'required|exists:clients,id',
+            'item_category' => 'required|exists:item_categories,id',
+            'item_pseudo_name' => 'required',
+            'barcode' => 'required',
         ];
     }
 

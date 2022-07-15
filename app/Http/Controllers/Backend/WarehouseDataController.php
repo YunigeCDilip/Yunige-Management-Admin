@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateWarehouseData;
 use App\Http\Requests\UpdateWarehouseData;
 use App\Application\Services\WarehouseDataService;
+use App\Http\Requests\CreateClientMaster;
+use App\Http\Requests\CreateItemMaster;
 
 class WarehouseDataController extends Controller 
 {
@@ -66,6 +68,8 @@ class WarehouseDataController extends Controller
      */
     public function store(CreateWarehouseData $request)
     {
+
+        dd($request->all());
         $data = json_decode($this->service->store($request)->getContent());
         $responseData['status'] = $data->status;
         $responseData['message'] = $data->message;
@@ -139,6 +143,32 @@ class WarehouseDataController extends Controller
     public function destroy(Request $request, $id)
     {
         $data = $this->service->destroy($request, $id);
+
+        return $data;
+    }
+
+    /**
+     * Save client on Wdata form
+     *
+     * @param CreateClientMaster $request
+     * @return Response
+     */
+    public function saveClient(CreateClientMaster $request)
+    {
+        $data = $this->service->saveClient($request);
+
+        return $data;
+    }
+
+    /**
+     * Save item on Wdata form
+     *
+     * @param CreateItemMaster $request
+     * @return Response
+     */
+    public function saveItem(CreateItemMaster $request)
+    {
+        $data = $this->service->saveItem($request);
 
         return $data;
     }
