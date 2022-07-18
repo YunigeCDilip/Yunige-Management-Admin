@@ -23,7 +23,8 @@ class MessageResource extends JsonResource
             'designation' => ($this->designation_id) ? $this->designation : null,
             'sender' => $this->sender,
             'receivers' => $this->users,
-            'created_at' => $this->created_at->diffForHumans(),
+            'details' => $this->details,
+            'created_at' => date('M j, Y, h:i A', strtotime($this->created_at)),
         ];
     }
 }

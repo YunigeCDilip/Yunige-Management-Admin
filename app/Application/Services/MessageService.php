@@ -8,6 +8,8 @@ use App\Models\Message;
 use App\Jobs\SendMessages;
 use App\Models\Designation;
 use App\Models\UserMessage;
+use App\Models\MessageDetail;
+use App\Jobs\SendMessageDetail;
 use App\Models\UserDesignation;
 use App\Constants\MessageResponse;
 use Illuminate\Support\Facades\Log;
@@ -57,7 +59,6 @@ class MessageService extends Service
      */
     public function received()
     {
-        $user = $this->getAuthUser();
         try {
             $data = QueryBuilder::for(UserMessage::withQuery()->Search(request('search')))
                 ->defaultSort('-id')
@@ -91,6 +92,47 @@ class MessageService extends Service
         }
     }
 
+    /**
+     * Return required data for view.
+     *
+     * @return  Response
+     */
+    public function draft()
+    {
+        try {
+            $data = QueryBuilder::for(Message::WithQuery()->Search(request('search'))->where('draft', true))
+                ->defaultSort('-id')
+                ->allowedSorts('id', 'subject')
+               ->paginate((request('per_page')) ?? 20);
+            return $this->responsePaginate(MessageResource::collection($data), MessageResponse::DATA_LOADED);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+    }
+
+    /**
+     * Return required data for view.
+     *
+     * @return  Response
+     */
+    public function trash()
+    {
+        try {
+            $data = QueryBuilder::for(UserMessage::onlyTrashed()->withQuery()->Search(request('search')))
+                ->defaultSort('-id')
+                ->allowedSorts('id')
+               ->paginate((request('per_page')) ?? 20);
+
+            return $this->responsePaginate(MessageReceivedResource::collection($data), MessageResponse::DATA_LOADED);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
+        }
+    }
+
     /*
      * Return all active data for to create.
      *
@@ -105,6 +147,35 @@ class MessageService extends Service
             return $data;
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+        }
+    }
+
+    /**
+     * Return required data for view.
+     *
+     * @return  Response
+     */
+    public function count()
+    {
+        try {
+            $user = $this->getAuthUser();
+            $messages = Message::toBase()
+            ->selectRaw("count(case when draft = true then 1 end) as draft")
+            ->selectRaw("count(case when sender_id = {$user->id} then 1 end) as sent")
+            ->first();
+
+            $data = [
+                'sent' => $messages->sent,
+                'received' => UserMessage::withQuery()->count(),
+                'draft' => $messages->draft,
+                'trash' => UserMessage::onlyTrashed()->withQuery()->count()
+            ];
+
+            return $this->responseOk($data, MessageResponse::DATA_LOADED);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
         }
     }
 
@@ -164,20 +235,13 @@ class MessageService extends Service
     public function show($id)
     {
         try {
-        } catch (Throwable $e) {
-            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
-        }
-    }
+            $user = $this->getAuthUser();
+            $data = Message::withQuery()->where('id', $id)->first();
+            $userMessage = UserMessage::withTrashed()->where(['message_id' => $data->id, 'receiver_id' => $user->id])->first();
+            $userMessage->read = true;
+            $userMessage->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return  Response
-     */
-    public function edit($id)
-    {
-        try {
+            return $this->responseOk(new MessageResource($data), MessageResponse::DATA_LOADED);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
         }
@@ -186,29 +250,68 @@ class MessageService extends Service
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request $request
-     * @param  int $id
-     * @return  Response
+     * @param UpdateMessageRequest $request
+     * @return Response
      */
-    public function update($request, $id)
+    public function update($request)
     {
         try {
+            $user = $this->getAuthUser();
+            foreach($request->ids as $id){
+                $message = Message::find($id);
+                if($request->action == 'trash'){
+                    UserMessage::where(['receiver_id' => $user->id, 'message_id' => $message->id])->delete();
+                    if(isset($request['sent']) && $request['sent'] == 1){
+                        $message->delete();
+                    }
+                }else{
+                    UserMessage::where(['receiver_id' => $user->id, 'message_id' => $message->id])->update(['read' => true]);
+                }
+            }
+            $msg = ($request->action == 'trash') ? 'Trashed successfully.' : 'Read successfully.';
+
+            return $this->responseOk(null, $msg);
         } catch (Throwable $e) {
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
         }
     }
-
+    
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return  Response
+     * Reply emails
+     * @param Request $request
+     * @param mixed $id
+     * 
+     * @return Response
      */
-    public function destroy($request, $id)
+    public function reply($request, $id)
     {
         try {
+            $auth = $this->getAuthUser();
+            $this->db->beginTransaction();
+            $message = Message::withQuery()->where('id', $id)->first();
+            
+            $detail = new MessageDetail();
+            $detail->message_id = $message->id;
+            $detail->sender_id = $auth->id;
+            $detail->message = $request->message;
+            $detail->save();
+
+            UserMessage::where(['receiver_id' => $message->sender_id, 'message_id' => $message->id])->update(['read' => false]);
+
+            if(!$request->draft){
+                SendMessageDetail::dispatch($detail)->onQueue('emails');
+            }
+
+            $this->db->commit();
+
+            return $this->responseOk(null, MessageResponse::DATA_UPDATED);
         } catch (Throwable $e) {
+            $this->db->rollback();
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+
+            return $this->responseError();
         }
     }
 }

@@ -16,11 +16,11 @@
 <div class="row">
     <!-- Right Sidebar -->
     <div class="col-12">
-        <div class="card-box">
+        <div class="card-box" id="app" v-cloak>
             <!-- Left sidebar -->
             @include('admin.email.partials.menu')
             <!-- End Left sidebar -->
-            <div class="inbox-rightbar" id="app" v-cloak>
+            <div class="inbox-rightbar">
                 @include('admin.email.partials.actions')
                 <div class="mt-3">
                     <ul class="message-list">
@@ -28,14 +28,14 @@
                             <li>
                                 <div class="col-mail col-mail-1">
                                     <div class="checkbox-wrapper-mail">
-                                        <input type="checkbox" id="chk1">
-                                        <label for="chk1" class="toggle"></label>
+                                        <input type="checkbox" :id="m.id" v-model="message_ids" :value="m.id">
+                                        <label :for="m.id" class="toggle"></label>
                                     </div>
                                     <span class="star-toggle far fa-star text-success"></span>
-                                    <a href="" class="title">@{{ m.subject }}</a>
+                                    <a href="javascript:void(0);" class="title" @click.prevent="messageDetails(m.id)">@{{ m.subject }}</a>
                                 </div>
-                                <div class="col-mail col-mail-2">
-                                    <a href="" class="subject">@{{m.message}}</span>
+                                <div class="col-mail col-mail-2" @click.prevent="messageDetails(m.id)">
+                                    <a href="javascript:void(0);" class="subject">@{{m.message}}</span>
                                     </a>
                                     <div class="date">@{{ m.created_at }}</div>
                                 </div>
@@ -94,16 +94,42 @@
             el: "#app",
             data: function(){
                 return{
+                    search: '',
+                    count: [],
                     messages: [],
                     pagination: [],
+                    message_ids: [],
                 }
             },
             mounted: function() {
                 this.listMessages();
+                this.countMessages();
             },
             methods: {
+                countMessages: function(){
+                    let thisReference = this;
+                    axios.get(baseUrl + 'count-emails')
+                        .then(function(response) {
+                            thisReference.count = response.data.payload;
+
+                        }).catch(function(error) {
+                        });
+                },
+                filterMessages: function(){
+                    let thisReference = this;
+                    axios.get(baseUrl + 'get-sent-emails?page=1&search='+thisReference.search)
+                        .then(function(response) {
+                            thisReference.messages = response.data.payload;
+                            thisReference.pagination = response.data.meta_data.pagination;
+
+                        }).catch(function(error) {
+                        });
+                },
                 paginate: function(url){
                     let thisReference = this;
+                    if(thisReference.search != ''){
+                        url +='&search='+thisReference.search;
+                    }
                     axios.get(url)
                         .then(function(response) {
                             thisReference.messages = response.data.payload;
@@ -121,6 +147,80 @@
 
                         }).catch(function(error) {
                         });
+                },
+                trashMessages: function(){
+                    let thisReference = this;
+                    if(thisReference.message_ids.length < 1){
+                        swal({
+                            title: "Please select email to trash ?",
+                            type: "warning",
+                            showCancelButton: false,
+                            confirmButtonColor: "#136ba7",
+                            confirmButtonText: "Ok",
+                            closeOnConfirm: true,
+                            closeOnCancel: false
+                        });
+                    }else{
+                        axios.post(baseUrl + 'update-emails', {_token: csrfToken, ids: thisReference.message_ids, action: 'trash', sent: 1})
+                        .then(function(response) {
+                            thisReference.message_ids = [];
+                            !function(p){
+                                "use strict";
+                                var t=function(){};
+                                t.prototype.send=function(t,i,o,e,n,a,s,r){
+                                    a||(a=3e3),s||(s=1);
+                                    var c={heading:t,text:i,position:o,loaderBg:e,icon:n,hideAfter:a,stack:s};
+                                    r&&(c.showHideTransition=r),p.toast().reset("all"),p.toast(c)},
+                                    p.NotificationApp=new t,p.NotificationApp.Constructor=t
+                                }(window.jQuery),
+                                function(i){
+                                    i.NotificationApp.send('Emails',response.data.message,"top-right","#5ba035","success");
+                                    
+                            }(window.jQuery);
+                            thisReference.listMessages();
+                            thisReference.countMessages();
+                        }).catch(function(error) {
+                        });
+                    }
+                },
+                readMessages: function(){
+                    let thisReference = this;
+                    if(thisReference.message_ids.length < 1){
+                        swal({
+                            title: "Please select email to trash ?",
+                            type: "warning",
+                            showCancelButton: false,
+                            confirmButtonColor: "#136ba7",
+                            confirmButtonText: "Ok",
+                            closeOnConfirm: true,
+                            closeOnCancel: false
+                        });
+                    }else{
+                        axios.post(baseUrl + 'update-emails', {_token: csrfToken, ids: thisReference.message_ids, action: 'read'})
+                        .then(function(response) {
+                            thisReference.message_ids = [];
+                            !function(p){
+                                "use strict";
+                                var t=function(){};
+                                t.prototype.send=function(t,i,o,e,n,a,s,r){
+                                    a||(a=3e3),s||(s=1);
+                                    var c={heading:t,text:i,position:o,loaderBg:e,icon:n,hideAfter:a,stack:s};
+                                    r&&(c.showHideTransition=r),p.toast().reset("all"),p.toast(c)},
+                                    p.NotificationApp=new t,p.NotificationApp.Constructor=t
+                                }(window.jQuery),
+                                function(i){
+                                    i.NotificationApp.send('Emails',response.data.message,"top-right","#5ba035","success");
+                                    
+                            }(window.jQuery);
+                            thisReference.listMessages();
+                            thisReference.countMessages();
+                        }).catch(function(error) {
+                        });
+                    }
+                },
+                messageDetails: function(id){
+                    var url = baseUrl+'emails/'+id;
+                    window.location = url;
                 }
             }
         });

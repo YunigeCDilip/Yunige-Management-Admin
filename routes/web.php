@@ -303,9 +303,17 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::post('verify-items', [BarcodeReaderController::class, 'checkBarcode'])->name('barcode.verify');
 
     Route::get('emails', [MessageController::class, 'index'])->name('emails.index');
-    Route::get('emails/sent', [MessageController::class, 'sentView'])->name('emails.sent');
     Route::get('get-emails', [MessageController::class, 'received']);
+    Route::get('count-emails', [MessageController::class, 'count'])->name('emails.count');
+    Route::get('emails/sent', [MessageController::class, 'sentView'])->name('emails.sent');
     Route::get('get-sent-emails', [MessageController::class, 'sent']);
+    Route::get('emails/draft', [MessageController::class, 'draftView'])->name('emails.draft');
+    Route::get('get-draft-emails', [MessageController::class, 'draft']);
+    Route::get('emails/trash', [MessageController::class, 'trashView'])->name('emails.trash');
+    Route::get('get-trash-emails', [MessageController::class, 'trash']);
     Route::get('emails/compose', [MessageController::class, 'create'])->name('emails.create');
     Route::post('emails', [MessageController::class, 'store'])->name('emails.store');
+    Route::get('emails/{email}', [MessageController::class, 'show'])->name('emails.show');
+    Route::post('update-emails', [MessageController::class, 'update']);
+    Route::post('emails/{email}', [MessageController::class, 'reply']);
 });

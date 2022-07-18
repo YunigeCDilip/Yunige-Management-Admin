@@ -1,7 +1,5 @@
 @extends('layouts.layout')
 @section('additional-css')
-    <link rel="stylesheet" href="{{asset('admin/libs/sweetalert/sweetalert.css')}}">
-
     <!-- Summernote css -->
     <link href="{{asset('admin')}}/libs/summernote/summernote-bs4.css" rel="stylesheet" />
     <style>
@@ -19,58 +17,58 @@
             <!-- Left sidebar -->
             @include('admin.email.partials.menu')
             <!-- End Left sidebar -->
-
             <div class="inbox-rightbar">
-
-                <div class="btn-group">
-                    New Email
-                </div>
-
                 <div class="mt-4">
-                    <form id="mailForm" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
-                        @csrf
-                        <div class="form-group">
-                            <select name="designation" class="form-control selectd">
-                                <option value="">Select Designation</option>
-                                @forelse($designations as $d)
-                                    <option value="{{$d->id}}">{{$d->name}}</option>
-                                    @empty
-                                @endforelse 
-                            </select>
-                            <div class="invalid-feedback" id="designation_error" style="display:none;"></div>
-                        </div>
-                        <div class="form-group">
-                            <select name="user[]" class="form-control select2" multiple>
-                                @forelse($users as $u)
-                                    <option value="{{$u->id}}">{{$u->name}}</option>
-                                    @empty
-                                @endforelse 
-                            </select>
-                            <div class="invalid-feedback" id="user_error" style="display:none;"></div>
-                        </div>
+                    <h5 class="font-18">{{$message->subject}}</h5>
+                    <hr/>
 
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Subject" name="subject">
-                            <div class="invalid-feedback" id="subject_error" style="display:none;"></div>
+                    <div class="media mb-4 mt-1">
+                        <div class="media-body">
+                            <span class="float-right">{{$message->created_at}}</span>
+                            <h6 class="m-0 font-14">{{$message->sender->name}}</h6>
+                            <small class="text-muted">From: {{$message->sender->email}}</small>
                         </div>
-                        <div class="form-group">
-                            <textarea name="message" class="form-control summernote"></textarea>
-                        </div>
+                    </div>
 
-                        <div class="form-group m-b-0">
-                            <div class="text-right">
-                                <button type="button" class="btn btn-success waves-effect waves-light m-r-5 send-mail" title="Save as Draft" data-draft="1">
-                                    <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>
-                                    <i class="mdi mdi-content-save-outline"></i>
-                                </button>
-                                <button class="btn btn-primary waves-effect waves-light send-mail"  data-draft="0"> 
-                                    <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>
-                                    <span>Send</span> <i class="mdi mdi-send ml-2"></i> 
-                                </button>
+                    {!! $message->message !!}
+
+                    <hr/>
+                </div> <!-- card-box -->
+                @if($message->details)
+                    @foreach($message->details as $detail)
+                        <div class="mt-4">
+                            <div class="media mb-4 mt-1">
+                                <div class="media-body">
+                                    <span class="float-right">{{date('M j, Y, h:i A', strtotime($detail->created_at))}}</span>
+                                    <h6 class="m-0 font-14">{{$detail->sender->name}}</h6>
+                                    <small class="text-muted">From: {{$detail->sender->email}}</small>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div> <!-- end card-->
+                            {!! $detail->message !!}
+                            <hr/>
+                        </div> <!-- card-box -->
+                    @endforeach
+                @endif
+                @if(!$trashed)
+                <form id="mailForm" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    @csrf
+                    <input type="hidden" name="message_id" value="{{$message->id}}">
+                    <div class="media mb-0 mt-5">
+                        <div class="media-body">
+                            <div class="mb-2">
+                                <textarea class="form-control summernote" name="message"></textarea> <!-- end summernote-->
+                                <div class="invalid-feedback" id="message_error" style="display:none;"></div>
+                            </div> <!-- end reply-box -->
+                        </div> <!-- end media-body -->
+                    </div> <!-- end medi-->
+
+                    <div class="text-right">
+                        <button type="button" class="btn btn-primary btn-rounded width-sm send-mail">
+                        <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" style="display: none;"></span>
+                        Send</button>
+                    </div>
+                </form>
+                @endif
             </div> 
             <!-- end inbox-rightbar-->
 
@@ -107,12 +105,9 @@
             }
         });
     </script>
-    <script src="{{asset('admin')}}/libs/select2/select2.min.js"></script>
-    <script src="{{asset('admin')}}/libs/sweetalert/sweetalert.min.js"></script>
 
     <!--Summernote js-->
     <script src="{{asset('admin')}}/libs/summernote/summernote-bs4.min.js"></script>
-
     <script>
         function messages(message, type)
         {
@@ -136,12 +131,6 @@
         }
 
         jQuery(document).ready(function(){
-            $('.select2').select2({
-                placeholder: "Select Users"
-            });
-            $('.selectd').select2({
-                placeholder: "Select Designations"
-            });
             $('.summernote').summernote({
                 height: 230,                 // set editor height
                 minHeight: null,             // set minimum height of editor
@@ -151,24 +140,9 @@
         });
 
         var mailForm = $('form#mailForm');
-
-        mailForm.find('select[name="designation"]').change(function(e){
-            e.preventDefault();
-            var designationId = $(this).find(":selected").val();
-            $.get(baseUrl+'get-users/'+designationId, function(response){
-                if(response.status){
-                    var html= '';
-                    $.each(response.payload, function(i, v){
-                        html += '<option value="'+v.id+'">'+v.name+'</option>';
-                    });
-
-                    mailForm.find('select[name="user[]"]').empty().append(html);
-                }
-            });
-        });
         $('.send-mail').on('click', function(e){
             e.preventDefault();
-            var draft = $(this).attr('data-draft');
+            var id = mailForm.find('input[name="message_id"]').val();
             mailForm.find('.invalid-feedback').each(function(){
                 $(this).empty().hide();
             });
@@ -177,15 +151,13 @@
             var thisReference = $(this);
             var form_data = new FormData();
             var add_Form = mailForm.serializeArray();
-            console.log(add_Form);
-            form_data.append('draft', draft);
             $.each(add_Form, function(key, val){
                 form_data.append(val.name, val.value);
             });
             $.ajax({
                 type: "POST",
                 enctype: 'multipart/form-data',
-                url: baseUrl + "emails",
+                url: baseUrl + "emails/"+id,
                 data: form_data,
                 cache: false,
                 processData: false,
@@ -213,8 +185,8 @@
                             $(this).empty().hide();
                         });
                         var errors = $.parseJSON(error.responseText);
-                        $.each(errors.message, function (key, val) {
-                            mailForm.find('input[name="'+key+'"]').attr('required', 'required');
+                        $.each(errors.errors, function (key, val) {
+                            mailForm.find('textarea[name="'+key+'"]').attr('required', 'required');
                             mailForm.find('#' + key + '_error').empty().append(val);
                             mailForm.find('#' + key + '_error').show();
                         });

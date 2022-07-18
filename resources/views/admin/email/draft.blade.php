@@ -22,59 +22,72 @@
             <!-- End Left sidebar -->
             <div class="inbox-rightbar">
                 @include('admin.email.partials.actions')
-                <div class="mt-3">
-                    <ul class="message-list">
-                        <template v-for="m in messages">
-                            <li :class="m.read ? '' : 'unread'">
-                                <div class="col-mail col-mail-1">
-                                    <div class="checkbox-wrapper-mail">
-                                        <input type="checkbox" :id="m.id" v-model="message_ids" :value="m.id">
-                                        <label :for="m.id" class="toggle"></label>
+                <template v-if="messages.length">
+                    <div class="mt-3">
+                        <ul class="message-list">
+                            <template v-for="m in messages">
+                                <li>
+                                    <div class="col-mail col-mail-1">
+                                        <div class="checkbox-wrapper-mail">
+                                            <input type="checkbox" :id="m.id" v-model="message_ids" :value="m.id">
+                                            <label :for="m.id" class="toggle"></label>
+                                        </div>
+                                        <span class="star-toggle far fa-star text-success"></span>
+                                        <a href="javascript:void(0);" class="title" @click.prevent="messageDetails(m.id)">@{{ m.subject }}</a>
                                     </div>
-                                    <span class="star-toggle far fa-star" :class="m.read ? 'text-success' : ''"></span>
-                                    <a href="javascript:void(0);" class="title" @click.prevent="messageDetails(m.id)">@{{ m.subject }}</a>
-                                </div>
-                                <div class="col-mail col-mail-2" @click.prevent="messageDetails(m.id)">
-                                    <a href="javascript:void(0);" class="subject">@{{m.message}}</span>
-                                    </a>
-                                    <div class="date">@{{ m.created_at }}</div>
+                                    <div class="col-mail col-mail-2" @click.prevent="messageDetails(m.id)">
+                                        <a href="javascript:void(0);" class="subject">@{{m.message}}</span>
+                                        </a>
+                                        <div class="date">@{{ m.created_at }}</div>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                    <!-- end .mt-4 -->
+
+                    <div class="row">
+                        <div class="col-7 mt-1">
+                            Showing @{{pagination.from}} - @{{pagination.to}} of @{{pagination.total}}
+                        </div> <!-- end col-->
+                        <div class="col-5">
+                            <div class="btn-group float-right">
+                                <template  v-if="pagination.current_page == 1">
+                                    <button type="button" class="btn btn-light btn-sm" disabled>
+                                        <i class="mdi mdi-chevron-left"></i>
+                                    </button>
+                                </template>
+                                <template v-else>
+                                    <button type="button" class="btn btn-light btn-sm"
+                                        @click.prevent="paginate(pagination.first_page_url)">
+                                        <i class="mdi mdi-chevron-left"></i>
+                                    </button>
+                                </template>
+                                <template v-if="pagination.current_page == pagination.last_page">
+                                    <button type="button" class="btn btn-info btn-sm">
+                                        <i class="mdi mdi-chevron-right"></i>
+                                    </button>
+                                </template>
+                                <template v-else>
+                                    <button type="button" class="btn btn-info btn-sm" @click.prevent="paginate(pagination.next_page_url)">
+                                        <i class="mdi mdi-chevron-right"></i>
+                                    </button>
+                                </template>
+                            </div>
+                        </div> <!-- end col-->
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="mt-3">
+                        <ul class="message-list">
+                            <li>
+                                <div class="col-mail col-mail-2">
+                                    No emails found.
                                 </div>
                             </li>
-                        </template>
-                    </ul>
-                </div>
-                <!-- end .mt-4 -->
-
-                <div class="row">
-                    <div class="col-7 mt-1">
-                        Showing @{{pagination.from}} - @{{pagination.to}} of @{{pagination.total}}
-                    </div> <!-- end col-->
-                    <div class="col-5">
-                        <div class="btn-group float-right">
-                            <template  v-if="pagination.current_page == 1">
-                                <button type="button" class="btn btn-light btn-sm" disabled>
-                                    <i class="mdi mdi-chevron-left"></i>
-                                </button>
-                            </template>
-                            <template v-else>
-                                <button type="button" class="btn btn-light btn-sm"
-                                    @click.prevent="paginate(pagination.first_page_url)">
-                                    <i class="mdi mdi-chevron-left"></i>
-                                </button>
-                            </template>
-                            <template v-if="pagination.current_page == pagination.last_page">
-                                <button type="button" class="btn btn-info btn-sm">
-                                    <i class="mdi mdi-chevron-right"></i>
-                                </button>
-                            </template>
-                            <template v-else>
-                                <button type="button" class="btn btn-info btn-sm" @click.prevent="paginate(pagination.next_page_url)">
-                                    <i class="mdi mdi-chevron-right"></i>
-                                </button>
-                            </template>
-                        </div>
-                    </div> <!-- end col-->
-                </div>
+                        </ul>
+                    </div>
+                </template>
                 <!-- end row-->
             </div> 
             <!-- end inbox-rightbar-->
@@ -117,7 +130,7 @@
                 },
                 filterMessages: function(){
                     let thisReference = this;
-                    axios.get(baseUrl + 'get-emails?page=1&search='+thisReference.search)
+                    axios.get(baseUrl + 'get-draft-emails?page=1&search='+thisReference.search)
                         .then(function(response) {
                             thisReference.messages = response.data.payload;
                             thisReference.pagination = response.data.meta_data.pagination;
@@ -140,7 +153,7 @@
                 },
                 listMessages: function(){
                     let thisReference = this;
-                    axios.get(baseUrl + 'get-emails')
+                    axios.get(baseUrl + 'get-draft-emails')
                         .then(function(response) {
                             thisReference.messages = response.data.payload;
                             thisReference.pagination = response.data.meta_data.pagination;

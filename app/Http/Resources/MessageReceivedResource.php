@@ -23,7 +23,8 @@ class MessageReceivedResource extends JsonResource
             'read' => (bool) $this->read,
             'designation' => ($this->message->designation_id) ? $this->message->designation->name : null,
             'sender' => $this->message->sender,
-            'created_at' => $this->message->created_at->diffForHumans(),
+            'details' => $this->message->details,
+            'created_at' => date('M j, Y, h:i A', strtotime($this->message->created_at)),
         ];
     }
 }

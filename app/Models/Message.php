@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class Message extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $dates = ['deleted_at'];
 
     /**
      * HasMany relationships with MessageDetail
@@ -32,8 +35,8 @@ class Message extends Model
     }
 
     /**
-     * HasMany relationships with User
-     * @return HasMany
+     * BelongsTo relationships with User
+     * @return BelongsTo
      */
     public function sender(): BelongsTo
     {
@@ -79,7 +82,7 @@ class Message extends Model
     public function scopeWithQuery(Builder $query)
     {
         $user = Auth::user();
-        return $query->with('sender:id,name,email', 'users.user')
+        return $query->with('sender:id,name,email', 'users.user', 'details', 'details.sender')
                     ->addSelect(['designation' => Designation::select('name')
                         ->whereColumn('id', 'messages.designation_id')
                         ->latest()->take(1)
