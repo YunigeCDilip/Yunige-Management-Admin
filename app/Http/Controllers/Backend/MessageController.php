@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
+use App\Models\UserMessage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use App\Application\Services\MessageService;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
-use Throwable;
+use App\Application\Services\MessageService;
 
 class MessageController extends Controller 
 {
@@ -31,9 +31,128 @@ class MessageController extends Controller
      */
     public function index(Request $request)
     {
+        $data['title'] = trans('messages.emails');
+        $data['menu'] = trans('messages.emails');
+        $data['subMenu'] = trans('actions.lists');
+
+        return view('admin.email.index', $data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function received()
+    {
+        $data = $this->service->received();
+
+        return $data;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return  Response
+     */
+    public function sentView(Request $request)
+    {
+        $data['title'] = trans('messages.emails');
+        $data['menu'] = trans('messages.emails');
+        $data['subMenu'] = trans('actions.lists');
+
+        return view('admin.email.sent', $data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function sent()
+    {
         $data = $this->service->index();
 
         return $data;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return  Response
+     */
+    public function draftView(Request $request)
+    {
+        $data['title'] = trans('messages.emails');
+        $data['menu'] = trans('messages.emails');
+        $data['subMenu'] = trans('actions.lists');
+
+        return view('admin.email.draft', $data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function draft()
+    {
+        $data = $this->service->draft();
+
+        return $data;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return  Response
+     */
+    public function trashView(Request $request)
+    {
+        $data['title'] = trans('messages.emails');
+        $data['menu'] = trans('messages.emails');
+        $data['subMenu'] = trans('actions.lists');
+
+        return view('admin.email.trash', $data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function trash()
+    {
+        $data = $this->service->trash();
+
+        return $data;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function count()
+    {
+        $data = $this->service->count();
+
+        return $data;
+    }
+
+    /**
+     * Return all active data for view.
+     *
+     * @return View
+     */
+    public function create()
+    {
+        $data = $this->service->create();
+        $data['title'] = trans('messages.emails');
+        $data['menu'] = trans('messages.emails');
+        $data['subMenu'] = trans('actions.add');
+
+        return view('admin.email.add', $data);
     }
 
     /**
@@ -56,9 +175,14 @@ class MessageController extends Controller
      */
     public function store(CreateMessageRequest $request)
     {
-        $data = $this->service->store($request);
+        $data = json_decode($this->service->store($request)->getContent());
+        $responseData['status'] = $data->status;
+        $responseData['message'] = $data->message;
+        if($data->status){
+            $responseData['url'] = route('admin.emails.index');
+        }
 
-        return $data;
+        return $responseData;
     }
 
     /**
@@ -69,48 +193,54 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-        $data = $this->service->show($id);
+        $user = Auth::user();
+        $data['title'] = trans('messages.emails');
+        $data['menu'] = trans('messages.emails');
+        $data['subMenu'] = trans('actions.view');
+        $messages = json_decode($this->service->show($id)->getContent());
+        $data['message'] = $messages->payload;
+        $mesg = UserMessage::withTrashed()->where(['message_id' => $id, 'receiver_id' => $user->id])->first();
+        $data['trashed'] = false;
+        if($mesg->deleted_at != ''){
+            $data['trashed'] = true;
+        }
 
-        return $data;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return  Response
-     */
-    public function edit($id)
-    {
-        $data = $this->service->edit($id);
-
-        return $data;
+        return view('admin.email.read', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  UpdateMessageRequest $request
-     * @param  int $id
-     * @return  Response
+     * @param UpdateMessageRequest $request
+     * @return Response
      */
-    public function update(UpdateMessageRequest $request, $id)
+    public function update(UpdateMessageRequest $request)
     {
-        $data = $this->service->update($request, $id);
+        $data = $this->service->update($request);
 
         return $data;
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return  Response
+     * Reply emails
+     * @param Request $request
+     * @param mixed $id
+     * 
+     * @return Response
      */
-    public function destroy(Request $request, $id)
+    public function reply(Request $request, $id)
     {
-        $data = $this->service->destroy($request, $id);
+        $request->validate([
+            'message' => 'required'
+        ]);
 
-        return $data;
+        $data = json_decode($this->service->reply($request, $id)->getContent());
+        $responseData['status'] = $data->status;
+        $responseData['message'] = $data->message;
+        if($data->status){
+            $responseData['url'] = route('admin.emails.index');
+        }
+
+        return $responseData;
     }
 }

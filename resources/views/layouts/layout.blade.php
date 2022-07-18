@@ -4,17 +4,25 @@
         <meta charset="utf-8" />
         <title>{{@$title}}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
-        <meta content="Coderthemes" name="author" />
+        <meta name="description" content="会社概要とアクセス情報">
+        <meta name="keywords" content="化粧品輸入代,化粧品OEM,オリジナル化粧品,PB化粧品,化粧品許可,薬機法,薬事法,化粧品製造販売業許可,化粧品製造業許可,化粧品製造販売業,化粧品製造業">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="admin/images/favicon.ico">
+        <link rel="shortcut icon" href="{{asset('admin')}}/images/favicon.ico">
         @include('layouts.partials.style')
         @yield('additional-css')
 
         </head>
 
 <body>
+
+    <!-- Pre-loader -->
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner">Loading...</div>
+        </div>
+    </div>
+    <!-- End Preloader-->
 
     <!-- Begin page -->
     <div id="wrapper">

@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
+
 class CreateMessageRequest extends ValidationRequest
 {
     /**
@@ -9,11 +11,21 @@ class CreateMessageRequest extends ValidationRequest
      *
      * @return  array
      */
-    public function rules()
+    public function rules(Request $request)
     {
-        return [
-            //  Define rules
-        ];
+        if(isset($request['designation']) || isset($request['user'])){
+            return [
+                'designation' => 'required_if:user,null',
+                'user' => 'required_if:designation,null',
+                'subject' => 'required'
+            ];
+        }else{
+            return [
+                'designation' => 'required',
+                'user' => 'required',
+                'subject' => 'required'
+            ];
+        }
     }
 
     /**

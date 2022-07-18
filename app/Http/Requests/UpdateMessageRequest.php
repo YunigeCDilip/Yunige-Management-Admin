@@ -12,7 +12,8 @@ class UpdateMessageRequest extends ValidationRequest
     public function rules()
     {
         return [
-            //  Define rules
+            'ids' => 'required',
+            'action' => 'required'
         ];
     }
 

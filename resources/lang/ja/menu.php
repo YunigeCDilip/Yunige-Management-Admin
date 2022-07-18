@@ -52,6 +52,7 @@ return [
     'outbounds'                 => 'Outbounds',
     'sdata'                     => 'SData',
     'barcode'                   => 'Barcodes',
+    'email'                     => 'Email',
 
 
 ];
