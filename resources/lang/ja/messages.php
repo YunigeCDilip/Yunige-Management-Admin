@@ -321,6 +321,10 @@ return [
     'amazon_req'                => 'Amazon Request',
     'outer_label_pos'           => 'Outer Label Pos',
     'product_nickname'          => 'Product Nickname',
+    'pse_docs'                  => 'PSE Documents',
+    'select_product_type'       => 'Select Product Type',
+
+
 
 
     /*

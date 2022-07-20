@@ -11,7 +11,7 @@
 @endsection
 @section('content')
 
-<form id="addForm" method="post" class="needs-validation" novalidate>
+<form id="addForm" method="post" class="needs-validation"  enctype="multipart/form-data" novalidate>
     @csrf
     <div class="row">
         <div class="col-xl-12">
@@ -39,11 +39,21 @@
                                         </select>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label for="category">{{__('messages.item_categories')}}</label>
-                                        <select class="form-control select2" name="category">
+                                        <label for="item_category">{{__('messages.item_categories')}}</label>
+                                        <select class="form-control select2" name="item_category">
                                             <option value="">{{__('messages.select_category')}}</option>
-                                            @forelse(@$categories as $category)
-                                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                            @forelse(@$categories as $item_category)
+                                                <option value="{{$item_category->id}}">{{$item_category->name}}</option>
+                                                @empty
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="brand_master_id">{{__('messages.select_brand_master')}}</label>
+                                        <select class="form-control select2" name="brand_master_id">
+                                            <option value="">{{__('messages.select_brand_master')}}</option>
+                                            @forelse(@$brands as $brand)
+                                                <option value="{{$brand->id}}">{{$brand->name}}</option>
                                                 @empty
                                             @endforelse
                                         </select>
@@ -60,8 +70,8 @@
                                         <div class="invalid-feedback" id="barcode_error" style="display:none;"></div>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label for="pproduct_types">{{__('messages.product_types')}}</label>
-                                        <select class="form-control select2" name="pproduct_types[]" multiple>
+                                        <label for="product_types">{{__('messages.product_types')}}</label>
+                                        <select class="form-control select2" name="product_types" >
                                             <option value="">{{__('messages.select_product_type')}}</option>
                                             @forelse(@$productTypes as $type)
                                                 <option value="{{$type->id}}">{{$type->name}}</option>
@@ -73,11 +83,17 @@
                                         <label for="weight">{{__('messages.weight')}}</label>
                                         <input type="text" name="weight" class="form-control">
                                     </div>
+                                    
 
                                     <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">{{__('messages.images')}}</h5>   
                                     <div class="form-group mb-3 images-file">
                                         <input type="file" name="images[]" class="dropify images" data-max-file-size="1M" multiple/>
                                         <p class="text-muted text-center mt-2 mb-0">{{__('messages.images')}}</p>
+                                    </div>
+                                    <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">{{__('messages.pse_docs')}}</h5>   
+                                    <div class="form-group mb-3 pdf-file">
+                                        <input type="file" name="pdf[]" class="dropify images" data-max-file-size="1M" multiple/>
+                                        <p class="text-muted text-center mt-2 mb-0">{{__('messages.pse_docs')}}</p>
                                     </div>
 
                                     
