@@ -49,6 +49,10 @@
         <!-- Vendor js -->
         @include('layouts.front.partials.script')
         @yield('additional-js')
-        
+        <script>
+            $(function(){
+                $('#preloader').hide();
+            });
+        </script>
     </body>
 </html>

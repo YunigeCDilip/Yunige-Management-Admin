@@ -47,8 +47,10 @@ class SendMessages implements ShouldQueue
         if($users){
             foreach($users as $user){
                 $data['receiver'] = $user->name;
-                if($user->email != ''){
-                    Mail::to($user->email)->send(new SendMessageEmail($data));
+                if($data['sender']->id != $user->id){
+                    if($user->email != ''){
+                        Mail::to($user->email)->send(new SendMessageEmail($data));
+                    }
                 }
             }
         }
