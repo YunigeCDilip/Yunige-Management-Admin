@@ -21,6 +21,18 @@ function messages(message, type)
 
 $(function(){
     $(".select2").select2();
+    $(".attachment").dropify({
+        messages:{
+            default:"Drag and drop a images here",
+            replace:"Drag and drop or click to replace",
+            remove:"Remove",
+            error:"Ooops, something wrong appended."
+        },
+        error:{
+            fileSize:"The file size is too big (1M max)."
+        }
+    });
+
     $('#datetimepicker').datetimepicker({
         "allowInputToggle": true,
         "showClose": true,
@@ -35,6 +47,7 @@ $(function(){
         "showTodayButton": true,
         "format": "YYYY-MM-DD hh:mm:ss A",
     });
+    
 });
 
 var table;
@@ -79,9 +92,8 @@ $(function(){
                 render: function(data, type, dataObject, meta) {
                     var action = '';
                     action += '<a href="'+baseUrl+'sdata/'+dataObject.id+'" class="action-icon"> <i class="mdi mdi-eye text-success"></i></a>';
-                    /*action += '<a href="'+baseUrl+'sdata/'+dataObject.id+'/edit" class="action-icon"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
+                    action += '<a href="'+baseUrl+'sdata/'+dataObject.id+'/edit" class="action-icon"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
                     action += '<a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete text-danger" data-id="'+dataObject.id+'"></i></a>';
-                    */
                     return action;
                 }
             }

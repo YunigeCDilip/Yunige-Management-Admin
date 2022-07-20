@@ -38,10 +38,11 @@
                         </form>                            
                     </div>
                     <div class="col-lg-4">
-                        <!--<div class="text-lg-right">
+                        <div class="text-lg-right">
                         <a href="{{route('admin.sdata.create')}}" class="btn btn-danger waves-effect waves-light" ><i class="mdi mdi-plus-circle mr-1"></i> {{__('messages.add_new_sdata')}}</a>
-                        </div>-->
-                    </div><!-- end col-->
+                        </div>
+                    </div>
+                    <!-- end col-->
                 </div>
 
                 <div class="table-responsive">
