@@ -62,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('item-brands', [ItemMasterDataController::class, 'brands']);
     Route::get('product-types', [ItemMasterDataController::class, 'types']);
     Route::get('master-items', [ItemMasterController::class, 'index']);
+    Route::post('master-items', [ItemMasterController::class, 'store']);
     Route::get('master-items/{id}', [ItemMasterController::class, 'show']);
 
     Route::get('barcode-items', [BarcodeItemController::class, 'index']);
