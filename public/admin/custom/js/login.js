@@ -2,6 +2,10 @@
  * Created by Dilip Chaudhary.
  * Date: 2022.02.13
  */
+$(function(){
+    $('#preloader').hide();
+});
+
 $('.btn-login').on('click', function(e){
     e.preventDefault();
     $('form#loginForm').find('.invalid-feedback').each(function(){

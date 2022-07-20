@@ -60,6 +60,15 @@ class User extends Authenticatable
     }
 
     /**
+     * Has Many relationship with messages
+     * @return HasMany
+     */
+    public function messages() : HasMany
+    {
+        return $this->hasMany(UserMessage::class, 'receiver_id');
+    }
+
+    /**
      * @param Builder $query
      *
      * @return Builder
