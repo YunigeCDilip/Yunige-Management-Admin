@@ -399,7 +399,6 @@ return [
     'label_creation_progress'   => 'Label Creation Progress',
     'label_creation_date'       => 'Label Creation Date',
     'no_label_design'           => 'No Label Design',
-
     'data_confirmation'	        =>	'data_confirmation',
     'data_creation_date'	    =>	'data_creation_date',
     'customer_service'	        =>	'customer_service',
@@ -457,10 +456,11 @@ return [
     'label_creation_request'	=>	'label_creation_request',
     'email'	                    =>	'email',
 
-
-   
-  
-   
-
-
+    /*
+   |--------------------------------------------------------------------------
+   | Emails
+   |--------------------------------------------------------------------------
+   |
+   */
+  'emails'	                    =>	'Emails',
 ];
