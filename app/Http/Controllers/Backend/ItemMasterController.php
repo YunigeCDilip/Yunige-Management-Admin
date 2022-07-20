@@ -120,7 +120,7 @@ class ItemMasterController extends Controller
         $data['menu'] = trans('messages.item');
         $data['subMenu'] = trans('actions.edit');
         $data['item'] = ItemMaster::find($id);
-        $data['item']->load('category', 'shipper', 'label', 'clientItems', 'brands', 'productTypes.type', 'images');
+        $data['item']->load('category', 'shipper', 'label', 'clientItems', 'brands', 'productTypes.type', 'images','pdf');
 
         return view('admin.item.edit', $data);
     }

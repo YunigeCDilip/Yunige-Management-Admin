@@ -78,6 +78,15 @@ class ItemMaster extends Model
         return $this->hasMany(ItemImage::class);
     }
 
+     /**
+     * HasMany relationships with ItemImage
+     * @return HasMany
+     */
+    public function pdf(): HasMany
+    {
+        return $this->hasMany(PdfItemLabel::class);
+    }
+
     /**
      * @param Builder $query
      * @param Builder $search

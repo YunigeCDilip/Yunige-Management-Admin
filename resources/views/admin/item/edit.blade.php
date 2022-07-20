@@ -97,11 +97,58 @@
                                         <input type="file" name="images[]" class="dropify images" data-max-file-size="1M" multiple/>
                                         <p class="text-muted text-center mt-2 mb-0">{{__('messages.images')}}</p>
                                     </div>
+                                    @if($item->images->isNotEmpty())
+                                        <div class="form-group mb-3">
+                                            <table class="table table-centered table-hover mb-0">
+                                                <thead>
+                                                    <th>File</th>
+                                                    <th>Action</th>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($item->images as $file)
+                                                    <tr>
+                                                        <td>
+                                                            <img src="{{$file->url}}" alt="Amazon Progress" height="60">
+                                                        </td>
+                                                        <td>
+                                                            <a href="javascript:void(0)" class="btn btn-danger form-button mt-0 delete-file" data-id="{{$file->id}}">-</a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        @endif
+
+
                                     <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">{{__('messages.pse_docs')}}</h5>   
                                     <div class="form-group mb-3 pdf-file">
                                         <input type="file" name="pdf[]" class="dropify images" data-max-file-size="1M" multiple/>
                                         <p class="text-muted text-center mt-2 mb-0">{{__('messages.pse_docs')}}</p>
                                     </div>
+                                    @if($item->pdf->isNotEmpty())
+                                        <div class="form-group mb-3">
+                                            <table class="table table-centered table-hover mb-0">
+                                                <thead>
+                                                    <th>File</th>
+                                                    <th>Action</th>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($item->pdf as $file)
+                                                    <tr>
+                                                        <td>
+                                                            <a href="{{$file->file}}" alt="Amazon Progress" target="_blank" > pdf {{$file->id}}</a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="javascript:void(0)" class="btn btn-danger form-button mt-0 delete-file" data-id="{{$file->id}}">-</a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        @endif
+                                    
 
                                     
                                 </div>

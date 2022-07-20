@@ -239,12 +239,13 @@ class ItemMasterService extends Service
                 }
                 if($request->has('pdf') && count($request['pdf']) > 0){
                     foreach($request->pdf as $index => $pdfFile){
-                        $pFileName = str_replace(['#', '/', '\\', ' '], '-', time().'am-'.$file->getClientOriginalName());  
+                        $pFileName = str_replace(['#', '/', '\\', ' '], '-', time().'am-'.$pdfFile->getClientOriginalName());  
                         try{
                             $pdfFile->storeAs('/', $pFileName, 's3');
                             $pFile = new PdfItemLabel();
                             $pFile->item_master_id = $item->id;
-                            $pFile->url = Storage::disk('s3')->url($pFileName);
+                            $pFile->type = 'PSEDocs';
+                            $pFile->file = Storage::disk('s3')->url($pFileName);
                             $pFile->save();
                         }catch(Throwable $e){
                             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
@@ -312,6 +313,37 @@ class ItemMasterService extends Service
             $item->label_photo = $request->label_photo;
             $item->pse_doucment = $request->pse_doucment;
             $item->save();
+            if($item){
+                if($request->has('images') && count($request['images']) > 0){
+                    foreach($request->images as $index => $file){
+                        $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'am-'.$file->getClientOriginalName());  
+                        try{
+                            $file->storeAs('/', $fileName, 's3');
+                            $aFile = new ItemImage();
+                            $aFile->item_master_id = $item->id;
+                            $aFile->url = Storage::disk('s3')->url($fileName);
+                            $aFile->save();
+                        }catch(Throwable $e){
+                            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                        }   
+                    }
+                }
+                if($request->has('pdf') && count($request['pdf']) > 0){
+                    foreach($request->pdf as $index => $pdfFile){
+                        $pFileName = str_replace(['#', '/', '\\', ' '], '-', time().'am-'.$file->getClientOriginalName());  
+                        try{
+                            $pdfFile->storeAs('/', $pFileName, 's3');
+                            $pFile = new PdfItemLabel();
+                            $pFile->item_master_id = $item->id;
+                            $pFile->type = 'PSEDocs';
+                            $pFile->file = Storage::disk('s3')->url($pFileName);
+                            $pFile->save();
+                        }catch(Throwable $e){
+                            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                        }   
+                    }
+                }
+            }
 
             $this->db->commit();
 
