@@ -4,11 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\SDataController;
 use App\Http\Controllers\Backend\CarrierController;
 use App\Http\Controllers\Backend\DeliverController;
+use App\Http\Controllers\Backend\FbaListController;
 use App\Http\Controllers\Backend\MeetingController;
+use App\Http\Controllers\Backend\MessageController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\ShipperController;
+use App\Http\Controllers\Backend\OutboundController;
 use App\Http\Controllers\Backend\WdataPicController;
 use App\Http\Controllers\Backend\ZoomRoomController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -16,24 +20,21 @@ use App\Http\Controllers\Backend\ItemLabelController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\ItemMasterController;
 use App\Http\Controllers\Backend\BrandMasterController;
+use App\Http\Controllers\Backend\DesignationController;
 use App\Http\Controllers\Backend\ProductTypeController;
 use App\Http\Controllers\Backend\WdataStatusController;
 use App\Http\Controllers\Backend\ClientMasterController;
 use App\Http\Controllers\Backend\CustomBrokerController;
 use App\Http\Controllers\Backend\ItemCategoryController;
 use App\Http\Controllers\Backend\Auth\RegisterController;
+use App\Http\Controllers\Backend\BarcodeReaderController;
 use App\Http\Controllers\Backend\InboundStatusController;
 use App\Http\Controllers\Backend\WarehouseDataController;
 use App\Http\Controllers\Backend\WdataCategoryController;
 use App\Http\Controllers\Backend\AmazonProgressController;
-use App\Http\Controllers\Backend\BarcodeReaderController;
 use App\Http\Controllers\Backend\ClientCategoryController;
 use App\Http\Controllers\Backend\MovementConfirmationController;
 use App\Http\Controllers\Backend\DeliveryClassificationController;
-use App\Http\Controllers\Backend\FbaListController;
-use App\Http\Controllers\Backend\DesignationController;
-use App\Http\Controllers\Backend\OutboundController;
-use App\Http\Controllers\Backend\SDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +73,7 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::post('users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::get('get-users/{designation}', [UserController::class, 'getUsers']);
 
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
@@ -299,4 +301,19 @@ Route::group(['middleware' => ['auth', 'check.employee'], 'as' => 'admin.'], fun
     Route::get('barcodes/pdf-export', [BarcodeReaderController::class, 'pdf'])->name('barcode.pdf.export');
     Route::post('barcodes', [BarcodeReaderController::class, 'list'])->name('barcode.list');
     Route::post('verify-items', [BarcodeReaderController::class, 'checkBarcode'])->name('barcode.verify');
+
+    Route::get('emails', [MessageController::class, 'index'])->name('emails.index');
+    Route::get('get-emails', [MessageController::class, 'received']);
+    Route::get('count-emails', [MessageController::class, 'count'])->name('emails.count');
+    Route::get('emails/sent', [MessageController::class, 'sentView'])->name('emails.sent');
+    Route::get('get-sent-emails', [MessageController::class, 'sent']);
+    Route::get('emails/draft', [MessageController::class, 'draftView'])->name('emails.draft');
+    Route::get('get-draft-emails', [MessageController::class, 'draft']);
+    Route::get('emails/trash', [MessageController::class, 'trashView'])->name('emails.trash');
+    Route::get('get-trash-emails', [MessageController::class, 'trash']);
+    Route::get('emails/compose', [MessageController::class, 'create'])->name('emails.create');
+    Route::post('emails', [MessageController::class, 'store'])->name('emails.store');
+    Route::get('emails/{email}', [MessageController::class, 'show'])->name('emails.show');
+    Route::post('update-emails', [MessageController::class, 'update']);
+    Route::post('emails/{email}', [MessageController::class, 'reply']);
 });
