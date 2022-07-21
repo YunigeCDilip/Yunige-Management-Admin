@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Models\Client;
 use App\Models\BrandMaster;
 use App\Models\AmazonProgress;
+use App\Models\Wdata;
 use Illuminate\Support\Facades\Event;
 use App\Observers\BrandMasterObserver;
 use App\Observers\ClientModelObserver;
 use Illuminate\Auth\Events\Registered;
 use App\Observers\AmazonProgressObserver;
+use App\Observers\WdataObserver;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -36,5 +38,6 @@ class EventServiceProvider extends ServiceProvider
         Client::observe(ClientModelObserver::class);
         AmazonProgress::observe(AmazonProgressObserver::class);
         BrandMaster::observe(BrandMasterObserver::class);
+        Wdata::observe(WdataObserver::class);
     }
 }

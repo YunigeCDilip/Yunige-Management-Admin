@@ -11,17 +11,24 @@ class CreateWarehouseData extends ValidationRequest
      */
     public function rules()
     {
+        $trasnport = ['sea','air'];
         return [
-            // 'invoice'   => 'required',
-            // 'status'    => 'required',
-            // 'client'    => 'required',
-            // 'trkNo'     => 'required',
-            // 'pic'       => 'required',
-            // 'permit'    => 'required',
-            // 'carrier'   => 'required',
-            // 'permitNo'  => 'required',
-            // 'memoK'     => 'required',
-            // 'cat'       => 'required'
+            'project_charge'   => 'required|exists:users,id',
+            'transport'    => 'required|in:'.implode(',', $trasnport),
+            'incoterms'    => 'required',
+            'category'     => 'required',
+            'client'       => 'required|exists:clients,id',
+            'arrival_place'    => 'required',
+            'document_case'   => 'required',
+            'arrival_progress'  => 'required',
+            'goods_progress'     => 'required',
+            'items.*.product' => 'required|exists:item_masters,id',
+            'items.*.labeling_status' => 'required',
+            'items.*.warehouse_qty' => 'required|numeric',
+            'items.*.fnsku_not_req' => 'required',
+            'items.*.reg_work_inst' => 'required',
+            'items.*.reg_work_inst.*' => 'required',
+
         ];
     }
 
@@ -33,7 +40,11 @@ class CreateWarehouseData extends ValidationRequest
     public function messages()
     {
         return [
-            //  Define custom messages for rules
+            'items.*.product.required' => 'The product field is required.',
+            'items.*.labeling_status.required' => 'The labeling status field is required.',
+            'items.*.warehouse_qty.required' => 'The warehouse qty field is required.',
+            'items.*.fnsku_not_req.required' => 'The FNSKU field is required.',
+            'items.*.reg_work_inst.required' => 'The work instructions field is required.',
         ];
     }
 }

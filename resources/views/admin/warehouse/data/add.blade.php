@@ -47,15 +47,15 @@
                             <div class="col-lg-6">
                                 <div class="card-box">
                                     <div class="form-group mb-3">
-                                        <label for="user">{{__('messages.w_project_charge')}} <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" name="user">
+                                        <label for="project_charge">{{__('messages.w_project_charge')}} <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="project_charge">
                                             <option value="">{{__('messages.select_user')}}</option>
                                             @forelse(@$users as $user)
                                                 <option value="{{$user->id}}">{{$user->name}}</option>
                                                 @empty
                                             @endforelse
                                         </select>
-                                        <div class="invalid-feedback" id="client_error" style="display:none;"></div>
+                                        <div class="invalid-feedback" id="project_charge_error" style="display:none;"></div>
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="transport">{{__('messages.transportation_method')}} <span class="text-danger">*</span></label>
@@ -64,7 +64,7 @@
                                             <option value="sea">sea</option>
                                             <option value="air">air</option>
                                         </select>
-                                        <div class="invalid-feedback" id="client_error" style="display:none;"></div>
+                                        <div class="invalid-feedback" id="transport_error" style="display:none;"></div>
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="incoterms">{{__('messages.incoterms')}} <span class="text-danger">*</span></label>
@@ -72,17 +72,17 @@
                                         <div class="invalid-feedback" id="incoterms_error" style="display:none;"></div>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label for="cat">{{__('messages.category_classification')}}<span class="text-danger">*</span></label>
-                                        <select class="form-control select2" name="cat[]">
+                                        <label for="category">{{__('messages.category_classification')}}<span class="text-danger">*</span></label>
+                                        <select class="form-control select2" name="category">
                                             <option value="">{{__('messages.select_category')}}</option>
                                             @if($cat)
                                                 @forelse($cat as $value)
-                                                    <option value="{{$value}}">{{$value}}</option>
+                                                    <option value="{{$value->id}}">{{$value->name}}</option>
                                                     @empty
                                                 @endforelse
                                             @endif
                                         </select>
-                                        <div class="invalid-feedback" id="cat_error" style="display:none;"></div>
+                                        <div class="invalid-feedback" id="category_error" style="display:none;"></div>
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="client">{{__('messages.customer_link')}} <span class="text-danger">*</span></label>
@@ -129,9 +129,9 @@
                             <div class="col-lg-6">
                                 <div class="card-box">
                                     <div class="form-group mb-3">
-                                        <label for="trkNo">{{__('messages.track_no')}}</label>
-                                        <input type="text" name="trkNo" class="form-control" placeholder="e.g : 514120049473">
-                                        <div class="invalid-feedback" id="trkNo_error" style="display:none;"></div>
+                                        <label for="track_number">{{__('messages.track_no')}}</label>
+                                        <input type="text" name="track_number" class="form-control" placeholder="e.g : 514120049473">
+                                        <div class="invalid-feedback" id="track_number_error" style="display:none;"></div>
                                     </div>
 
                                     <div class="form-group mb-3">
@@ -168,7 +168,7 @@
                                                 @endforelse
                                             @endif
                                         </select>
-                                        <div class="invalid-feedback" id="status_error" style="display:none;"></div>
+                                        <div class="invalid-feedback" id="arrival_progress_error" style="display:none;"></div>
                                     </div>
 
                                     <div class="form-group mb-3">
@@ -194,7 +194,7 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="producttab">
-                        <div id="dis-clone" class="row-0">
+                        <div id="clone-0" class="row-0">
                             <a href="#" class="btn btn-secondary btn-xs form-button mt-0 add-more-dis pull-right">+ Add More</a>
                             <div class="row">
                                 <div class="col-lg-6">
@@ -347,7 +347,7 @@
                 $(".add-more-dis").click(function (e) {
                     e.preventDefault();
                     $(this).parent('div').find('select').select2('destroy');
-                    var $dis = $("#dis-clone").html();
+                    var $dis = $("#clone-0").html();
                     $('.dis-clone-here').append('<div class="row-0">'+$dis+'</div>');
                     $(this).parent('div').find('select').select2().trigger("change");
                     $(".dis-clone-here .btn-secondary").removeClass("btn-success add-more-dis").addClass("btn-danger remove-clone");

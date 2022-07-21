@@ -34,15 +34,12 @@ class ClientModelObserver
      */
     public function updating(Client $client)
     {
-        $latestData = Client::withTrashed()->max('serial_number');
-        $sn = ($latestData) ? $latestData : 0;
         $clientDisplay = "";
-        if($client->ja_name == "" && $client->en_name == "") $clientDisplay = "_".'c'.sprintf("%04s", $sn+1);
-        else if($client->ja_name == "") $clientDisplay = $client->en_name."_".'c'.sprintf("%04s", $sn+1);
-        else if($client->en_name == "") $clientDisplay = $client->ja_name."_".'c'.sprintf("%04s", $sn+1);
-        else $clientDisplay = $client->en_name."-".$client->ja_name."_".'c'.sprintf("%04s", $sn+1);
+        if($client->ja_name == "" && $client->en_name == "") $clientDisplay = "_".'c'.$client->serial_number;
+        else if($client->ja_name == "") $clientDisplay = $client->en_name."_".'c'.$client->serial_number;
+        else if($client->en_name == "") $clientDisplay = $client->ja_name."_".'c'.$client->serial_number;
+        else $clientDisplay = $client->en_name."-".$client->ja_name."_".'c'.$client->serial_number;
 
-        $client->serial_number = $sn+1;
         $client->client_name = $clientDisplay;
     }
 }

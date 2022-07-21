@@ -3,20 +3,24 @@
 namespace App\Application\Services;
 
 use Throwable;
-use Carbon\Carbon;
 use App\Models\Wdata;
 use App\Models\Client;
 use App\Models\Shipper;
+use App\Models\Wdetail;
 use App\Airtable\AirTable;
 use App\Models\ItemMaster;
+use App\Models\WdataCheck;
 use App\Models\BrandMaster;
 use App\Models\WdataStatus;
 use App\Models\CustomBroker;
 use App\Models\ItemCategory;
+use App\Models\CategoryWdata;
 use App\Models\ClientContact;
 use App\Models\InboundStatus;
+use App\Models\WdataCategory;
 use Illuminate\Http\Response;
 use App\Models\ShipmentMethod;
+use App\Models\WdataAttachment;
 use App\Domains\WarehouseDomain;
 use App\Models\ClientAttachment;
 use App\Constants\MessageResponse;
@@ -31,6 +35,8 @@ use App\Http\Resources\ItemMasterResource;
 use App\Http\Resources\WdataDetailResource;
 use App\Http\Resources\ClientMasterResource;
 use App\Http\Resources\WarehouseDataResource;
+use App\Models\ClientWdata;
+use App\Models\WdataCustomBroker;
 
 class WarehouseDataService extends Service
 {
@@ -165,13 +171,12 @@ class WarehouseDataService extends Service
             $users = json_decode($this->userService->all()->getContent());
             $items = json_decode($this->itemService->all()->getContent());
             $data['pic'] = WarehouseDomain::pic();
-            $data['cat'] = WarehouseDomain::cat();
+            $data['cat'] = WdataCategory::where('active_status', true)->get();
             $data['status'] = WdataStatus::all();
             $data['jobs'] = WarehouseDomain::job();
             $data['inboundStatus'] = InboundStatus::all();
             $data['shippers'] = Shipper::all();
             $data['categories'] = ItemCategory::all();
-            $data['arrivalPlaces'] = WarehouseDomain::arrivalPlaces();
             $data['labelingStatus'] = WarehouseDomain::labelingStatus();
             $data['workInstructions'] = WarehouseDomain::workInstructions();
             $data['shipments'] = ShipmentMethod::all();
@@ -179,6 +184,7 @@ class WarehouseDataService extends Service
             $data['brands'] = BrandMaster::select('id', 'name')->get();
             $data['clients'] = $clients->payload;
             $data['carrier'] = $delivery->payload;
+            // w project charge
             $data['users'] = $users->payload;
             $data['items'] = $items->payload;
 
@@ -198,23 +204,128 @@ class WarehouseDataService extends Service
     {
         try {
             $this->db->beginTransaction();
-            
-            $data = $this->airtable->create(WarehouseDomain::format($request));
-            if(isset($data['error'])){
-                return $this->responseError(Response::HTTP_UNPROCESSABLE_ENTITY, $data['error']['message']);
-            }
-            if($this->getCache(AirtableDatabase::WDATA)){
-                $wdatas = json_decode($this->getCache(AirtableDatabase::WDATA), true);
-                $wdatas = array_merge([(count($wdatas) + 1) => $data->toArray()], array_filter($wdatas));
-                $this->setCache(AirtableDatabase::WDATA, json_encode($wdatas));
-            }else{
-                $wdatas = $this->airtable->get();
-                $data = array_merge([(($wdatas['records'])->count() + 1) => $data->toArray()], $wdatas['records']->toArray());
-                $this->setCache(AirtableDatabase::WDATA, json_encode($data));
+            $cd = Client::find($request->client);
+            $wdata = new Wdata();
+            $wdata->incharge_id = $request->project_charge;
+            $wdata->transport_method = $request->transport;
+            $wdata->client_name = $cd->client_name;
+            $wdata->memok = $request->incoterms;
+            $wdata->delivery_id = $request->arrival_place;
+            $wdata->shipment_method_id = $request->shipping_company;
+            $wdata->track_number = $request->track_number;
+            $wdata->inbound_eta = $request->eta;
+            $wdata->case_count = $request->document_case;
+            $wdata->wdata_status_id = $request->arrival_progress;
+            $wdata->inbound_status_id = $request->goods_progress;
+            $wdata->irregular = $request->overal_work_instruction;
+            $wdata->save();
+            if($wdata){
+                $check = WdataCheck::where('id', $wdata->id)->first();
+                if(!$check){
+                    $check = new WdataCheck();
+                    $check->wdata_id = $wdata->id;
+                }
+                $check->save();
+
+                if($request->customs_broker != ''){
+                    $cb = new WdataCustomBroker();
+                    $cb->wdata_id = $wdata->id;
+                    $cb->custom_broker_id = $request->customs_broker;
+                    $cb->save();
+                }
+
+                $client = new ClientWdata();
+                $client->wdata_id = $wdata->id;
+                $client->client_id = $request->client;
+                $client->save();
+
+                $cat = new CategoryWdata();
+                $cat->wdata_category_id = $request->category;
+                $cat->wdata_id = $wdata->id;
+                $cat->save();
+
+                foreach($request['items'] as $index => $item){
+                    $wdatad = new Wdetail();
+                    $wdatad->wdata_id = $wdata->id;
+                    $wdatad->item_master_id = $item['product'];
+                    $wdatad->labeling_status = $item['labeling_status'];
+                    $wdatad->work_progress = implode(",", $item['reg_work_inst']);
+                    $wdatad->est_qty = $item['warehouse_qty'];
+                    $wdatad->fnsku_or_not = $item['fnsku_not_req'];
+                    $wdatad->work_instruction = $item['ireg_work_inst'];
+                }
+
+                if(isset($request['invoice']) && count($request['invoice']) > 0){
+                    foreach($request['invoice'] as $value){
+                        $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'invoice-'.$value->getClientOriginalName());  
+                        try{
+                            $file = new WdataAttachment();
+                            $file->wdata_id = $wdata->id;
+                            $file->type = 'Invoice';
+                            $file->file_name = $fileName;
+                            $file->ext = $value->getClientOriginalExtension();
+                            $file->url = Storage::disk('s3')->url($fileName);
+                            $file->save();
+                        }catch(Throwable $e){
+                            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                        }   
+                    }
+                }
+
+                if(isset($request['packing']) && count($request['packing']) > 0){
+                    foreach($request['packing'] as $value){
+                        $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'packing-'.$value->getClientOriginalName());  
+                        try{
+                            $file = new WdataAttachment();
+                            $file->wdata_id = $wdata->id;
+                            $file->type = 'PackingList';
+                            $file->file_name = $fileName;
+                            $file->ext = $value->getClientOriginalExtension();
+                            $file->url = Storage::disk('s3')->url($fileName);
+                            $file->save();
+                        }catch(Throwable $e){
+                            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                        }   
+                    }
+                }
+
+                if(isset($request['bl']) && count($request['bl']) > 0){
+                    foreach($request['bl'] as $value){
+                        $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'bl-'.$value->getClientOriginalName());  
+                        try{
+                            $file = new WdataAttachment();
+                            $file->wdata_id = $wdata->id;
+                            $file->type = 'BL';
+                            $file->file_name = $fileName;
+                            $file->ext = $value->getClientOriginalExtension();
+                            $file->url = Storage::disk('s3')->url($fileName);
+                            $file->save();
+                        }catch(Throwable $e){
+                            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                        }   
+                    }
+                }
+
+                if(isset($request['an']) && count($request['an']) > 0){
+                    foreach($request['an'] as $value){
+                        $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'an-'.$value->getClientOriginalName());  
+                        try{
+                            $file = new WdataAttachment();
+                            $file->wdata_id = $wdata->id;
+                            $file->type = 'AN';
+                            $file->file_name = $fileName;
+                            $file->ext = $value->getClientOriginalExtension();
+                            $file->url = Storage::disk('s3')->url($fileName);
+                            $file->save();
+                        }catch(Throwable $e){
+                            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                        }   
+                    }
+                }
             }
             $this->db->commit();
 
-            return $this->responseOk($data, MessageResponse::DATA_CREATED);
+            return $this->responseOk(null, MessageResponse::DATA_CREATED);
         } catch (Throwable $e) {
             $this->db->rollback();
             Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
