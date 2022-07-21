@@ -8,14 +8,15 @@ use App\Models\WdataStatus;
 use App\Models\CustomBroker;
 use App\Models\ItemCategory;
 use App\Models\InboundStatus;
+use App\Models\WdataCategory;
+use App\Traits\ResponseTrait;
 use App\Models\ShipmentMethod;
 use App\Domains\WarehouseDomain;
+use App\Constants\MessageResponse;
 use App\Http\Controllers\Controller;
 use App\Application\Services\UserService;
 use App\Application\Services\DeliveryService;
 use App\Application\Services\WarehouseDataService;
-use App\Constants\MessageResponse;
-use App\Traits\ResponseTrait;
 
 class WdataMasterController extends Controller
 {
@@ -50,7 +51,7 @@ class WdataMasterController extends Controller
         $users = json_decode($this->userService->all()->getContent());
         $data['project_charges'] = $users->payload;
         $data['transportation_methods'] = ['sea','air'];
-        $data['category_classifications'] = WarehouseDomain::cat();
+        $data['category_classifications'] = WdataCategory::where('active_status', true)->get();
         $data['shipping_companies'] = ShipmentMethod::select('id', 'name')->get();
         $data['custom_brokers'] = CustomBroker::select('id', 'name')->get();
         $data['arrival_progress'] = WdataStatus::select('id', 'name')->get();
