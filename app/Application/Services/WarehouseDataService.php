@@ -171,7 +171,7 @@ class WarehouseDataService extends Service
             $users = json_decode($this->userService->all()->getContent());
             $items = json_decode($this->itemService->all()->getContent());
             $data['pic'] = WarehouseDomain::pic();
-            $data['cat'] = WarehouseDomain::cat();
+            $data['cat'] = WdataCategory::where('active_status', true)->get();
             $data['status'] = WdataStatus::all();
             $data['jobs'] = WarehouseDomain::job();
             $data['inboundStatus'] = InboundStatus::all();
@@ -204,12 +204,13 @@ class WarehouseDataService extends Service
     {
         try {
             $this->db->beginTransaction();
-
+            $cd = Client::find($request->client);
             $wdata = new Wdata();
             $wdata->incharge_id = $request->project_charge;
             $wdata->transport_method = $request->transport;
+            $wdata->client_name = $cd->client_name;
             $wdata->memok = $request->incoterms;
-            $wdata->carrier_id = $request->arrival_place;
+            $wdata->delivery_id = $request->arrival_place;
             $wdata->shipment_method_id = $request->shipping_company;
             $wdata->track_number = $request->track_number;
             $wdata->inbound_eta = $request->eta;
@@ -242,16 +243,16 @@ class WarehouseDataService extends Service
                 $cat->wdata_category_id = $request->category;
                 $cat->wdata_id = $wdata->id;
                 $cat->save();
-                
+
                 foreach($request['items'] as $index => $item){
                     $wdatad = new Wdetail();
                     $wdatad->wdata_id = $wdata->id;
-                    $wdatad->item_master_id = $item[$index]['product'];
-                    $wdatad->labeling_status = $item[$index]['labeling_status'];
-                    $wdatad->work_progress = implode(",", $item[$index]['reg_work_inst']);
-                    $wdatad->est_qty = $item[$index]['warehouse_qty'];
-                    $wdatad->fnsku_or_not = $item[$index]['fnsku_not_req'];
-                    $wdatad->work_instruction = $item[$index]['ireg_work_inst'];
+                    $wdatad->item_master_id = $item['product'];
+                    $wdatad->labeling_status = $item['labeling_status'];
+                    $wdatad->work_progress = implode(",", $item['reg_work_inst']);
+                    $wdatad->est_qty = $item['warehouse_qty'];
+                    $wdatad->fnsku_or_not = $item['fnsku_not_req'];
+                    $wdatad->work_instruction = $item['ireg_work_inst'];
                 }
 
                 if(isset($request['invoice']) && count($request['invoice']) > 0){
@@ -322,6 +323,7 @@ class WarehouseDataService extends Service
                     }
                 }
             }
+            $this->db->commit();
 
             return $this->responseOk(null, MessageResponse::DATA_CREATED);
         } catch (Throwable $e) {

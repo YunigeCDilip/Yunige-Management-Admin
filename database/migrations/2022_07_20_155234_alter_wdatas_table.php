@@ -17,6 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('incharge_id')->after('airtable_id')->nullable();
             $table->bigInteger('case_count')->after('permit_pic')->default(0);
             $table->string('transport_method')->comment('sea, air')->after('permit_pic')->nullable();
+            $table->bigInteger('serial_number')->after('name')->nullable();
+            $table->string('client_name')->after('warehouse_number')->nullable();
             $table->index(["incharge_id"], 'fk_wdatas_users12_idx');
 
             $table->foreign('incharge_id', 'fk_wdatas_users12_idx')

@@ -77,7 +77,7 @@
                                             <option value="">{{__('messages.select_category')}}</option>
                                             @if($cat)
                                                 @forelse($cat as $value)
-                                                    <option value="{{$value}}">{{$value}}</option>
+                                                    <option value="{{$value->id}}">{{$value->name}}</option>
                                                     @empty
                                                 @endforelse
                                             @endif
