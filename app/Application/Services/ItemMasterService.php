@@ -214,10 +214,10 @@ class ItemMasterService extends Service
             $item->productgname = $client ? $client->ja_name : '';
             $item->gname = $client ? $client->en_name : '';
             $item->product_name = $request->product_nickname;
-            $item->item_category_id = $request->category;
+            $item->item_category_id = $request->item_category;
             $item->brand_master_id = $request->brand_master_id;
             $item->product_nickname = $request->product_nickname;
-            $item->product_barcode = $request->barcode;
+            $item->product_barcode = $request->product_barcode;
             $item->product_type_id = $request->product_types;
             $item->weight = $request->weight;
             
@@ -304,7 +304,7 @@ class ItemMasterService extends Service
             $item->jp_name = $client ? $client->client_name : '';
             //$item->jp_name = $request->client;
             $item->product_name = $request->product_nickname;
-            $item->item_category_id = $request->category;
+            $item->item_category_id = $request->item_category;
             $item->brand_master_id = $request->brand_master_id;
             $item->product_nickname = $request->product_nickname;
             $item->product_barcode = $request->product_barcode;

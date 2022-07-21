@@ -15,7 +15,7 @@ class CreateItemMaster extends ValidationRequest
             'client' => 'required|exists:clients,id',
             'item_category' => 'required|exists:item_categories,id',
             'product_nickname' => 'required',
-            'barcode' => 'required',
+            'product_barcode' => 'required',
         ];
     }
 

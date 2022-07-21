@@ -43,12 +43,12 @@
                                         </select>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label for="category">{{__('messages.item_categories')}}</label>
-                                        <select class="form-control select2" name="category">
+                                        <label for="item_category">{{__('messages.item_categories')}}</label>
+                                        <select class="form-control select2" name="item_category">
                                             <option value="">{{__('messages.select_category')}}</option>
-                                            @forelse(@$categories as $category)
+                                            @forelse(@$categories as $item_category)
 
-                                                <option value="{{$category->id}}" @if($category->id == $item->item_category_id) selected @endif >{{$category->name}}</option>
+                                                <option value="{{$item_category->id}}" @if($item_category->id == $item->item_category_id) selected @endif >{{$item_category->name}}</option>
 
                                                 @empty
                                             @endforelse
@@ -72,9 +72,9 @@
                                     </div>
                             
                                     <div class="form-group mb-3">
-                                        <label for="barcode">{{__('messages.barcode')}}</label>
-                                        <input type="text" name="barcode" class="form-control" value="{{$item->barcode}}">
-                                        <div class="invalid-feedback" id="barcode_error" style="display:none;"></div>
+                                        <label for="product_barcode">{{__('messages.barcode')}}</label>
+                                        <input type="text" name="product_barcode" class="form-control" value="{{$item->product_barcode}}">
+                                        <div class="invalid-feedback" id="product_barcode_error" style="display:none;"></div>
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="product_types">{{__('messages.product_types')}}</label>

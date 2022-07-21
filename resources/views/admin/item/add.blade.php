@@ -65,9 +65,9 @@
                                     </div>
                             
                                     <div class="form-group mb-3">
-                                        <label for="barcode">{{__('messages.barcode')}}</label>
-                                        <input type="text" name="barcode" class="form-control">
-                                        <div class="invalid-feedback" id="barcode_error" style="display:none;"></div>
+                                        <label for="product_barcode">{{__('messages.barcode')}}</label>
+                                        <input type="text" name="product_barcode" class="form-control">
+                                        <div class="invalid-feedback" id="product_barcode_error" style="display:none;"></div>
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="product_types">{{__('messages.product_types')}}</label>
