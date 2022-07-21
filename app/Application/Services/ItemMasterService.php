@@ -297,7 +297,6 @@ class ItemMasterService extends Service
      */
     public function update($request, $id)
     {
-        dd($request);
         try {
             $this->db->beginTransaction();
             $item = ItemMaster::find($id);
