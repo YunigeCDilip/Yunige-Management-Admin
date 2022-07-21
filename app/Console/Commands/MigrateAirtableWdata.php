@@ -153,6 +153,7 @@ class MigrateAirtableWdata extends Command
             $wdata->track_jp = isset($item['fields']['trkJP']) ? $item['fields']['trkJP'] : null;
             $wdata->outerdamage = isset($item['fields']['outerdamage']) ? $item['fields']['outerdamage'] : null;
             $wdata->arrival_pic_url = isset($item['fields']['arrivalPicURL']) ? $item['fields']['arrivalPicURL'] : null;
+            $wdata->case_count = isset($item['fields']['caseCount']) ? $item['fields']['caseCount'] : 0;
             $wdata->field_139 = isset($item['fields']['Field 139']) ? $item['fields']['Field 139'] : null;
             $wdata->invoice_memo = isset($item['fields']['invoiceMemo']) ? $item['fields']['invoiceMemo'] : null;
             $wdata->invoice_amount = isset($item['fields']['invoiceAmount']) ? $item['fields']['invoiceAmount'] : null;

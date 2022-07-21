@@ -485,6 +485,14 @@ $('.saveWdata').on('click', function(e){
                     $('form#addForm').find('input[name="'+key+'"]').attr('required', 'required');
                     $('form#addForm').find('#' + key + '_error').empty().append(val);
                     $('form#addForm').find('#' + key + '_error').show();
+                    if (val.length > 0) {
+                        $.each(val, function (index, value) {
+                            var keyname = key.split('.');
+                            $('#clone-' + keyname[1]).find('#' + keyname[2] + '_error').prev('.form-control').attr('required', 'required');
+                            $('#clone-' + keyname[1]).find('#' + keyname[2] + '_error').empty().append(val);
+                            $('#clone-' + keyname[1]).find('#' + keyname[2] + '_error').show();
+                        });
+                    }
                 });
                 thisReference.parents('.form-group').find('.spinner-border').hide();
                 thisReference.prop('disabled', false);
