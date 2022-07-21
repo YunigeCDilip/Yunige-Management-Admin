@@ -20,6 +20,6 @@ class WdataObserver
 
         $wdata->serial_number = $sn+1;
         $wdata->warehouse_number = $warehouseNumber;
-        $wdata->name = $warehouseNumber.$wdata->client_name;
+        $wdata->name = $warehouseNumber.'_'.$wdata->client_name;
     }
 }
