@@ -64,9 +64,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('product-types', [ItemMasterDataController::class, 'types']);
     Route::get('master-items', [ItemMasterController::class, 'index']);
     Route::post('master-items', [ItemMasterController::class, 'store']);
-    Route::get('master-items/{id}', [ItemMasterController::class, 'show']);
-    Route::put('master-items/{id}', [ItemMasterController::class, 'update']);
-    Route::delete('master-items/{id}', [ItemMasterController::class, 'destory']);
+    
 
     Route::get('items-category', [ItemCategoryController::class, 'index']);
     
