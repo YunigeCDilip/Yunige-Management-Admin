@@ -297,6 +297,7 @@ class ItemMasterService extends Service
      */
     public function update($request, $id)
     {
+        dd($request);
         try {
             $this->db->beginTransaction();
             $item = ItemMaster::find($id);
@@ -310,8 +311,6 @@ class ItemMasterService extends Service
             $item->product_barcode = $request->product_barcode;
             $item->product_type_id = !empty($request->product_types) && is_array($request->product_types) ? implode(',', $request->product_types) : $request->product_types;
             $item->weight = $request->weight;
-            $item->label_photo = $request->label_photo;
-            $item->pse_doucment = $request->pse_doucment;
             $item->save();
             if($item){
                 if($request->has('images') && count($request['images']) > 0){
