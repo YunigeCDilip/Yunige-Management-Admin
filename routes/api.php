@@ -64,6 +64,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('master-items', [ItemMasterController::class, 'index']);
     Route::get('master-items/{id}', [ItemMasterController::class, 'show']);
 
+    Route::post('master-items', [ItemMasterController::class, 'index']);
+    Route::put('master-items/{id}', [ItemMasterController::class, 'update']);
+    Route::delete('master-items/{id}', [ItemMasterController::class, 'destory']);
+
     Route::get('barcode-items', [BarcodeItemController::class, 'index']);
 
     Route::get('users/profile', [UserProfileController::class, 'userProfile']);

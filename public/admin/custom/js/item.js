@@ -93,7 +93,7 @@ $(function(){
                 render: function(data, type, dataObject, meta) {
                     var action = '';
                     action += '<a href="'+baseUrl+'items/'+dataObject.id+'" class="action-icon"> <i class="mdi mdi-eye text-success"></i></a>';
-                    // action += '<a href="'+baseUrl+'items/'+dataObject.id+'/edit" class="action-icon"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
+                    action += '<a href="'+baseUrl+'items/'+dataObject.id+'/edit" class="action-icon"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>';
                     action += '<a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete text-danger" data-id="'+dataObject.id+'"></i></a>';
                     
                     return action;
@@ -113,20 +113,42 @@ $('.custom-select').on('change', function () {
 $('#searchForm').keyup(function(){
     $('body').find('#table_filter input').val($(this).val()).trigger('keyup');
 });
-
+var addForm = $('form#addForm');
 $('.save-client').on('click', function(e){
     e.preventDefault();
-    $('form#addForm').find('.invalid-feedback').each(function(){
+    addForm.find('.invalid-feedback').each(function(){
         $(this).empty().hide();
     });
     $(this).prop('disabled', true);
     $(this).parents('.form-group').find('.spinner-border').show();
     var thisReference = $(this);
-    var form_data = $('form#addForm').serializeArray();
+    var form_data = new FormData();
+    var files;
+    var pdfFiles;
+    addForm.find('.images-file').each(function(key, value){
+        files = $(this).find('input[name="images[]"]')[0].files;
+        for (var i = 0; i < files.length; i++) {
+            (typeof files[i] == 'undefined') ? '' : form_data.append('images['+i+']', files[i]);
+        }  
+    });
+    addForm.find('.pdf-file').each(function(key, value){
+        pdfFiles = $(this).find('input[name="pdf[]"]')[0].files;
+        for (var i = 0; i < pdfFiles.length; i++) {
+            (typeof pdfFiles[i] == 'undefined') ? '' : form_data.append('pdf['+i+']', pdfFiles[i]);
+        }  
+    });
+    var add_Form = addForm.serializeArray();
+    $.each(add_Form, function(key, val){
+        form_data.append(val.name, val.value);
+    });
     $.ajax({
         type: "POST",
+        enctype: 'multipart/form-data',
         url: baseUrl + "items",
         data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
         success: function(data){
             messages(data.message, data.status);
             if(data.status){
@@ -175,11 +197,31 @@ $('.update-client').on('click', function(e){
     $(this).prop('disabled', true);
     $(this).parents('.form-group').find('.spinner-border').show();
     var thisReference = $(this);
-    var form_data = editForm.serializeArray();
+    var form_data = new FormData();
+    var files;
+    editForm.find('.images-file').each(function(key, value){
+        files = $(this).find('input[name="images[]"]')[0].files;
+        for (var i = 0; i < files.length; ++i) {
+            (typeof files[i] == 'undefined') ? '' : form_data.append('images['+i+']', files[i]);
+        }
+    });
+    editForm.find('.pdf-file').each(function(key, value){
+        pdfFiles = $(this).find('input[name="pdf[]"]')[0].files;
+        for (var i = 0; i < pdfFiles.length; i++) {
+            (typeof pdfFiles[i] == 'undefined') ? '' : form_data.append('pdf['+i+']', pdfFiles[i]);
+        }  
+    });
+    var edit_Form = editForm.serializeArray();
+    $.each(edit_Form, function(key, val){
+        form_data.append(val.name, val.value);
+    });
     $.ajax({
         type: "PUT",
         url: baseUrl + "items/"+Id,
         data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
         success: function(data){
             messages(data.message, data.status);
             if(data.status){

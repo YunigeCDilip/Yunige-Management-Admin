@@ -11,12 +11,15 @@ use App\Models\ItemMaster;
 use App\Models\BrandMaster;
 use App\Models\ProductType;
 use App\Models\ItemCategory;
+use App\Models\PdfItemLabel;
+use App\Models\ItemImage;
 use Illuminate\Http\Response;
 use App\Constants\MessageResponse;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\DatabaseManager;
 use App\Http\Resources\ItemMasterResource;
+use Illuminate\Support\Facades\Storage;
 
 class ItemMasterService extends Service
 {
@@ -186,6 +189,7 @@ class ItemMasterService extends Service
             $data['labels'] = ItemLabel::select('id', 'name')->get();
             $data['brands'] = BrandMaster::select('id', 'name')->get();
             $data['shippers'] = Shipper::select('id', 'shipper_name')->get();
+            $data['PdfItemLabel'] = PdfItemLabel::select('id', 'file')->get();
 
             return $data;
         } catch (Throwable $e) {
@@ -201,13 +205,55 @@ class ItemMasterService extends Service
      */
     public function store($request)
     {
+
         try {
             $this->db->beginTransaction();
             $item = new ItemMaster();
-            $item->ja_name = $request->ja_name;
-            $item->en_name = $request->en_name;
+            $client = $request->client? Client::find($request->client) : '';
+            $item->jp_name = $client ? $client->client_name : '';
+            $item->productgname = $client ? $client->ja_name : '';
+            $item->gname = $client ? $client->en_name : '';
+            $item->product_name = $request->product_nickname;
+            $item->item_category_id = $request->item_category;
+            $item->brand_master_id = $request->brand_master_id;
+            $item->product_nickname = $request->product_nickname;
+            $item->product_barcode = $request->product_barcode;
+            $item->product_type_id = $request->product_types;
+            $item->weight = $request->weight;
+            
             $item->save();
-
+            if($item){
+                if($request->has('images') && count($request['images']) > 0){
+                    foreach($request->images as $index => $file){
+                        $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'am-'.$file->getClientOriginalName());  
+                        try{
+                            $file->storeAs('/', $fileName, 's3');
+                            $aFile = new ItemImage();
+                            $aFile->item_master_id = $item->id;
+                            $aFile->url = Storage::disk('s3')->url($fileName);
+                            $aFile->save();
+                        }catch(Throwable $e){
+                            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                        }   
+                    }
+                }
+                if($request->has('pdf') && count($request['pdf']) > 0){
+                    foreach($request->pdf as $index => $pdfFile){
+                        $pFileName = str_replace(['#', '/', '\\', ' '], '-', time().'am-'.$pdfFile->getClientOriginalName());  
+                        try{
+                            $pdfFile->storeAs('/', $pFileName, 's3');
+                            $pFile = new PdfItemLabel();
+                            $pFile->item_master_id = $item->id;
+                            $pFile->type = 'PSEDocs';
+                            $pFile->file = Storage::disk('s3')->url($pFileName);
+                            $pFile->save();
+                        }catch(Throwable $e){
+                            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                        }   
+                    }
+                }
+            }
+            
             $this->db->commit();
 
             return $this->responseOk(null, MessageResponse::DATA_CREATED);
@@ -251,11 +297,52 @@ class ItemMasterService extends Service
      */
     public function update($request, $id)
     {
+        dd($request);
         try {
             $this->db->beginTransaction();
-            $client = ItemMaster::find($id);
-            $client->ja_name = $request->ja_name;
-            $client->save();
+            $item = ItemMaster::find($id);
+            $client = $request->client? Client::find($request->client) : '';
+            $item->jp_name = $client ? $client->client_name : '';
+            //$item->jp_name = $request->client;
+            $item->product_name = $request->product_nickname;
+            $item->item_category_id = $request->item_category;
+            $item->brand_master_id = $request->brand_master_id;
+            $item->product_nickname = $request->product_nickname;
+            $item->product_barcode = $request->product_barcode;
+            $item->product_type_id = !empty($request->product_types) && is_array($request->product_types) ? implode(',', $request->product_types) : $request->product_types;
+            $item->weight = $request->weight;
+            $item->save();
+            if($item){
+                if($request->has('images') && count($request['images']) > 0){
+                    foreach($request->images as $index => $file){
+                        $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'am-'.$file->getClientOriginalName());  
+                        try{
+                            $file->storeAs('/', $fileName, 's3');
+                            $aFile = new ItemImage();
+                            $aFile->item_master_id = $item->id;
+                            $aFile->url = Storage::disk('s3')->url($fileName);
+                            $aFile->save();
+                        }catch(Throwable $e){
+                            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                        }   
+                    }
+                }
+                if($request->has('pdf') && count($request['pdf']) > 0){
+                    foreach($request->pdf as $index => $pdfFile){
+                        $pFileName = str_replace(['#', '/', '\\', ' '], '-', time().'am-'.$file->getClientOriginalName());  
+                        try{
+                            $pdfFile->storeAs('/', $pFileName, 's3');
+                            $pFile = new PdfItemLabel();
+                            $pFile->item_master_id = $item->id;
+                            $pFile->type = 'PSEDocs';
+                            $pFile->file = Storage::disk('s3')->url($pFileName);
+                            $pFile->save();
+                        }catch(Throwable $e){
+                            Log::error($e->getMessage(), ['_trace' => $e->getTraceAsString()]);
+                        }   
+                    }
+                }
+            }
 
             $this->db->commit();
 
