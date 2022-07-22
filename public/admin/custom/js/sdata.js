@@ -33,21 +33,20 @@ $(function(){
         }
     });
 
+    });
     $('#datetimepicker').datetimepicker({
         "allowInputToggle": true,
         "showClose": true,
         "showClear": true,
         "showTodayButton": true,
-        "format": "YYYY-MM-DD hh:mm:ss A",
+        "format": "YYYY-MM-DD",
     });
     $('#datetimepicker1').datetimepicker({
         "allowInputToggle": true,
         "showClose": true,
         "showClear": true,
         "showTodayButton": true,
-        "format": "YYYY-MM-DD hh:mm:ss A",
-    });
-    
+        "format": "YYYY-MM-DD",
 });
 
 var table;
