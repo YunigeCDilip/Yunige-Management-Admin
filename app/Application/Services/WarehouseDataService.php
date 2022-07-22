@@ -202,7 +202,6 @@ class WarehouseDataService extends Service
      */
     public function store($request)
     {
-        Log::info($request->all());
         try {
             $this->db->beginTransaction();
             $cd = Client::find($request->client);
