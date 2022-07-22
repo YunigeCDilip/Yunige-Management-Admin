@@ -259,6 +259,7 @@ class WarehouseDataService extends Service
                     foreach($request['invoice'] as $value){
                         $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'invoice-'.$value->getClientOriginalName());  
                         try{
+                            $value->storeAs('/', $fileName, 's3');
                             $file = new WdataAttachment();
                             $file->wdata_id = $wdata->id;
                             $file->type = 'Invoice';
@@ -276,6 +277,7 @@ class WarehouseDataService extends Service
                     foreach($request['packing'] as $value){
                         $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'packing-'.$value->getClientOriginalName());  
                         try{
+                            $value->storeAs('/', $fileName, 's3');
                             $file = new WdataAttachment();
                             $file->wdata_id = $wdata->id;
                             $file->type = 'PackingList';
@@ -293,6 +295,7 @@ class WarehouseDataService extends Service
                     foreach($request['bl'] as $value){
                         $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'bl-'.$value->getClientOriginalName());  
                         try{
+                            $value->storeAs('/', $fileName, 's3');
                             $file = new WdataAttachment();
                             $file->wdata_id = $wdata->id;
                             $file->type = 'BL';
@@ -310,6 +313,7 @@ class WarehouseDataService extends Service
                     foreach($request['an'] as $value){
                         $fileName = str_replace(['#', '/', '\\', ' '], '-', time().'an-'.$value->getClientOriginalName());  
                         try{
+                            $value->storeAs('/', $fileName, 's3');
                             $file = new WdataAttachment();
                             $file->wdata_id = $wdata->id;
                             $file->type = 'AN';
