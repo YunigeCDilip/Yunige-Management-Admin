@@ -249,7 +249,7 @@ class WarehouseDataService extends Service
                     $wdatad->wdata_id = $wdata->id;
                     $wdatad->item_master_id = $item['product'];
                     $wdatad->labeling_status = $item['labeling_status'];
-                    $wdatad->work_progress = implode(",", $item['reg_work_inst']);
+                    $wdatad->work_progress = $item['reg_work_inst'];
                     $wdatad->est_qty = $item['warehouse_qty'];
                     $wdatad->fnsku_or_not = $item['fnsku_not_req'];
                     $wdatad->work_instruction = $item['ireg_work_inst'];
